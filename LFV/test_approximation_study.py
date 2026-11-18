@@ -10,6 +10,7 @@ from LFV.approximation_study import (
     SOURCE_BLOCKS, assess_reference_channel, grid_points
 )
 from LFV.test_strict_2hdm_reference import decoupled_sample
+from LFV.constraints import retained_topology_diagnostics
 from Model.model import scalar_parameters
 
 
@@ -43,6 +44,23 @@ class MaterialityTests(unittest.TestCase):
         self.assertAlmostEqual(row["paper_HW_variant_omitted_over_approx"],6.7)
         self.assertEqual(row["physical_Zee_LFV_gate"],"UNKNOWN")
         self.assertEqual(row["genuine_Zee_F_gauge_remainder"],"UNBOUNDED")
+
+    def test_general_Zee_known_topology_diagnostic_is_not_theory_error(self):
+        x=lambda cl,cr:{"C_L":{"real":float(cl),"imag":0.},
+                        "C_R":{"real":float(cr),"imag":0.}}
+        rows={
+            "1loop_h":x(1.,0.),
+            "1loop_H":x(-.8,0.),
+            "2loop_h_top_gamma":x(.05,.03),
+            "2loop_H1_charged_gamma":x(-.02,.01),
+        }
+        report=retained_topology_diagnostics(rows)
+        self.assertAlmostEqual(
+            report["included_group_norm_GeV_minus2"]["one_loop"],.2)
+        self.assertAlmostEqual(report["retained_total_norm_GeV_minus2"],
+                               math.hypot(.23,.04))
+        self.assertIsNone(report["missing_gauge_amplitude_norm_upper_GeV_minus2"])
+        self.assertEqual(report["full_Zee_lfv_gate"],"UNKNOWN")
 
     def test_cancelled_retained_amplitude_never_inferred_accurate(self):
         report=mock_reference(kept=0j,omitted=.1+0j,hw=0j)
