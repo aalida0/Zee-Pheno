@@ -41,8 +41,8 @@ def decoupled_input(point, sm):
     """
     p,F,D,ml,pole,_,_,_,_,pot=input_parameters(point)
     if (np.max(abs(F))>ZERO or abs(p["gamma"])>ZERO or pot is None or
-        abs(pot.get("Mu4",math.inf))>ZERO):
-        raise ValueError("Strict F=0, gamma=0, Mu4=0 and complete potential required")
+        any(abs(pot.get(k,math.inf))>ZERO for k in ("Mu4","K1","K2","K12"))):
+        raise ValueError("Strict F=gamma=Mu4=K1=K2=K12=0 and complete potential required")
     if not np.allclose(ml,pole,rtol=1e-11,atol=1e-15):
         raise ValueError("Use one consistent charged-lepton mass scheme for 2HDM overlap")
     if not isinstance(sm,dict) or set(sm)!=SM_KEYS or any(
