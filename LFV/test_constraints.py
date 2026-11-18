@@ -170,6 +170,22 @@ class GeneralLFVTests(unittest.TestCase):
                 from_native(native_path,card,spectrum,quarks,quarks,
                             "explicit test scheme","fixture")
 
+    def test_optional_neutral_tree_three_lepton_gate(self):
+        p=sample()
+        p["tree_quadrature_order"]=8
+        rows=evaluate(p)["three_lepton_tree"]
+        self.assertEqual(set(rows),{
+            "mu_to_3e","tau_to_3e","tau_to_3mu",
+            "tau_to_mu_ee","tau_to_e_mumu"})
+        for data in rows.values():
+            self.assertGreaterEqual(data["BR_neutral_tree_only"],0.)
+            self.assertTrue(math.isfinite(data["BR_neutral_tree_only"]))
+            self.assertIsNone(data["physical_branching_ratio"])
+            self.assertEqual(data["experimental_gate"],"UNKNOWN")
+        p["tree_quadrature_order"]=0
+        with self.assertRaises(ValueError):
+            evaluate(p)
+
     def test_conditional_missing_amplitude_envelope(self):
         # factor = alpha * mi^5/(4 Gamma) = 1 exactly.
         limit={"BR_90CL":.25,"source":"synthetic experimental limit"}
