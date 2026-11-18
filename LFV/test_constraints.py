@@ -1,0 +1,130 @@
+"""Focused general-LFV tests: conventions, arbitrary points, fail-closed gates."""
+import copy
+import math
+import unittest
+
+import numpy as np
+
+from LFV.barr_zee import (photon_kernels, fermion_photon,
+                          charged_scalar_photon, physical_trilinears)
+from LFV.constraints import evaluate, input_parameters
+from LFV.core import combine, dipole_ledger
+
+
+def cmat(a):
+    a=np.asarray(a,complex)
+    return {"real":a.real.tolist(),"imag":a.imag.tolist()}
+
+
+def sample():
+    # Illustrative algebraic point, NOT a scalar/neutrino viable benchmark.
+    return {
+        "point_id":"unit-test-parameter-point",
+        "scalar":dict(v=246.2,beta=1.1,alpha=.7,gamma=.8,
+                      mh1=125.,mh2=640.,ma=720.,mH1=610.,mH2=1030.),
+        "F":cmat(np.array([[0,2e-5,3e-5],[-2e-5,0,4e-5],
+                          [-3e-5,-4e-5,0]],complex)),
+        "D":cmat(np.array([[.002,1e-4+3e-5j,0],
+                           [1e-5j,.004,0],[0,0,.01]],complex)),
+        "internal_lepton_masses_GeV":[.000503,.1041,1.75],
+        "pole_lepton_masses_GeV":[.00051099893,.105658372,1.77686],
+        "fermion_loop_masses_GeV":dict(
+            up=.0022,charm=1.3,top=172.,down=.0047,strange=.095,bottom=4.2,
+            electron=.000503,muon=.1041,tau=1.75),
+        "alpha_em":.0072973525692838015,
+        "total_lepton_widths_GeV":{"mu":2.995983701908041e-19,
+                                   "tau":2.267350867723045e-12},
+        "mass_yukawa_scheme":"explicit nominal example; no matched-scale certification",
+    }
+
+
+class GeneralLFVTests(unittest.TestCase):
+    def test_signed_photon_kernels_and_source_limits(self):
+        (f,g,f2),errors=photon_kernels(1.)
+        self.assertTrue(0<f<g and f2<0)
+        self.assertTrue(all(e<1e-8 for e in errors))
+        for z in (1e-9,.1,10.):
+            a,e=photon_kernels(z)
+            self.assertGreater(a[0],0)
+            self.assertGreater(a[1],0)
+            self.assertLess(a[2],0)
+            self.assertTrue(all(x>=0 for x in e))
+        a,_=fermion_photon(np.array([.002,.003],complex),.2,172.,640.,
+                          .105658372,.0073,3,2/3)
+        self.assertLess(a[0].real,0)
+        self.assertLess(a[1].real,0)
+        b,_=charged_scalar_photon(np.array([.002,.003]),120.,630.,640.,
+                                  .105658372,.0073)
+        self.assertLess(b[0].real,0)
+        self.assertLess(b[1].real,0)
+
+    def test_arbitrary_point_is_partial_not_physical_exclusion(self):
+        p=sample()
+        out=evaluate(p)
+        self.assertEqual(out["full_lfv_gate"],"UNKNOWN")
+        self.assertIsNone(out["global_zee_acceptance"])
+        self.assertEqual(out["charged_scalar_photon"],"UNKNOWN_POTENTIAL_NOT_SUPPLIED")
+        for channel in out["processes"].values():
+            self.assertEqual(len(channel["included_components"]),34)
+            self.assertIsNone(channel["physical_branching_ratio"])
+            self.assertEqual(channel["experimental_gate"],"UNKNOWN")
+            self.assertTrue(math.isfinite(channel["branching_ratio_included_topologies_only"]))
+            self.assertGreaterEqual(channel["branching_ratio_included_topologies_only"],0.)
+            self.assertLessEqual(channel["cancellation_ratio"],1+1e-12)
+            parts=channel["included_components"].values()
+            for key in ("C_L","C_R"):
+                summed=sum(complex(row[key]["real"],row[key]["imag"]) for row in parts)
+                ret=complex(channel[key+"_GeV_minus2"]["real"],
+                            channel[key+"_GeV_minus2"]["imag"])
+                self.assertLess(abs(summed-ret),1e-25)
+
+    def test_potential_adds_six_photon_scalar_rows_without_loss(self):
+        p=sample()
+        p["potential"]=dict(Lambda1=.25,Lambda2=.45,Lambda3=.1,
+                            Lambda4=-.1,Lambda5=-.05,K1=.5,K2=.4,
+                            K12=.01,Mu4=110.)
+        gs=physical_trilinears(p["scalar"],p["potential"])
+        self.assertEqual(set(gs),{"h","H"})
+        self.assertEqual(np.shape(gs["h"]),(2,))
+        out=evaluate(p)
+        self.assertEqual(out["charged_scalar_photon"],
+                         "INCLUDED_FROM_RESTRICTED_POTENTIAL")
+        self.assertEqual(len(out["processes"]["mu_to_e_gamma"]["included_components"]),40)
+        self.assertEqual(out["full_lfv_gate"],"UNKNOWN")
+        pieces=out["processes"]["mu_to_e_gamma"]["included_components"]
+        for x in ("H1","H2"):
+            row=pieces[f"2loop_A_{x}_charged_gamma"]
+            self.assertEqual(row["C_L"]["real"],0.)
+            self.assertEqual(row["C_R"]["real"],0.)
+
+    def test_identical_zero_lfv_point_has_zero_radiative_rates(self):
+        p=sample()
+        p["F"]=cmat(np.zeros((3,3)))
+        p["D"]=cmat(np.diag([.002,.004,.01]))
+        out=evaluate(p)
+        for channel in out["processes"].values():
+            self.assertEqual(channel["branching_ratio_included_topologies_only"],0.)
+            self.assertIsNone(channel["cancellation_ratio"])
+            self.assertEqual(channel["experimental_gate"],"UNKNOWN")
+
+    def test_rejects_bad_input_not_fabricated_rates(self):
+        p=sample()
+        p["F"]["real"][0][1]=1.
+        with self.assertRaisesRegex(ValueError,"antisymmetric"):
+            evaluate(p)
+        p=sample();p["scalar"]["mh1"]=0.
+        with self.assertRaises(ValueError):
+            evaluate(p)
+        p=sample();p["fermion_loop_masses_GeV"].pop("top")
+        with self.assertRaises(ValueError):
+            evaluate(p)
+        p=sample();p["mass_yukawa_scheme"]=""
+        with self.assertRaises(ValueError):
+            evaluate(p)
+        p=sample();p["potential"]={"Lambda1":.1}
+        with self.assertRaises(ValueError):
+            evaluate(p)
+
+
+if __name__=="__main__":
+    unittest.main()
