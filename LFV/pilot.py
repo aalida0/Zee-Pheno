@@ -58,6 +58,15 @@ def evaluate(native_path, card_path, spectrum_path, alpha_rad):
     gamma=math.atan2(sin_gamma,cos_gamma)
     mass = dict(parse_entries(spectrum_path.read_text(),"MASS"))
     try:
+        external = np.array([mass[k] for k in (11,13,15)], float)
+    except KeyError as exc:
+        raise ValueError(f"Missing charged-lepton pole mass {exc}") from exc
+    if (not np.isfinite(external).all() or not np.isfinite(ml).all() or
+            np.any(external<=0) or np.any(ml<=0) or
+            not np.isfinite(fm).all() or not np.isfinite(dm).all() or
+            not np.isfinite(z).all()):
+        raise ValueError("Nonfinite or unphysical native LFV input")
+    try:
         mh,mH,ma=(mass[k] for k in (25,35,36))
     except KeyError as exc:
         raise ValueError(f"Missing native neutral scalar mass {exc}") from exc
@@ -69,9 +78,9 @@ def evaluate(native_path, card_path, spectrum_path, alpha_rad):
     for label,i,j,width in (("mu_to_e_gamma",1,0,MU_WIDTH_GEV),
                              ("tau_to_e_gamma",2,0,TAU_WIDTH_GEV),
                              ("tau_to_mu_gamma",2,1,TAU_WIDTH_GEV)):
-        parts=dipole_ledger(fm,dm,p,ml,i,j)
+        parts=dipole_ledger(fm,dm,p,ml,i,j,external=external)
         total=combine(parts)
-        br=radiative_width(total,ml[i],ml[j],ALPHA_ZERO)/width
+        br=radiative_width(total,external[i],external[j],ALPHA_ZERO)/width
         results[label]=dict(
             BR_scalar_one_loop_subset=br, C_L_GeV_minus2=as_json(total[0]),
             C_R_GeV_minus2=as_json(total[1]),
@@ -83,11 +92,12 @@ def evaluate(native_path, card_path, spectrum_path, alpha_rad):
                 native_input_sha256=sha(card_path),native_diagnostic_sha256=sha(native_path),
                 neutral_spectrum_sha256=sha(spectrum_path),
                 scalar_inputs=p, internal_running_lepton_masses_GeV=ml.tolist(),
+                external_pole_lepton_masses_GeV=external.tolist(),
                 alpha_em=ALPHA_ZERO,
                 total_lepton_widths_GeV={"mu":MU_WIDTH_GEV,"tau":TAU_WIDTH_GEV},
                 dipole_operator=OPERATOR,basis=BASIS,processes=results,
                 missing_contributions=MISSING,
-                note="A subset BR must never be compared to an experimental bound as a model exclusion/pass. Tree masses/running Yukawas are used for charged loops; pole neutral masses are supplied explicitly.")
+                note="A subset BR is not an exclusion/pass. Internal running masses/Yukawas and external pole leptons are distinguished, with charged tree masses and neutral pole masses documented as a mixed-order scalar scheme.")
 
 
 def main():
