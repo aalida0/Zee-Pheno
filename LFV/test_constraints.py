@@ -271,6 +271,10 @@ class GeneralLFVTests(unittest.TestCase):
             self.assertEqual(status["status"],expected)
         no_bound=amplitude_budget(.1,1.,0.,.025,.1,limit)
         self.assertEqual(no_bound["status"],"UNKNOWN_UNBOUNDED_MISSING")
+        oversized=amplitude_budget(1.,1.,0.,.025,.1,limit)
+        self.assertIsNone(
+            oversized["required_max_missing_norm_for_sufficient_pass_GeV_minus2"])
+        self.assertEqual(oversized["status"],"UNKNOWN_UNBOUNDED_MISSING")
         p=sample()
         p["radiative_limits"]={"mu_to_e_gamma":dict(limit)}
         out=evaluate(p)
