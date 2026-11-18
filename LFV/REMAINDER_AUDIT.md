@@ -132,3 +132,80 @@ transverse W form factor closes this gate.
 **Release decision:** \`LFV_LO_SCOPED_READY\`,
 \`LFV_FULL_PHYSICAL_UNKNOWN\`, \`SCANS_MAY_ONLY_SHOW_CONDITIONAL_LFV\`.
 No additional arbitrary-BSM two-loop amplitudes implemented in this audit.
+
+
+## Strict decoupling reference and genuinely new Zee currents (2026-11-18)
+
+A **separate** public-source reference has been implemented at
+[LFV/strict_2hdm_reference.py](strict_2hdm_reference.py).
+It dynamically imports an **unmodified** author-supplied
+[general-2hdm-pheno/thdm.py](https://gitlab.com/jbrod/general-2hdm-pheno)
+without vendoring any author source code. Input conditions are frozen:
+
+\[
+F=0,\quad \gamma=0,\quad
+\mu_4=K_1=K_2=K_{12}=0.
+\]
+
+All four singlet–doublet portal parameters are set to zero **solely for
+this mathematical reference limit**. Otherwise a singlet-scalar/photon
+Barr–Zee term survives even when the charged mixing vanishes.
+This is not tuning a parameter point into physical acceptance.
+
+The CP-conserving author convention is
+\(\theta_{12}=\beta-\alpha\), \(\theta_{13}=\theta_{23}=0\),
+\(\rho_\ell^\dagger=D/\sqrt 2\);
+the CP-odd Zee field differs by an overall sign. Type-II quark matrices
+use \(\rho_u=(m_u/v)\cot\beta\),
+\(\rho_d=-(m_d/v)\tan\beta\) with the **same source-evolved**
+weak-scale masses as the author code. The doublet charged trilinears
+are projected into its \(Z_3,Z_7\) notation using the independently
+validated native restricted scalar potential. This maps neutral vertices;
+it does **not** match unseen higher-order topologies.
+
+The source reference splits raw \(c_L,c_R\) functions into 13 source-local
+contributions, verifies their sum reproduces the unmodified total, and
+retains the original source-file SHA-256. Published dimensionless
+\(c_{L,R}\) are mapped to the frozen GeV\(^{-2}\) operator via
+\(C_{L,R}=-c_{L,R}/(8\pi^2v^2)\), using the existing source-audited
+convention bridge.
+
+**HW normalization caveat:** the public source's
+\`cL_llpg_HW\` / \`cR_llpg_HW\` contain an extra \`/self.MW**2\`
+relative to **arXiv:2410.17313v4 Eqs.(65,66)**, which are manifestly
+dimensionless. The reference evaluator emits *both* the raw author total
+and the separate paper-normalized alternative (multiplying only the HW
+component by \(M_W^2\)). It does **not** alter the author source or silently
+replace the result. This correction is a source-versus-paper dimensional
+check; independent amplitude proof of the actual HW coefficient remains
+outside this test. Full 2HDM comparisons must distinguish these versions.
+
+The exact charged Zee current decomposition is implemented in
+[LFV/gauge_vertices.py](gauge_vertices.py):
+\[
+R_\gamma=\begin{pmatrix}c_\gamma&s_\gamma\\-s_\gamma&c_\gamma\end{pmatrix},
+\quad d=(c_\gamma,-s_\gamma),\ s=(s_\gamma,c_\gamma),
+\]
+\[
+\frac{G_Z}{e}=\frac{\frac12 dd^T-s_W^2 I}{s_Wc_W},\qquad
+\frac{G_\gamma}{e}=I,\qquad
+\frac{(G_Z)_{12}}e=-\frac{\sin2\gamma}{4s_Wc_W}.
+\]
+The native charged Yukawa chiral tensors in this same convention are
+\[
+L_i=-s_i F,\qquad R_i=-d_i D^\dagger.
+\]
+(The \(R\) matrix written here has neutrino index first and charged-lepton
+index second.) The \(\sum_i d_i s_i=0\) unweighted completeness
+identity is exact; it does NOT imply cancellation of different-mass loop
+functions. These facts exclude naive one-state angle rescaling, especially
+for off-diagonal \(ZH_1H_2\) currents.
+
+**Evidence levels:** these current identities and all zero/covariance
+limits are algebraic tree-level checks. Successful evaluation of an
+unmodified author source is a *2HDM numerical reference*, not a
+gauge-parameter cancellation test for the Zee extension. The additional
+mixed charged \(W/Z\), \(F\)-dependent reducible/counterterm and
+Goldstone/pinch two-loop aggregates remain
+\`ZEE_GAUGE_TWO_LOOP_UNVALIDATED\`. Do not promote \`full_lfv_gate\`
+above UNKNOWN.
