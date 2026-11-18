@@ -82,20 +82,31 @@ def target(ordering, mlight, alpha21=0., alpha31=0.):
     return mnu, masses, u
 
 
-def inverse(mnu, leptons, charged, sine, fscale, t=1.+0j):
-    """Zee null cone n.T M n=0; minimal-norm D for fixed antisymmetric F."""
-    if not np.isfinite(fscale) or fscale <= 0 or abs(sine) < 1e-12:
-        raise ValueError("Invalid F scale or scalar mixing")
+def inverse(mnu, leptons, charged, sine, fscale, t=1.+0j, *,
+            root=0, homogeneous=None, f_phase=0.):
+    """Two null-cone roots and four-complex-dimensional homogeneous D freedom."""
+    if (not np.isfinite(fscale) or fscale <= 0 or abs(sine) < 1e-12 or
+        not np.isfinite(t) or type(root) is not int or root not in (0,1) or
+        not math.isfinite(f_phase)):
+        raise ValueError("Invalid F scale, null-cone root, or scalar mixing")
+    coeff = np.zeros(4,complex) if homogeneous is None else np.asarray(homogeneous,complex)
+    if coeff.shape!=(4,) or not np.isfinite(coeff).all():
+        raise ValueError("Homogeneous D requires exactly four finite complex coefficients")
     # n=(1,x,t) solves n.T @ M @ n=0.
     a = mnu[1, 1]
     b = 2*(mnu[0, 1]+t*mnu[1, 2])
     c = mnu[0, 0]+2*t*mnu[0, 2]+t*t*mnu[2, 2]
-    roots = np.roots([a, b, c])
-    x = min(roots, key=abs)
+    if abs(a) < 1e-15*max(abs(b),abs(c),1e-300):
+        if root or abs(b)<1e-15*max(abs(c),1e-300):
+            raise ValueError("Unavailable null-cone root; choose another chart or t")
+        x=-c/b
+    else:
+        roots=sorted(np.roots([a,b,c]),key=lambda z:(abs(z),z.real,z.imag))
+        x=roots[root]
     n = np.array([1, x, t], complex)
     f = np.array([[0, n[2], -n[1]], [-n[2], 0, n[0]],
                   [n[1], -n[0], 0]], complex)
-    f *= fscale/np.max(abs(f))
+    f *= (fscale/np.max(abs(f)))*np.exp(1j*f_phase)
     upper = np.triu_indices(3)
     cols = []
     for basis in np.eye(9).reshape(9,3,3):
@@ -107,6 +118,16 @@ def inverse(mnu, leptons, charged, sine, fscale, t=1.+0j):
         raise ValueError(f"Inverse Zee rank is {rank}, expected 5")
     solution = np.linalg.lstsq(matrix,mnu[upper],rcond=1e-12)[0]
     d = solution.reshape(3,3)
+    if np.any(coeff):
+        # Four complex directions in the kernel of the symmetric
+        # neutrino-mass map. This explores Yukawa families, not LFV tuning.
+        vh=np.linalg.svd(matrix,full_matrices=True)[2]
+        directions=vh[rank:].conj().reshape(4,3,3)
+        if directions.shape!=(4,3,3) or np.linalg.norm(
+            matrix@directions.reshape(4,9).T
+        )/np.linalg.norm(matrix)>1e-11:
+            raise ValueError("Unresolved four-dimensional neutrino kernel")
+        d=d+np.einsum("k,kij->ij",coeff,directions)
     residual = float(np.linalg.norm(zee_matrix(f,d,leptons,charged,sine)-mnu)
                      /np.linalg.norm(mnu))
     if residual > 1e-8 or abs(n.T@mnu@n)/np.linalg.norm(mnu)>1e-9:
