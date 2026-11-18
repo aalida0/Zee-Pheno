@@ -40,5 +40,20 @@ jobs:
               print(name,rows)
               for k in ('C_L_GeV_minus2','C_R_GeV_minus2'):
                   assert all(math.isfinite(v) for v in rows[k].values())
+          from LFV.core import dipole_ledger
+          from LFV.constraints import matrix
+          from LFV.test_strict_2hdm_reference import decoupled_sample
+          import numpy as np
+          p=point['scalar']
+          ml=np.asarray(point['pole_lepton_masses_GeV'])
+          one=dipole_ledger(matrix(point['F'],'F'),matrix(point['D'],'D'),p,ml,1,0,
+                            external=ml)
+          for k in ('C_L','C_R'):
+              ours=sum(v[k] for v in one.values())
+              raw=result['reference_dipoles']['mu_to_e_gamma']['raw_public_source_components']['1loop'][k]
+              author=complex(raw['real'],raw['imag'])
+              print('STRICT_2HDM_ONE_LOOP_OVERLAP',k,'native_scalar',ours,
+                    'author_general_2hdm',author,'relative_delta',
+                    abs(ours-author)/max(abs(ours),abs(author),1e-30))
           print('PUBLIC_REFERENCE_2HDM_ONLY_PASS',result['public_source_sha256'])
           PY
