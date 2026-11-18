@@ -110,6 +110,14 @@ class FitTests(unittest.TestCase):
                 solutions.append((F,D))
         self.assertGreater(np.linalg.norm(solutions[0][1]-solutions[1][1]),1e-5)
         self.assertGreater(np.linalg.norm(solutions[0][0]-solutions[2][0]),1e-7)
+        for chart in ((1,2,0),(2,0,1)):
+            F,D,res=inverse(mnu,leptons,charged,sine,1e-4,t=.25+.1j,
+                            root=0,chart=chart)
+            self.assertLess(res,1e-8)
+            self.assertLess(np.linalg.norm(zee_matrix(F,D,leptons,charged,sine)-mnu)
+                            /np.linalg.norm(mnu),1e-8)
+        with self.assertRaises(ValueError):
+            inverse(mnu,leptons,charged,sine,1e-4,chart=(0,0,1))
         with self.assertRaises(ValueError):
             inverse(mnu,leptons,charged,sine,1e-4,root=2)
         with self.assertRaises(ValueError):
