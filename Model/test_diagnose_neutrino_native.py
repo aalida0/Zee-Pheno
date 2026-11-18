@@ -1,5 +1,6 @@
 """Regression against the actual generated native complex matrix, not mock masses."""
 import json
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -7,7 +8,7 @@ import mpmath as mp
 import numpy as np
 
 from Neutrino.fit import finite_kernel
-from Model.diagnose_neutrino_native import analyze, instrument
+from Model.diagnose_neutrino_native import analyze, instrument, require_native_snapshots
 
 
 class NativeMatrixTests(unittest.TestCase):
@@ -52,6 +53,19 @@ class NativeMatrixTests(unittest.TestCase):
                 integral = mp.quad(lambda x: mp.log((x*z+(1-x)*a)/(x*z+(1-x)*b)), [0, 1])
             self.assertAlmostEqual(finite_kernel(m1, m2, ml), float(integral), places=13)
         self.assertAlmostEqual(finite_kernel(m1, m2, 0), np.log((m1/m2)**2), places=14)
+
+    def test_zero_exit_early_termination_has_actionable_log(self):
+        with tempfile.TemporaryDirectory() as td:
+            out=Path(td)
+            (out/'run.log').write_text('Spectrum calculation failed: tadpole NaN\\n')
+            with self.assertRaisesRegex(RuntimeError,
+                    'SPheno did not reach the instrumented OneLoopFv') as ctx:
+                require_native_snapshots(out)
+            self.assertIn('tadpole NaN', str(ctx.exception))
+            self.assertIn('run.log', str(ctx.exception))
+            path=out/'snapshots.dat'
+            path.write_text('BEGIN\\n')
+            self.assertEqual(require_native_snapshots(out), path)
 
     def test_instrumentation_rejects_unrecognized_source(self):
         with self.assertRaises(ValueError):
