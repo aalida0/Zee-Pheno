@@ -73,12 +73,23 @@ def compare(input_card, baseline, loop_output):
     analytic = np.sort(np.linalg.svd(mnu, compute_uv=False))
     pole = np.sort(np.array([native[k]*1e9 for k in (12, 14, 16)]))
     worst = float(np.max(abs(analytic-pole))/max(float(np.max(analytic)), 1e-12))
+    # The SPheno loop-mass switch also alters other pole masses; a tree-vs-pole
+    # comparison may not be at an identical mass/parameter scheme.
+    scalar_drift = {str(pdg): (native[pdg]-tree[pdg])/tree[pdg]
+                    for pdg in (37, 9000037) if pdg in native}
+    lepton_drift = {str(pdg): (native[pdg]-tree[pdg])/tree[pdg]
+                    for pdg in (11, 13, 15) if pdg in native}
     result = {
         "status": "SINGULAR_VALUES_AGREE_ONLY" if worst <= 0.01 else "NATIVE_ANALYTIC_MASS_MISMATCH",
         "one_loop_majorana_matrix_validated": False,
         "input_sha256": sha(input_card), "tree_spectrum_sha256": sha(baseline),
         "loop_spectrum_sha256": sha(loop_output),
         "charged_masses_tree_GeV": charged, "lepton_masses_tree_GeV": mass.tolist(),
+        "charged_masses_loop_GeV": {str(pdg): native[pdg]
+                                      for pdg in (37, 9000037) if pdg in native},
+        "charged_mass_relative_shifts": scalar_drift,
+        "lepton_mass_relative_shifts": lepton_drift,
+        "matched_native_running_parameter_scheme": False,
         "vev_GeV": v, "sin_2gamma_from_Mu4": sine2gamma,
         "analytic_mass_singular_values_eV": analytic.tolist(),
         "spheno_pole_masses_eV": pole.tolist(),
