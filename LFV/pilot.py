@@ -72,7 +72,8 @@ def evaluate(native_path, card_path, spectrum_path, alpha_rad):
         raise ValueError(f"Missing native neutral scalar mass {exc}") from exc
     p = dict(v=v,beta=beta,alpha=alpha_rad,gamma=gamma,
              mh1=mh,mh2=mH,ma=ma,mH1=charged[0],mH2=charged[1])
-    if min(mh,mH,ma,*charged) < 20*ml[-1]:
+    if (not np.isfinite([mh,mH,ma,*charged]).all() or
+            min(mh,mH,ma,*charged) < 20*ml[-1]):
         raise ValueError("Scalar mass too light for audited one-loop expansion")
     results={}
     for label,i,j,width in (("mu_to_e_gamma",1,0,MU_WIDTH_GEV),
