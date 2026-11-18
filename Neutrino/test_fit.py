@@ -68,6 +68,21 @@ class FitTests(unittest.TestCase):
         self.assertFalse(result["checks"]["dm21"])
 
 
+    def test_mass_and_majorana_phase_freedom(self):
+        # Oscillations cannot fix the lightest mass or Majorana phases.
+        # No full scan; vary each once and require exact forward closure.
+        for ordering in ("NO", "IO"):
+            for light, alpha21, alpha31 in ((.001,0.,0.),
+                                              (.0093,np.pi/2,0.),
+                                              (.03,np.pi/3,-np.pi/2)):
+                with self.subTest(ordering=ordering, light=light):
+                    target_m, mass, u = target(ordering,light,alpha21,alpha31)
+                    np.testing.assert_allclose(u.T@target_m@u,
+                                               np.diag(mass),atol=1e-14)
+                    report = fit(REFERENCE,ordering,light,alpha21,alpha31)
+                    self.assertLess(report["forward_residual"],1e-8)
+                    self.assertTrue(report["native_revalidation_required"])
+
     def test_numerical_and_phase_input_rejection(self):
         for value in (-1e-3,float("nan"),float("inf"),.3):
             with self.assertRaises(ValueError):
