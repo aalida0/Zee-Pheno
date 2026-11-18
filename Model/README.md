@@ -11,3 +11,13 @@ Source provenance: adapted from the audited scalar formulas in [the earlier Zee 
 Validation evidence and outstanding native checks: [VALIDATION.md](VALIDATION.md).
 
 Run: `python3 -m unittest Model.test_model -v`.
+
+## SARAH/SPheno validation (pending on the local installation)
+
+`check_sarah.wls` runs SARAH 4.15.4 `CheckModel[]` on an explicitly supplied historical model snapshot; its warnings must be reviewed. `check_native.py` checks real/imaginary `FZEEIN` and `YEE2IN` propagation in an already compiled, hash-attested SPheno binary, using one baseline card and two tiny probes. No generation, recompilation or full scan is performed.
+
+```bash
+python3 -m unittest Model.test_model Model.test_native -v
+```
+
+For the exact original paths and native commands, see [VALIDATION.md](VALIDATION.md). **A unit-test pass does not certify SPheno physics**; a native model pass does not certify LFV.
