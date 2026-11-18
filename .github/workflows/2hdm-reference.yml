@@ -57,6 +57,25 @@ jobs:
                     abs(ours-author)/max(abs(ours),abs(author),1e-30))
           overlap=result['scalar_one_loop_chirality_overlap']['mu_to_e_gamma']
           print('STRICT_2HDM_CHIRALITY_OVERLAP',overlap)
+          from LFV.core import vertices
+          from LFV.barr_zee import physical_trilinears,charged_scalar_photon
+          D=matrix(point['D'],'D')
+          neutral=vertices(D,p,ml)
+          G=physical_trilinears(p,point['potential'])
+          scalar_photon=np.zeros(2,complex)
+          for scalar in ('h','H'):
+              C,mass=neutral[scalar]
+              pair=np.array([C[0,1],C[1,0].conjugate()])
+              term,_=charged_scalar_photon(pair,G[scalar][0],p['mH1'],mass,ml[1],
+                                            SM['alphaQED'])
+              scalar_photon+=term
+          rows=result['reference_dipoles']['mu_to_e_gamma']['raw_public_source_components']['HA']
+          for index,key in enumerate(('C_L','C_R')):
+              author=complex(rows[key]['real'],rows[key]['imag'])
+              ours=scalar_photon[index]
+              print('STRICT_2HDM_CHARGED_SCALAR_PHOTON',key,'native',ours,
+                    'public',author,'relative_delta',
+                    abs(ours-author)/max(abs(ours),abs(author),1e-30))
           assert overlap['direct_chirality_relative_residual']<0.05
           assert overlap['exchanged_chirality_relative_residual']>0.5
           assert result['native_to_author_chiral_operator_mapping']=='NOT_CERTIFIED'
