@@ -8,4 +8,6 @@ Source provenance: adapted from the audited scalar formulas in [the earlier Zee 
 
 **Not included/validated here:** a canonical SARAH model copy, SPheno-generated code, charged-lepton basis matching, loop-induced neutrino masses, one-/two-loop LFV, RG running, physical widths, vacuum-globality, or full scans. The older main-repo SARAH files and the model used for local SPheno generation differ in their neutrino-rotation definition. Do not silently promote either snapshot until the difference is reconciled and the corrected SLHA inputs are validated natively.
 
+Validation evidence and outstanding native checks: [VALIDATION.md](VALIDATION.md).
+
 Run: `python3 -m unittest Model.test_model -v`.
