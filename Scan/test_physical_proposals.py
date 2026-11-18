@@ -73,6 +73,13 @@ class PhysicalProposalsTests(unittest.TestCase):
                              ["baseline","invalid_gap"])
             self.assertEqual(report["outputs"][1]["gates"]["status"],
                              "FAIL_PREDECLARED_KINEMATIC_OR_MASS_PRIOR")
+            families=report["outputs"][0]["families"]
+            self.assertEqual([(f["ordering"],f["root"]) for f in families],
+                             [("NO",0),("IO",0),("NO",1),("IO",1)])
+            self.assertEqual(families[0]["homogeneous_coefficients"]["real"],
+                             [[0.,0.,0.,0.]])
+            self.assertEqual(families[1]["homogeneous_coefficients"]["real"],
+                             [[0.,0.,0.,0.]])
             for point in report["outputs"][0]["families"]:
                 self.assertLess(point["analytical_closure"],1e-8)
                 self.assertEqual(point["status"],"NATIVE_REVALIDATION_REQUIRED")
