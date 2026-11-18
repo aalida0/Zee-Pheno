@@ -63,6 +63,24 @@ class GeneralLFVTests(unittest.TestCase):
         self.assertLess(b[0].real,0)
         self.assertLess(b[1].real,0)
 
+    def test_tiny_z_scalar_kernel_uses_stable_identity(self):
+        # Tiny-z direct F2 quadrature triggered SciPy IntegrationWarning
+        # despite an excellent stable f,g evaluation.
+        from scipy.integrate import quad
+        from LFV.barr_zee import _ratio
+        for z in (1e-24, 6.18e-13, 9.34e-12, 1e-9, 0.1, 1., 10.):
+            (f,g,f2), errors=photon_kernels(z)
+            self.assertTrue(math.isfinite(f2) and f2<0)
+            self.assertLess(errors[2],max(2e-10,abs(f2)*2e-9))
+            self.assertAlmostEqual(f2, (f-g)/(2*z),places=10)
+        # Independent direct integral at moderate mass ratios.
+        for z in (0.1, 1., 10.):
+            def integrand(x):
+                u=x*(1-x)
+                return -u*_ratio(u,z)/(2*z)
+            direct=quad(integrand,0.,.5,epsabs=1e-12,epsrel=1e-11)[0]*2
+            self.assertAlmostEqual(photon_kernels(z)[0][2],direct,places=10)
+
     def test_arbitrary_point_is_partial_not_physical_exclusion(self):
         p=sample()
         out=evaluate(p)
