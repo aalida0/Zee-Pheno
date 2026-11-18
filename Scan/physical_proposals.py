@@ -5,7 +5,6 @@ separate sampling unit; multiple complex F/D families share its scalar input.
 Every saved SLHA card needs a fresh native SPheno run and source-bound gates.
 """
 import argparse
-import hashlib
 import json
 import math
 import random
@@ -28,7 +27,7 @@ RANGES=("tan_beta","gamma_rad","mH2_GeV","mH1_fraction",
         "soft_mass_ratio","lambda_c","K1","K2","K12")
 FAMILY_RANGES=("lightest_eV","Majorana_phase_rad","log10_F_scale",
                "log10_homogeneous_scale","null_t")
-MAX_SCALARS=5000
+MAX_SCALARS=1000  # shortcut: in-memory card buffering; shard larger production campaigns
 
 
 def validate(config):
@@ -40,7 +39,7 @@ def validate(config):
         type(config["scalar_count"]) is not int or
         not 1<=config["scalar_count"]<=MAX_SCALARS or
         type(config["families_per_scalar"]) is not int or
-        not 1<=config["families_per_scalar"]<=50):
+        not 1<=config["families_per_scalar"]<=8):
         raise ValueError("Bad versioned scalar/neutrino scan configuration")
     arms=config["arms"]
     if not isinstance(arms,list) or not arms or len(arms)>10:
@@ -239,6 +238,9 @@ def generate(config_path,template_path,snapshot_path,output_dir):
                         "analytical_closure":res,
                         "max_abs_yukawa":float(max(np.max(abs(Fg)),np.max(abs(Dg)),
                                                      np.max(abs(Ye)),np.max(abs(Ye2))))}
+                family["yukawa_abs_lt_1_diagnostic"]=family["max_abs_yukawa"]<1.
+                family["yukawa_abs_lt_sqrt4pi_diagnostic"]=(
+                    family["max_abs_yukawa"]<math.sqrt(4*math.pi))
                 card=prepare_card(original,scalar,lag,Fg,Ye2)
                 family["status"]="NATIVE_REVALIDATION_REQUIRED"
                 filename=f"{record['scalar_id']}_{ordering}_f{k:02d}.in"
