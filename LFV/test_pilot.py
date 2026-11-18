@@ -82,7 +82,7 @@ class DipoleTests(unittest.TestCase):
                     self.assertLess(abs(total-summed),1e-25)
             card.write_text("changed\n")
             with self.assertRaises(ValueError):
-                evaluate(payload,card,spectrum,alpha_rad=1.398)
+                evaluate(payload,card,spectrum)
             with self.assertRaises(ValueError):
                 neutral_alpha("BLOCK SCALARMIX\n 1 1 0.7\n")
 
