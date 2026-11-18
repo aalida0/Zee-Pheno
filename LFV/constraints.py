@@ -61,7 +61,7 @@ def input_parameters(point):
               "pole_lepton_masses_GeV","fermion_loop_masses_GeV",
               "quark_yukawa_masses_GeV","alpha_em",
               "total_lepton_widths_GeV","mass_yukawa_scheme"}
-    if not required<=point.keys() or point.keys()-required-{"potential","tree_quadrature_order","GF_GeV_minus2"}:
+    if not required<=point.keys() or point.keys()-required-{"potential","tree_quadrature_order","GF_GeV_minus2","radiative_limits"}:
         raise ValueError("Unexpected/missing point fields")
     if not isinstance(point["point_id"],str) or not point["point_id"].strip():
         raise ValueError("Nonempty point_id required")
@@ -111,10 +111,58 @@ def input_parameters(point):
         gf=point["GF_GeV_minus2"]
         if not isinstance(gf,(int,float)) or not math.isfinite(gf) or gf<=0:
             raise ValueError("Fermi constant must be finite and positive")
+    limits=point.get("radiative_limits",{})
+    if not isinstance(limits,dict) or set(limits)-set(CHANNELS):
+        raise ValueError("Unsupported radiative limits")
+    for ch,item in limits.items():
+        if not isinstance(item,dict) or set(item)-{
+            "BR_90CL","source","missing_norm_upper_GeV_minus2","bound_source"}:
+            raise ValueError(f"Invalid radiative limit record {ch}")
+        if (not isinstance(item.get("BR_90CL"),(int,float)) or
+            not math.isfinite(item["BR_90CL"]) or
+            not 0<item["BR_90CL"]<1 or
+            not isinstance(item.get("source"),str) or not item["source"].strip()):
+            raise ValueError(f"Bad confidence level/source for {ch}")
+        if "missing_norm_upper_GeV_minus2" in item:
+            r=item["missing_norm_upper_GeV_minus2"]
+            if (not isinstance(r,(int,float)) or not math.isfinite(r) or r<0
+                or not isinstance(item.get("bound_source"),str)
+                or not item["bound_source"].strip()):
+                raise ValueError("Omitted-amplitude upper bound needs finite norm and source")
     potential=point.get("potential")
     if potential is not None and not isinstance(potential,dict):
         raise ValueError("Potential must be a dict when provided")
     return p,F,D,ml,pole,fm,qy,widths,alpha,potential
+
+
+
+def amplitude_budget(norm, mi, mj, width, alpha, bound):
+    """Rigorous two-chirality triangle inequality; conditional only."""
+    factor=alpha*mi**5/4*(1-(mj/mi)**2)**3/width
+    allowed=math.sqrt(bound["BR_90CL"]/factor)
+    upper_missing=bound.get("missing_norm_upper_GeV_minus2")
+    result={
+        "experimental_limit_BR_90CL":bound["BR_90CL"],
+        "experimental_source":bound["source"],
+        "required_max_missing_norm_for_sufficient_pass_GeV_minus2":
+            max(0.,allowed-norm),
+        "retained_amplitude_norm_GeV_minus2":norm,
+        "experimental_threshold_norm_GeV_minus2":allowed,
+        "status":"UNKNOWN_UNBOUNDED_MISSING",
+    }
+    if upper_missing is not None:
+        lowest=max(0.,norm-upper_missing)
+        highest=norm+upper_missing
+        decision=("PASS_IF_DECLARED_BOUND_VALID" if highest<allowed else
+                  "FAIL_IF_DECLARED_BOUND_VALID" if lowest>allowed else
+                  "UNKNOWN_EVEN_WITH_DECLARED_BOUND")
+        result.update(status=decision,
+                      omitted_norm_upper_GeV_minus2=upper_missing,
+                      omitted_bound_source=bound["bound_source"],
+                      allowed_BR_interval_if_bound_valid=[factor*lowest**2,
+                                                          factor*highest**2],
+                      caveat="The source's amplitude-norm bound has not been independently verified by this code.")
+    return result
 
 
 def evaluate(point):
@@ -153,6 +201,9 @@ def evaluate(point):
                                         complex(v["C_R"]["real"],v["C_R"]["imag"]).__abs__())
                           for v in rows.values()))
         br=radiative_width(total,pole[i],pole[j],alpha)/widths["mu" if i==1 else "tau"]
+        bound=(amplitude_budget(n,pole[i],pole[j],widths["mu" if i==1 else "tau"],
+                                alpha,point["radiative_limits"][channel])
+               if channel in point.get("radiative_limits",{}) else None)
         result[channel]=dict(
             status="PARTIAL_COHERENT_PHOTON_SUBSETS",
             C_L_GeV_minus2=val(total[0]),C_R_GeV_minus2=val(total[1]),
@@ -160,6 +211,7 @@ def evaluate(point):
             cancellation_ratio=n/sum_abs if sum_abs else None,
             branching_ratio_included_topologies_only=float(br),
             included_components=rows,
+            conditional_missing_amplitude_budget=bound,
             physical_branching_ratio=None,experimental_gate="UNKNOWN")
     higgs_lfv={}
     for name,(C,mass) in neutral.items():
