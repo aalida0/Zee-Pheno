@@ -33,3 +33,7 @@ python3 -m Model.check_basis --spectrum "$WORK/model-validation-native-20261118/
 ```
 
 The tree-level neutrino `UV` is not the loop-corrected PMNS matrix. Symmetry protection for every gauge-allowed omitted coupling and the native one-loop mass are still **UNKNOWN**; see the warning register in [VALIDATION.md](VALIDATION.md).
+
+## Controlled one-loop neutrino test
+
+The 2026-11-18 native baseline had two `SPhenoInput[55]=0` controls, so its zero neutrino masses are **not a one-loop test**. Run `python3 -m unittest Model.test_loop_probe -v`, then follow the attested one-card `Model.probe_neutrino_loop` command in [VALIDATION.md](VALIDATION.md). It enables both loop-mass switches in a **new** card without modifying the baseline. A nonzero output neutrino pole mass is still **not** a validated Majorana mass matrix.
