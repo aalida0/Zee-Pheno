@@ -83,6 +83,27 @@ class GeneralLFVTests(unittest.TestCase):
                             channel[key+"_GeV_minus2"]["imag"])
                 self.assertLess(abs(summed-ret),1e-25)
 
+    def test_neutral_higgs_partial_widths_and_singlet_universality(self):
+        p=sample()
+        p["GF_GeV_minus2"]=1.1663787e-5
+        out=evaluate(p)
+        self.assertEqual(set(out["neutral_higgs_lfv_partial_widths"]),{"h","H","A"})
+        self.assertGreater(out["neutral_higgs_lfv_partial_widths"]["h"]["e_mu"]
+                           ["partial_width_two_charges_GeV"],0)
+        self.assertIsNone(out["neutral_higgs_lfv_partial_widths"]["h"]["e_mu"]
+                          ["physical_branching_ratio"])
+        uni=out["universality_F_subset"]
+        self.assertEqual(uni["physical_status"],"SUBSET_DIAGNOSTIC")
+        p2=sample()
+        f=np.array(p2["F"]["real"])+1j*np.array(p2["F"]["imag"])
+        p2["F"]=cmat(2*f)
+        p2["GF_GeV_minus2"]=p["GF_GeV_minus2"]
+        uni2=evaluate(p2)["universality_F_subset"]
+        self.assertAlmostEqual(uni2["rate_shifts_before_GF_subtraction"]["mu_e"]/
+                               uni["rate_shifts_before_GF_subtraction"]["mu_e"],4.)
+        p3=sample()
+        self.assertIsNone(evaluate(p3)["universality_F_subset"])
+
     def test_potential_adds_six_photon_scalar_rows_without_loss(self):
         p=sample()
         p["potential"]=dict(Lambda1=.25,Lambda2=.45,Lambda3=.1,
