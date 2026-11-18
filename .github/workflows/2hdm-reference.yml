@@ -1,4 +1,4 @@
-name: External strict 2HDM source check
+name: LFV approximation source and nonzero Zee controls
 on:
   push:
     branches:
@@ -153,3 +153,24 @@ jobs:
         with:
           name: strict-2hdm-lfv-materiality-18-point
           path: /tmp/lfv_2hdm_materiality/*
+
+      - name: Execute 24 nonzero-gamma nonzero-F Zee amplitude sensitivity controls
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from LFV.test_constraints import sample
+          from LFV.test_nonzero_mixing_study import inversion
+          p=sample()
+          p["mass_yukawa_scheme"]="ILLUSTRATIVE_UNMATCHED_TEST_POINT_ONLY"
+          Path("/tmp/zee_nonzero_template.json").write_text(json.dumps(p))
+          Path("/tmp/zee_nonzero_inversion.json").write_text(json.dumps(inversion()))
+          PY
+          python -m LFV.nonzero_mixing_study \
+            --template /tmp/zee_nonzero_template.json \
+            --inversion /tmp/zee_nonzero_inversion.json \
+            --output-dir /tmp/zee_nonzero_mixing_diagnostics
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zee-nonzero-mixing-24-point-diagnostics
+          path: /tmp/zee_nonzero_mixing_diagnostics/*
