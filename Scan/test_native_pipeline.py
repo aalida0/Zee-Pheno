@@ -1,6 +1,7 @@
 """End-to-end native evidence and fail-closed full-scan regression."""
 import copy
 import json
+import math
 import tempfile
 import unittest
 from pathlib import Path
@@ -197,7 +198,10 @@ class NativeGateTests(unittest.TestCase):
             p=base["native_scalar_parameters"]
             inv={"m12sq_GeV2": 250000.*np.sin(p["beta"])*np.cos(p["beta"]),
                  "lambda_c":.25,"K1":.3,"K2":.3,"K12":.01}
-            x=scalar_parameters(**p,m12sq=inv["m12sq_GeV2"],
+            principal=dict(p)
+            principal["gamma"]=(p["gamma"]+math.pi/2)%math.pi-math.pi/2
+            self.assertGreater(abs(principal["gamma"]-p["gamma"]),3.)
+            x=scalar_parameters(**principal,m12sq=inv["m12sq_GeV2"],
                                 lc=inv["lambda_c"],k1=inv["K1"],
                                 k2=inv["K2"],k12=inv["K12"])
             potential={k:x[k] for k in ("Lambda1","Lambda2","Lambda3",
