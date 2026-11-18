@@ -201,6 +201,32 @@ def evaluate(point,sm,public_source):
                     "C_R":{"real":adjusted_r.real,"imag":adjusted_r.imag}},
                 HW_source_code_issue="Extra MW^-2 in source vs paper Eqs.(65,66); raw and paper-normalized totals both retained",
                 source_component_reconstruction="PASS")
+    # Unlike a branching ratio, this overlap tests the relative
+    # chiral normalization of our scalar one-loop ledger.
+    from LFV.core import dipole_ledger
+    from LFV.constraints import matrix
+    F=matrix(point["F"],"F")
+    D=matrix(point["D"],"D")
+    overlaps={}
+    for label,(i,j) in CHANNELS.items():
+        local=dipole_ledger(F,D,point["scalar"],ml,i-1,j-1,external=ml)
+        local_L=sum(t["C_L"] for t in local.values())
+        local_R=sum(t["C_R"] for t in local.values())
+        source_rows=dipoles[label].get("raw_public_source_components")
+        if source_rows is None:
+            overlaps[label]={"status":"SOURCE_COMPONENTS_NOT_AVAILABLE"}
+            continue
+        author_L=complex(**source_rows["1loop"]["C_L"])*1
+        author_R=complex(**source_rows["1loop"]["C_R"])*1
+        denom=max(abs(local_L),abs(local_R),abs(author_L),abs(author_R),1e-30)
+        direct=max(abs(local_L-author_L),abs(local_R-author_R))/denom
+        exchanged=max(abs(local_L-author_R),abs(local_R-author_L))/denom
+        overlaps[label]=dict(
+            direct_chirality_relative_residual=float(direct),
+            exchanged_chirality_relative_residual=float(exchanged),
+            status=("CHIRALITY_LABEL_DISCREPANCY" if exchanged<direct
+                    else "DIRECT_CHIRALITY_FAVORED"),
+            note="Public source omits daughter-mass and additional subleading one-loop terms; this is not an exact coefficient identity.")
     return {
         "status":"STRICT_2HDM_REFERENCE_EVALUATED_NOT_ZEE",
         "point_id":point["point_id"],
@@ -210,6 +236,8 @@ def evaluate(point,sm,public_source):
         "dipole_conversion":"C_X=-c_X/(8*pi^2*v^2) in archived Zee convention",
         "neutral_vertex_max_residual":max(vertex_residual.values()),
         "neutral_vertex_residuals":vertex_residual,
+        "scalar_one_loop_chirality_overlap":overlaps,
+        "native_to_author_chiral_operator_mapping":"NOT_CERTIFIED",
         "rho_l":"rho_l^dagger=D/sqrt(2)",
         "theta12":kwargs["theta12"],
         "H_plus_mass_GeV":kwargs["MHp"],
