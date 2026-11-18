@@ -27,7 +27,7 @@ def decoupled_sample():
     p["potential"]={
         "Lambda1":.3,"Lambda2":.45,"Lambda3":.1,
         "Lambda4":-.1,"Lambda5":-.05,
-        "K1":.4,"K2":.7,"K12":.01,"Mu4":0.}
+        "K1":0.,"K2":0.,"K12":0.,"Mu4":0.}
     return p
 
 
@@ -66,6 +66,10 @@ class StrictReferenceTests(unittest.TestCase):
         point=copy.deepcopy(base)
         point["F"]["real"][0][1]=1e-4
         point["F"]["real"][1][0]=-1e-4
+        with self.assertRaisesRegex(ValueError,"Strict"):
+            decoupled_input(point,SM)
+        point=copy.deepcopy(base)
+        point["potential"]["K1"]=.1
         with self.assertRaisesRegex(ValueError,"Strict"):
             decoupled_input(point,SM)
         point=copy.deepcopy(base)
