@@ -13,13 +13,13 @@ H₂± → H₁± Z. The conventional Z₂ is **not** exact; see [Model](Model/R
 | [Higgs](Higgs/README.md) | Not yet promoted |
 | [Flavor](Flavor/README.md) | Not yet promoted |
 | [Collider](Collider/README.md) | Not yet promoted |
-| [Scan](Scan/README.md) | Versioned neutrino-proposal and native-card LFV evidence bridge; full allowed-region scan NOT implemented |
+| [Scan](Scan/README.md) | Scalar-first proposals, multi-family neutrino inverse and native-card LFV gates; full allowed-region scan NOT implemented |
 
 Run regression tests from the repository root:
 
 ~~~bash
 python3 -m unittest discover -s Model -p 'test_*.py' -v
-python3 -m unittest Neutrino.test_fit LFV.test_pilot LFV.test_constraints Scan.test_native_pipeline Scan.test_proposal_catalog -v
+python3 -m unittest Neutrino.test_fit LFV.test_pilot LFV.test_constraints Scan.test_native_pipeline Scan.test_physical_proposals -v
 ~~~
 
 NumPy and mpmath are needed for neutrino/native-loop calculations; SciPy for
