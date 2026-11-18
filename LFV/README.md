@@ -90,6 +90,50 @@ global_zee_acceptance=null. Step 2 is started, not complete.
 
 
 
+
+## Strict 2HDM two-loop source reference and Zee charged gauge identities
+
+The standalone LFV/strict_2hdm_reference.py evaluates the **unmodified**
+public 2HDM source in the genuinely decoupled Zee limit:
+**F=gamma=Mu4=K1=K2=K12=0**. It maps physical neutral Yukawas,
+Type-II quark couplings, neutral angles, the doublet charged scalar and
+its scalar trilinears. All three radiative channels are evaluated using
+author code as a **reference**, not a Zee full-model prediction.
+
+The adapter retains 13 raw loop groups per chirality, verifies their sum,
+and records both the unmodified author result and the dimension-restored
+HW result: the public source includes an extra /MW**2 relative to
+[arXiv:2410.17313v4 Eqs.(65),(66)](https://arxiv.org/html/2410.17313v4).
+Do not silently use either as a physical Zee prediction.
+
+Reproduce the source on a fully decoupled arbitrary point and provide
+a SM scheme JSON with keys from SM_KEYS:
+
+~~~bash
+git clone https://gitlab.com/jbrod/general-2hdm-pheno.git /tmp/general-2hdm-pheno
+git -C /tmp/general-2hdm-pheno rev-parse HEAD
+sha256sum /tmp/general-2hdm-pheno/thdm.py
+python3 -m LFV.strict_2hdm_reference \
+  --input /path/to/strict_F0_gamma0_portal0.json \
+  --sm /path/to/explicit_author_SM_inputs.json \
+  --public-source /tmp/general-2hdm-pheno/thdm.py \
+  --output /path/to/strict_2hdm_reference.json
+~~~
+
+LFV/test_strict_2hdm_reference.py includes a **nonphysical algebraic
+control** and source-example SM inputs. The external source is never
+vendored or patched. A separate GitHub Actions job attempts to obtain the
+author code, records the revision/hash and executes its full numerical
+strict-2HDM reference.
+
+LFV/gauge_vertices.py verifies exact **tree** current identities at
+arbitrary charged mixing: photon charge identity, Z_12/e =
+-sin(2 gamma)/(4 sw cw), and chiral native charged-scalar Yukawa
+L_i=-s_i F, R_i=-d_i D-dagger. This does **not** complete a Zee
+electroweak two-loop amplitude: mixed H1/H2 W/Z/Goldstone/ghost/pinch
+and F-sector counterterm sums remain UNKNOWN. See
+[REMAINDER_AUDIT.md](REMAINDER_AUDIT.md).
+
 ## General LFV engine — any parameter point
 
 **LFV/constraints.py** accepts one explicit restricted-Zee model point in the
