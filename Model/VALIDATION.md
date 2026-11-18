@@ -106,3 +106,25 @@ The rotation-bearing, native-generation snapshot is the **provisional canonical 
 
 **Release gate:** `SARAH_CHECKMODEL_COMPLETED_WARNINGS_OPEN`; `NATIVE_INPUT_GATE_PASS` remains valid. Next verify physical charged vertices, `UV`/charged-lepton basis matching, full scalar spectrum and radiative neutrino loop normalization using the generated source and corrected benchmark. The restricted potential and Type-II quark Yukawas need a clearly justified scope/symmetry statement; no RG closure or full-model certification is claimed.
 
+
+
+## 2026-11-18 user-provided generated Fortran vertex/mass audit
+
+Source displayed by the user from the existing model-specific SPheno build:
+- `/home/amine/zee-lfv64-serial-20261112-094549/SPheno-4.0.5/ZeeTypeII/Couplings_ZeeTypeII.f90`, lines approximately 3880–3910.
+- `/home/amine/zee-lfv64-serial-20261112-094549/SPheno-4.0.5/ZeeTypeII/TreeLevelMasses_ZeeTypeII.f90`, lines approximately 620–645.
+
+**Structural PASS:**
+- The left-chiral charged-scalar–lepton–neutrino vertex contains
+  `resL = ZP(a,3)/2 * sum_{ij} [conj(UV(nu,j))*conj(ZEL(ell,i))*fzee(i,j) - conj(UV(nu,i))*conj(ZEL(ell,j))*fzee(i,j)]`.
+  Renaming dummy indices and using `fzee(i,j)=-fzee(j,i)` gives
+  `resL = ZP(a,3)*sum_{ij} conj(UV(nu,j))*conj(ZEL(ell,i))*fzee(i,j)`.
+  The two half-terms combine: no residual factor of 1/2.
+- The right-chiral charged-scalar vertex includes both `Ye` weighted by `ZP(a,1)` and `Ye2` weighted by `ZP(a,2)`, with `ZER` and `UV` rotations.
+- The charged-scalar mass matrix has `M13=Mu4*vu/sqrt(2)` and `M23=-Mu4*vd/sqrt(2)`. With `H_D+=-sin(beta)H1+ + cos(beta)H2+`, the physical doublet–singlet mixing is `M_(HD,S)=-Mu4*v/sqrt(2)`, agreeing with `Model/model.py` and the original Gate 6 scalar convention.
+- The printed `RXiWm` terms are gauge-fixing terms in the charged-Goldstone sector, not new scalar couplings.
+
+**Not established by this extraction:** independent literature normalization and charge-conjugation/chirality matching at amplitude level, concrete numerical `UV`/charged-lepton basis mapping, one-loop neutrino mass, complete LFV amplitudes, or a well-defined symmetry protecting all omitted gauge-allowed terms. This record is based on user-provided source excerpts; it does not claim an independent recomputation of the generated vertices.
+
+**Release decision:** `NATIVE_YUKAWA_INPUT_PASS + SARAH_CHECKMODEL_COMPLETED_WARNINGS_OPEN + CHARGED_VERTEX_STRUCTURE_PASS + CHARGED_MIXING_SIGN_PASS`; complete model/LFV physics validation remains **UNKNOWN**.
+
