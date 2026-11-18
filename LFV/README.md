@@ -122,6 +122,26 @@ the physical charged-scalar/photon amplitude is calculated from trilinears;
 without it this piece is UNKNOWN, NOT zero. Potential-mass consistency still
 requires an independent scalar validation gate.
 
+Neutral scalar LFV partial widths are always calculated for h/H/A to
+e-mu, e-tau and mu-tau, with both charge orientations. These are
+**partial widths, not branching ratios**; Higgs total widths are separate
+required inputs in the Higgs analysis. Optional GF_GeV_minus2 adds the
+leading quadratic singlet-F lepton-universality shifts, marked SUBSET_DIAGNOSTIC;
+doublet-D/mixed operators are not included.
+
+Optional radiative_limits: a dictionary keyed by mu_to_e_gamma,
+tau_to_e_gamma or tau_to_mu_gamma. Each entry requires experimental
+BR_90CL (number 0<BR<1) and source (nonempty string). The tool reports
+the maximum omitted complex dipole-norm budget that would be sufficient
+for compatibility, but **never assumes the omitted amplitude is zero**.
+If a separately justified theoretical bound is available, provide
+missing_norm_upper_GeV_minus2 (nonnegative) and bound_source. Then the
+triangle inequality gives an interval for the full BR and a conditional
+PASS_IF_DECLARED_BOUND_VALID, FAIL_IF_DECLARED_BOUND_VALID or UNKNOWN.
+These labels are conditional mathematical implications: they are NOT a
+certification that the supplied theoretical remainder bound is correct.
+Without that bound, the comparison remains UNKNOWN_UNBOUNDED_MISSING.
+
 Optional tree_quadrature_order: integer 8–48, evaluates neutral-tree mu→3e
 and tau→3l partial rates with N and 2N nodes (can be slow); missing
 dipole/penguin/box interference is NOT assumed zero.
