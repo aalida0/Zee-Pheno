@@ -14,7 +14,8 @@ from pathlib import Path
 import numpy as np
 
 from LFV.core import (BASIS, OPERATOR, vertices, dipole_ledger,
-                      radiative_width, combine)
+                      radiative_width)
+from LFV import tree
 from LFV.barr_zee import (QUARKS, SPECIES, quark_coupling, fermion_photon,
                           charged_scalar_photon, physical_trilinears)
 
@@ -57,7 +58,7 @@ def input_parameters(point):
     required={"point_id","scalar","F","D","internal_lepton_masses_GeV",
               "pole_lepton_masses_GeV","fermion_loop_masses_GeV","alpha_em",
               "total_lepton_widths_GeV","mass_yukawa_scheme"}
-    if not required<=point.keys() or point.keys()-required-{"potential"}:
+    if not required<=point.keys() or point.keys()-required-{"potential","tree_quadrature_order"}:
         raise ValueError("Unexpected/missing point fields")
     if not isinstance(point["point_id"],str) or not point["point_id"].strip():
         raise ValueError("Nonempty point_id required")
@@ -95,6 +96,9 @@ def input_parameters(point):
         raise ValueError("Positive finite alpha_em required")
     if min(p[k] for k in ("mh1","mh2","ma","mH1","mH2"))<20*ml[2]:
         raise ValueError("Outside validated external-invariant expansion")
+    if "tree_quadrature_order" in point and (type(point["tree_quadrature_order"]) is not int
+        or not 8<=point["tree_quadrature_order"]<=48):
+        raise ValueError("tree_quadrature_order must be an integer from 8 to 48")
     potential=point.get("potential")
     if potential is not None and not isinstance(potential,dict):
         raise ValueError("Potential must be a dict when provided")
@@ -145,6 +149,21 @@ def evaluate(point):
             branching_ratio_included_topologies_only=float(br),
             included_components=rows,
             physical_branching_ratio=None,experimental_gate="UNKNOWN")
+    three_lepton={}
+    if "tree_quadrature_order" in point:
+        order=point["tree_quadrature_order"]
+        for label,i,a,b in (("mu_to_3e",1,0,0),("tau_to_3e",2,0,0),
+                             ("tau_to_3mu",2,1,1),("tau_to_mu_ee",2,1,0),
+                             ("tau_to_e_mumu",2,0,1)):
+            low=tree.width(neutral,i,a,b,pole,order)
+            high=tree.width(neutral,i,a,b,pole,2*order)
+            residual=abs(high-low)/max(abs(high),np.finfo(float).tiny)
+            three_lepton[label]=dict(
+                status="TREE_SUBSET_QUADRATURE_PASS" if residual<1e-4 else "UNKNOWN_NUMERICAL",
+                BR_neutral_tree_only=high/widths["mu" if i==1 else "tau"],
+                quadrature_relative_shift=residual,
+                physical_branching_ratio=None,experimental_gate="UNKNOWN",
+                note="No dipole, off-shell gamma/Z penguins, boxes or coherent interference included")
     return dict(point_id=point["point_id"],status="PARTIAL_PREDICTION",
                 basis=BASIS,operator=OPERATOR,
                 input_sha256=hashlib.sha256(json.dumps(point,sort_keys=True,separators=(",",":"),
@@ -154,7 +173,8 @@ def evaluate(point):
                          +(" + six physical charged-scalar-photon rows" if scalar_G is not None else ""),
                 charged_scalar_photon="INCLUDED_FROM_RESTRICTED_POTENTIAL" if scalar_G is not None
                                        else "UNKNOWN_POTENTIAL_NOT_SUPPLIED",
-                processes=result,missing_contributions=list(MISSING),
+                processes=result,three_lepton_tree=three_lepton,
+                missing_contributions=list(MISSING),
                 full_lfv_gate="UNKNOWN",global_zee_acceptance=None,
                 caveat="No experimental pass/exclusion is possible until omitted amplitudes and scheme uncertainties are controlled.")
 
@@ -173,6 +193,7 @@ def main():
                       "charged_scalar_photon":report["charged_scalar_photon"],
                       "processes":{k:v["branching_ratio_included_topologies_only"]
                                    for k,v in report["processes"].items()},
+                      "three_lepton_tree":{k:v["BR_neutral_tree_only"] for k,v in report["three_lepton_tree"].items()},
                       "full_lfv_gate":report["full_lfv_gate"]},indent=2))
 
 
