@@ -100,6 +100,17 @@ IO `26e705a9115cafd0d20833ac5420803f998f48013f97b98649526fb6c35b6e4d`.
 Saved LFV JSON: `$WORK/step2_NO_lfv_one_loop.json` and
 `$WORK/step2_IO_lfv_one_loop.json` (not committed).
 
+**Critical Higgs-spectrum warning:** the same user-run spectra report
+native masses PDG 25 = **484.284433 GeV** (NO),
+**484.284454 GeV** (IO), PDG 35 ≈ **767.531 GeV** and
+PDG 36 ≈ **718.038 GeV**. The source must be checked for
+pole/tree identification and SPheno warnings. If these are the physical
+CP-even pole masses, **neither is the observed 125 GeV Higgs**.
+Therefore these are *neutrino-fit/LFV-method test cards*, NOT Higgs-viable
+benchmark points. No full-scan/global acceptance is justified.
+Do not repair by silently substituting historical 125 GeV values
+into the native LFV calculation.
+
 These are the coherent seven-piece scalar subset, **not** the full branching
 ratios. Missing gauge/two-loop pieces are **not numerically bounded** by a
 small scalar subset. The first user-run regression found one outdated test
