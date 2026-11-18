@@ -159,6 +159,25 @@ def evaluate_grid(template,inversion,grid,sw2):
             })
     if len(results)!=3*len(points):
         raise AssertionError("Missing LFV channels in mixing sweep")
+    summaries={}
+    for channel in ("mu_to_e_gamma","tau_to_e_gamma","tau_to_mu_gamma"):
+        channel_rows=[r for r in results if r["channel"]==channel]
+        known=[r["known_two_loop_over_one_loop"] for r in channel_rows
+               if r["known_two_loop_over_one_loop"] is not None]
+        fracs=[r["known_F_one_loop_over_retained_norm"] for r in channel_rows
+               if r["known_F_one_loop_over_retained_norm"] is not None]
+        summaries[channel]={
+            "n_points":len(channel_rows),
+            "retained_two_loop_over_one_loop_median":
+                float(np.median(known)) if known else None,
+            "retained_two_loop_over_one_loop_max":
+                max(known) if known else None,
+            "fraction_retained_photon_two_loop_gt_one_loop":
+                sum(value>1 for value in known)/len(known) if known else None,
+            "fraction_known_F_one_loop_gt_10pct_retained":
+                sum(value>.1 for value in fracs)/len(fracs) if fracs else None,
+            "full_Zee_LFV_gate":"UNKNOWN",
+        }
     output={
         "status":"NONZERO_MIXING_ZEE_TRUNCATION_DIAGNOSTIC_ONLY",
         "n_points":len(points),"n_channel_rows":len(results),
@@ -178,6 +197,7 @@ def evaluate_grid(template,inversion,grid,sw2):
             "2025/26 corrected general 2HDM 18-point control: all tested omitted norms >10% retained",
             "Exact Zee offdiagonal Z charged-scalar current; no Ward-complete Zee 2-loop gauge amplitude",
         ],
+        "summaries":summaries,
         "rows":results,
     }
     return output
@@ -204,7 +224,8 @@ def main():
     print(json.dumps({
         "status":report["status"],"n_points":report["n_points"],
         "n_channel_rows":report["n_channel_rows"],
-        "sample":report["rows"][:2],
+        "summaries":report["summaries"],
+        "sample":report["rows"][:1],
         "full_Zee_LFV_status":"UNKNOWN",
     },indent=2))
 
