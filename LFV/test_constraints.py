@@ -9,7 +9,7 @@ import numpy as np
 
 from LFV.barr_zee import (photon_kernels, fermion_photon,
                           charged_scalar_photon, physical_trilinears)
-from LFV.constraints import evaluate, input_parameters
+from LFV.constraints import evaluate, input_parameters, amplitude_budget
 from LFV.native_point import from_native
 from Model.audit_neutrino_native import sha
 from LFV.core import combine, dipole_ledger
@@ -169,6 +169,30 @@ class GeneralLFVTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 from_native(native_path,card,spectrum,quarks,quarks,
                             "explicit test scheme","fixture")
+
+    def test_conditional_missing_amplitude_envelope(self):
+        # factor = alpha * mi^5/(4 Gamma) = 1 exactly.
+        limit={"BR_90CL":.25,"source":"synthetic experimental limit"}
+        for retained,omitted,expected in ((.1,.2,"PASS_IF_DECLARED_BOUND_VALID"),
+                                           (1.,.2,"FAIL_IF_DECLARED_BOUND_VALID"),
+                                           (.8,.4,"UNKNOWN_EVEN_WITH_DECLARED_BOUND")):
+            x=dict(limit,missing_norm_upper_GeV_minus2=omitted,
+                   bound_source="synthetic rigorous norm bound")
+            status=amplitude_budget(retained,1.,0.,.025,.1,x)
+            self.assertEqual(status["status"],expected)
+        no_bound=amplitude_budget(.1,1.,0.,.025,.1,limit)
+        self.assertEqual(no_bound["status"],"UNKNOWN_UNBOUNDED_MISSING")
+        p=sample()
+        p["radiative_limits"]={"mu_to_e_gamma":dict(limit)}
+        out=evaluate(p)
+        self.assertEqual(out["full_lfv_gate"],"UNKNOWN")
+        self.assertEqual(out["processes"]["mu_to_e_gamma"]["experimental_gate"],"UNKNOWN")
+        self.assertIsNotNone(out["processes"]["mu_to_e_gamma"]
+                             ["conditional_missing_amplitude_budget"])
+        p["radiative_limits"]["mu_to_e_gamma"]["missing_norm_upper_GeV_minus2"]=-1.
+        p["radiative_limits"]["mu_to_e_gamma"]["bound_source"]="invalid"
+        with self.assertRaises(ValueError):
+            evaluate(p)
 
     def test_rejects_bad_input_not_fabricated_rates(self):
         p=sample()
