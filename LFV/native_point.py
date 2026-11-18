@@ -15,7 +15,7 @@ from Model.audit_neutrino_native import sha
 from Neutrino.fit import complex_matrix, encode
 
 
-def from_native(pilot_path,native_path,quark_path,scheme,point_id,potential_path=None):
+def from_native(pilot_path,native_path,quark_path,yukawa_path,scheme,point_id,potential_path=None):
     pilot=json.loads(pilot_path.read_text())
     native=json.loads(native_path.read_text())
     if (pilot["status"]!="SCALAR_ONE_LOOP_SUBSET_ONLY" or
@@ -37,6 +37,10 @@ def from_native(pilot_path,native_path,quark_path,scheme,point_id,potential_path
     q=json.loads(quark_path.read_text())
     if set(q)!=set(QUARKS) or any(not math.isfinite(x) or x<=0 for x in q.values()):
         raise ValueError("Explicit six positive quark loop masses required")
+    qy=json.loads(yukawa_path.read_text())
+    if (set(qy)!=set(QUARKS) or
+            any(not isinstance(x,(int,float)) or not math.isfinite(x) or x<=0 for x in qy.values())):
+        raise ValueError("Explicit six positive quark Yukawa masses required")
     if not isinstance(scheme,str) or not scheme.strip():
         raise ValueError("Mass/renormalization scheme label is mandatory")
     p=pilot["scalar_inputs"]
@@ -45,6 +49,7 @@ def from_native(pilot_path,native_path,quark_path,scheme,point_id,potential_path
           "internal_lepton_masses_GeV":ml.tolist(),
           "pole_lepton_masses_GeV":pole.tolist(),
           "fermion_loop_masses_GeV":dict(q,electron=float(ml[0]),muon=float(ml[1]),tau=float(ml[2])),
+          "quark_yukawa_masses_GeV":qy,
           "alpha_em":pilot["alpha_em"],
           "total_lepton_widths_GeV":pilot["total_lepton_widths_GeV"],
           "mass_yukawa_scheme":scheme}
@@ -55,12 +60,12 @@ def from_native(pilot_path,native_path,quark_path,scheme,point_id,potential_path
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
-    for key in ("pilot","native","quarks","scheme","point-id","output"):
-        ap.add_argument("--"+key,type=Path if key in ("pilot","native","quarks","output") else str,
+    for key in ("pilot","native","quarks","quark-yukawas","scheme","point-id","output"):
+        ap.add_argument("--"+key,type=Path if key in ("pilot","native","quarks","quark-yukawas","output") else str,
                         required=True)
     ap.add_argument("--potential",type=Path)
     a=ap.parse_args()
-    data=from_native(a.pilot,a.native,a.quarks,a.scheme,a.point_id,a.potential)
+    data=from_native(a.pilot,a.native,a.quarks,a.quark_yukawas,a.scheme,a.point_id,a.potential)
     with a.output.open("x") as file:
         json.dump(data,file,indent=2,allow_nan=False)
         file.write("\n")
