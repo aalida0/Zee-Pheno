@@ -114,6 +114,12 @@ class PhysicalProposalsTests(unittest.TestCase):
             self.assertEqual({p["arm"] for p in report["outputs"]},
                              {"subTeV","production1000_1350","broad_control"})
             self.assertEqual(len({p["scalar_id"] for p in report["outputs"]}),30)
+            self.assertEqual({k:v["scalar_attempted"]
+                              for k,v in report["arm_cutflow"].items()},
+                             {"subTeV":9,"production1000_1350":15,"broad_control":6})
+            self.assertEqual(sum(v["native_pending_cards"] for v in
+                                 report["arm_cutflow"].values()),
+                             report["n_native_cards_written"])
             self.assertLessEqual(report["n_native_cards_written"],
                                  4*report["n_scalar_preselected"])
             self.assertEqual(report["n_native_points_validated"],0)
