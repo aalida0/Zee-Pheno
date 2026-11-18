@@ -78,6 +78,35 @@ precision two-loop calculation.
 global_zee_acceptance=null. Step 2 is started, not complete.
 
 
+
+## Native-matched pilot results (2026-11-18)
+
+The user executed the NO/IO LFV pilot against the **card-bound, NuFIT-matched**
+SPheno reference points. The outputs remain **SCALAR_ONE_LOOP_SUBSET_ONLY**,
+`physical_lfv=UNKNOWN`:
+
+| Radiative decay | NO scalar one-loop subset BR | IO scalar one-loop subset BR |
+| --- | ---: | ---: |
+| mu -> e gamma | 1.23598633e-17 | 2.42199337e-17 |
+| tau -> e gamma | 4.79428599e-19 | 9.56584856e-20 |
+| tau -> mu gamma | 6.47172764e-17 | 1.00841541e-16 |
+
+Native angle from NO SCALARMIX: alpha=0.7588153265256222 rad;
+IO: 0.758815317317687 rad. Reported native running mixing
+gamma≈−2.28665445 rad (the charged one-loop pure-F and pure-D pieces use
+its squared singlet/doublet fractions). Original candidate-card SHA-256:
+NO `71bb94b67a4db185a6d44fa56c96da751799211f5da23761408de75a5acbbdad`,
+IO `26e705a9115cafd0d20833ac5420803f998f48013f97b98649526fb6c35b6e4d`.
+Saved LFV JSON: `$WORK/step2_NO_lfv_one_loop.json` and
+`$WORK/step2_IO_lfv_one_loop.json` (not committed).
+
+These are the coherent seven-piece scalar subset, **not** the full branching
+ratios. Missing gauge/two-loop pieces are **not numerically bounded** by a
+small scalar subset. The first user-run regression found one outdated test
+keyword `alpha_rad`, corrected in the Step 2 branch; the LFV pilot itself
+completed for both orderings. A fresh local test rerun remains to be observed.
+
+
 ## Experimental context (not yet a comparison)
 
 - MEG II: B(mu→e gamma) < **1.5×10⁻¹³**, 90% C.L. using the
