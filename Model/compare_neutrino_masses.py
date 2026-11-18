@@ -29,6 +29,14 @@ def finite_kernel(m1, m2, ml):
     return math.log(a/b) + z/(a-z)*math.log(a/z) - z/(b-z)*math.log(b/z)
 
 
+def zee_matrix(f, d, mass, charged, sine2gamma):
+    """Complex symmetric one-loop matrix in eV, in the charged-lepton mass basis."""
+    weights = (1e9 * sine2gamma/(32*math.pi**2) * mass
+               * np.array([finite_kernel(*charged, ml) for ml in mass]))
+    a = (f*weights[np.newaxis, :]) @ d
+    return a + a.T
+
+
 def compare(input_card, baseline, loop_output):
     native = dict(parse_entries(loop_output.read_text(), "MASS"))
     tree = dict(parse_entries(baseline.read_text(), "MASS"))
@@ -66,10 +74,7 @@ def compare(input_card, baseline, loop_output):
     sine2gamma = -math.sqrt(2)*v*params[13]/(charged[0]**2-charged[1]**2)
     if abs(sine2gamma) > 1.001:
         raise ValueError("Mu4/charged spectrum gives unphysical sin(2 gamma)")
-    loop_w = (1e9 * sine2gamma/(32*math.pi**2)
-              *mass*np.array([finite_kernel(*charged, ml) for ml in mass]))
-    a = (f*loop_w[np.newaxis,:])@dy
-    mnu = a + a.T
+    mnu = zee_matrix(f, dy, mass, charged, sine2gamma)
     analytic = np.sort(np.linalg.svd(mnu, compute_uv=False))
     pole = np.sort(np.array([native[k]*1e9 for k in (12, 14, 16)]))
     worst = float(np.max(abs(analytic-pole))/max(float(np.max(analytic)), 1e-12))
@@ -100,7 +105,7 @@ def compare(input_card, baseline, loop_output):
         "max_abs_mass_difference_over_analytic_max": worst,
         "analytic_Mnu_eV": {
             "real": mnu.real.tolist(), "imag": mnu.imag.tolist()},
-        "warning": "Compare only neutrino singular values. Native complex self-energy and UV basis remain unverified."
+        "warning": "Unmatched schemes: loop switch with automatic matching changes Ye and D. Use diagnose_neutrino_native for a matrix-level comparison with actual internal parameters."
     }
     return result
 
