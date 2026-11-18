@@ -116,7 +116,10 @@ def inverse(mnu, leptons, charged, sine, fscale, t=1.+0j):
 
 def fit(snapshot_path, ordering, mlight, alpha21=0., alpha31=0.):
     data = json.loads(snapshot_path.read_text())
-    snap = data["snapshot"] if "snapshot" in data else data
+    # A native diagnostic run may contain multiple OneLoopFv snapshots;
+    # use the invocation whose masses actually appear in the MASS block.
+    snap = (data["snapshots"][data["spectrum_snapshot_index"]]
+            if "snapshots" in data else data["snapshot"] if "snapshot" in data else data)
     leptons = np.asarray(snap["MFe"], float)
     charged = np.asarray(snap["MHm"],float)[1:]
     zp = np.asarray(snap["ZP"],float)
