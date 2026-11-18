@@ -118,8 +118,8 @@ def inverse(mnu, leptons, charged, sine, fscale, t=1.+0j, *,
     matrix = np.array(cols).T
     singular = np.linalg.svd(matrix, compute_uv=False)
     rank = int(np.sum(singular > singular[0]*1e-12))
-    if rank != 5:
-        raise ValueError(f"Inverse Zee rank is {rank}, expected 5")
+    if rank != 5 or singular[0]/singular[4]>1e10:
+        raise ValueError(f"Inverse Zee rank/conditioning unresolved (rank={rank})")
     solution = np.linalg.lstsq(matrix,mnu[upper],rcond=1e-12)[0]
     d = solution.reshape(3,3)
     if np.any(coeff):
