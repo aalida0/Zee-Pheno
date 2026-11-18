@@ -100,6 +100,46 @@ class PhysicalProposalsTests(unittest.TestCase):
                 with self.assertRaises(FileExistsError):
                     generate(cfg,card,snap,root/"out")
 
+    def test_attested_neutrino_template_can_lack_scalar_blocks(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            full=template()
+            bare=(full[:full.index("Block ZEEPOT\\n")]
+                  +full[full.index("BLOCK FZEEIN\\n"):])
+            card=root/"original.in"
+            card.write_text(bare)
+            cfg=config()
+            cfg["scalar_count"]=1
+            cfg["arms"]=cfg["arms"][:1]
+            config_path=root/"config.json"
+            config_path.write_text(json.dumps(cfg))
+            with patch("Scan.physical_proposals.REFERENCE_CARD_SHA",sha(card)):
+                report=generate(config_path,card,
+                    ROOT/"Model/reference/native_neutrino_snapshot.json",
+                    root/"pilot")
+            self.assertEqual(card.read_text(),bare)
+            self.assertEqual(report["n_scalar_attempted"],1)
+            self.assertEqual(report["n_native_cards_written"],4)
+            self.assertEqual(report["template_sha256"],sha(card))
+            first=report["outputs"][0]["families"][0]
+            data=blocks((root/"pilot"/"cards"/first["card"]).read_text())
+            self.assertEqual(set(data["ZEEPOT"]),{(i,) for i in range(1,6)})
+            self.assertEqual(set(data["ZEEQUARTIC"]),{(i,) for i in range(1,10)})
+            self.assertEqual(first["status"],"NATIVE_REVALIDATION_REQUIRED")
+
+    def test_reject_partially_populated_scalar_block(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            card=root/"partial.in"
+            card.write_text(template().replace(" 5 0.0 # source\\n","",1))
+            cfg=root/"config.json"
+            cfg.write_text(json.dumps(config()))
+            with patch("Scan.physical_proposals.REFERENCE_CARD_SHA",sha(card)):
+                with self.assertRaisesRegex(ValueError,"Incomplete scalar input block ZEEPOT"):
+                    generate(cfg,card,ROOT/"Model/reference/native_neutrino_snapshot.json",
+                             root/"no_output")
+            self.assertFalse((root/"no_output").exists())
+
     def test_declared_three_arm_pilot_preserves_all_scalar_denominators(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td)
