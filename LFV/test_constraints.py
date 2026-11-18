@@ -1,5 +1,7 @@
 """Focused general-LFV tests: conventions, arbitrary points, fail-closed gates."""
-import copy
+import json
+import tempfile
+from pathlib import Path
 import math
 import unittest
 
@@ -8,6 +10,8 @@ import numpy as np
 from LFV.barr_zee import (photon_kernels, fermion_photon,
                           charged_scalar_photon, physical_trilinears)
 from LFV.constraints import evaluate, input_parameters
+from LFV.native_point import from_native
+from Model.audit_neutrino_native import sha
 from LFV.core import combine, dipole_ledger
 
 
@@ -106,6 +110,39 @@ class GeneralLFVTests(unittest.TestCase):
             self.assertEqual(channel["branching_ratio_included_topologies_only"],0.)
             self.assertIsNone(channel["cancellation_ratio"])
             self.assertEqual(channel["experimental_gate"],"UNKNOWN")
+
+    def test_native_adapter_is_hash_bound_and_has_no_hidden_fit(self):
+        source=json.loads((Path(__file__).resolve().parents[1]/
+                           "Model/reference/native_neutrino_snapshot.json").read_text())
+        snap=source["snapshot"]
+        native={"input_sha256":"fixed_reference", "snapshots":[snap],
+                "spectrum_snapshot_index":0}
+        ex=sample()
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            native_path=root/"native.json"
+            native_path.write_text(json.dumps(native))
+            p={"status":"SCALAR_ONE_LOOP_SUBSET_ONLY",
+               "native_diagnostic_sha256":sha(native_path),
+               "native_input_sha256":"fixed_reference",
+               "scalar_inputs":ex["scalar"],
+               "internal_running_lepton_masses_GeV":snap["MFe"],
+               "external_pole_lepton_masses_GeV":ex["pole_lepton_masses_GeV"],
+               "alpha_em":ex["alpha_em"],
+               "total_lepton_widths_GeV":ex["total_lepton_widths_GeV"]}
+            pilot=root/"pilot.json"
+            pilot.write_text(json.dumps(p))
+            quarks=root/"quarks.json"
+            quarks.write_text(json.dumps({k:ex["fermion_loop_masses_GeV"][k]
+                                         for k in ("up","charm","top","down","strange","bottom")}))
+            point=from_native(pilot,native_path,quarks,"explicit test scheme","fixture")
+            self.assertEqual(point["point_id"],"fixture")
+            self.assertEqual(point["mass_yukawa_scheme"],"explicit test scheme")
+            self.assertEqual(evaluate(point)["full_lfv_gate"],"UNKNOWN")
+            p["native_input_sha256"]="tampered"
+            pilot.write_text(json.dumps(p))
+            with self.assertRaises(ValueError):
+                from_native(pilot,native_path,quarks,"explicit test scheme","fixture")
 
     def test_rejects_bad_input_not_fabricated_rates(self):
         p=sample()
