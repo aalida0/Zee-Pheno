@@ -12,6 +12,7 @@ import subprocess
 from pathlib import Path
 
 MATRICES = ("FZEEIN", "IMFZEEIN", "YEE2IN", "IMYEE2IN")
+TRACKED = set(MATRICES) | {"MINPAR", "FZEE", "IMFZEE", "YEE2", "IMYEE2"}
 
 
 def blocks(text):
@@ -20,10 +21,12 @@ def blocks(text):
     for line in text.splitlines():
         hdr = re.match(r"\s*BLOCK\s+(\w+)\b", line, re.I)
         if hdr:
-            current = hdr[1].upper()
-            if current in result and current not in {"SPHENOINPUT"}:
-                raise ValueError(f"Repeated block {current}")
-            result.setdefault(current, {})
+            name = hdr[1].upper()
+            current = name if name in TRACKED else None
+            if current:
+                if current in result:
+                    raise ValueError(f"Repeated block {current}")
+                result[current] = {}
             continue
         if re.match(r"\s*DECAY\b", line, re.I):
             current = None
