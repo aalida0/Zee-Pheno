@@ -6,7 +6,7 @@ Only promote a calculation when its inputs, conventions, and scoped tests are do
 
 | Directory | Status |
 | --- | --- |
-| [Model](Model/README.md) | Tree-level scalar inversion and antisymmetric complex Zee coupling; locally tested |
+| [Model](Model/README.md) | Tree-level scalar inversion and complex antisymmetric Zee coupling; [validation record](Model/VALIDATION.md) |
 | [Neutrino](Neutrino/README.md) | Reserved; no promoted code |
 | [LFV](LFV/README.md) | Reserved; native SPheno/FZEE inputs still need independent rerun |
 | [Higgs](Higgs/README.md) | Reserved; no promoted code |
