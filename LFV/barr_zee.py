@@ -80,7 +80,9 @@ def fermion_photon(external, internal, mass, scalar_mass, mi, alpha_em, nc, char
     (f,g,_),errors=photon_kernels((mass/scalar_mass)**2)
     effective=internal.real*f+1j*internal.imag*g
     pref=-alpha_em*nc*charge**2/(8*math.pi**3*mi*mass)
-    return (pref*np.array([ext[0]*effective,ext[1]*effective.conjugate()]),
+    # Same physical PL/PR ordering as 2HDM Eq.(48): the upstream
+    # intermediate source projection labels the two coefficients in reverse.
+    return (pref*np.array([ext[1]*effective.conjugate(),ext[0]*effective]),
             abs(pref)*max(map(abs,ext))*(abs(internal.real)*errors[0]+abs(internal.imag)*errors[1]))
 
 
@@ -96,7 +98,7 @@ def charged_scalar_photon(external, trilinear, mass, scalar_mass, mi, alpha_em):
         raise ValueError("Invalid chiral external coupling")
     (_,_,f2),(_,_,error)=photon_kernels((mass/scalar_mass)**2)
     pref=alpha_em*complex(trilinear).real/(16*math.pi**3*mi*scalar_mass**2)
-    return pref*f2*ext,abs(pref)*max(map(abs,ext))*error
+    return pref*f2*ext[::-1],abs(pref)*max(map(abs,ext))*error
 
 
 def physical_trilinears(p, potential):
