@@ -1,11 +1,12 @@
 """Step 2 pilot: complete *scalar one-loop subset*, NOT complete Zee LFV.
 
 Uses matching-time native Yukawas and charged mixing; neutral h/H/A masses
-and angle are explicit inputs. No physical LFV pass/exclusion is claimed.
+and SCALARMIX are read from the same SLHA spectrum. No physical LFV pass/exclusion is claimed.
 """
 import argparse
 import json
 import math
+import re
 from pathlib import Path
 
 import numpy as np
@@ -25,9 +26,39 @@ def as_json(z):
     return {"real": float(z.real), "imag": float(z.imag)}
 
 
-def evaluate(native_path, card_path, spectrum_path, alpha_rad):
-    if not math.isfinite(alpha_rad):
-        raise ValueError("CP-even mixing alpha must be finite")
+
+def neutral_alpha(spectrum):
+    """Read native ZH with rows (cos alpha,sin alpha),(-sin alpha,cos alpha)."""
+    rows, active = {}, False
+    for line in spectrum.splitlines():
+        header = re.match(r"\s*BLOCK\s+(\w+)\b", line, re.I)
+        if header:
+            active = header[1].upper() == "SCALARMIX"
+            continue
+        if not active:
+            continue
+        fields = line.split("#", 1)[0].split()
+        if len(fields) < 3:
+            continue
+        try:
+            i, j = map(int, fields[:2])
+            value = float(fields[2].replace("D", "E").replace("d", "e"))
+        except ValueError as exc:
+            raise ValueError("Malformed native SCALARMIX row") from exc
+        if (i, j) in rows or not math.isfinite(value):
+            raise ValueError("Duplicate or nonfinite SCALARMIX entry")
+        rows[i, j] = value
+    if set(rows) != {(1,1),(1,2),(2,1),(2,2)}:
+        raise ValueError("Native spectrum requires complete 2x2 SCALARMIX")
+    c, s = rows[1,1], rows[1,2]
+    if max(abs(c*c+s*s-1), abs(rows[2,1]+s), abs(rows[2,2]-c))>1e-5:
+        raise ValueError("SCALARMIX does not match expected CP-even rotation")
+    return math.atan2(s, c)
+
+
+def evaluate(native_path, card_path, spectrum_path):
+    spectrum=spectrum_path.read_text()
+    alpha_rad=neutral_alpha(spectrum)
     record = json.loads(native_path.read_text())
     if "snapshots" not in record or "spectrum_snapshot_index" not in record:
         raise ValueError("Expected the complete instrumented native result.json")
@@ -56,7 +87,7 @@ def evaluate(native_path, card_path, spectrum_path, alpha_rad):
     if abs(sin_gamma**2+cos_gamma**2-1) > 1e-8:
         raise ValueError("Unexpected native charged mixing convention")
     gamma=math.atan2(sin_gamma,cos_gamma)
-    mass = dict(parse_entries(spectrum_path.read_text(),"MASS"))
+    mass = dict(parse_entries(spectrum,"MASS"))
     try:
         external = np.array([mass[k] for k in (11,13,15)], float)
     except KeyError as exc:
@@ -108,11 +139,9 @@ def main():
     ap.add_argument("--card",type=Path,required=True,help="Original NO/IO input card")
     ap.add_argument("--spectrum",type=Path,required=True,
                     help="Neutral Higgs pole masses PDG 25,35,36")
-    ap.add_argument("--alpha-rad",type=float,required=True,
-                    help="CP-even neutral mixing angle in the historical SARAH convention")
     ap.add_argument("--output",type=Path,required=True,help="Must not already exist")
     args=ap.parse_args()
-    report=evaluate(args.native,args.card,args.spectrum,args.alpha_rad)
+    report=evaluate(args.native,args.card,args.spectrum)
     with args.output.open("x") as out:
         json.dump(report,out,indent=2)
         out.write("\n")
