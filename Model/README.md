@@ -37,3 +37,18 @@ The tree-level neutrino `UV` is not the loop-corrected PMNS matrix. Symmetry pro
 ## Controlled one-loop neutrino test
 
 The 2026-11-18 native baseline had two `SPhenoInput[55]=0` controls, so its zero neutrino masses are **not a one-loop test**. Run `python3 -m unittest Model.test_loop_probe -v`, then follow the attested one-card `Model.probe_neutrino_loop` command in [VALIDATION.md](VALIDATION.md). It enables both loop-mass switches in a **new** card without modifying the baseline. A nonzero output neutrino pole mass is still **not** a validated Majorana mass matrix.
+
+## Native Zee mass comparison
+
+The loop-enabled one-card run now returns nonzero PDG 12/14/16 masses. They have **not** been matched against the published Zee neutrino mass prediction. With NumPy available, run:
+
+```bash
+python3 -m unittest Model.test_compare_neutrino_masses -v
+WORK="$HOME/zee-lfv64-serial-20261112-094549"
+python3 -m Model.compare_neutrino_masses \
+  --input "$WORK/model-validation-native-20261118/baseline.in" \
+  --baseline "$WORK/model-validation-native-20261118/baseline.spc" \
+  --loop "$WORK/model-neutrino-loop-20261118/loop_enabled.spc"
+```
+
+The output compares invariant **neutrino singular values only**, not the complex Majorana matrix or PMNS angles. See [VALIDATION.md](VALIDATION.md) for provenance and the mismatch gate.
