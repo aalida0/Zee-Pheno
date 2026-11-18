@@ -1,0 +1,115 @@
+"""Step 2 pilot: complete *scalar one-loop subset*, NOT complete Zee LFV.
+
+Uses matching-time native Yukawas and charged mixing; neutral h/H/A masses
+and angle are explicit inputs. No physical LFV pass/exclusion is claimed.
+"""
+import argparse
+import json
+import math
+from pathlib import Path
+
+import numpy as np
+
+from LFV.core import (BASIS, MISSING, OPERATOR, combine, dipole_ledger,
+                      radiative_width)
+from Model.audit_neutrino_native import parse_entries, sha
+from Neutrino.fit import complex_matrix
+
+# Historic Module3/PDG-2024 illustrative lifetime normalizations, not LFV limits.
+ALPHA_ZERO = 0.0072973525692838015
+MU_WIDTH_GEV = 2.995983701908041e-19
+TAU_WIDTH_GEV = 2.267350867723045e-12
+
+
+def as_json(z):
+    return {"real": float(z.real), "imag": float(z.imag)}
+
+
+def evaluate(native_path, card_path, spectrum_path, alpha_rad):
+    if not math.isfinite(alpha_rad):
+        raise ValueError("CP-even mixing alpha must be finite")
+    record = json.loads(native_path.read_text())
+    if "snapshots" not in record or "spectrum_snapshot_index" not in record:
+        raise ValueError("Expected the complete instrumented native result.json")
+    if sha(card_path) != record["input_sha256"]:
+        raise ValueError("Native result is not associated with this input card")
+    s = record["snapshots"][record["spectrum_snapshot_index"]]
+    vd, vu = float(s["vd"]), float(s["vu"])
+    v = math.hypot(vd, vu)
+    if min(vd,vu,v) <= 0:
+        raise ValueError("Invalid EWSB")
+    cb, sb = vd/v, vu/v
+    beta = math.atan2(vu,vd)
+    el, er = complex_matrix(s["ZEL"]), complex_matrix(s["ZER"])
+    f = complex_matrix(s["fzee"])
+    d = -sb*complex_matrix(s["Ye"]) + cb*complex_matrix(s["Ye2"])
+    fm = el.conj()@f@el.conj().T
+    dm = er.conj()@d@el.conj().T
+    if np.max(abs(fm+fm.T)) > 1e-10:
+        raise ValueError("Non-antisymmetric native F")
+    ml = np.asarray(s["MFe"],float)
+    charged = np.asarray(s["MHm"],float)[1:]
+    z = np.asarray(s["ZP"],float)
+    # q_2 is the singlet fraction; h_2 the physical doublet fraction.
+    sin_gamma=z[1,2]
+    cos_gamma=-sb*z[1,0]+cb*z[1,1]
+    if abs(sin_gamma**2+cos_gamma**2-1) > 1e-8:
+        raise ValueError("Unexpected native charged mixing convention")
+    gamma=math.atan2(sin_gamma,cos_gamma)
+    mass = dict(parse_entries(spectrum_path.read_text(),"MASS"))
+    try:
+        mh,mH,ma=(mass[k] for k in (25,35,36))
+    except KeyError as exc:
+        raise ValueError(f"Missing native neutral scalar mass {exc}") from exc
+    p = dict(v=v,beta=beta,alpha=alpha_rad,gamma=gamma,
+             mh1=mh,mh2=mH,ma=ma,mH1=charged[0],mH2=charged[1])
+    if min(mh,mH,ma,*charged) < 20*ml[-1]:
+        raise ValueError("Scalar mass too light for audited one-loop expansion")
+    results={}
+    for label,i,j,width in (("mu_to_e_gamma",1,0,MU_WIDTH_GEV),
+                             ("tau_to_e_gamma",2,0,TAU_WIDTH_GEV),
+                             ("tau_to_mu_gamma",2,1,TAU_WIDTH_GEV)):
+        parts=dipole_ledger(fm,dm,p,ml,i,j)
+        total=combine(parts)
+        br=radiative_width(total,ml[i],ml[j],ALPHA_ZERO)/width
+        results[label]=dict(
+            BR_scalar_one_loop_subset=br, C_L_GeV_minus2=as_json(total[0]),
+            C_R_GeV_minus2=as_json(total[1]),
+            component_CL_CR={k:{"C_L":as_json(a["C_L"]),"C_R":as_json(a["C_R"])}
+                             for k,a in parts.items()},
+            missing_sector_not_bounded=True)
+    return dict(status="SCALAR_ONE_LOOP_SUBSET_ONLY",
+                physical_lfv="UNKNOWN", global_zee_acceptance=None,
+                native_input_sha256=sha(card_path),native_diagnostic_sha256=sha(native_path),
+                neutral_spectrum_sha256=sha(spectrum_path),
+                scalar_inputs=p, internal_running_lepton_masses_GeV=ml.tolist(),
+                alpha_em=ALPHA_ZERO,
+                total_lepton_widths_GeV={"mu":MU_WIDTH_GEV,"tau":TAU_WIDTH_GEV},
+                dipole_operator=OPERATOR,basis=BASIS,processes=results,
+                missing_contributions=MISSING,
+                note="A subset BR must never be compared to an experimental bound as a model exclusion/pass. Tree masses/running Yukawas are used for charged loops; pole neutral masses are supplied explicitly.")
+
+
+def main():
+    ap=argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--native",type=Path,required=True,
+                    help="Instrumented SPheno result.json for one fitted NO/IO card")
+    ap.add_argument("--card",type=Path,required=True,help="Original NO/IO input card")
+    ap.add_argument("--spectrum",type=Path,required=True,
+                    help="Neutral Higgs pole masses PDG 25,35,36")
+    ap.add_argument("--alpha-rad",type=float,required=True,
+                    help="CP-even neutral mixing angle in the historical SARAH convention")
+    ap.add_argument("--output",type=Path,required=True,help="Must not already exist")
+    args=ap.parse_args()
+    report=evaluate(args.native,args.card,args.spectrum,args.alpha_rad)
+    with args.output.open("x") as out:
+        json.dump(report,out,indent=2)
+        out.write("\n")
+    print(json.dumps({k:v for k,v in report.items() if k not in
+                      ("processes","missing_contributions")},indent=2))
+    for k,v in report["processes"].items():
+        print(k,"BR_scalar_one_loop_subset",f'{v["BR_scalar_one_loop_subset"]:.8e}')
+
+
+if __name__=="__main__":
+    main()
