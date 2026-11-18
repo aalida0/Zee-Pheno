@@ -62,6 +62,24 @@ def fixture(root,ordering,name,higgs_mass=125.,neutrino_bad=False):
 
 
 class NativeGateTests(unittest.TestCase):
+    def test_real_native_sources_can_screen_without_arbitrary_quark_masses(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            entry=fixture(root,"NO","source_only",125.)
+            for key in ("quark_loop","quark_yukawa","mass_yukawa_scheme"):
+                entry.pop(key)
+            result=evaluate_entry(entry,root)
+            self.assertEqual(result["gates"]["neutrino_1D_3sigma"]["status"],"PASS")
+            self.assertEqual(result["verdict"],"UNKNOWN_PENDING_GATES")
+            self.assertEqual(result["LFV_status"],
+                             "SCALAR_ONE_LOOP_ONLY_QUARK_SCHEME_NOT_SUPPLIED")
+            self.assertIsNone(result["lfv_point_sha256"])
+            self.assertGreaterEqual(result["LFV_retained_BR"]["mu_to_e_gamma"],0.)
+            self.assertEqual(result["gates"]["full_Zee_LFV"]["status"],"UNKNOWN")
+            bad=dict(entry,quark_loop="quarks.json")
+            with self.assertRaisesRegex(ValueError,"Quark"):
+                evaluate_entry(bad,root)
+
     def test_native_pass_is_not_globally_allowed(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td)
