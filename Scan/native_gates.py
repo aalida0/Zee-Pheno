@@ -4,14 +4,15 @@ from pathlib import Path
 
 from Neutrino.fit import inspect_native
 from LFV.native_point import from_native
+from LFV.pilot import evaluate as one_loop_pilot
 from LFV.constraints import evaluate as lfv_evaluate
 from Model.audit_neutrino_native import sha
 from Scan.theory_gates import check_potential
 
 MZ_GEV=91.1876
-REQUIRED=("point_id","ordering","card","native","spectrum","quark_loop",
-          "quark_yukawa","mass_yukawa_scheme")
-OPTIONAL=("potential","potential_source","scalar_inversion","native_input_report")
+REQUIRED=("point_id","ordering","card","native","spectrum")
+OPTIONAL=("quark_loop","quark_yukawa","mass_yukawa_scheme",
+          "potential","potential_source","scalar_inversion","native_input_report")
 UNKNOWN_SECTORS=(
     "full_Zee_LFV","full_three_lepton_LFV","mu_e_conversion",
     "B_flavor","Higgs_rates","EWPO","vacuum_global","scalar_BFB_unitarity",
@@ -32,6 +33,8 @@ def check_entry(entry):
     for k in REQUIRED:
         if not isinstance(entry[k],str) or not entry[k].strip():
             raise ValueError(f"Empty or non-string {k}")
+    if len(set(entry)&{"quark_loop","quark_yukawa","mass_yukawa_scheme"}) not in (0,3):
+        raise ValueError("Quark loop/Yukawa masses and scheme must be supplied together")
     if len(set(entry)&{"potential","potential_source","scalar_inversion"}) not in (0,3):
         raise ValueError("Potential requires its source and scalar_inversion JSON")
     for k in set(entry)&set(OPTIONAL):
@@ -41,8 +44,11 @@ def check_entry(entry):
 def evaluate_entry(entry,root):
     """A failed input binding aborts this point; no fabricated physics result."""
     check_entry(entry)
-    paths={k:(root/entry[k]).resolve() for k in
-           ("card","native","spectrum","quark_loop","quark_yukawa")}
+    has_quark="quark_loop" in entry
+    inputs=("card","native","spectrum")
+    if has_quark:
+        inputs+=("quark_loop","quark_yukawa")
+    paths={k:(root/entry[k]).resolve() for k in inputs}
     if any(not x.is_file() for x in paths.values()):
         raise FileNotFoundError("Source card/native/spectrum/quark file missing")
     potential=((root/entry["potential"]).resolve()
@@ -90,11 +96,11 @@ def evaluate_entry(entry,root):
     if neutrino["status"] not in ("NATIVE_3SIGMA_SCREEN_PASS",
                                  "NATIVE_3SIGMA_SCREEN_FAIL"):
         raise ValueError("Native neutrino fit has no evaluated 3sigma status")
-    point=from_native(
-        paths["native"],paths["card"],paths["spectrum"],
-        paths["quark_loop"],paths["quark_yukawa"],
-        entry["mass_yukawa_scheme"],entry["point_id"],potential)
-    scalar=point["scalar"]
+    # No arbitrary quark mass assumption is ever made. If the running
+    # scheme is unavailable, use the genuinely source-bound one-loop
+    # scalar pilot; preserve a distinct, weaker LFV scope label.
+    pilot=one_loop_pilot(paths["native"],paths["card"],paths["spectrum"])
+    scalar=pilot["scalar_inputs"]
     neutrino_ok=neutrino["status"]=="NATIVE_3SIGMA_SCREEN_PASS"
     # 125.25 +- 3 GeV is deliberately a loose necessary-only
     # restricted-h125 mass screen, NOT an actual Higgs likelihood.
@@ -144,9 +150,31 @@ def evaluate_entry(entry,root):
     gates.update({name:gate("UNKNOWN","NOT_YET_VALIDATED")
                   for name in UNKNOWN_SECTORS})
     gates["native_FZEEIN_propagation"]=propagation
-    lfv=lfv_evaluate(point)
-    if lfv["full_lfv_gate"]!="UNKNOWN" or lfv["global_zee_acceptance"] is not None:
-        raise AssertionError("Partial LFV promoted to physical pass")
+    if has_quark:
+        point=from_native(
+            paths["native"],paths["card"],paths["spectrum"],
+            paths["quark_loop"],paths["quark_yukawa"],
+            entry["mass_yukawa_scheme"],entry["point_id"],potential)
+        lfv=lfv_evaluate(point)
+        if lfv["full_lfv_gate"]!="UNKNOWN" or lfv["global_zee_acceptance"] is not None:
+            raise AssertionError("Partial LFV promoted to physical pass")
+        retained={
+            name:item["branching_ratio_included_topologies_only"]
+            for name,item in lfv["processes"].items()}
+        amp={
+            name:{"norm_GeV_minus2":item["amplitude_norm_GeV_minus2"],
+                  "topology":item["retained_topology_materiality"]}
+            for name,item in lfv["processes"].items()}
+        lfv_scope="SCALAR_ONE_LOOP_PLUS_SELECTED_PHOTON_BARR_ZEE_ONLY"
+        charged_scope=lfv["charged_scalar_photon"]
+        point_sha=lfv["input_sha256"]
+    else:
+        retained={name:item["BR_scalar_one_loop_subset"]
+                  for name,item in pilot["processes"].items()}
+        amp={}
+        lfv_scope="SCALAR_ONE_LOOP_ONLY_QUARK_SCHEME_NOT_SUPPLIED"
+        charged_scope="NOT_EVALUATED_NO_QUARK_SCHEME"
+        point_sha=None
     fail=[k for k in ("neutrino_1D_3sigma","h125_mass_screen",
                       "cascade_on_shell") if gates[k]["status"]=="FAIL"]
     return {
@@ -158,18 +186,13 @@ def evaluate_entry(entry,root):
         "native_neutrino_screen":neutrino,
         "native_scalar_parameters":scalar,
         "scalar_internal_diagnostics":scalar_diagnostics,
-        "LFV_status":"APPROXIMATION_ONLY",
-        "LFV_retained_BR":{
-            name:item["branching_ratio_included_topologies_only"]
-            for name,item in lfv["processes"].items()},
-        "LFV_retained_amplitudes":{
-            name:{"norm_GeV_minus2":item["amplitude_norm_GeV_minus2"],
-                  "topology":item["retained_topology_materiality"]}
-            for name,item in lfv["processes"].items()},
+        "LFV_status":lfv_scope,
+        "LFV_retained_BR":retained,
+        "LFV_retained_amplitudes":amp,
         "LFV_full_gate":"UNKNOWN",
-        "charged_photon_topology":lfv["charged_scalar_photon"],
+        "charged_photon_topology":charged_scope,
         "card_sha256":binding,
-        "lfv_point_sha256":lfv["input_sha256"],
+        "lfv_point_sha256":point_sha,
         "source_sha256":{name:sha(p) for name,p in paths.items()},
         "source_note":"No FZEEIN input propagation proof, no full Zee LFV or global-constraint certification.",
     }
