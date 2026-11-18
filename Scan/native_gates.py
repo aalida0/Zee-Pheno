@@ -6,11 +6,12 @@ from Neutrino.fit import inspect_native
 from LFV.native_point import from_native
 from LFV.constraints import evaluate as lfv_evaluate
 from Model.audit_neutrino_native import sha
+from Scan.theory_gates import check_potential
 
 MZ_GEV=91.1876
 REQUIRED=("point_id","ordering","card","native","spectrum","quark_loop",
           "quark_yukawa","mass_yukawa_scheme")
-OPTIONAL=("potential","potential_source","native_input_report")
+OPTIONAL=("potential","potential_source","scalar_inversion","native_input_report")
 UNKNOWN_SECTORS=(
     "full_Zee_LFV","full_three_lepton_LFV","mu_e_conversion",
     "B_flavor","Higgs_rates","EWPO","vacuum_global","scalar_BFB_unitarity",
@@ -31,8 +32,11 @@ def check_entry(entry):
     for k in REQUIRED:
         if not isinstance(entry[k],str) or not entry[k].strip():
             raise ValueError(f"Empty or non-string {k}")
-    if ("potential" in entry)!=("potential_source" in entry):
-        raise ValueError("Potential requires a source declaration")
+    if len(set(entry)&{"potential","potential_source","scalar_inversion"}) not in (0,3):
+        raise ValueError("Potential requires its source and scalar_inversion JSON")
+    for k in set(entry)&set(OPTIONAL):
+        if not isinstance(entry[k],str) or not entry[k].strip():
+            raise ValueError(f"Empty or non-string {k}")
 
 def evaluate_entry(entry,root):
     """A failed input binding aborts this point; no fabricated physics result."""
@@ -115,6 +119,28 @@ def evaluate_entry(entry,root):
             user_declared_source=entry.get("potential_source"),
             potential_SHA256=sha(potential) if potential else None),
     }
+    scalar_diagnostics=None
+    if potential is not None:
+        path=(root/entry["scalar_inversion"]).resolve()
+        if not path.is_file():
+            raise FileNotFoundError("Scalar inversion source JSON absent")
+        scalar_diagnostics=check_potential(
+            scalar,json.loads(potential.read_text()),json.loads(path.read_text()))
+        gates["scalar_tree_inversion"]=gate(
+            "PASS","SOURCE_DECLARED_TREE_SCALAR_INVERSION_IDENTITY_ONLY",
+            max_relative_residual=scalar_diagnostics["max_potential_relative_residual"],
+            inversion_sha256=sha(path))
+        gates["doublet_BFB_necessary"]=gate(
+            scalar_diagnostics["doublet_subpotential_BFB_necessary"],
+            "TWO_DOUBLET_SUBPOTENTIAL_BFB_NOT_FULL_ZEE")
+        gates["quartic_4pi_diagnostic"]=gate(
+            scalar_diagnostics["quartic_abs_lt_4pi_convention"],
+            "CONVENTIONAL_MAGNITUDE_ONLY_NOT_UNITARITY",
+            max_abs_quartic=scalar_diagnostics["max_abs_quartic"])
+    else:
+        gates["scalar_tree_inversion"]=gate("UNKNOWN","NO_SOURCE_DECLARED_POTENTIAL")
+        gates["doublet_BFB_necessary"]=gate("UNKNOWN","NO_SOURCE_DECLARED_POTENTIAL")
+        gates["quartic_4pi_diagnostic"]=gate("UNKNOWN","NO_SOURCE_DECLARED_POTENTIAL")
     gates.update({name:gate("UNKNOWN","NOT_YET_VALIDATED")
                   for name in UNKNOWN_SECTORS})
     gates["native_FZEEIN_propagation"]=propagation
@@ -131,6 +157,7 @@ def evaluate_entry(entry,root):
         "failed_necessary_screens":fail,"gates":gates,
         "native_neutrino_screen":neutrino,
         "native_scalar_parameters":scalar,
+        "scalar_internal_diagnostics":scalar_diagnostics,
         "LFV_status":"APPROXIMATION_ONLY",
         "LFV_retained_BR":{
             name:item["branching_ratio_included_topologies_only"]
