@@ -83,3 +83,47 @@ tachyons, tadpole failure, or nonperturbative couplings. Do not overwrite cards.
 
 **STOP before LFV/scans:** certify both NO and IO under native matching and
 assess stability under reasonable matching-scale variations.
+
+
+## User-run native benchmark results (2026-11-18)
+
+The original user-run SPheno 4.0.5 diagnostic produced **native one-loop
+oscillation agreement for both NO and IO** on the proposed cards. These are
+benchmarks, not an accepted global Zee parameter scan.
+
+| Observable | NO native | IO native |
+| --- | ---: | ---: |
+| m1, m2, m3 (eV) | .00929997206, .01272241882, .05096558374 | .04907780206, .04983977318, .001000018592 |
+| sin²θ12 | .3088016078 | .3088013655 |
+| sin²θ13 | .0224798411 | .0226197952 |
+| sin²θ23 | .4699999626 | .5499995722 |
+| δCP (deg) | 212.0000835 | 273.9999020 |
+| Δm21² (eV²) | 7.53704604e−5 | 7.53723353e−5 |
+| Δm3ℓ² (eV²) | 2.51100125e−3 | −2.48300295e−3 |
+| Native vs analytic complex matrix residual | 5.892e−14 | 1.092e−15 |
+| Individual NuFIT 6.1 3σ screen | **PASS (6/6)** | **PASS (6/6)** |
+
+Proposed-card SHA-256 values recorded in the generating reports:
+NO `71bb94b67a4db185a6d44fa56c96da751799211f5da23761408de75a5acbbdad`;
+IO `26e705a9115cafd0d20833ac5420803f998f48013f97b98649526fb6c35b6e4d`.
+Native run paths: `$WORK/step1_NO_native/result.json` and
+`$WORK/step1_IO_native/result.json`; screen outputs:
+`$WORK/step1_NO_native_screen.json` and
+`$WORK/step1_IO_native_screen.json`. These locally generated results were
+provided in the project conversation; they are not bundled into Git.
+
+**Interpretation:** source scheme and chosen reference card are native-matched
+for these points; no retuning was needed. The generic top-level
+`ANALYTIC_TARGET_CLOSED_NATIVE_UNKNOWN` in the CLI is the status of the
+initial *proposal object*, not of the nested `native_screen`. Do not use the
+top-level string to override the actual user-run
+`NATIVE_3SIGMA_SCREEN_PASS` evidence.
+
+**Scope:** central-point and separate 1D NuFIT 3σ agreement demonstrated at
+the reference matching conditions. Matching-scale sensitivity and correlated
+NuFIT likelihood are not evaluated; neither is the full LFV/Higgs/B/vacuum
+acceptance. The preliminary IO `dmsq21` printed by
+`diagnose_neutrino_native` refers to *ascending* singular-value ordering and
+must not be interpreted as physical IO Δm21². The **screen** explicitly maps
+IO to (m1,m2,m3)=(middle,largest,lightest) before computing splittings.
+
