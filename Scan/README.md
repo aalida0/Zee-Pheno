@@ -49,6 +49,41 @@ A successful neutrino-fit benchmark is **not** an accepted parameter point.
   of a physical allowed region, exclusion, or cascade sensitivity.
 
 
+## Run the existing NO/IO native reference checks now
+
+The references can be screened **without any quark mass dictionaries**.
+In this mode the pipeline runs the source-matched scalar one-loop LFV
+pilot, not the photon Barr-Zee calculation. Do not invent QCD schemes.
+
+~~~bash
+cd ~/Zee-Pheno
+git fetch origin
+git switch research/scan-native-gated-pipeline
+git pull --ff-only
+
+WORK="$HOME/zee-lfv64-serial-20261112-094549"
+python3 -m Scan.prepare_reference_manifest \
+  --work "$WORK" \
+  --output "$WORK/native_scan_manifest_20261118.json"
+
+python3 -m Scan.native_pipeline \
+  --manifest "$WORK/native_scan_manifest_20261118.json" \
+  --output-dir "$WORK/native_scan_gates_20261118"
+~~~
+
+Both outputs use exclusive file/directory creation; choose fresh
+filenames on rerun. The checked source spectra previously reported
+PDG25 approximately 484 GeV, so the expected necessary h125 mass
+screen is FAIL for both. The six individual neutrino 3sigma results
+should remain PASS if the same native snapshots/cards are supplied.
+The full Zee LFV gate will remain UNKNOWN.
+
+When separately checked quark running/loop masses are available,
+supply **all three** optional manifest fields quark_loop,
+quark_yukawa, mass_yukawa_scheme. The pipeline will then evaluate
+the additional fermion/photon Barr-Zee pieces. Without them, none
+of the scalar, neutrino or one-loop LFV checks is blocked.
+
 ## Implemented evidence bridge: neutrino proposals → native SPheno → LFV
 
 This repository now contains a **versioned point workflow**, not a
