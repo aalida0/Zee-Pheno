@@ -1,5 +1,4 @@
 """Integration tests for scalar-first, multiple-neutrino-family proposals."""
-import copy
 import json
 import tempfile
 import unittest
@@ -100,6 +99,29 @@ class PhysicalProposalsTests(unittest.TestCase):
             with patch("Scan.physical_proposals.REFERENCE_CARD_SHA",sha(card)):
                 with self.assertRaises(FileExistsError):
                     generate(cfg,card,snap,root/"out")
+
+    def test_declared_three_arm_pilot_preserves_all_scalar_denominators(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            card=root/"source.in"
+            card.write_text(template())
+            cfg=ROOT/"Scan/physical_pilot_config.json"
+            snapshot=ROOT/"Model/reference/native_neutrino_snapshot.json"
+            with patch("Scan.physical_proposals.REFERENCE_CARD_SHA",sha(card)):
+                report=generate(cfg,card,snapshot,root/"pilot")
+            self.assertEqual(report["n_scalar_attempted"],30)
+            self.assertEqual(len(report["outputs"]),30)
+            self.assertEqual({p["arm"] for p in report["outputs"]},
+                             {"subTeV","production1000_1350","broad_control"})
+            self.assertEqual(len({p["scalar_id"] for p in report["outputs"]}),30)
+            self.assertLessEqual(report["n_native_cards_written"],
+                                 4*report["n_scalar_preselected"])
+            self.assertEqual(report["n_native_points_validated"],0)
+            self.assertIsNone(report["n_globally_allowed"])
+            print("SCALAR_PILOT_DECLARED_PRESELECTION",
+                  report["n_scalar_attempted"],
+                  report["n_scalar_preselected"],
+                  report["n_native_cards_written"])
 
     def test_reject_modified_template_and_undocumented_priors(self):
         with tempfile.TemporaryDirectory() as td:
