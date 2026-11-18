@@ -25,12 +25,13 @@ from Model.model import scalar_parameters
 
 
 GRID_NAMES=("tan_beta","gamma_rad","mH2_GeV","F_multiplier")
-INVERSION_NAMES=("m12sq_GeV2","lambda_c","K1","K2","K12")
+INVERSION_BASE=("lambda_c","K1","K2","K12")
+SOFT_MODES=("m12sq_GeV2","soft_mass_sq_GeV2")
 POTENTIAL_NAMES=("Lambda1","Lambda2","Lambda3","Lambda4","Lambda5",
                  "K1","K2","K12","Mu4")
 DEFAULT_GRID={
     "tan_beta":[2.0,8.0],
-    "gamma_rad":[0.15,0.50,0.95],
+    "gamma_rad":[0.15,0.35,0.55],
     "mH2_GeV":[900.0,1200.0],
     "F_multiplier":[1.0,100.0],
 }
@@ -38,11 +39,19 @@ Z_MASS_GEV=91.1876
 
 
 def _validate_scheme(config):
-    if not isinstance(config,dict) or set(config)!=set(INVERSION_NAMES):
+    if not isinstance(config,dict):
         raise ValueError("Explicit scalar inversion controls required")
-    if any(not isinstance(value,(int,float)) or
-           not math.isfinite(value) for value in config.values()):
+    modes=set(config)&set(SOFT_MODES)
+    optional={"alignment_delta_rad"} if "alignment_delta_rad" in config else set()
+    if len(modes)!=1 or set(config)!=set(INVERSION_BASE)|modes|optional:
+        raise ValueError("Provide exactly one of m12sq_GeV2 or soft_mass_sq_GeV2")
+    if any(type(value) not in (float,int) or not math.isfinite(value)
+           for value in config.values()):
         raise ValueError("Scalar inversion controls must be finite")
+    if "soft_mass_sq_GeV2" in config and config["soft_mass_sq_GeV2"]<=0:
+        raise ValueError("Soft scalar squared mass must be positive")
+    if "alignment_delta_rad" in config and abs(config["alignment_delta_rad"])>.35:
+        raise ValueError("Alignment control outside declared domain")
     return config
 
 
@@ -75,11 +84,16 @@ def grid_points(point, inversion, grid):
         p["scalar"]["gamma"]=gamma
         p["scalar"]["mH2"]=mass
         scalar=p["scalar"]
+        if "alignment_delta_rad" in inversion:
+            scalar["alpha"]=scalar["beta"]-inversion["alignment_delta_rad"]
         if not scalar["mH2"]>scalar["mH1"]+Z_MASS_GEV:
             raise ValueError("Cascade H2->H1 Z closed in requested grid")
+        m12sq=(inversion["m12sq_GeV2"] if "m12sq_GeV2" in inversion
+               else inversion["soft_mass_sq_GeV2"]*
+                    math.sin(scalar["beta"])*math.cos(scalar["beta"]))
         sp=scalar_parameters(
             **scalar,
-            m12sq=inversion["m12sq_GeV2"],
+            m12sq=m12sq,
             lc=inversion["lambda_c"],
             k1=inversion["K1"],k2=inversion["K2"],k12=inversion["K12"],
         )
@@ -98,6 +112,15 @@ def grid_points(point, inversion, grid):
             "mH1_GeV":scalar["mH1"],
             "charged_cascade_open":True,
             "Mu4_GeV":sp["Mu4"],
+            "beta_minus_alpha_rad":scalar["beta"]-scalar["alpha"],
+            "m12sq_GeV2":m12sq,
+            "max_abs_scalar_coupling":max(abs(sp[k]) for k in (
+                "Lambda1","Lambda2","Lambda3","Lambda4","Lambda5","LambdaC",
+                "K1","K2","K12")),
+            "simple_quartic_magnitude_below_4pi":all(
+                abs(sp[k])<4*math.pi for k in (
+                "Lambda1","Lambda2","Lambda3","Lambda4","Lambda5","LambdaC",
+                "K1","K2","K12")),
         }
 
 
@@ -192,6 +215,7 @@ def evaluate_grid(template,inversion,grid,sw2):
         "type_ii_2HDM_omitted_gauge_bound":"NOT_TRANSFERABLE_TO_MIXED_ZEE",
         "source_only_LFV_threshold":None,
         "model_constraints_applied":[],
+        "scalar_quartic_diagnostic":"ABS_LAMBDA_LT_4PI_ONLY_NOT_UNITARITY_BFB_OR_VACUUM",
         "known_source_controls":[
             "2017 and 2023 Zee partial Barr-Zee conventions; assumption-dependent",
             "2025/26 corrected general 2HDM 18-point control: all tested omitted norms >10% retained",
