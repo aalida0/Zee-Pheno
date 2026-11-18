@@ -10,7 +10,7 @@ from Model.audit_neutrino_native import sha
 MZ_GEV=91.1876
 REQUIRED=("point_id","ordering","card","native","spectrum","quark_loop",
           "quark_yukawa","mass_yukawa_scheme")
-OPTIONAL=("potential","potential_source")
+OPTIONAL=("potential","potential_source","native_input_report")
 UNKNOWN_SECTORS=(
     "full_Zee_LFV","full_three_lepton_LFV","mu_e_conversion",
     "B_flavor","Higgs_rates","EWPO","vacuum_global","scalar_BFB_unitarity",
@@ -22,9 +22,9 @@ def gate(status,method,**evidence):
     return dict(status=status,method=method,**evidence)
 
 def check_entry(entry):
-    if not isinstance(entry,dict) or set(entry)!=set(REQUIRED)-set(OPTIONAL) and (
-            set(entry)-set(REQUIRED)-set(OPTIONAL) or
-            not set(REQUIRED)<=set(entry)):
+    if (not isinstance(entry,dict) or
+        set(entry)-set(REQUIRED)-set(OPTIONAL) or
+        not set(REQUIRED)<=set(entry)):
         raise ValueError("Unsupported/missing native point manifest fields")
     if entry["ordering"] not in ("NO","IO"):
         raise ValueError("Invalid ordering")
@@ -49,6 +49,25 @@ def evaluate_entry(entry,root):
     binding=sha(paths["card"])
     if native.get("input_sha256")!=binding:
         raise ValueError("CARD_NATIVE_SHA_MISMATCH")
+    propagation=gate("UNKNOWN","NO_SOURCE_MATCHED_FZEEIN_PROBE")
+    if "native_input_report" in entry:
+        path=(root/entry["native_input_report"]).resolve()
+        if not path.is_file():
+            raise FileNotFoundError("Declared native input-propagation report missing")
+        proof=json.loads(path.read_text())
+        if proof.get("input_sha256")!=binding:
+            raise ValueError("INPUT_PROBE_REPORT_CARD_SHA_MISMATCH")
+        if proof.get("status")!="NATIVE_INPUT_GATE_PASS":
+            raise ValueError("INPUT_PROBE_NOT_NATIVE_PASS")
+        checks=proof.get("checks",{})
+        if (not isinstance(checks,dict) or
+            checks.get("F_probe_output_delta",0)<=0 or
+            checks.get("Ye2_probe_output_delta",0)<=0):
+            raise ValueError("Input report has no positive F and Ye2 response")
+        propagation=gate("PASS","CARD_BOUND_FZEEIN_AND_YEE2_PROBE_NATIVE_GATE",
+                         report_sha256=sha(path),
+                         native_binary_sha256=proof.get("binary_sha256"),
+                         probe_checks=checks)
     neutrino=inspect_native(paths["native"],entry["ordering"])
     if neutrino["status"] not in ("NATIVE_3SIGMA_SCREEN_PASS",
                                  "NATIVE_3SIGMA_SCREEN_FAIL"):
@@ -84,6 +103,7 @@ def evaluate_entry(entry,root):
     }
     gates.update({name:gate("UNKNOWN","NOT_YET_VALIDATED")
                   for name in UNKNOWN_SECTORS})
+    gates["native_FZEEIN_propagation"]=propagation
     lfv=lfv_evaluate(point)
     if lfv["full_lfv_gate"]!="UNKNOWN" or lfv["global_zee_acceptance"] is not None:
         raise AssertionError("Partial LFV promoted to physical pass")
