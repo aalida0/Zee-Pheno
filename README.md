@@ -8,18 +8,18 @@ H₂± → H₁± Z. The conventional Z₂ is **not** exact; see [Model](Model/R
 | Module | Scope |
 | --- | --- |
 | [Model](Model/README.md) | Scalar and SARAH/SPheno structural validation; [evidence](Model/VALIDATION.md) |
-| [Neutrino](Neutrino/README.md) | Step 1: NuFIT 6.1 NO/IO pilot, native oscillation revalidation outstanding |
+| [Neutrino](Neutrino/README.md) | Step 1: native NO/IO 1D NuFIT 3σ matched controls; not global neutrino scan |
 | [LFV](LFV/README.md) | Step 2: general per-point scalar one-loop, source-matched photon Barr–Zee and tree LFV subsets; full rates UNKNOWN |
 | [Higgs](Higgs/README.md) | Not yet promoted |
 | [Flavor](Flavor/README.md) | Not yet promoted |
 | [Collider](Collider/README.md) | Not yet promoted |
-| [Scan](Scan/README.md) | Not yet promoted |
+| [Scan](Scan/README.md) | Versioned neutrino-proposal and native-card LFV evidence bridge; full allowed-region scan NOT implemented |
 
 Run regression tests from the repository root:
 
 ~~~bash
 python3 -m unittest discover -s Model -p 'test_*.py' -v
-python3 -m unittest Neutrino.test_fit LFV.test_pilot LFV.test_constraints -v
+python3 -m unittest Neutrino.test_fit LFV.test_pilot LFV.test_constraints Scan.test_native_pipeline Scan.test_proposal_catalog -v
 ~~~
 
 NumPy and mpmath are needed for neutrino/native-loop calculations; SciPy for
