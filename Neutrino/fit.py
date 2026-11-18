@@ -223,12 +223,29 @@ def main():
     ap.add_argument("--write-card",type=Path,help="Write new proposed input card (must not exist)")
     ap.add_argument("--output",type=Path,help="Write JSON report (must not exist)")
     ap.add_argument("--native-result",type=Path,help="Existing instrumented native result.json")
+    ap.add_argument("--checked-card",type=Path,help="Actual native input card to verify against native result hash")
     args=ap.parse_args()
     if bool(args.reference_card)!=bool(args.write_card):
         ap.error("--reference-card and --write-card must be used together")
     report=fit(args.snapshot,args.ordering,args.mlight_ev,args.alpha21,args.alpha31)
+    if args.checked_card and not args.native_result:
+        ap.error("--checked-card requires --native-result")
     if args.native_result:
-        report["native_screen"]=inspect_native(args.native_result,args.ordering)
+        screen=inspect_native(args.native_result,args.ordering)
+        report["native_screen"]=screen
+        verified=False
+        if args.checked_card:
+            native_header=json.loads(args.native_result.read_text())
+            verified=(sha(args.checked_card)==native_header["input_sha256"])
+            if not verified:
+                raise ValueError("Native result input SHA-256 does not match checked card")
+            report["native_card_sha256"]=sha(args.checked_card)
+        if screen["status"]=="NATIVE_3SIGMA_SCREEN_PASS":
+            report["status"]=("NATIVE_3SIGMA_PASS_CARD_BOUND" if verified
+                              else "NATIVE_3SIGMA_PASS_CARD_UNVERIFIED")
+        else:
+            report["status"]="NATIVE_3SIGMA_FAIL"
+        report["native_revalidation_required"]=not verified
     if args.reference_card:
         if sha(args.reference_card)!=REFERENCE_CARD_SHA:
             raise ValueError("Unrecognized loop-enabled source card")
