@@ -127,3 +127,32 @@ def combine(pieces):
 def radiative_width(clcr, mi, mj, alpha_em):
     return float(alpha_em*mi**5/4*(1-(mj/mi)**2)**3*np.sum(abs(clcr)**2))
 
+
+def neutral_width(C, mass, i, j, ml):
+    """One charge orientation, with exact two-body fermion masses."""
+    a, b = ml[i], ml[j]
+    if mass <= a+b:
+        return 0.
+    lam = (mass**2-(a+b)**2)*(mass**2-(a-b)**2)
+    trace = ((abs(C[i,j])**2+abs(C[j,i])**2)*(mass**2-a*a-b*b)
+             -4*a*b*(C[i,j]*C[j,i]).real)
+    return float(math.sqrt(lam)*trace/(16*np.pi*mass**3))
+
+
+def universality(F, p, gf):
+    """Leading O(F²/M²) rate shifts, with muon-GF subtraction.
+
+    Fierz of physical F gives deltaG/G=|F_ab|²*w/(4 sqrt(2) GF).
+    Rate shift=2 deltaG/G. No f^4 or D contribution is included.
+    """
+    w = math.sin(p['gamma'])**2/p['mH1']**2+math.cos(p['gamma'])**2/p['mH2']**2
+    shift = {name: float(abs(F[a,b])**2*w/(2*np.sqrt(2)*gf))
+             for name, a, b in [('mu_e',0,1), ('tau_e',0,2), ('tau_mu',1,2)]}
+    return {'status': 'PASS', 'physical_status': 'SUBSET_DIAGNOSTIC',
+            'rate_shifts_before_GF_subtraction': shift,
+            'delta_GF_mu_over_GF': shift['mu_e']/2,
+            'g_tau_over_g_mu_squared_minus1': shift['tau_e']-shift['mu_e'],
+            'g_tau_over_g_e_squared_minus1': shift['tau_mu']-shift['mu_e'],
+            'g_mu_over_g_e_squared_minus1': shift['tau_mu']-shift['tau_e'],
+            'experimental_comparison': 'NOT_EVALUATED',
+            'provenance': 'Herrero-Garcia 1701.05345 eqs.3.26-3.33; F=2f; general f_e_mu restored'}
