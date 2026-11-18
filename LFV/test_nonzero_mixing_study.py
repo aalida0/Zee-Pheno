@@ -48,6 +48,9 @@ class ZeeNonzeroMixingTests(unittest.TestCase):
                          "NONZERO_MIXING_ZEE_TRUNCATION_DIAGNOSTIC_ONLY")
         self.assertEqual(output["n_points"],2)
         self.assertEqual(output["n_channel_rows"],6)
+        for channel in ("mu_to_e_gamma","tau_to_e_gamma","tau_to_mu_gamma"):
+            self.assertEqual(output["summaries"][channel]["n_points"],2)
+            self.assertEqual(output["summaries"][channel]["full_Zee_LFV_gate"],"UNKNOWN")
         self.assertIsNone(output["physical_full_Zee_LFV_allowed_points"])
         for r in output["rows"]:
             self.assertGreater(r["Z12_over_e_abs"],0.)
