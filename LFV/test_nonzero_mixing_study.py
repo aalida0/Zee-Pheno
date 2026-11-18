@@ -12,8 +12,8 @@ from LFV.test_constraints import sample
 
 
 def inversion():
-    return dict(m12sq_GeV2=600.**2*.5,lambda_c=.25,
-                K1=.2,K2=.4,K12=.01)
+    return dict(soft_mass_sq_GeV2=640.**2,alignment_delta_rad=0.,
+                lambda_c=.25,K1=.2,K2=.4,K12=.01)
 
 
 def grid():
@@ -29,6 +29,12 @@ class ZeeNonzeroMixingTests(unittest.TestCase):
         self.assertEqual(len(points),2)
         self.assertEqual(p,original)
         self.assertEqual(points[0][0]["scalar"]["gamma"],.4)
+        for point,flags in points:
+            self.assertAlmostEqual(point["scalar"]["alpha"],point["scalar"]["beta"])
+            self.assertAlmostEqual(flags["m12sq_GeV2"],
+                                   640.**2*math.sin(point["scalar"]["beta"])*
+                                   math.cos(point["scalar"]["beta"]),places=9)
+            self.assertTrue(flags["simple_quartic_magnitude_below_4pi"])
         self.assertEqual(points[1][0]["scalar"]["gamma"],.4)
         self.assertAlmostEqual(
             points[0][0]["potential"]["Mu4"],
