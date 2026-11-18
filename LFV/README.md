@@ -1,5 +1,14 @@
 # Step 2 — lepton-flavor violation
 
+**Nonzero charged mixing:** see
+[NONZERO_MIXING_APPROXIMATION.md](NONZERO_MIXING_APPROXIMATION.md)
+for the 24-point gamma≠0, F≠0 Zee retained-amplitude scan and
+an independently run *auxiliary* 2HDM doublet-sector stress test.
+The full Zee LFV gauge-remainder bound is **still unavailable**.
+The retained rates are approximation-defined sensitivity curves only,
+not full-model exclusions.
+
+
 **Approximation stress test (18 November 2026):**
 [APPROXIMATION_STUDY.md](APPROXIMATION_STUDY.md) records an independently
 executed, fixed 18-point source-matched **strict 2HDM** comparison of the
