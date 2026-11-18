@@ -47,3 +47,129 @@ A successful neutrino-fit benchmark is **not** an accepted parameter point.
   certified. All physical LFV gates remain UNKNOWN.
 - Sample/scoring machinery is **not yet implemented**. There is no claim
   of a physical allowed region, exclusion, or cascade sensitivity.
+
+
+## Implemented evidence bridge: neutrino proposals → native SPheno → LFV
+
+This repository now contains a **versioned point workflow**, not a
+physical allowed-region scan:
+
+- [proposal_catalog.py](proposal_catalog.py) generates a declared NO/IO
+  lightest-mass/Majorana-phase target slice as separate SLHA cards using
+  the attested reference-card and Neutrino.fit. **Every card is pending
+  independent native SPheno revalidation.** The minimum-norm/single-root
+  inverse does not sample the full four-complex-dimensional D freedom.
+- [native_pipeline.py](native_pipeline.py) consumes a list of already
+  executed native SPheno cards/spectra. It verifies the original card
+  SHA-256, recomputes the six individual NuFIT 6.1 3sigma tests through
+  the native one-loop Takagi output, then evaluates source-bound full
+  complex one-loop and selected photon Barr-Zee LFV amplitudes.
+- [native_gates.py](native_gates.py) records independent PASS/FAIL/UNKNOWN
+  records. It tests the loose *necessary-only* h125 mass screen
+  (PDG25 within 3 GeV of 125.25) and the kinematic on-shell charged
+  cascade. All B-flavor, Higgs signal-rate, EWPO, direct-search,
+  global-vacuum and *full Zee LFV* gates remain UNKNOWN.
+- [theory_gates.py](theory_gates.py) optionally compares a declared
+  scalar potential with the mass/angle inverse, plus **necessary**
+  CP-conserving 2HDM doublet-subpotential BFB tests and a conventional
+  magnitude of quartics below 4pi. These do not certify full Zee
+  vacuum stability, native potential matching, or unitarity.
+
+The SPheno charged angle may differ by integer pi from the principal
+gamma used in scalar inversion. The bridge treats these as identical
+charged-field sign conventions **only for the tree potential identity**.
+The native gamma and spectra are never modified. This is not a retune.
+
+### A. Declared analytic candidate slice (not a native pass)
+
+Create a JSON file with schema_version=1, snapshot path, reference_card
+path and a targets array. One example target is:
+
+~~~json
+{
+  "point_id": "NO_mass0093",
+  "ordering": "NO",
+  "mlight_eV": 0.0093,
+  "alpha21_rad": 0.0,
+  "alpha31_rad": 0.0
+}
+~~~
+
+Use Neutrino's pinned loop-enabled source card:
+
+~~~bash
+python3 -m Scan.proposal_catalog \
+  --catalog /path/to/targets.json \
+  --output-dir /path/to/new_proposal_folder
+~~~
+
+Each output is clearly marked NATIVE_REVALIDATION_REQUIRED. A native
+SPheno run must actually be executed for every candidate before physical
+screens may run. New scalar points cannot inherit old neutrino passes.
+
+### B. Per-point native + partial LFV manifest
+
+A manifest has schema_version 1 and a points array. Example:
+
+~~~json
+{
+  "schema_version": 1,
+  "points": [{
+    "point_id": "NO_reference",
+    "ordering": "NO",
+    "card": "/home/amine/zee-lfv64-serial-20261112-094549/step1_NO_proposal.in",
+    "native": "/home/amine/zee-lfv64-serial-20261112-094549/step1_NO_native/result.json",
+    "spectrum": "/home/amine/zee-lfv64-serial-20261112-094549/step1_NO_native/output.spc",
+    "quark_loop": "/path/to/author-scheme-quark-loop-masses.json",
+    "quark_yukawa": "/path/to/scale-matched-quark-yukawas.json",
+    "mass_yukawa_scheme": "DOCUMENTED_SCALE_AND_RENORMALIZATION_SCHEME"
+  }]
+}
+~~~
+
+The two quark dictionaries must each provide positive masses (GeV)
+for up, charm, top, down, strange and bottom. A string describing a
+scheme is not by itself a demonstrated running/Yukawa matching. Do
+not use arbitrary test values as physical inputs.
+
+~~~bash
+python3 -m Scan.native_pipeline \
+  --manifest /path/to/native_manifest.json \
+  --output-dir /path/to/new_results_directory
+~~~
+
+The runner creates a machine-readable points.json and points.csv with
+full source SHA-256 and partial LFV rates. It never overwrites an
+existing output folder. A tampered source is isolated as an
+unevaluated provenance error, **not** an excluded physics point.
+
+Optional fields are native_input_report (a native-executed, same-card
+Model.check_native FZEEIN/Ye2 perturbation report), plus the three
+joint fields potential, potential_source and scalar_inversion.
+The inversion JSON requires m12sq_GeV2, lambda_c, K1, K2, K12.
+The potential JSON requires Lambda1..5, K1, K2, K12, Mu4.
+Source-declared scalar consistency is **not** an independent
+confirmation of the input potential in SPheno. If omitted, the
+charged-scalar photon contribution cannot be included.
+
+### Interpretation and current blockers
+
+The known original NO/IO native reference cards pass the individual
+NuFIT screens, but have PDG25 around 484 GeV. They must **FAIL**
+the restricted model's observed-h125 mass prerequisite. Passing
+neutrino targets is not a globally viable scalar/Higgs point.
+
+A model point with all computed necessary screens passing remains
+UNKNOWN_PENDING_GATES, not allowed. Full LFV, conversion, flavor,
+Higgs signal rates, EWPO, unitarity and the Zee global vacuum are
+not yet certified. The old FZEEIN native-input propagation issue is
+UNKNOWN until the card-matched perturbation gate is passed.
+
+Run the regression suite:
+
+~~~bash
+python3 -m unittest Scan.test_native_pipeline Scan.test_proposal_catalog -v
+~~~
+
+All test-native data are synthetic one-loop Takagi control matrices,
+**not new native SPheno production**.
