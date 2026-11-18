@@ -272,6 +272,17 @@ def generate(config_path,template_path,snapshot_path,output_dir):
         path=output_dir/"cards"/filename
         with path.open("x") as out:out.write(card)
         record["card_sha256"]=sha(path)
+    arms_cutflow={
+        arm["name"]:{
+            "scalar_attempted":sum(r["arm"]==arm["name"] for r in rows),
+            "scalar_preselected":sum(
+                r["arm"]==arm["name"] and
+                r["gates"]["status"]=="ANALYTIC_SCALAR_PRESELECTION"
+                for r in rows),
+            "native_pending_cards":sum(
+                len(r["families"]) for r in rows if r["arm"]==arm["name"]),
+        } for arm in config["arms"]
+    }
     result=dict(schema_version=2,
                 status="SCALAR_NEUTRINO_PROPOSALS_NATIVE_UNKNOWN",
                 config_sha256=sha(config_path),
@@ -282,6 +293,7 @@ def generate(config_path,template_path,snapshot_path,output_dir):
                     "ANALYTIC_SCALAR_PRESELECTION" for r in rows),
                 n_native_cards_written=len(cards),
                 n_native_points_validated=0,
+                arm_cutflow=arms_cutflow,
                 n_globally_allowed=None,
                 sampling_note="Arms are proposal priors; count scalar denominators separately from F/D families",
                 native_FZEEIN_propagation="REQUIRES_NEW_NATIVE_SOURCE_PROOF",
