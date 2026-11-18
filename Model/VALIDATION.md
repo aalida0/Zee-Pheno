@@ -279,3 +279,35 @@ sed -n '854,1024p' "$WORK/SPheno-4.0.5/ZeeTypeII/LoopMasses_ZeeTypeII.f90"
 **Interpretation:** `NEUTRINO_POLE_MASS_NONZERO_UNVALIDATED` means only that the loop-enabled executable returned nonzero pole-mass entries. The full complex symmetric `Mnu`, phase, basis rotation, finite loop integrals, sign and normalization still require physical matching to the published Zee expression and an independent calculation. `NEUTRINO_MASS_ZERO_OR_MISSING` requires examining the self-energy/call site and whether loop masses were actually evaluated. Numerically small eV masses may be suppressed or rounded in generic spectrum-output handling. Any SPINFO warnings or unexpected scalar-spectra shifts must also be investigated.
 
 **Status remains:** `STEP0_NATIVE_MAJORANA_MASS_UNKNOWN`; baseline loop mass setting was the observed blocker.
+
+
+## 2026-11-18 Loop-enabled native neutrino pole masses and analytic comparison
+
+**User-reported native execution:** one corrected baseline card with both `SPhenoInput[55]` changed to `1` in a new directory; identical previously attested SPheno executable. Exit code `0`, status `NEUTRINO_POLE_MASS_NONZERO_UNVALIDATED`.
+
+| Evidence | SHA-256 |
+| --- | --- |
+| Tree card | `f2efe759aa3196978d466739fc788b1dd7fb01d71cbc6e883c8a87830da454bf` |
+| Loop-enabled card | `e83f315928a3906bc14e48aec39b2bd842abf66949f53b6cd78824d4c45a8e07` |
+| SPheno binary | `2c1a73c797b2f21b3266f3558dae3196a6b2514a5fd3d2e05fc83b0ce918af52` |
+| Loop output | `2d72ae9f6d7e87b90a7fbb9db7825a6e2cbe919a8331d3f0b064e6a722e10ff9` |
+
+PDGs `12,14,16` give pole masses `1.2785582e-11`, `4.14498832e-11`, `6.25655793e-11` GeV, i.e. **0.012785582, 0.0414498832, 0.0625655793 eV**. For ascending normal ordering these imply `Delta_m21^2 ≈ 1.5546e-3 eV^2` and `Delta_m31^2 ≈ 3.7510e-3 eV^2`, inconsistent with measured solar splitting. Do not infer an oscillation-data fit from a successful SPheno exit code, nor assume this is a SPheno code defect until the source-matched analytic mass spectrum is compared.
+
+**User-provided original `Sigma1LoopFv` source (lines approximately 854–1024):** has charged-scalar/charged-lepton loops (`conj[Hm],Fe` and `bar[Fe],Hm`), with chirality-flipping `SigSL, SigSR` proportional to `2*m_Fe*SA_B0`, plus W/charged-lepton and Z/neutrino loops; all `Sig*` multiplied by `oo16pi2`. This establishes **generated self-energy structure**, not an end-to-end correctness proof. Complex flavor matrix and Majorana pole-mass extraction call-site still need checking.
+
+**Minimum independent numerical test:** `Model/compare_neutrino_masses.py` uses the **pre-loop baseline** tree-level charged-scalar and lepton masses, reconstructed `v`, input `Mu4` and the baseline `Fzee,Ye,Ye2`. It computes `sin(2gamma)=-sqrt(2)*v*Mu4/(mH1^2-mH2^2)`, the full-finite lepton-mass loop kernel and the published/SARAH-normalized complex symmetric `Mnu=(F*weights)D+transpose`; the Takagi singular values are then compared against the loop-enabled pole masses. NumPy is the only added runtime dependency of this **diagnostic script**, not production model code.
+
+```bash
+cd ~/Zee-Pheno && git pull --ff-only origin main
+python3 -m unittest Model.test_compare_neutrino_masses -v
+WORK="$HOME/zee-lfv64-serial-20261112-094549"
+python3 -m Model.compare_neutrino_masses \
+  --input "$WORK/model-validation-native-20261118/baseline.in" \
+  --baseline "$WORK/model-validation-native-20261118/baseline.spc" \
+  --loop "$WORK/model-neutrino-loop-20261118/loop_enabled.spc"
+```
+
+The script never infers the tree-level `UV` to be PMNS. `SINGULAR_VALUES_AGREE_ONLY` would validate the three masses **only**, not the complex Majorana matrix or PMNS mixing. `NATIVE_ANALYTIC_MASS_MISMATCH` keeps the gate blocked and requires inspection of normalization, charged-scalar mixing, complex conjugations and loop pole-mass routine. The diagnostic's 1% relative tolerance is a **comparison flag**, not a precision uncertainty budget.
+
+**Decision:** `NATIVE_NEUTRINO_MASSES_NONZERO` / `NATIVE_ANALYTIC_MATCH_PENDING` / `PHYSICAL_NEUTRINO_FIT_UNKNOWN`. Step 0 not yet closed.
