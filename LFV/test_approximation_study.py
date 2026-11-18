@@ -40,6 +40,8 @@ class MaterialityTests(unittest.TestCase):
         self.assertAlmostEqual(row["author_approx_norm_GeV_minus2"],1.)
         self.assertAlmostEqual(row["author_omitted_norm_GeV_minus2"],.301)
         self.assertAlmostEqual(row["author_omitted_over_approx"],.301)
+        self.assertEqual(row["largest_omitted_source_group"],"kin")
+        self.assertAlmostEqual(row["largest_omitted_source_group_norm_GeV_minus2"],.3)
         self.assertAlmostEqual(row["author_full_BR_over_approx_BR"],1.301**2)
         self.assertAlmostEqual(row["paper_HW_variant_omitted_over_approx"],6.7)
         self.assertEqual(row["physical_Zee_LFV_gate"],"UNKNOWN")
