@@ -116,34 +116,38 @@ class GeneralLFVTests(unittest.TestCase):
         source=json.loads((Path(__file__).resolve().parents[1]/
                            "Model/reference/native_neutrino_snapshot.json").read_text())
         snap=source["snapshot"]
-        native={"input_sha256":"fixed_reference", "snapshots":[snap],
-                "spectrum_snapshot_index":0}
         ex=sample()
         with tempfile.TemporaryDirectory() as td:
             root=Path(td)
+            card=root/"card.in"
+            card.write_text("native input fixture\n")
             native_path=root/"native.json"
-            native_path.write_text(json.dumps(native))
-            p={"status":"SCALAR_ONE_LOOP_SUBSET_ONLY",
-               "native_diagnostic_sha256":sha(native_path),
-               "native_input_sha256":"fixed_reference",
-               "scalar_inputs":ex["scalar"],
-               "internal_running_lepton_masses_GeV":snap["MFe"],
-               "external_pole_lepton_masses_GeV":ex["pole_lepton_masses_GeV"],
-               "alpha_em":ex["alpha_em"],
-               "total_lepton_widths_GeV":ex["total_lepton_widths_GeV"]}
-            pilot=root/"pilot.json"
-            pilot.write_text(json.dumps(p))
+            native_path.write_text(json.dumps({
+                "input_sha256":sha(card),"snapshots":[snap],
+                "spectrum_snapshot_index":0}))
+            spectrum=root/"spectrum.spc"
+            spectrum.write_text(
+                "BLOCK MASS\n 11 0.00051099893\n 13 0.105658372\n"
+                " 15 1.77686\n 25 125.\n 35 600.\n 36 640.\n"
+                "BLOCK SCALARMIX Q= 1.600E+02\n"
+                " 1 1 7.25651649E-01\n 1 2 6.88062268E-01\n"
+                " 2 1 -6.88062268E-01\n 2 2 7.25651649E-01\n")
             quarks=root/"quarks.json"
             quarks.write_text(json.dumps({k:ex["fermion_loop_masses_GeV"][k]
                                          for k in ("up","charm","top","down","strange","bottom")}))
-            point=from_native(pilot,native_path,quarks,quarks,"explicit test scheme","fixture")
+            point=from_native(native_path,card,spectrum,quarks,quarks,
+                              "explicit test scheme","fixture")
             self.assertEqual(point["point_id"],"fixture")
             self.assertEqual(point["mass_yukawa_scheme"],"explicit test scheme")
             self.assertEqual(evaluate(point)["full_lfv_gate"],"UNKNOWN")
-            p["native_input_sha256"]="tampered"
-            pilot.write_text(json.dumps(p))
+            spectrum.write_text("BLOCK MASS\n 25 125.\n")
             with self.assertRaises(ValueError):
-                from_native(pilot,native_path,quarks,quarks,"explicit test scheme","fixture")
+                from_native(native_path,card,spectrum,quarks,quarks,
+                            "explicit test scheme","fixture")
+            card.write_text("tampered native input\n")
+            with self.assertRaises(ValueError):
+                from_native(native_path,card,spectrum,quarks,quarks,
+                            "explicit test scheme","fixture")
 
     def test_rejects_bad_input_not_fabricated_rates(self):
         p=sample()
