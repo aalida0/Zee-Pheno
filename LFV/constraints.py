@@ -56,7 +56,8 @@ def input_parameters(point):
     if not isinstance(point,dict):
         raise ValueError("Expected point dictionary")
     required={"point_id","scalar","F","D","internal_lepton_masses_GeV",
-              "pole_lepton_masses_GeV","fermion_loop_masses_GeV","alpha_em",
+              "pole_lepton_masses_GeV","fermion_loop_masses_GeV",
+              "quark_yukawa_masses_GeV","alpha_em",
               "total_lepton_widths_GeV","mass_yukawa_scheme"}
     if not required<=point.keys() or point.keys()-required-{"potential","tree_quadrature_order"}:
         raise ValueError("Unexpected/missing point fields")
@@ -86,6 +87,11 @@ def input_parameters(point):
     for k in fm:
         if not isinstance(fm[k],(int,float)) or not math.isfinite(fm[k]) or fm[k]<=0:
             raise ValueError("Invalid fermion loop mass")
+    qy=point["quark_yukawa_masses_GeV"]
+    if (not isinstance(qy,dict) or set(qy)!=set(QUARKS) or
+            any(not isinstance(x,(int,float)) or not math.isfinite(x) or x<=0
+                for x in qy.values())):
+        raise ValueError("Provide six positive quark Yukawa mass inputs in stated scheme")
     widths=point["total_lepton_widths_GeV"]
     if not isinstance(widths,dict) or set(widths)!={"mu","tau"} or any(
             not isinstance(x,(int,float)) or not math.isfinite(x) or x<=0
@@ -102,11 +108,11 @@ def input_parameters(point):
     potential=point.get("potential")
     if potential is not None and not isinstance(potential,dict):
         raise ValueError("Potential must be a dict when provided")
-    return p,F,D,ml,pole,fm,widths,alpha,potential
+    return p,F,D,ml,pole,fm,qy,widths,alpha,potential
 
 
 def evaluate(point):
-    p,F,D,ml,pole,fm,widths,alpha,potential=input_parameters(point)
+    p,F,D,ml,pole,fm,qy,widths,alpha,potential=input_parameters(point)
     neutral=vertices(D,p,ml)
     scalar_G=physical_trilinears(p,potential) if potential is not None else None
     result={}
@@ -119,7 +125,7 @@ def evaluate(point):
         for s,(C,ms) in neutral.items():
             external=np.array([C[j,i],C[i,j].conjugate()])
             for name in SPECIES:
-                inner=quark_coupling(name,fm[name],s,p) if name in QUARKS else C[{"electron":0,"muon":1,"tau":2}[name],{"electron":0,"muon":1,"tau":2}[name]]
+                inner=quark_coupling(name,qy[name],s,p) if name in QUARKS else C[{"electron":0,"muon":1,"tau":2}[name],{"electron":0,"muon":1,"tau":2}[name]]
                 nc,q=QUARKS[name] if name in QUARKS else (1,-1)
                 amp,err=fermion_photon(external,inner,fm[name],ms,pole[i],alpha,nc,q)
                 rows[f"2loop_{s}_{name}_gamma"]=dict(
