@@ -20,8 +20,9 @@ jobs:
       - name: Fetch unmodified public author source
         run: |
           git clone --depth 1 https://gitlab.com/jbrod/general-2hdm-pheno.git /tmp/general-2hdm-pheno
+          test "$(git -C /tmp/general-2hdm-pheno rev-parse HEAD)" = "6a54cebcca3bd5bc13b77c15766fc03fffda5199"
+          echo "9b4af7aa4bf7bf533a7b82c8c2603d118346424e3b7b5f9f06ab8cb41bc4e193  /tmp/general-2hdm-pheno/thdm.py" | sha256sum --check
           git -C /tmp/general-2hdm-pheno rev-parse HEAD
-          sha256sum /tmp/general-2hdm-pheno/thdm.py
       - name: Evaluate independently supplied author code in strict F=gamma=Mu4=0 limit
         run: |
           python - <<'PY'
