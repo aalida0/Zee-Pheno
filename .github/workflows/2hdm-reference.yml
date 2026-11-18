@@ -162,6 +162,13 @@ jobs:
           from LFV.test_constraints import sample
           from LFV.test_nonzero_mixing_study import inversion
           p=sample()
+          import numpy as np
+          from LFV.test_constraints import cmat
+          D=np.array(p["D"]["real"])+1j*np.array(p["D"]["imag"])
+          # Keep all 3 radiative channels nonzero; fixed before looking at results.
+          D[0,2]=6.e-5+1.2e-5j
+          D[1,2]=8.e-5j
+          p["D"]=cmat(D)
           p["mass_yukawa_scheme"]="ILLUSTRATIVE_UNMATCHED_TEST_POINT_ONLY"
           Path("/tmp/zee_nonzero_template.json").write_text(json.dumps(p))
           Path("/tmp/zee_nonzero_inversion.json").write_text(json.dumps(inversion()))
