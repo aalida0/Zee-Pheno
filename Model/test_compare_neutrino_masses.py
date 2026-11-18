@@ -29,6 +29,8 @@ class NeutrinoComparisonTests(unittest.TestCase):
             input_card.write_text(f"Block MINPAR\n 10 {tanb:.17e}\n 13 {mu4:.17e}\n")
             loop.write_text("Block MASS\n 12 0.\n 14 0.\n 16 0.\n")
             reference = compare(input_card, baseline, loop)
+            self.assertEqual(reference["charged_mass_relative_shifts"], {})
+            self.assertFalse(reference["matched_native_running_parameter_scheme"])
             values = reference["analytic_mass_singular_values_eV"]
             self.assertGreater(values[-1], 0.)
             loop.write_text("Block MASS\n" + "".join(
