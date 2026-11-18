@@ -147,6 +147,19 @@ class PhysicalProposalsTests(unittest.TestCase):
                     generate(cfg,card,snap,root/"bad")
             self.assertFalse((root/"bad").exists())
 
+    def test_unsafe_or_malformed_prior_rejected_before_card_writes(self):
+        from Scan.physical_proposals import validate
+        for mutation in ("zero_tanbeta","huge_F","bad_orderings"):
+            cfg=config()
+            if mutation=="zero_tanbeta":
+                cfg["arms"][0]["ranges"]["tan_beta"]=[0.,2.]
+            elif mutation=="huge_F":
+                cfg["neutrino"]["ranges"]["log10_F_scale"]=[300.,400.]
+            else:
+                cfg["neutrino"]["orderings"]=[{"not":"hashable"}]
+            with self.subTest(case=mutation),self.assertRaises(ValueError):
+                validate(cfg)
+
     def test_sufficient_quartic_bfb_not_called_global_vacuum(self):
         good={"Lambda1":.25,"Lambda2":.3,"Lambda3":.2,
               "Lambda4":-.1,"Lambda5":.01,"LambdaC":.3,
