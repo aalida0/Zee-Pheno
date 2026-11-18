@@ -55,13 +55,29 @@ def validate(config):
         if type(arm["weight"]) is not int or arm["weight"]<=0:
             raise ValueError("Sampling arm weights must be positive integers")
         check_ranges(arm["ranges"],RANGES)
+        ranges=arm["ranges"]
+        if (not 0<ranges["tan_beta"][0] or ranges["tan_beta"][1]>100 or
+            not 0<ranges["mH1_fraction"][0]<=ranges["mH1_fraction"][1]<1 or
+            not 0<ranges["mH2_GeV"][0] or ranges["mH2_GeV"][1]>1e5 or
+            ranges["gamma_rad"][0]<=-math.pi/2 or
+            ranges["gamma_rad"][1]>=math.pi/2 or
+            ranges["soft_mass_ratio"][0]<=0):
+            raise ValueError("Nonphysical or numerically unsafe scalar prior bounds")
     nu=config["neutrino"]
     if not isinstance(nu,dict) or set(nu)!={"orderings","ranges"} or (
         not isinstance(nu["orderings"],list) or not nu["orderings"] or
-        set(nu["orderings"])-{"NO","IO"} or len(set(nu["orderings"]))!=len(nu["orderings"])
+        any(order not in ("NO","IO") for order in nu["orderings"]) or
+        len(set(nu["orderings"]))!=len(nu["orderings"])
     ):
         raise ValueError("Require explicitly named unique NO/IO targets")
     check_ranges(nu["ranges"],FAMILY_RANGES)
+    r=nu["ranges"]
+    if (r["lightest_eV"][0]<0 or r["lightest_eV"][1]>.2 or
+        r["log10_F_scale"][0]<-12 or r["log10_F_scale"][1]>0 or
+        r["log10_homogeneous_scale"][0]<-12 or
+        r["log10_homogeneous_scale"][1]>1 or
+        max(abs(x) for x in r["null_t"])>100):
+        raise ValueError("Nonphysical or numerically unsafe neutrino priors")
     return config
 
 
