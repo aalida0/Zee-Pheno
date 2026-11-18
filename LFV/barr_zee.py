@@ -20,23 +20,27 @@ def _ratio(u, z):
 
 @lru_cache(maxsize=2048)
 def photon_kernels(z):
-    """Positive fermionic f,g and negative scalar F2; numerical errors."""
+    """Fermion f,g; derive scalar F2=(f-g)/(2z), with propagated error."""
     z=float(z)
     if not math.isfinite(z) or not 1e-24<=z<=1e10:
         raise ValueError("Barr-Zee mass ratio outside validated integration range")
     def fn(x, k):
         u=x*(1-x)
-        return .5*_ratio(u,z)*(1-2*u if k=="f" else 1) if k!="F2" else -u*_ratio(u,z)/(2*z)
-    points=[]
-    if z<.25:
-        points=[2*z/(1+math.sqrt(1-4*z))]
-    rows=[tuple(2*t for t in quad(fn,0,.5,args=(k,),epsabs=(1e-12 if k=="F2" else min(1e-12,5e-10*z)),
-                  epsrel=2e-12,points=points,limit=500))
-          for k in ("f","g","F2")]
+        return .5*_ratio(u,z)*(1-2*u if k=="f" else 1)
+    points=[2*z/(1+math.sqrt(1-4*z))] if z<.25 else []
+    rows=[tuple(2*t for t in quad(fn,0,.5,args=(k,),epsabs=min(1e-12,5e-10*z),
+                                  epsrel=2e-12,points=points,limit=500))
+          for k in ("f","g")]
+    f,g=(x for x,_ in rows)
+    ef,eg=(err for _,err in rows)
+    # Exact kernel identity; avoids a separate unstable F2 integral at tiny z.
+    f2=(f-g)/(2*z)
+    e2=(ef+eg)/(2*z)
+    result=((f,ef),(g,eg),(f2,e2))
     if any(not math.isfinite(x) or err>max(2e-10,abs(x)*2e-9)
-           for x,err in rows):
+           for x,err in result):
         raise ArithmeticError("Barr-Zee quadrature did not converge")
-    return tuple(x for x,_ in rows),tuple(err for _,err in rows)
+    return (f,g,f2),(ef,eg,e2)
 
 
 def quark_coupling(species, mf, scalar, p):
