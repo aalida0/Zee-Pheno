@@ -118,6 +118,12 @@ class PhysicalProposalsTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,"prior"):
                     generate(cfg,card,snap,root/"bad")
             self.assertFalse((root/"bad").exists())
+            cfg.write_text(json.dumps(config()))
+            card.write_text(template().replace("BLOCK IMFZEEIN","BLOCK MISSING_F"))
+            with patch("Scan.physical_proposals.REFERENCE_CARD_SHA",sha(card)):
+                with self.assertRaisesRegex(ValueError,"F/Ye2"):
+                    generate(cfg,card,snap,root/"bad")
+            self.assertFalse((root/"bad").exists())
 
     def test_sufficient_quartic_bfb_not_called_global_vacuum(self):
         good={"Lambda1":.25,"Lambda2":.3,"Lambda3":.2,
