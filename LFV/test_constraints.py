@@ -35,6 +35,7 @@ def sample():
         "fermion_loop_masses_GeV":dict(
             up=.0022,charm=1.3,top=172.,down=.0047,strange=.095,bottom=4.2,
             electron=.000503,muon=.1041,tau=1.75),
+        "quark_yukawa_masses_GeV":dict(up=.0022,charm=1.3,top=172.,down=.0047,strange=.095,bottom=4.2),
         "alpha_em":.0072973525692838015,
         "total_lepton_widths_GeV":{"mu":2.995983701908041e-19,
                                    "tau":2.267350867723045e-12},
@@ -135,14 +136,14 @@ class GeneralLFVTests(unittest.TestCase):
             quarks=root/"quarks.json"
             quarks.write_text(json.dumps({k:ex["fermion_loop_masses_GeV"][k]
                                          for k in ("up","charm","top","down","strange","bottom")}))
-            point=from_native(pilot,native_path,quarks,"explicit test scheme","fixture")
+            point=from_native(pilot,native_path,quarks,quarks,"explicit test scheme","fixture")
             self.assertEqual(point["point_id"],"fixture")
             self.assertEqual(point["mass_yukawa_scheme"],"explicit test scheme")
             self.assertEqual(evaluate(point)["full_lfv_gate"],"UNKNOWN")
             p["native_input_sha256"]="tampered"
             pilot.write_text(json.dumps(p))
             with self.assertRaises(ValueError):
-                from_native(pilot,native_path,quarks,"explicit test scheme","fixture")
+                from_native(pilot,native_path,quarks,quarks,"explicit test scheme","fixture")
 
     def test_rejects_bad_input_not_fabricated_rates(self):
         p=sample()
