@@ -9,6 +9,7 @@ from pathlib import Path
 import numpy as np
 
 from LFV.test_constraints import sample, cmat
+from Model.model import scalar_parameters
 from LFV.strict_2hdm_reference import (SM_KEYS, cp_even_rotation,
     decoupled_input, fill_type_ii_quarks, evaluate, source_component_ledger,
     SOURCE_BLOCKS)
@@ -26,10 +27,14 @@ def decoupled_sample():
     p["F"]=cmat(np.zeros((3,3),complex))
     p["scalar"]["gamma"]=0.
     p["internal_lepton_masses_GeV"]=p["pole_lepton_masses_GeV"][:]
-    p["potential"]={
-        "Lambda1":.3,"Lambda2":.45,"Lambda3":.1,
-        "Lambda4":-.1,"Lambda5":-.05,
-        "K1":0.,"K2":0.,"K12":0.,"Mu4":0.}
+    # Construct a consistent scalar potential from a prescribed spectrum.
+    # This is a mathematical decoupling control, not a viable scan point.
+    x=p["scalar"]
+    inv=scalar_parameters(**x,m12sq=400.**2*math.sin(x["beta"])*math.cos(x["beta"]),
+                          lc=.2,k1=0.,k2=0.,k12=0.)
+    names=("Lambda1","Lambda2","Lambda3","Lambda4","Lambda5",
+           "K1","K2","K12","Mu4")
+    p["potential"]={k:inv[k] for k in names}
     return p
 
 
