@@ -107,7 +107,7 @@ class FitTests(unittest.TestCase):
                 main()
             result=json.loads(stream.getvalue())
             self.assertEqual(result["status"],"NATIVE_3SIGMA_FAIL")
-            self.assertFalse(result["native_revalidation_required"])
+            self.assertTrue(result["native_revalidation_required"])
             card.write_text("tampered candidate input\\n")
             with patch("sys.argv",cmd),self.assertRaises(ValueError):
                 main()
