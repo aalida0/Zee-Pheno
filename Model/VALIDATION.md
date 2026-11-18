@@ -128,7 +128,8 @@ Source displayed by the user from the existing model-specific SPheno build:
 
 **Release decision:** `NATIVE_YUKAWA_INPUT_PASS + SARAH_CHECKMODEL_COMPLETED_WARNINGS_OPEN + CHARGED_VERTEX_STRUCTURE_PASS + CHARGED_MIXING_SIGN_PASS`; complete model/LFV physics validation remains **UNKNOWN**.
 
-\n## 2026-11-18 Neutrino and charged-lepton basis conventions audit
+
+## 2026-11-18 Neutrino and charged-lepton basis conventions audit
 
 ### Source-matched leading one-loop neutrino mass
 
@@ -159,7 +160,7 @@ and thus the SARAH-normalized form has coefficient `sin(2*gamma)/(32*pi^2)` mult
 
 The tree-level `vL -> VL` SARAH `UV` rotation belongs to a **zero** neutrino mass matrix and cannot be identified with the physical PMNS matrix. The physical PMNS matrix is determined only after the loop-generated Majorana matrix is Takagi diagonalized in the properly fixed charged-lepton basis.
 
-### One-card native charged-lepton-basis gate (pending)
+### One-card native charged-lepton-basis gate (user-reported PASS)
 
 `Model/check_basis.py` reads the **corrected existing** SPheno `baseline.spc` from the prior input gate, and checks that `S=c_beta*Ye+s_beta*Ye2` is real, diagonal, ordered and positive; it reconstructs the complete complex `D` and checks `Fzee+Fzee.T=0`. It **does not** compute PMNS, neutrino masses, LFV or an experimental acceptance. This is a tree-level Yukawa matching check. It does not equate running Yukawa eigenvalues to pole lepton masses.
 
@@ -183,9 +184,42 @@ The 2026-11-18 SARAH `CheckModel[]` reported gauge-invariant terms not written i
 | `H1.H1 S-` and `H2.H2 S-` | Vanish identically for commuting identical SU(2) scalar doublets under antisymmetric contraction | Algebraic, not added |
 | Opposite-doublet up/down quark Yukawas | Omitted by the chosen Type-II quark texture; no complete exact symmetry assignment has yet been demonstrated with the general lepton sector | Scope restriction |
 | `|H1|^2 H1^dag H2`, `|H2|^2 H1^dag H2` and conjugates | `lambda6`, `lambda7`-type allowed quartics absent at the specified input scale; **RGE closure UNKNOWN** with both lepton Yukawas and soft terms | Scope/STOP for high-scale claim |
-| Quark coupling to charged singlet (schematically `bar(u_R) d_R S+`) | SM gauge invariant; not automatically excluded by color or electric charge. Omitted by leptophilic-singlet ansatz; require lepton-number/other symmetry reasoning and loop audit | Scope/STOP for fully general model |
+| Quark coupling to charged singlet (schematically `bar(u_R) d_R S+`) | Listed by SARAH's gauge-only possible-term checker; independent Lorentz/color/Fermi-statistics and lepton-number verification is required before treating this as a genuine renormalizable interaction | Scope/STOP for fully general model |
 | Other checker-listed operators | Check individually for redundancies and symmetry before asserting forbidden terms | UNKNOWN |
 
 The absence of `lambda6,lambda7` and other allowed operators must **not** be advertised as protected by an exact `Z2` without explicitly checking all lepton and scalar couplings.
 
-**Current release:** tree-level scalar and charged vertices structurally checked, one-card native `Fzee/Ye2` input PASS; leading published neutrino-formula **convention bridge PASS (algebra only)**; native charged-lepton matching **PENDING**; native one-loop Majorana mass matching **UNKNOWN**; symmetry/RGE closure **UNKNOWN**.
+**Current release:** tree-level scalar and charged vertices structurally checked, one-card native `Fzee/Ye2` input PASS; leading published neutrino-formula **convention bridge PASS (algebra only)**; native charged-lepton matching **user-reported PASS**; native one-loop Majorana mass matching **UNKNOWN**; symmetry/RGE closure **UNKNOWN**.
+
+
+## 2026-11-18 Native mass-basis and conventional Z2 consistency audit
+
+### User-provided native charged-lepton result
+
+Result of `Model.check_basis` applied to the corrected `baseline.spc`:
+- **`TREE_LEPTON_BASIS_PASS`**, `beta=0.8114830062749087` rad.
+- `S=c_beta Ye+s_beta Ye2` diagonal, real and ordered: `[2.9350282036806365e-06, 6.068707417274492e-04, 1.0205763472088182e-02]`.
+- Relative off-diagonal `2.2850369020644617e-10`; diagonal imaginary relative `4.0188679963578914e-11`.
+- `max|Fzee+Fzee.T|=0.0`; the physical Higgs-basis `D=-s_beta Ye+c_beta Ye2` is a complex, non-diagonal matrix as intended.
+- The script explicitly reports `pmns_from_tree_UV=NOT_ESTABLISHED` and `radiative_neutrino_mass=NOT_EVALUATED`. This is a **user-reported successful one-card test**, not independent review of the underlying `.spc`.
+
+### Why our current model is not an exact or softly broken conventional Type-II Z2
+
+Using the ordinary Type-II assignment
+`H1: +, H2: -, Q_L: +, d_R: +, u_R: -`, choose `L_L=e_R=S+: +` so that `Ye L H1 e` and `F LL S+` are allowed. Then:
+
+| Operator | Parity under conventional quark Type-II Z2 | Interpretation |
+| --- | --- | --- |
+| `Q H1 d`, `Q H2 u`, `L H1 e`, `LL S+` | even | Allowed |
+| `L H2 e` (`Ye2`) | **odd** | **Dimension-4 hard breaking** for general nonzero `Ye2` |
+| `|S|^2 H1^dag H2` (`k12`) | **odd** | **Dimension-4 hard breaking** |
+| `(H1^dag H1)(H1^dag H2)` (`lambda6`), `(H2^dag H2)(H1^dag H2)` (`lambda7`) | **odd** | Set to zero at chosen scale, but not symmetry-protected |
+| `m12sq H1^dag H2`, `Mu4 S- H1.H2` | **odd** | Dimension-2/3 **soft breaking** |
+
+With generic `Ye` and `Ye2`, no conventional family-universal `Z2` with `H1` and `H2` opposite parities can simultaneously allow both lepton matrices. Reassigning `S+` parity changes whether the `LLS` or trilinear term is forbidden but does not remove the `Ye2` contradiction.
+
+**Crucial precedent:** the 2021 charged cascade paper [arXiv:2106.08332, EPJC 81 (2021) 1148](https://link.springer.com/article/10.1140/epjc/s10052-021-09956-2), §3.1 Eq. (17), includes `k12` in precisely this restricted scalar potential. Its §8 explicitly acknowledges that imposing the quark `Z2`-motivated texture while dropping the symmetry in the leptons is *not strictly symmetry-consistent* (their wording); they leave the combined quark+lepton flavor fit as future work. The 2017 general Zee scan [arXiv:1701.05345](https://arxiv.org/abs/1701.05345) also requires both lepton Yukawa matrices to reproduce oscillation data. Oredsson/Rathsman [arXiv:1810.02588](https://arxiv.org/abs/1810.02588) show that hard `Z2` breaking in 2HDM Yukawa/scalar sectors can radiatively spread and alter FCNCs. Their quantitative conclusions cannot be transferred to the charged-singlet extension without checking it.
+
+**Scoped model decision:** retain the 2021-inspired **low-scale restricted Zee ansatz** (quark Type-II *texture*, general `Ye/Ye2`, `k12` as specified, `lambda6=lambda7=0` at the declared reference scale), not an exact/softly broken globally `Z2`-invariant theory. Do not claim `Z2` enforces the absence of wrong-Higgs quark couplings or `lambda6/7` under RG. For an experimentally allowed scan, specify the input scale, estimate radiatively generated terms or associated model-dependence, and test sensitivity of the main charged cascade predictions to those omissions. The approximate texture is **not automatically a full renormalizable high-scale theory**.
+
+**Release status:** `NATIVE_TREE_LEPTON_BASIS_PASS` (user-reported); `CONVENTIONAL_SOFT_Z2_INCOMPATIBLE_WITH_CURRENT_LAGRANGIAN` (analytic); `RGE_CLOSURE_UNKNOWN`; `NEUTRINO_1LOOP_NATIVE_UNKNOWN`.
