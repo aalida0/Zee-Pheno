@@ -61,12 +61,12 @@ class StrictReferenceTests(unittest.TestCase):
     def test_source_component_parser_reconstructs_coherent_sum(self):
         # Test source extraction without requiring GitLab in unit CI.
         labels=sorted(SOURCE_BLOCKS)
-        src="def cR_llpg(self,i,j):\\n"
+        src="def cR_llpg(self,i,j):\n"
         for n,label in enumerate(labels,1):
-            src+=f"    cR_llpg_{label}=complex(i*{n}/1000,j/1000)\\n"
+            src+=f"    cR_llpg_{label}=complex(i*{n}/1000,j/1000)\n"
         src+="    cR=sum(["
         src+=",".join(f"cR_llpg_{key}" for key in labels)
-        src+="])\\n    return cR\\n"
+        src+="])\n    return cR\n"
         with tempfile.TemporaryDirectory() as td:
             path=Path(td)/"fake_components.py"
             path.write_text(src)
