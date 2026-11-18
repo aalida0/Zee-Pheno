@@ -40,7 +40,7 @@ Mixed running couplings and pole masses are an explicitly mixed-order
 leading-order scheme diagnostic.
 
 ~~~bash
-# Substitute the real angle for ALPHA_RAD; do not use the literal token.
+# CP-even alpha is parsed from SCALARMIX; no manual angle is needed.
 python3 -m LFV.pilot \
   --native "$WORK/step1_NO_native/result.json" \
   --card "$WORK/step1_NO_proposal.in" \
@@ -51,7 +51,6 @@ python3 -m LFV.pilot \
   --native "$WORK/step1_IO_native/result.json" \
   --card "$WORK/step1_IO_proposal.in" \
   --spectrum "$WORK/step1_IO_native/output.spc" \
-  --alpha-rad ALPHA_RAD \
   --output "$WORK/step2_IO_lfv_one_loop.json"
 ~~~
 
@@ -63,7 +62,8 @@ grep -niE '^[[:space:]]*Block[[:space:]]+(MASS|SCALARMIX|ZH|ALPHA)' \
 ~~~
 
 The tool fails unless the native diagnostic's input SHA-256 matches the
-candidate card, and the 2×2 `SCALARMIX` rotation is complete and orthogonal. It uses native running F, Ye, Ye2, ZEL/ZER and ZP, with
+candidate card, and the 2×2 `SCALARMIX` rotation is complete and orthogonal.
+It uses native running F, Ye, Ye2, ZEL/ZER and ZP, with
 matched internal charged-scalar masses. Neutral masses are taken from
 the explicitly supplied native spectrum. Alpha(0) and muon/tau total widths
 are taken from the archived Module3 illustrative PDG-2024 normalization;
