@@ -81,8 +81,16 @@ rerun native diagnostics after each change and stop on mismatched quantities,
 tachyons, tadpole failure, or nonperturbative couplings. Do not overwrite cards.
 
 
-**STOP before LFV/scans:** certify both NO and IO under native matching and
-assess stability under reasonable matching-scale variations.
+**Step 1 benchmark gate: PASS for the two native reference cards.**
+Those cards may now be used as input to the **Step 2 LFV pilot**, with their
+one-loop Yukawa scheme and input hashes preserved. This is not permission to
+treat an unconstrained scan as neutrino-allowed: new scalar points, lightest
+masses, or Majorana phases require fresh native fit validation.
+Matching-scale stability is an optional **theory-systematic study** for a
+full parameter scan, not an observed failure of the existing two native cards.
+A full correlated NuFIT likelihood is not implemented; only published
+one-dimensional 3σ screens are claimed. Do not promote the full physical model
+before LFV, flavor, Higgs and vacuum gates.
 
 
 ## User-run native benchmark results (2026-11-18)
@@ -127,3 +135,43 @@ acceptance. The preliminary IO `dmsq21` printed by
 must not be interpreted as physical IO Δm21². The **screen** explicitly maps
 IO to (m1,m2,m3)=(middle,largest,lightest) before computing splittings.
 
+
+
+## Absolute-mass benchmarks (conditional, not extra oscillation constraints)
+
+For the specified **zero Majorana phases** and the two chosen lightest
+masses, the standard three-neutrino expressions give:
+
+| Derived parameter | NO | IO |
+| --- | ---: | ---: |
+| Σmν (eV) | 0.072987998 | 0.099917539 |
+| mβ (eV) | 0.012871998 | 0.048753638 |
+| mββ (eV) | 0.010676045 | 0.048175223 |
+
+These numbers are *derived predictions* at the chosen fixed lightest mass
+and phase inputs. They are **not** exclusions from cosmological, beta-decay
+or neutrinoless-double-beta-decay data. NuFIT does not fix these two
+Majorana phases or the absolute neutrino mass. The new fit tests cover
+additional lightest masses and phase pairs *algebraically*; those variants
+have **not** been rerun natively.
+
+## Native result provenance check
+
+For final benchmark acceptance, bind the native output to its exact proposal
+card, rather than trusting a free-standing report:
+
+~~~bash
+python3 -m Neutrino.fit --ordering NO --mlight-ev 0.0093 \
+  --native-result "$WORK/step1_NO_native/result.json" \
+  --checked-card "$WORK/step1_NO_proposal.in" \
+  --output "$WORK/step1_NO_cardbound_report.json"
+
+python3 -m Neutrino.fit --ordering IO --mlight-ev 0.001 \
+  --native-result "$WORK/step1_IO_native/result.json" \
+  --checked-card "$WORK/step1_IO_proposal.in" \
+  --output "$WORK/step1_IO_cardbound_report.json"
+~~~
+
+A PASS is labeled `NATIVE_3SIGMA_PASS_CARD_BOUND` only when the native
+input SHA-256 matches the original candidate input card. The native SPheno
+output is still a **one-card benchmark**, not a full NuFIT joint likelihood.
