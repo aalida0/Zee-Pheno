@@ -147,6 +147,67 @@ def fit(snapshot_path, ordering, mlight, alpha21=0., alpha31=0.):
     return report
 
 
+
+# NuFIT 6.1 IC24+SK 3-sigma ranges (one-dimensional projections only).
+THREE_SIGMA = {
+    "NO": dict(s12=(.2893,.3295), s13=(.02064,.02418),
+               s23=(.435,.584), dm21=(7.236e-5,7.823e-5),
+               dm3l=(2.450e-3,2.576e-3), delta_deg=(125.,365.)),
+    "IO": dict(s12=(.2893,.3295), s13=(.02093,.02441),
+               s23=(.439,.584), dm21=(7.236e-5,7.822e-5),
+               dm3l=(-2.547e-3,-2.421e-3), delta_deg=(203.,335.)),
+}
+
+
+def inspect_native(path, ordering):
+    """Native loop Takagi + charged lepton rotation; one-dimensional screen."""
+    source = json.loads(path.read_text())
+    snap = source["snapshots"][source["spectrum_snapshot_index"]]
+    native_mass = complex_matrix(snap["mat1"])*1e9
+    u_native = complex_matrix(snap["UV_1L"])
+    el = complex_matrix(snap["ZEL"])
+    sorted_mass = np.asarray(snap["MFv_1L"], float)*1e9
+    if np.max(abs(native_mass-native_mass.T)) > 1e-11 * max(np.max(abs(native_mass)),1e-20):
+        raise ValueError("Native Majorana matrix is not symmetric")
+    diagonal = u_native.conj()@native_mass@u_native.conj().T
+    if np.linalg.norm(diagonal-np.diag(sorted_mass)) > 1e-9*np.linalg.norm(native_mass):
+        raise ValueError("Native Takagi rotation does not diagonalize Majorana mass")
+    if any(sorted_mass[i] > sorted_mass[i+1] for i in range(2)):
+        raise ValueError("Native neutrino masses are not ascending")
+    # U_mass = ZEL U_gauge, U_gauge = UV_1L*^T.
+    u = el @ u_native.conj().T
+    indices = [0,1,2] if ordering=="NO" else [1,2,0]
+    m = sorted_mass[indices]
+    u = u[:,indices]
+    s13 = float(abs(u[0,2])**2)
+    if not 0 < s13 < 1:
+        raise ValueError("PMNS reactor angle undefined")
+    s12 = float(abs(u[0,1])**2/(1-s13))
+    s23 = float(abs(u[1,2])**2/(1-s13))
+    a,b,c = math.sqrt(s12),math.sqrt(s13),math.sqrt(s23)
+    ca,cb,cc = math.sqrt(1-s12),math.sqrt(1-s13),math.sqrt(1-s23)
+    j=float(np.imag(u[0,0]*u[1,1]*u[0,1].conjugate()*u[1,0].conjugate()))
+    denom=ca*cc*cb**2*a*c*b
+    if denom < 1e-12:
+        raise ValueError("Unresolved native Dirac CP phase")
+    sind=j/denom
+    cosd=(abs(u[1,0])**2-a*a*cc*cc-ca*ca*c*c*b*b)/(2*a*ca*c*cc*b)
+    delta = math.degrees(math.atan2(sind,cosd))%360
+    values=dict(s12=s12,s13=s13,s23=s23,
+                dm21=float(m[1]**2-m[0]**2),
+                dm3l=float(m[2]**2-m[0 if ordering=="NO" else 1]**2),
+                delta_deg=delta)
+    allowed=THREE_SIGMA[ordering]
+    checks={k: (lo<=value<=hi if k!="delta_deg" else
+                 any(lo<=value+shift<=hi for shift in (0.,360.,-360.)))
+            for k,value in values.items() for lo,hi in [allowed[k]]}
+    return dict(status="NATIVE_3SIGMA_SCREEN_PASS" if all(checks.values()) else
+                "NATIVE_3SIGMA_SCREEN_FAIL",ordering=ordering,
+                parameters=values,three_sigma_ranges=allowed,checks=checks,
+                masses_eV=m.tolist(),source=SOURCE,
+                caveat="One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance")
+
+
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--snapshot",type=Path,default=Path(__file__).resolve().parents[1]/
@@ -158,10 +219,13 @@ def main():
     ap.add_argument("--reference-card",type=Path,help="Attested loop-enabled native card")
     ap.add_argument("--write-card",type=Path,help="Write new proposed input card (must not exist)")
     ap.add_argument("--output",type=Path,help="Write JSON report (must not exist)")
+    ap.add_argument("--native-result",type=Path,help="Existing instrumented native result.json")
     args=ap.parse_args()
     if bool(args.reference_card)!=bool(args.write_card):
         ap.error("--reference-card and --write-card must be used together")
     report=fit(args.snapshot,args.ordering,args.mlight_ev,args.alpha21,args.alpha31)
+    if args.native_result:
+        report["native_screen"]=inspect_native(args.native_result,args.ordering)
     if args.reference_card:
         if sha(args.reference_card)!=REFERENCE_CARD_SHA:
             raise ValueError("Unrecognized loop-enabled source card")
