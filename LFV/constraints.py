@@ -14,7 +14,7 @@ from pathlib import Path
 import numpy as np
 
 from LFV.core import (BASIS, OPERATOR, vertices, dipole_ledger,
-                      radiative_width)
+                      radiative_width, neutral_width, universality)
 from LFV import tree
 from LFV.barr_zee import (QUARKS, SPECIES, quark_coupling, fermion_photon,
                           charged_scalar_photon, physical_trilinears)
@@ -29,6 +29,8 @@ MISSING=(
     "Exact external-invariant and finite-neutrino-mass remainders",
     "Coherent tree, dipole, nondipole photon, Z/scalar penguin and box contributions to 3-lepton decays",
     "Muon-electron conversion: semileptonic scalar/vector operators, photonic/Z penguins, boxes and nuclear matching",
+    "Leptonic universality doublet-D and mixed F-D operators and higher powers",
+    "Muonium-antimuonium exchange and separate lepton-flavor-preserving precision bounds",
 )
 
 
@@ -59,7 +61,7 @@ def input_parameters(point):
               "pole_lepton_masses_GeV","fermion_loop_masses_GeV",
               "quark_yukawa_masses_GeV","alpha_em",
               "total_lepton_widths_GeV","mass_yukawa_scheme"}
-    if not required<=point.keys() or point.keys()-required-{"potential","tree_quadrature_order"}:
+    if not required<=point.keys() or point.keys()-required-{"potential","tree_quadrature_order","GF_GeV_minus2"}:
         raise ValueError("Unexpected/missing point fields")
     if not isinstance(point["point_id"],str) or not point["point_id"].strip():
         raise ValueError("Nonempty point_id required")
@@ -105,6 +107,10 @@ def input_parameters(point):
     if "tree_quadrature_order" in point and (type(point["tree_quadrature_order"]) is not int
         or not 8<=point["tree_quadrature_order"]<=48):
         raise ValueError("tree_quadrature_order must be an integer from 8 to 48")
+    if "GF_GeV_minus2" in point:
+        gf=point["GF_GeV_minus2"]
+        if not isinstance(gf,(int,float)) or not math.isfinite(gf) or gf<=0:
+            raise ValueError("Fermi constant must be finite and positive")
     potential=point.get("potential")
     if potential is not None and not isinstance(potential,dict):
         raise ValueError("Potential must be a dict when provided")
@@ -155,6 +161,16 @@ def evaluate(point):
             branching_ratio_included_topologies_only=float(br),
             included_components=rows,
             physical_branching_ratio=None,experimental_gate="UNKNOWN")
+    higgs_lfv={}
+    for name,(C,mass) in neutral.items():
+        higgs_lfv[name]={}
+        for label,i,j in (("e_mu",0,1),("e_tau",0,2),("mu_tau",1,2)):
+            higgs_lfv[name][label]={
+                "partial_width_two_charges_GeV":2*neutral_width(C,mass,i,j,pole),
+                "physical_branching_ratio":None,
+                "status":"LO_NEUTRAL_SCALAR_PARTIAL_WIDTH_ONLY"}
+    singlet_universality=(universality(F,p,point["GF_GeV_minus2"])
+                          if "GF_GeV_minus2" in point else None)
     three_lepton={}
     if "tree_quadrature_order" in point:
         order=point["tree_quadrature_order"]
@@ -180,6 +196,8 @@ def evaluate(point):
                 charged_scalar_photon="INCLUDED_FROM_RESTRICTED_POTENTIAL" if scalar_G is not None
                                        else "UNKNOWN_POTENTIAL_NOT_SUPPLIED",
                 processes=result,three_lepton_tree=three_lepton,
+                neutral_higgs_lfv_partial_widths=higgs_lfv,
+                universality_F_subset=singlet_universality,
                 missing_contributions=list(MISSING),
                 full_lfv_gate="UNKNOWN",global_zee_acceptance=None,
                 caveat="No experimental pass/exclusion is possible until omitted amplitudes and scheme uncertainties are controlled.")
