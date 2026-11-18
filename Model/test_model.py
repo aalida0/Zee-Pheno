@@ -41,6 +41,30 @@ class ModelTests(unittest.TestCase):
         ma2 = p['M12Sq']/(sb*cb) - p['Lambda5']*v2
         self.assertAlmostEqual(ma2 / x['ma']**2, 1., places=9)
 
+    def test_tadpoles_and_charged_goldstone(self):
+        x = dict(mh1=125., mh2=580.7, ma=633.7, mH1=300., mH2=700.,
+                 alpha=1.398, beta=1.394, gamma=1.089, m12sq=57700.,
+                 lc=4.473, k1=1.082, k2=.00398, k12=-.001266)
+        p = scalar_parameters(**x)
+        v = 246.21965
+        cb, sb = math.cos(x["beta"]), math.sin(x["beta"])
+        v1, v2 = v*cb, v*sb
+        l345 = p["Lambda3"]+p["Lambda4"]+p["Lambda5"]
+        t1 = p["M112"]*v1-p["M12Sq"]*v2 + (
+            p["Lambda1"]*v1**3+l345*v1*v2**2)/2
+        t2 = p["M222"]*v2-p["M12Sq"]*v1 + (
+            p["Lambda2"]*v2**3+l345*v2*v1**2)/2
+        self.assertLess(max(abs(t1), abs(t2)), 1e-6)
+        # Full charged 3x3 matrix, independent of the projected 2x2 test.
+        d = p["M12Sq"]/(sb*cb)-v*v*(p["Lambda4"]+p["Lambda5"])/2
+        mixing = p["Mu4"]*v/math.sqrt(2)
+        charged = ((d*sb*sb, -d*sb*cb, mixing*sb),
+                   (-d*sb*cb, d*cb*cb, -mixing*cb),
+                   (mixing*sb, -mixing*cb, p["MCS2"]))
+        goldstone = (cb, sb, 0.)
+        for row in charged:
+            self.assertLess(abs(sum(a*b for a, b in zip(row, goldstone))), 1e-7)
+
     def test_signed_gamma_flips_only_charged_offdiagonal(self):
         args = dict(mh1=125.,mh2=580.7,ma=633.7,mH1=300.,mH2=700.,
                     alpha=1.398,beta=1.394,m12sq=57700.,lc=4.473,
