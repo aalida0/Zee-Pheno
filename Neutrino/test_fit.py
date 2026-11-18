@@ -1,10 +1,12 @@
 """Step 1 regression: NO/IO targets and exact inverse at native running point."""
 import unittest
+import tempfile
+import json
 from pathlib import Path
 
 import numpy as np
 
-from Neutrino.fit import fit, target, complex_matrix, NUFIT
+from Neutrino.fit import fit, target, complex_matrix, NUFIT, inspect_native
 
 
 REFERENCE = Path(__file__).resolve().parents[1]/"Model/reference/native_neutrino_snapshot.json"
@@ -28,6 +30,17 @@ class FitTests(unittest.TestCase):
                 self.assertLessEqual(report["max_abs_D"],1.)
                 f = complex_matrix(report["F_gauge"])
                 np.testing.assert_allclose(f+f.T,np.zeros((3,3)),atol=1e-14)
+
+    def test_known_unmatched_native_snapshot_is_rejected(self):
+        # A matching matrix calculation is not an oscillation acceptance.
+        snapshot = json.loads(REFERENCE.read_text())["snapshot"]
+        with tempfile.TemporaryDirectory() as td:
+            p = Path(td)/"native.json"
+            p.write_text(json.dumps({"snapshots":[snapshot],"spectrum_snapshot_index":0}))
+            result = inspect_native(p,"NO")
+        self.assertEqual(result["status"],"NATIVE_3SIGMA_SCREEN_FAIL")
+        self.assertFalse(result["checks"]["dm21"])
+
 
     def test_numerical_and_phase_input_rejection(self):
         for value in (-1e-3,float("nan"),float("inf"),.3):
