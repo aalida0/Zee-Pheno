@@ -37,7 +37,8 @@ jobs:
           assert result['neutral_vertex_max_residual']<1e-12
           assert result['Zee_full_dipoles'] is None
           for name,rows in result['reference_dipoles'].items():
-              print(name,rows)
+              print(name, 'C_L',rows['C_L_GeV_minus2'],
+                          'C_R',rows['C_R_GeV_minus2'])
               for k in ('C_L_GeV_minus2','C_R_GeV_minus2'):
                   assert all(math.isfinite(v) for v in rows[k].values())
           from LFV.core import dipole_ledger
@@ -91,10 +92,11 @@ jobs:
                   ours=contribution[idx]
                   reference={'C_L':srcL,'C_R':srcR}[k][group] * (
                       -1/(8*math.pi**2*p['v']**2))
-                  print('STRICT_2HDM_FERMION_PHOTON',species,k,
-                        'native',ours,'public_Zoff',reference,
-                        'relative_delta',abs(ours-reference)/
-                          max(abs(ours),abs(reference),1e-30))
+                  residual=abs(ours-reference)/max(abs(ours),abs(reference),1e-30)
+              print('STRICT_2HDM_FERMION_PHOTON',species,k,
+                    'native',ours,'public_Zoff',reference,
+                    'relative_delta',residual)
+              assert residual<1e-9
           overlap=result['scalar_one_loop_chirality_overlap']['mu_to_e_gamma']
           print('STRICT_2HDM_CHIRALITY_OVERLAP',overlap)
           from LFV.core import vertices
@@ -113,9 +115,10 @@ jobs:
           for index,key in enumerate(('C_L','C_R')):
               author=complex(rows[key]['real'],rows[key]['imag'])
               ours=scalar_photon[index]
+              residual=abs(ours-author)/max(abs(ours),abs(author),1e-30)
               print('STRICT_2HDM_CHARGED_SCALAR_PHOTON',key,'native',ours,
-                    'public',author,'relative_delta',
-                    abs(ours-author)/max(abs(ours),abs(author),1e-30))
+                    'public',author,'relative_delta',residual)
+              assert residual<1e-10
           assert overlap['direct_chirality_relative_residual']<0.05
           assert overlap['exchanged_chirality_relative_residual']>0.5
           assert result['native_to_author_chiral_operator_mapping']=='NOT_CERTIFIED'
