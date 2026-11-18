@@ -30,6 +30,10 @@ class FitTests(unittest.TestCase):
                 self.assertEqual(report["status"],"ANALYTIC_TARGET_CLOSED_NATIVE_UNKNOWN")
                 self.assertTrue(report["native_revalidation_required"])
                 self.assertLess(report["forward_residual"],2e-9)
+                self.assertAlmostEqual(report["sum_mnu_eV"],sum(mass),places=13)
+                self.assertAlmostEqual(report["m_bb_eV"],abs(mnu[0,0]),places=13)
+                self.assertAlmostEqual(report["m_beta_eV"]**2,
+                                       float(np.sum(abs(u[0])**2 * mass**2)),places=13)
                 self.assertLessEqual(report["max_abs_D"],1.)
                 f = complex_matrix(report["F_gauge"])
                 np.testing.assert_allclose(f+f.T,np.zeros((3,3)),atol=1e-14)
