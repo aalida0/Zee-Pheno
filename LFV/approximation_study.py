@@ -63,6 +63,8 @@ def assess_reference_channel(reference, channel, author_mw):
         raise ArithmeticError("Retained + omitted source terms fail to reproduce full reference")
     # Paper-printed alternative for source HW extra M_W^-2 discrepancy:
     # keep both results, never silently "repair" the author source.
+    group_norms={key:norm(vec(key)) for key in sorted(OMITTED_2HDM_SOURCE_BLOCKS)}
+    largest=max(group_norms,key=group_norms.get)
     hw_adjustment=(author_mw**2-1.)*vec("HW")
     paper_full=full+hw_adjustment
     paper_omitted=omitted+hw_adjustment
@@ -72,6 +74,8 @@ def assess_reference_channel(reference, channel, author_mw):
     return {
         "author_approx_norm_GeV_minus2":norm(approx),
         "author_omitted_norm_GeV_minus2":norm(omitted),
+        "largest_omitted_source_group":largest,
+        "largest_omitted_source_group_norm_GeV_minus2":group_norms[largest],
         "author_full_norm_GeV_minus2":norm(full),
         "author_omitted_over_approx":ratio(omitted,approx),
         "author_omitted_over_full":ratio(omitted,full),
@@ -178,6 +182,10 @@ def sweep(template, sm, public_source, grid=None):
             raw_ratio_max=max((r["author_omitted_over_approx"] for r in z),default=None),
             paper_variant_ratio_max=max((
                 r["paper_HW_variant_omitted_over_approx"] for r in z),default=None),
+            dominant_source_counts={
+                group:sum(r["largest_omitted_source_group"]==group for r in z)
+                for group in sorted(OMITTED_2HDM_SOURCE_BLOCKS)
+            },
             physical_Zee_lfv_status="UNKNOWN",
         )
     return output
