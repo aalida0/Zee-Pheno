@@ -204,6 +204,36 @@ class GeneralLFVTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             evaluate(p)
 
+    def test_strict_2hdm_neutral_yukawa_dictionary(self):
+        # Altmannshofer et al. arXiv:2410.17313v4, Eqs.(8),(11),(12).
+        # Our paper conventions: rho_e^dagger = D/sqrt(2),
+        # q_h=(cos(beta-alpha),-sin(beta-alpha));
+        # q_H=(sin(beta-alpha),cos(beta-alpha)); q_A2=-i.
+        # Exact neutral-sector map; NOT a Zee charged-gauge completion.
+        from LFV.core import vertices
+        from LFV.barr_zee import quark_coupling
+        p=sample()
+        scal=p["scalar"]
+        ml=np.asarray(p["internal_lepton_masses_GeV"])
+        D=np.array(p["D"]["real"])+1j*np.array(p["D"]["imag"])
+        neutral=vertices(D,scal,ml)
+        delta=scal["beta"]-scal["alpha"]
+        q={"h":(math.cos(delta),-math.sin(delta)),
+           "H":(math.sin(delta),math.cos(delta)),
+           "A":(0.,-1j)}
+        for scalar,(C,_) in neutral.items():
+            q1,q2=q[scalar]
+            expected=q1*np.diag(ml/scal["v"])+q2*D/np.sqrt(2)
+            np.testing.assert_allclose(C,expected,rtol=1e-13,atol=1e-16)
+        for species,mass in (("top",172.),("bottom",4.2)):
+            rho=(mass/scal["v"]/math.tan(scal["beta"])
+                 if species=="top" else -mass/scal["v"]*math.tan(scal["beta"]))
+            for name,(q1,q2) in q.items():
+                expected=(q1*mass/scal["v"]+
+                          rho*(q2.conjugate() if species=="top" else q2))
+                self.assertAlmostEqual(abs(quark_coupling(species,mass,name,scal)
+                                            -expected),0.,places=13)
+
     def test_MEGII_budget_for_native_NO_IO_scalar_controls(self):
         # Source: MEG II arXiv:2504.15711 (1.5e-13, 90% CL).
         # These are *required upper bounds* on omitted amplitudes,
