@@ -58,6 +58,8 @@ jobs:
           from LFV.strict_2hdm_reference import (
               load_public,decoupled_input,fill_type_ii_quarks,source_component_ledger)
           from LFV.barr_zee import fermion_photon,quark_coupling,QUARKS
+          from LFV.core import vertices
+          neutral=vertices(matrix(point['D'],'D'),p,ml)
           from pathlib import Path
           public=load_public(Path('/tmp/general-2hdm-pheno/thdm.py'))
           initial=decoupled_input(point,SM)
