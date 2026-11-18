@@ -248,7 +248,7 @@ def main():
                               else "NATIVE_3SIGMA_PASS_CARD_UNVERIFIED")
         else:
             report["status"]="NATIVE_3SIGMA_FAIL"
-        report["native_revalidation_required"]=not verified
+        report["native_revalidation_required"]=not (verified and screen["status"]=="NATIVE_3SIGMA_SCREEN_PASS")
     if args.reference_card:
         if sha(args.reference_card)!=REFERENCE_CARD_SHA:
             raise ValueError("Unrecognized loop-enabled source card")
