@@ -83,19 +83,22 @@ def target(ordering, mlight, alpha21=0., alpha31=0.):
 
 
 def inverse(mnu, leptons, charged, sine, fscale, t=1.+0j, *,
-            root=0, homogeneous=None, f_phase=0.):
+            root=0, homogeneous=None, f_phase=0., chart=(0,1,2)):
     """Two null-cone roots and four-complex-dimensional homogeneous D freedom."""
     if (not np.isfinite(fscale) or fscale <= 0 or abs(sine) < 1e-12 or
         not np.isfinite(t) or type(root) is not int or root not in (0,1) or
-        not math.isfinite(f_phase)):
+        not math.isfinite(f_phase) or
+        not isinstance(chart,(tuple,list)) or len(chart)!=3 or
+        any(type(i) is not int for i in chart) or sorted(chart)!=[0,1,2]):
         raise ValueError("Invalid F scale, null-cone root, or scalar mixing")
     coeff = np.zeros(4,complex) if homogeneous is None else np.asarray(homogeneous,complex)
     if coeff.shape!=(4,) or not np.isfinite(coeff).all():
         raise ValueError("Homogeneous D requires exactly four finite complex coefficients")
-    # n=(1,x,t) solves n.T @ M @ n=0.
-    a = mnu[1, 1]
-    b = 2*(mnu[0, 1]+t*mnu[1, 2])
-    c = mnu[0, 0]+2*t*mnu[0, 2]+t*t*mnu[2, 2]
+    # Each chart covers a distinct projective F null-vector patch.
+    q=np.asarray(mnu)[np.ix_(chart,chart)]
+    a = q[1, 1]
+    b = 2*(q[0, 1]+t*q[1, 2])
+    c = q[0, 0]+2*t*q[0, 2]+t*t*q[2, 2]
     if abs(a) < 1e-15*max(abs(b),abs(c),1e-300):
         if root or abs(b)<1e-15*max(abs(c),1e-300):
             raise ValueError("Unavailable null-cone root; choose another chart or t")
@@ -103,7 +106,8 @@ def inverse(mnu, leptons, charged, sine, fscale, t=1.+0j, *,
     else:
         roots=sorted(np.roots([a,b,c]),key=lambda z:(abs(z),z.real,z.imag))
         x=roots[root]
-    n = np.array([1, x, t], complex)
+    n = np.empty(3,complex)
+    n[list(chart)]=[1,x,t]
     f = np.array([[0, n[2], -n[1]], [-n[2], 0, n[0]],
                   [n[1], -n[0], 0]], complex)
     f *= (fscale/np.max(abs(f)))*np.exp(1j*f_phase)
