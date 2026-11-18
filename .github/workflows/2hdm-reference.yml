@@ -181,3 +181,16 @@ jobs:
         with:
           name: zee-nonzero-mixing-24-point-diagnostics
           path: /tmp/zee_nonzero_mixing_diagnostics/*
+
+      - name: Evaluate 24 corresponding auxiliary pure-2HDM doublet-sector controls
+        run: |
+          python -m LFV.doublet_proxy_study \
+            --template /tmp/zee_nonzero_template.json \
+            --inversion /tmp/zee_nonzero_inversion.json \
+            --sm /tmp/lfv_2hdm_sm.json \
+            --public-source /tmp/general-2hdm-pheno/thdm.py \
+            --output-dir /tmp/zee_doublet_proxy
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zee-doublet-proxy-24-point-2hdm-reference
+          path: /tmp/zee_doublet_proxy/*
