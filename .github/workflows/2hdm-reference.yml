@@ -162,6 +162,8 @@ jobs:
           from LFV.test_constraints import sample
           from LFV.test_nonzero_mixing_study import inversion
           p=sample()
+          # Fixed physical-mass control before evaluating LFV; quartics remain modest.
+          p["scalar"]["mH1"]=650.
           import numpy as np
           from LFV.test_constraints import cmat
           D=np.array(p["D"]["real"])+1j*np.array(p["D"]["imag"])
