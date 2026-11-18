@@ -52,3 +52,18 @@ python3 -m Model.compare_neutrino_masses \
 ```
 
 The output compares invariant **neutrino singular values only**, not the complex Majorana matrix or PMNS angles. See [VALIDATION.md](VALIDATION.md) for provenance and the mismatch gate.
+
+### November 18 numerical mismatch — follow-up controls
+
+The one-card native result gives `[0.01278558, 0.04144988, 0.06256558]` eV whereas the published-formula reconstruction gives `[0.00930183, 0.01272101, 0.05095806]` eV: **do not use native neutrino pole masses as a physical constraint yet**. `compare_neutrino_masses.py` now also prints tree-to-loop charged-scalar/lepton mass shifts. `probe_neutrino_scaling.py` checks that the same attested native binary produces zero neutrino masses at `Fzee=0` and responds approximately linearly at `Fzee*2`.
+
+```bash
+python3 -m unittest Model.test_compare_neutrino_masses Model.test_neutrino_scaling -v
+WORK="$HOME/zee-lfv64-serial-20261112-094549"
+python3 -m Model.probe_neutrino_scaling \
+  --input "$WORK/model-neutrino-loop-20261118/loop_enabled.in" \
+  --exe "$WORK/SPheno-4.0.5/bin/SPhenoZeeTypeII" \
+  --baseline "$WORK/model-neutrino-loop-20261118/loop_enabled.spc" \
+  --output-dir "$WORK/model-neutrino-F-controls-20261118"
+```
+
