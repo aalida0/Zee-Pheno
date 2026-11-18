@@ -12,8 +12,8 @@ from pathlib import Path
 import numpy as np
 
 from Model.audit_neutrino_native import parse_entries, sha
-from Model.compare_neutrino_masses import zee_matrix
-from Model.probe_neutrino_loop import BINARY_SHA
+from Neutrino.fit import zee_matrix
+BINARY_SHA = "2c1a73c797b2f21b3266f3558dae3196a6b2514a5fd3d2e05fc83b0ce918af52"
 
 # Ordered Fortran output schema: shape, complex.
 PARAMETERS = {'vd': ((), False), 'vu': ((), False), 'Mu4': ((), False),
