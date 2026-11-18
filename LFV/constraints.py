@@ -21,6 +21,7 @@ from LFV.barr_zee import (QUARKS, SPECIES, quark_coupling, fermion_photon,
 
 CHANNELS={"mu_to_e_gamma":(1,0),"tau_to_e_gamma":(2,0),"tau_to_mu_gamma":(2,1)}
 SCALAR_KEYS={"v","beta","alpha","gamma","mh1","mh2","ma","mH1","mH2"}
+LEPTON_INDEX={"electron":0,"muon":1,"tau":2}
 MISSING=(
     "Unmatched full Zee W/Goldstone/ghost/charged-current LFV gauge aggregate (F-dependent and doublet sectors)",
     "Fermion Z-photon and physical mixed charged-scalar Z-photon Barr-Zee",
@@ -77,7 +78,7 @@ def input_parameters(point):
     if not isinstance(point["mass_yukawa_scheme"],str) or not point["mass_yukawa_scheme"].strip():
         raise ValueError("Explicit mass/Yukawa scheme label is required")
     F,D=matrix(point["F"],"F"),matrix(point["D"],"D")
-    if np.max(abs(F+F.T))>1e-10*max(1.,np.max(abs(F))):
+    if np.max(abs(F+F.T))>1e-10*max(1e-15,np.max(abs(F))):
         raise ValueError("F must be antisymmetric in the lepton mass basis")
     ml=positive_array(point["internal_lepton_masses_GeV"],3,"internal lepton masses")
     pole=positive_array(point["pole_lepton_masses_GeV"],3,"pole lepton masses")
@@ -179,7 +180,8 @@ def evaluate(point):
         for s,(C,ms) in neutral.items():
             external=np.array([C[j,i],C[i,j].conjugate()])
             for name in SPECIES:
-                inner=quark_coupling(name,qy[name],s,p) if name in QUARKS else C[{"electron":0,"muon":1,"tau":2}[name],{"electron":0,"muon":1,"tau":2}[name]]
+                inner=(quark_coupling(name,qy[name],s,p) if name in QUARKS
+                       else C[LEPTON_INDEX[name],LEPTON_INDEX[name]])
                 nc,q=QUARKS[name] if name in QUARKS else (1,-1)
                 amp,err=fermion_photon(external,inner,fm[name],ms,pole[i],alpha,nc,q)
                 rows[f"2loop_{s}_{name}_gamma"]=dict(
@@ -197,8 +199,8 @@ def evaluate(point):
         total=np.array([sum(complex(v[key]["real"],v[key]["imag"]) for v in rows.values())
                         for key in ("C_L","C_R")])
         n=float(np.linalg.norm(total))
-        sum_abs=float(sum(math.hypot(complex(v["C_L"]["real"],v["C_L"]["imag"]).__abs__(),
-                                        complex(v["C_R"]["real"],v["C_R"]["imag"]).__abs__())
+        sum_abs=float(sum(math.hypot(abs(complex(v["C_L"]["real"],v["C_L"]["imag"])),
+                                        abs(complex(v["C_R"]["real"],v["C_R"]["imag"])))
                           for v in rows.values()))
         br=radiative_width(total,pole[i],pole[j],alpha)/widths["mu" if i==1 else "tau"]
         bound=(amplitude_budget(n,pole[i],pole[j],widths["mu" if i==1 else "tau"],
