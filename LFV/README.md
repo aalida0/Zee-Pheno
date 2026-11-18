@@ -31,10 +31,13 @@ WORK="$HOME/zee-lfv64-serial-20261112-094549"
 ~~~
 
 The native spectrum contains neutral scalar masses (PDG 25,35,36).
-Supply the **physical CP-even scalar mixing angle alpha, radians**, from
-the *same* SPheno scalar convention; the historical value 1.398 is NOT a
-safe default for this new benchmark. Mixing and pole masses are an
-explicitly mixed-order leading-order scheme diagnostic.
+The CP-even mixing angle **alpha is extracted automatically** from the same
+SPheno `SCALARMIX` block as the neutral pole masses. For the supplied NO
+spectrum, `ZH(1,:)=(0.725651649,0.688062268)` gives
+`alpha=atan2(ZH12,ZH11)=0.7588153265 rad` in the frozen convention.
+The historical example value 1.398 is NOT applicable.
+Mixed running couplings and pole masses are an explicitly mixed-order
+leading-order scheme diagnostic.
 
 ~~~bash
 # Substitute the real angle for ALPHA_RAD; do not use the literal token.
@@ -42,7 +45,6 @@ python3 -m LFV.pilot \
   --native "$WORK/step1_NO_native/result.json" \
   --card "$WORK/step1_NO_proposal.in" \
   --spectrum "$WORK/step1_NO_native/output.spc" \
-  --alpha-rad ALPHA_RAD \
   --output "$WORK/step2_NO_lfv_one_loop.json"
 
 python3 -m LFV.pilot \
@@ -53,7 +55,7 @@ python3 -m LFV.pilot \
   --output "$WORK/step2_IO_lfv_one_loop.json"
 ~~~
 
-Find mixing blocks and neutral-scalar masses with:
+You can inspect the native neutral masses/mixing blocks with:
 
 ~~~bash
 grep -niE '^[[:space:]]*Block[[:space:]]+(MASS|SCALARMIX|ZH|ALPHA)' \
@@ -61,7 +63,7 @@ grep -niE '^[[:space:]]*Block[[:space:]]+(MASS|SCALARMIX|ZH|ALPHA)' \
 ~~~
 
 The tool fails unless the native diagnostic's input SHA-256 matches the
-candidate card. It uses native running F, Ye, Ye2, ZEL/ZER and ZP, with
+candidate card, and the 2×2 `SCALARMIX` rotation is complete and orthogonal. It uses native running F, Ye, Ye2, ZEL/ZER and ZP, with
 matched internal charged-scalar masses. Neutral masses are taken from
 the explicitly supplied native spectrum. Alpha(0) and muon/tau total widths
 are taken from the archived Module3 illustrative PDG-2024 normalization;
