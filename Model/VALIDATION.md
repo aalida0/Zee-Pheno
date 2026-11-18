@@ -13,7 +13,7 @@ The 10x10 symbolic audit and stress test were executed independently of the GitH
 ## Unvalidated / do not promote
 
 - **SARAH/SPheno canonical model:** not established. The older repository's `models/SARAH/ZeeTypeII/ZeeTypeII.m` and the generated-model snapshot at `/home/amine/zee-conditional-cascade-scan/validation/module14/local/models/ZeeTypeII/` differ in their neutrino rotation definitions. Do not silently select either snapshot.
-- **Native input propagation:** the older repo's SLHA serialization fix restores a fourth field for generated Fortran matrix readers, but a corrected one-card native execution has not yet been independently inspected here.
+- **Native input propagation:** one corrected native SPheno benchmark and two orthogonal probes now report PASS on the user's machine (details below). The original `.spc` and log artifacts have not been independently inspected here.
 - **Radiative neutrino masses, LFV, EDM, Yukawa basis transformations, loop normalization and global vacuum:** not validated by these tree-level tests.
 - **BFB/unitarity/EWPO/Higgs/flavor/collider constraints:** no acceptance or exclusion claim from this module.
 
@@ -26,6 +26,21 @@ On the user's machine with SARAH 4.15.4 and existing compiled SPheno 4.0.5:
 3. Validate the radiative neutrino mass and source-matched LFV amplitudes separately before promoting any generated model, code, or global exclusions.
 
 Result: **TREE_SCALAR_VALIDATED; NATIVE_SARAH_SPHENO_PENDING**.
+
+## 2026-11-18 user-reported native SPheno input-gate result
+
+**NATIVE_INPUT_GATE_PASS** from the user's Ubuntu machine using `python3 -m Model.check_native`. This is user-provided stdout, not an independently inspected local `.spc` artifact. No new broad physics acceptance is inferred.
+
+- Input SHA-256: `a969dfae8428c352bfb6f70178bfb971c3357a1dadac83de01be52981e88513e`
+- Executable SHA-256: `2c1a73c797b2f21b3266f3558dae3196a6b2514a5fd3d2e05fc83b0ce918af52`
+- Baseline `FZEE` relative mismatch: `7.760162818345134e-10`.
+- Baseline `YEE2` relative mismatch: `4.69220374237888e-10`.
+- `max |F + F^T|`: **0.0**.
+- Antisymmetric real `F` probe: input perturbation `2.2068930208234563e-06`; observed `F` change `2.2068930000000017e-06`; observed `Ye2` change `0.0`.
+- Imaginary `Ye2(2,2)` probe: input perturbation `1.3071601895116883e-05`; observed `Ye2` change `1.3071602000000004e-05`; observed `F` change `0.0`.
+- Three output hashes: baseline `3a7a4fab80c9e1837e72ea4a4e0ab70ea222367d97606b879d9d7115bea1c4d8`; F probe `f8f7eb70b76955caea149d81d33c5daaa6a1541a17b4a6328f0f89bc5a803ad0`; Ye2 probe `2443ccc076740132638fb7f41400c9f9cc3f73c806fcd49dfbc34244073f1533`.
+
+**Decision:** Corrected SLHA/Yukawa native input propagation passes for this card and attested binary. Previous reported F diagonal/symmetry violations are explained by the malformed input rows, not shown to be a SARAH interaction defect. SARAH `CheckModel[]`, historical neutrino rotations, physical Yukawa basis `D`, scalar spectrum in this native run, radiative neutrino-mass normalization, and complete LFV remain **PENDING/UNKNOWN**.
 
 ## 2026-11-18 SARAH/SPheno validation preparation
 
