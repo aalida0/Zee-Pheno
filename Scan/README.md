@@ -37,5 +37,13 @@ A successful neutrino-fit benchmark is **not** an accepted parameter point.
   one-loop/photon amplitude in **18/18 points for each of three channels**.
   This is a source-matched falsification of universal suppression,
   not a Zee two-loop result or an LFV experimental exclusion.
+- A [24-point nonzero-mixing Zee LFV study](../LFV/NONZERO_MIXING_APPROXIMATION.md)
+  now evaluates the **actual retained** one-loop and photon Barr–Zee
+  amplitudes at gamma ≠ 0 and F ≠ 0 with an open H2±→H1± Z cascade.
+  Its separate exact-doublet **auxiliary 2HDM control** finds omitted
+  electroweak terms above 10% in 24/24 corresponding control points
+  for each LFV channel. These numbers are **not transferable Zee
+  gauge amplitudes**, and none of the toy inputs is neutrino/constraint
+  certified. All physical LFV gates remain UNKNOWN.
 - Sample/scoring machinery is **not yet implemented**. There is no claim
   of a physical allowed region, exclusion, or cascade sensitivity.
