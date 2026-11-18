@@ -30,8 +30,11 @@ At every independent scalar attempt:
    `M112,M222,M12Sq,MCS2,Mu4`; `ZEEQUARTIC` codes 1–9
    map `Lambda1..5,LambdaC,K1,K2,K12`, matching the
    [original SARAH model](https://github.com/aalida0/zee/blob/research/zee-full-constraints/models/SARAH/ZeeTypeII/parameters.m).
-   The attested card must contain these blocks **and `MINPAR[3]`**;
-   the writer aborts if entries are absent.
+   The SHA-attested neutrino reference may omit the two scalar
+   blocks; the generator adds complete placeholder rows to the **derived
+   output cards only**, then replaces their values with the sampled
+   potential. Existing partial scalar blocks are rejected. `MINPAR[3]`
+   and all four complex Yukawa input matrices remain mandatory.
 3. Record necessary doublet BFB and a deliberately conservative
    **sufficient** Zee *quartic* BFB condition, plus `|quartic|<4pi`
    as a conventional analysis prior. These are **not** a proof of
@@ -75,10 +78,13 @@ python3 -m Scan.physical_proposals \
   --output-dir "$WORK/scalar_neutrino_pilot_01"
 ~~~
 
-The template SHA-256 is pinned to the same loop-enabled source card
-used for the original native neutrino audit; a changed or structurally
-incompatible card is refused. All output paths are exclusive:
-choose a new output directory for a rerun.
+The template SHA-256 is pinned to the original loop-enabled source
+card; that file is never rewritten. Missing `ZEEPOT`/`ZEEQUARTIC`
+blocks are synthesized **after** source attestation for derived cards.
+Missing Yukawa or tan-beta inputs, partial scalar blocks, and any altered
+source hash are refused. All output paths are exclusive: choose a new
+output directory for a rerun. Newly added scalar blocks still require
+native SPheno input-propagation validation before physics claims.
 
 Read `proposals.json` **before launching SPheno**:
 `n_scalar_attempted` is the denominator for scalar sampling;
