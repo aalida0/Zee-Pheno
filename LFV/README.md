@@ -1,5 +1,23 @@
 # Step 2 — lepton-flavor violation
 
+**Approximation stress test (18 November 2026):**
+[APPROXIMATION_STUDY.md](APPROXIMATION_STUDY.md) records an independently
+executed, fixed 18-point source-matched **strict 2HDM** comparison of the
+one-loop/photon Barr–Zee approximation with the full published two-loop
+calculation. Across all 18 points for each of three channels, omitted
+complex electroweak contributions exceed 10% of the retained amplitude,
+both with raw and paper-normalized HW. **This is not a bound on the
+genuine F-dependent Zee remainder.** We cannot claim generic validity
+of a leading-photon-only approximation for Type-II Zee parameter scans.
+
+For every arbitrary Zee point, the general constraints.py now also
+returns `retained_topology_materiality`: coherent norms for the known
+one-loop, fermion/photon, and charged-scalar/photon groups and their
+two-loop/one-loop ratio. The physical Zee gauge-remainder upper bound
+remains null and the LFV gate UNKNOWN. These diagnostics are useful
+for plotting approximation dependence but cannot exclude a point.
+
+
 **Physics materiality gate (2026-11-18):**
 [REMAINDER_AUDIT.md](REMAINDER_AUDIT.md) traces the 2017 Zee,
 2023 Zee and erratum-corrected general-2HDM sources, the earlier native
