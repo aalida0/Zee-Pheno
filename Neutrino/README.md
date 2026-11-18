@@ -31,9 +31,14 @@ python3 -m Neutrino.fit --ordering IO --mlight-ev 0.001 \
   --output "$WORK/step1_IO_proposal.json"
 ~~~
 
-The inverse uses the Zee null-cone condition and a rank-five linear
-least-squares solution. This takes the **minimum-norm** member of the
-four-complex-parameter inverse family; it does not sample that family.
+The **single-target** `Neutrino.fit` CLI defaults to a minimum-norm
+rank-five inverse. For the scalar-first scan, its `inverse()` function
+now also supports both null-cone roots, alternate projective charts,
+complex F phases, and arbitrary four-complex-dimensional homogeneous
+D coefficients. See [Scan/README.md](../Scan/README.md) for the
+deterministic multi-family proposal generator. These solutions are
+algebraic at an archived charged-lepton running reference; none
+is a native SPheno fit until revalidated on its own card.
 All outputs remain **ANALYTIC_TARGET_CLOSED_NATIVE_UNKNOWN** until native
 revalidation. Files use exclusive creation: use new filenames when rerunning.
 
