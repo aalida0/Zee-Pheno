@@ -247,3 +247,35 @@ Interpretation: `LOOP_MASSES_DISABLED` blocks a numerical loop-mass comparison f
 A native SPheno loop-mass comparison is **not** automatically mandatory if the generator omits it: the already-tested published analytic Zee formula can be the validated neutrino backend once externally benchmarked, with SPheno used for a separate scalar/lepton/LFV calculation. Do not rebuild SPheno solely to manufacture a neutrino mass if the physical calculation is already independently validated.
 
 **Release decision:** `NATIVE_MNU_1LOOP_UNKNOWN`; Step 0 remains open only for the requested native loop-mass equivalence gate. All earlier tree-level and Yukawa-input gates retain their scoped PASS statuses.
+
+
+## 2026-11-18 Native loop-mass gate: disabled baseline identified, one-card probe available
+
+**User-provided output of `Model.audit_neutrino_native`: `LOOP_MASSES_DISABLED`** on the previously validated baseline spectrum.
+- Original benchmark input SHA-256 `f2efe759aa3196978d466739fc788b1dd7fb01d71cbc6e883c8a87830da454bf`.
+- Original spectrum SHA-256 `3a7a4fab80c9e1837e72ea4a4e0ab70ea222367d97606b879d9d7115bea1c4d8`.
+- Both occurrences of `SPhenoInput[55]` were `0`; three output neutrino pole masses (PDGs 12,14,16) were `-0.0 GeV`. These zeros cannot test radiative neutrino-mass generation.
+- The generated `LoopMasses_ZeeTypeII.f90` contains calls of `Sigma1LoopFv` at lines 606, 666, 757, with the routine defined at lines 854–1024; these are **source-symbol evidence**, not yet a confirmed physical Majorana mass.
+- The previously validated compiled executable SHA-256 is `2c1a73c797b2f21b3266f3558dae3196a6b2514a5fd3d2e05fc83b0ce918af52`.
+
+Official SARAH/SPheno flag documentation: Florian Staub, *Exploring New Models in All Detail with SARAH* (2015), `SPhenoInput[55]=0` disables loop-corrected masses; `1` enables them. See https://onlinelibrary.wiley.com/doi/10.1155/2015/840780.
+
+**Controlled follow-up (not executed here on the user's SPheno binary):** `Model/probe_neutrino_loop.py` verifies both SHA-256 pins, changes **exactly two** `SPhenoInput[55]` records from `0` to `1`, writes a new card in a previously nonexistent directory, runs the identical executable, and collects the `MASS` entries and logs. The three synthetic tests in `Model/test_loop_probe.py` pass. It never overwrites the original benchmark or output and never returns a physics PASS.
+
+```bash
+cd ~/Zee-Pheno && git pull --ff-only origin main
+python3 -m unittest Model.test_loop_probe -v
+WORK="$HOME/zee-lfv64-serial-20261112-094549"
+python3 -m Model.probe_neutrino_loop \
+  --card "$WORK/model-validation-native-20261118/baseline.in" \
+  --exe "$WORK/SPheno-4.0.5/bin/SPhenoZeeTypeII" \
+  --output-dir "$WORK/model-neutrino-loop-20261118"
+cat "$WORK/model-neutrino-loop-20261118/result.json"
+grep -nEi 'error|warn|problem|fail' "$WORK/model-neutrino-loop-20261118/loop_enabled.log" | head -n 35
+# Inspect the actual generated neutrino Majorana self energy when diagnosing the output:
+sed -n '854,1024p' "$WORK/SPheno-4.0.5/ZeeTypeII/LoopMasses_ZeeTypeII.f90"
+```
+
+**Interpretation:** `NEUTRINO_POLE_MASS_NONZERO_UNVALIDATED` means only that the loop-enabled executable returned nonzero pole-mass entries. The full complex symmetric `Mnu`, phase, basis rotation, finite loop integrals, sign and normalization still require physical matching to the published Zee expression and an independent calculation. `NEUTRINO_MASS_ZERO_OR_MISSING` requires examining the self-energy/call site and whether loop masses were actually evaluated. Numerically small eV masses may be suppressed or rounded in generic spectrum-output handling. Any SPINFO warnings or unexpected scalar-spectra shifts must also be investigated.
+
+**Status remains:** `STEP0_NATIVE_MAJORANA_MASS_UNKNOWN`; baseline loop mass setting was the observed blocker.
