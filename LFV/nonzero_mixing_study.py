@@ -32,7 +32,7 @@ DEFAULT_GRID={
     "tan_beta":[2.0,8.0],
     "gamma_rad":[0.15,0.50,0.95],
     "mH2_GeV":[900.0,1200.0],
-    "F_multiplier":[0.3,1.0],
+    "F_multiplier":[1.0,100.0],
 }
 Z_MASS_GEV=91.1876
 
@@ -105,7 +105,7 @@ def _coefficient(row,name):
     return complex(row[name]["real"],row[name]["imag"])
 
 
-def evaluate_grid(template,inversion,grid,sw2,limit_for_cascade=None):
+def evaluate_grid(template,inversion,grid,sw2):
     """Selected-topology computation for genuine gamma!=0 and F!=0 points.
 
     Returns diagnostics only; do NOT use any subset BR for acceptance.
