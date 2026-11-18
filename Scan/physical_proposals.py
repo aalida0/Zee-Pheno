@@ -207,11 +207,11 @@ def generate(config_path,template_path,snapshot_path,output_dir):
             ordering=nu["orderings"][k%len(nu["orderings"])]
             mlight=draw("lightest_eV")
             a21,a31=draw("Majorana_phase_rad"),draw("Majorana_phase_rad")
-            root=k%2
+            root=(k//len(nu["orderings"]))%2
             t=complex(draw("null_t"),draw("null_t"))
             fscale=10**draw("log10_F_scale")
             hscale=10**draw("log10_homogeneous_scale")
-            z=np.zeros(4,complex) if k==0 else hscale*(
+            z=np.zeros(4,complex) if k<len(nu["orderings"]) else hscale*(
                 np.asarray([rng.uniform(-1,1)+1j*rng.uniform(-1,1)
                             for _ in range(4)]))
             try:
