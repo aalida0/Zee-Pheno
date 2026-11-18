@@ -30,7 +30,7 @@ def photon_kernels(z):
     points=[]
     if z<.25:
         points=[2*z/(1+math.sqrt(1-4*z))]
-    rows=[tuple(2*t for t in quad(fn,0,.5,args=(k,),epsabs=min(1e-12,5e-10*z),
+    rows=[tuple(2*t for t in quad(fn,0,.5,args=(k,),epsabs=(1e-12 if k=="F2" else min(1e-12,5e-10*z)),
                   epsrel=2e-12,points=points,limit=500))
           for k in ("f","g","F2")]
     if any(not math.isfinite(x) or err>max(2e-10,abs(x)*2e-9)
