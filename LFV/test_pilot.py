@@ -23,6 +23,20 @@ class DipoleTests(unittest.TestCase):
         np.testing.assert_allclose(amp,0.,atol=1e-28)
         self.assertEqual(radiative_width(np.zeros(2,complex),.104,.0005,.0073),0.)
 
+    def test_external_pole_override_recovers_old_equal_mass_scheme(self):
+        ml=np.array([.0005,.104,1.75])
+        c=np.array([[.001,.0003j,.0001],[-.0001j,.003,.0002j],
+                    [.0004,-.0008j,.009]],complex)
+        np.testing.assert_array_equal(
+            neutral_dipole(c,450.,1,0,ml),
+            neutral_dipole(c,450.,1,0,ml,external=ml))
+        p=dict(v=246.,alpha=1.39,beta=.8,gamma=.6,
+               mh1=125.,mh2=600.,ma=650.,mH1=675.,mH2=1167.)
+        ff=np.array([[0,1e-5,2e-5],[-1e-5,0,3e-5],[-2e-5,-3e-5,0]],complex)
+        x=dipole_ledger(ff,c,p,ml,1,0)
+        y=dipole_ledger(ff,c,p,ml,1,0,external=ml)
+        np.testing.assert_array_equal(combine(x),combine(y))
+
     def test_physical_status_unknown_and_input_binding(self):
         native=json.loads(REFERENCE.read_text())
         snapshot=native["snapshot"]
@@ -36,7 +50,7 @@ class DipoleTests(unittest.TestCase):
             payload=root/"native.json"
             payload.write_text(json.dumps(packed))
             spectrum=root/"spectrum.spc"
-            spectrum.write_text("BLOCK MASS\n 25 125.0\n 35 600.\n 36 640.\n")
+            spectrum.write_text("BLOCK MASS\n 11 0.00051099893\n 13 0.105658372\n 15 1.77686\n 25 125.0\n 35 600.\n 36 640.\n")
             result=evaluate(payload,card,spectrum,alpha_rad=1.398)
             self.assertEqual(result["status"],"SCALAR_ONE_LOOP_SUBSET_ONLY")
             self.assertEqual(result["physical_lfv"],"UNKNOWN")
