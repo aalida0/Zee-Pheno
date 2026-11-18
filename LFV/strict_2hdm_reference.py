@@ -7,10 +7,13 @@ Authors' cL/cR convention maps to ours as C=-c/(8*pi**2*v**2)
 separately, unmodified; this adapter never vendors or patches it.
 """
 import argparse
+import ast
 import hashlib
 import importlib.util
 import json
+import inspect
 import math
+import textwrap
 from pathlib import Path
 
 import numpy as np
@@ -101,6 +104,45 @@ def load_public(path):
     return module
 
 
+
+SOURCE_BLOCKS={"1loop","th","ch","bh","tauh","tHp","cHp","tauHp",
+               "hZ","kin","HA","HZ","HW"}
+
+
+def source_component_ledger(method, model, i, j):
+    """Evaluate unmodified author function with only final return replaced.
+
+    This is source inspection, NOT an independent calculation or proof
+    of the gauge-invariant sum. Any changed upstream decomposition fails.
+    """
+    raw=inspect.getsource(method)
+    module_ast=ast.parse(textwrap.dedent(raw))
+    node=module_ast.body[0]
+    if (not isinstance(node,ast.FunctionDef) or
+            not isinstance(node.body[-1],ast.Return)):
+        raise ValueError("Unexpected public 2HDM method structure")
+    node.body[-1].value=ast.Call(func=ast.Name(id="locals",ctx=ast.Load()),
+                                  args=[],keywords=[])
+    ast.fix_missing_locations(module_ast)
+    env={}
+    exec(compile(module_ast,inspect.getsourcefile(method), "exec"),
+         method.__globals__,env)
+    variables=env[method.__name__](model,i,j)
+    prefix=method.__name__+"_"
+    rows={k[len(prefix):]:complex(v) for k,v in variables.items()
+          if k.startswith(prefix)}
+    # A small synthetic adapter stub is permitted in unit tests; never
+    # mislabel its absence of public source contributions as matched.
+    if not rows:
+        return None
+    if set(rows)!=SOURCE_BLOCKS:
+        raise ValueError(f"Unexpected author source contributions: {set(rows)}")
+    total=complex(method(model,i,j))
+    if abs(sum(rows.values())-total)>2e-11*max(abs(total),1e-8):
+        raise ArithmeticError("Public source components do not reproduce its total")
+    return rows
+
+
 def evaluate(point,sm,public_source):
     from LFV.core import vertices
     from LFV.constraints import matrix
@@ -131,6 +173,10 @@ def evaluate(point,sm,public_source):
     common=-1/(8*math.pi**2*point["scalar"]["v"]**2)
     dipoles={}
     for label,(i,j) in CHANNELS.items():
+        left=source_component_ledger(author.__class__.cL_llpg,author,i,j)
+        right=source_component_ledger(author.__class__.cR_llpg,author,i,j)
+        if (left is None)!=(right is None):
+            raise ValueError("Author source chiral-component coverage mismatch")
         cl=complex(author.cL_llpg(i,j))*common
         cr=complex(author.cR_llpg(i,j))*common
         if not np.isfinite([cl,cr]).all():
@@ -139,11 +185,28 @@ def evaluate(point,sm,public_source):
             "C_L_GeV_minus2":{"real":cl.real,"imag":cl.imag},
             "C_R_GeV_minus2":{"real":cr.real,"imag":cr.imag},
             "scope":"STRICT_2HDM_ALL_AUTHOR_TERMS_ONLY"}
+        if left is not None:
+            # The source's HW term is dimensionally inconsistent with
+            # arXiv:2410.17313v4 Eqs.(65,66): extra MW^-2 in public source.
+            # Do not edit upstream or quietly alter its raw prediction.
+            adjusted_l=(sum(left.values())-left["HW"]+left["HW"]*sm["MW"]**2)*common
+            adjusted_r=(sum(right.values())-right["HW"]+right["HW"]*sm["MW"]**2)*common
+            dipoles[label].update(
+                raw_public_source_components={
+                    name:{"C_L":{"real":(left[name]*common).real,"imag":(left[name]*common).imag},
+                          "C_R":{"real":(right[name]*common).real,"imag":(right[name]*common).imag}}
+                    for name in sorted(SOURCE_BLOCKS)},
+                paper_eq65_66_HW_dimension_restored={
+                    "C_L":{"real":adjusted_l.real,"imag":adjusted_l.imag},
+                    "C_R":{"real":adjusted_r.real,"imag":adjusted_r.imag}},
+                HW_source_code_issue="Extra MW^-2 in source vs paper Eqs.(65,66); raw and paper-normalized totals both retained",
+                source_component_reconstruction="PASS")
     return {
         "status":"STRICT_2HDM_REFERENCE_EVALUATED_NOT_ZEE",
         "point_id":point["point_id"],
         "public_source_sha256":hashlib.sha256(public_source.read_bytes()).hexdigest(),
         "public_model":"jbrod/general-2hdm-pheno thdm.py",
+        "HW_source_vs_paper":"UNMODIFIED_SOURCE_MW_MINUS2_DISCREPANCY",
         "dipole_conversion":"C_X=-c_X/(8*pi^2*v^2) in archived Zee convention",
         "neutral_vertex_max_residual":max(vertex_residual.values()),
         "neutral_vertex_residuals":vertex_residual,
