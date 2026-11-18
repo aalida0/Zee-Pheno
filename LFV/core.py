@@ -62,13 +62,14 @@ def kernels(t):
         return float(a), float(b), float(c)
 
 
-def neutral_dipole(C, mass, i, j, ml):
+def neutral_dipole(C, mass, i, j, ml, external=None):
     """Positive neutral sign in the declared L_eff convention.
 
     Lavoura L_ki=C_ki, R_ki=C_ik*, QF=-1, QB=0;
     C_here=-sigma_Lavoura/(i*m_i). Common sign fixed by scalar g-2.
     """
-    mi, mj = ml[i], ml[j]
+    external = ml if external is None else external
+    mi, mj = external[i], external[j]
     left = right = 0j
     for k, mk in enumerate(ml):
         lam = C[k,j].conjugate()*C[k,i]
@@ -89,8 +90,8 @@ def component(clcr, source):
             'approximation': APPROXIMATION}
 
 
-def dipole_ledger(F, D, p, ml, i, j):
-    out = {name: component(neutral_dipole(C, mass, i, j, ml),
+def dipole_ledger(F, D, p, ml, i, j, external=None):
+    out = {name: component(neutral_dipole(C, mass, i, j, ml, external),
                            'Lavoura hep-ph/0302221 eqs.26-42; frozen ZH/ZA')
            for name, (C, mass) in vertices(D, p, ml).items()}
     # From H+ bar(N_k)(L_ki PL+R_ki PR)e_i: L=-s*F_ki,
@@ -98,7 +99,8 @@ def dipole_ledger(F, D, p, ml, i, j):
     # Distinct neutrino chirality sectors do not mix at m_nu=0.
     rho = (D@D.conj().T)[j,i]
     lam = (F.conj().T@F)[j,i]
-    ratio = ml[j]/ml[i]
+    external = ml if external is None else external
+    ratio = external[j]/external[i]
     for state, mass, d, s in [('H1', p['mH1'], math.cos(p['gamma']), math.sin(p['gamma'])),
                               ('H2', p['mH2'], -math.sin(p['gamma']), math.cos(p['gamma']))]:
         fac = -1/(192*np.pi**2*mass**2)
