@@ -35,6 +35,7 @@ class ZeeNonzeroMixingTests(unittest.TestCase):
                                    640.**2*math.sin(point["scalar"]["beta"])*
                                    math.cos(point["scalar"]["beta"]),places=9)
             self.assertTrue(flags["simple_quartic_magnitude_below_4pi"])
+            self.assertTrue(flags["doublet_only_BFB_necessary"])
         self.assertEqual(points[1][0]["scalar"]["gamma"],.4)
         self.assertAlmostEqual(
             points[0][0]["potential"]["Mu4"],
@@ -54,6 +55,7 @@ class ZeeNonzeroMixingTests(unittest.TestCase):
                          "NONZERO_MIXING_ZEE_TRUNCATION_DIAGNOSTIC_ONLY")
         self.assertEqual(output["n_points"],2)
         self.assertEqual(output["n_simple_quartic_magnitude_below_4pi"],2)
+        self.assertEqual(output["n_doublet_BFB_necessary_pass"],2)
         self.assertEqual(output["n_channel_rows"],6)
         for channel in ("mu_to_e_gamma","tau_to_e_gamma","tau_to_mu_gamma"):
             self.assertEqual(output["summaries"][channel]["n_points"],2)
