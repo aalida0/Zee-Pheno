@@ -79,7 +79,9 @@ def neutral_dipole(C, mass, i, j, ml, external=None):
         a, b, _ = kernels((mk/mass)**2)
         left += (rho+lam*mj/mi)*a+ups*mk/mi*b
         right += (lam+rho*mj/mi)*a+zet*mk/mi*b
-    return np.array([left, right])/(16*np.pi**2*mass**2)
+    # Source Eq.(48,51-52) of 2410.17313v4 fixes PL/PR: the initial
+    # chirality flips under the external lepton mass insertion.
+    return np.array([right, left])/(16*np.pi**2*mass**2)
 
 
 def component(clcr, source):
@@ -104,9 +106,9 @@ def dipole_ledger(F, D, p, ml, i, j, external=None):
     for state, mass, d, s in [('H1', p['mH1'], math.cos(p['gamma']), math.sin(p['gamma'])),
                               ('H2', p['mH2'], -math.sin(p['gamma']), math.cos(p['gamma']))]:
         fac = -1/(192*np.pi**2*mass**2)
-        out[state+'_D'] = component(fac*d*d*rho*np.array([1, ratio]),
+        out[state+'_D'] = component(fac*d*d*rho*np.array([ratio, 1]),
                                     'Lavoura eq.41 t=0; R=-d*D*')
-        out[state+'_F'] = component(fac*s*s*lam*np.array([ratio, 1]),
+        out[state+'_F'] = component(fac*s*s*lam*np.array([1, ratio]),
                                     'Lavoura eq.41 t=0; L=-s*F; F=2*f_Chen')
     return out
 
