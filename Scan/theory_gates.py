@@ -23,8 +23,15 @@ def check_potential(scalar,potential,inversion):
         any(type(v) not in (float,int) or not math.isfinite(v)
             for v in potential.values())):
         raise ValueError("Incomplete/nonfinite restricted Zee scalar data")
+    # Native SPheno may report gamma outside (-pi/2,pi/2).
+    # gamma -> gamma +/- pi flips a physical charged eigenstate phase;
+    # sin², cos², sin*cos, trilinears and reconstructed scalar potential
+    # are invariant. Do NOT edit native evidence or LFV source parameters.
+    canonical=dict(scalar)
+    original_gamma=canonical["gamma"]
+    canonical["gamma"]=(original_gamma+math.pi/2)%math.pi-math.pi/2
     expected=scalar_parameters(
-        **scalar,m12sq=inversion["m12sq_GeV2"],
+        **canonical,m12sq=inversion["m12sq_GeV2"],
         lc=inversion["lambda_c"],
         k1=inversion["K1"],k2=inversion["K2"],k12=inversion["K12"])
     discrepancy=max(abs(expected[k]-potential[k])/max(1.,abs(expected[k]))
@@ -43,6 +50,9 @@ def check_potential(scalar,potential,inversion):
     max_quartic=max(abs(v) for v in quartics)
     return {
         "internal_tree_scalar_inversion":"PASS",
+        "original_native_gamma_rad":original_gamma,
+        "principal_inversion_gamma_rad":canonical["gamma"],
+        "gamma_mod_pi_equivalence":"CHARGED_FIELD_REPHASING_NOT_A_PHYSICS_RETUNE",
         "max_potential_relative_residual":discrepancy,
         "doublet_subpotential_BFB_necessary":
             "PASS" if doublet_bfb else "FAIL",
