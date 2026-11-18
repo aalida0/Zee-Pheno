@@ -128,3 +128,64 @@ Source displayed by the user from the existing model-specific SPheno build:
 
 **Release decision:** `NATIVE_YUKAWA_INPUT_PASS + SARAH_CHECKMODEL_COMPLETED_WARNINGS_OPEN + CHARGED_VERTEX_STRUCTURE_PASS + CHARGED_MIXING_SIGN_PASS`; complete model/LFV physics validation remains **UNKNOWN**.
 
+\n## 2026-11-18 Neutrino and charged-lepton basis conventions audit
+
+### Source-matched leading one-loop neutrino mass
+
+Primary literature:
+- J. Herrero-García et al., JHEP 04 (2017) 130, arXiv:1701.05345v2, Eqs. (2.15)–(2.18), (2.30)–(2.31).
+- J. Heeck and A. Thapa, Phys. Lett. B 841 (2023) 137910, arXiv:2303.13383, Eqs. (3)–(4).
+- Relevant native generated vertex excerpt: `Couplings_ZeeTypeII.f90`, around lines 3889–3909 (provided by user in this project).
+- Previous independent neutrino module: `aalida0/zee` `module2/core.py` and `module2/interface.py`, branch `research/zee-full-constraints`.
+
+Our scalar VEV convention is `v1=v*cos(beta)`, `v2=v*sin(beta)`. In the **charged-lepton mass basis** define
+
+```text
+S = cos(beta)*Ye + sin(beta)*Ye2 = sqrt(2)*diag(m_e,m_mu,m_tau)/v
+D = -sin(beta)*Ye + cos(beta)*Ye2
+Ye2 = sin(beta)*S + cos(beta)*D
+```
+
+The 2017 paper writes the singlet lepton term without the explicit one-half that appears in our SARAH `Fzee/2 * l.l.Splus` term, and its physical charged vertex contains `2*f_paper`. The generated SPheno `resL` contains `Fzee` (the antisymmetric terms combine without an extra 1/2). For equal physical vertices, **`Fzee = 2*f_paper`**. The published 2023 Higgs-basis formula is
+
+```text
+Mnu = kappa * [f_paper * diag(m_l) * D + D.T * diag(m_l) * f_paper.T]
+kappa = sin(2*gamma)/(16*pi^2) * log(mH1^2/mH2^2)
+```
+
+and thus the SARAH-normalized form has coefficient `sin(2*gamma)/(32*pi^2)` multiplying the analogous `Fzee` terms. This agrees with the **leading small-charged-lepton-mass limit** of the older `module2/core.py` kernel. Here `f.T` is a transpose (not Hermitian conjugate). Absolute loop/sign normalization relative to native SPheno remains an independent numerical gate.
+
+**Executed locally in the assistant's isolated Python environment:** four standard-library tests in `Model.test_conventions` and `Model.test_basis` pass. The former compares the 2017 generic-basis formula, the 2023 Higgs-basis formula, and the SARAH factor-of-two convention for nonzero complex, off-diagonal entries. This is an **analytic/algebraic identity check**, not a calculation of the generated SPheno neutrino self energy. The latter tests a synthetic charged-lepton benchmark and deliberately corrupted matrix. The exact combined GitHub test suite still requires the user's local execution.
+
+The tree-level `vL -> VL` SARAH `UV` rotation belongs to a **zero** neutrino mass matrix and cannot be identified with the physical PMNS matrix. The physical PMNS matrix is determined only after the loop-generated Majorana matrix is Takagi diagonalized in the properly fixed charged-lepton basis.
+
+### One-card native charged-lepton-basis gate (pending)
+
+`Model/check_basis.py` reads the **corrected existing** SPheno `baseline.spc` from the prior input gate, and checks that `S=c_beta*Ye+s_beta*Ye2` is real, diagonal, ordered and positive; it reconstructs the complete complex `D` and checks `Fzee+Fzee.T=0`. It **does not** compute PMNS, neutrino masses, LFV or an experimental acceptance. This is a tree-level Yukawa matching check. It does not equate running Yukawa eigenvalues to pole lepton masses.
+
+```bash
+cd ~/Zee-Pheno
+git pull --ff-only origin main
+python3 -m unittest Model.test_model Model.test_native Model.test_conventions Model.test_basis -v
+
+WORK="$HOME/zee-lfv64-serial-20261112-094549"
+python3 -m Model.check_basis --spectrum "$WORK/model-validation-native-20261118/baseline.spc"
+```
+
+If the diagnostic fails, **do not force diagonalization or loosen tolerances**: check the output renormalization scale and SARAH charged-lepton rotations `ZEL/ZER` first. In a non-diagonal gauge basis, transform the Yukawas before applying the mass-basis test.
+
+### Restricted model / symmetry warning register
+
+The 2026-11-18 SARAH `CheckModel[]` reported gauge-invariant terms not written in the input potential. The checked implementation is a **restricted effective Lagrangian**, not yet a demonstrated radiatively closed complete Zee model.
+
+| Warning class | Disposition | Confidence |
+| --- | --- | --- |
+| `H1.H1 S-` and `H2.H2 S-` | Vanish identically for commuting identical SU(2) scalar doublets under antisymmetric contraction | Algebraic, not added |
+| Opposite-doublet up/down quark Yukawas | Omitted by the chosen Type-II quark texture; no complete exact symmetry assignment has yet been demonstrated with the general lepton sector | Scope restriction |
+| `|H1|^2 H1^dag H2`, `|H2|^2 H1^dag H2` and conjugates | `lambda6`, `lambda7`-type allowed quartics absent at the specified input scale; **RGE closure UNKNOWN** with both lepton Yukawas and soft terms | Scope/STOP for high-scale claim |
+| Quark coupling to charged singlet (schematically `bar(u_R) d_R S+`) | SM gauge invariant; not automatically excluded by color or electric charge. Omitted by leptophilic-singlet ansatz; require lepton-number/other symmetry reasoning and loop audit | Scope/STOP for fully general model |
+| Other checker-listed operators | Check individually for redundancies and symmetry before asserting forbidden terms | UNKNOWN |
+
+The absence of `lambda6,lambda7` and other allowed operators must **not** be advertised as protected by an exact `Z2` without explicitly checking all lepton and scalar couplings.
+
+**Current release:** tree-level scalar and charged vertices structurally checked, one-card native `Fzee/Ye2` input PASS; leading published neutrino-formula **convention bridge PASS (algebra only)**; native charged-lepton matching **PENDING**; native one-loop Majorana mass matching **UNKNOWN**; symmetry/RGE closure **UNKNOWN**.
