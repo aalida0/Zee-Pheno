@@ -53,6 +53,7 @@ class ZeeNonzeroMixingTests(unittest.TestCase):
         self.assertEqual(output["status"],
                          "NONZERO_MIXING_ZEE_TRUNCATION_DIAGNOSTIC_ONLY")
         self.assertEqual(output["n_points"],2)
+        self.assertEqual(output["n_simple_quartic_magnitude_below_4pi"],2)
         self.assertEqual(output["n_channel_rows"],6)
         for channel in ("mu_to_e_gamma","tau_to_e_gamma","tau_to_mu_gamma"):
             self.assertEqual(output["summaries"][channel]["n_points"],2)
