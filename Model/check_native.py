@@ -12,7 +12,7 @@ import subprocess
 from pathlib import Path
 
 MATRICES = ("FZEEIN", "IMFZEEIN", "YEE2IN", "IMYEE2IN")
-TRACKED = set(MATRICES) | {"MINPAR", "FZEE", "IMFZEE", "YEE2", "IMYEE2"}
+TRACKED = set(MATRICES) | {"MINPAR", "FZEE", "IMFZEE", "YEE2", "IMYEE2", "YE", "IMYE"}
 
 
 def blocks(text):
