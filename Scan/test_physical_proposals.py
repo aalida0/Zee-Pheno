@@ -104,8 +104,8 @@ class PhysicalProposalsTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td)
             full=template()
-            bare=(full[:full.index("Block ZEEPOT\\n")]
-                  +full[full.index("BLOCK FZEEIN\\n"):])
+            bare=(full[:full.index("Block ZEEPOT\n")]
+                  +full[full.index("BLOCK FZEEIN\n"):])
             card=root/"original.in"
             card.write_text(bare)
             cfg=config()
@@ -131,7 +131,7 @@ class PhysicalProposalsTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td)
             card=root/"partial.in"
-            card.write_text(template().replace(" 5 0.0 # source\\n","",1))
+            card.write_text(template().replace(" 5 0.0 # source\n","",1))
             cfg=root/"config.json"
             cfg.write_text(json.dumps(config()))
             with patch("Scan.physical_proposals.REFERENCE_CARD_SHA",sha(card)):
