@@ -1,8 +1,9 @@
-name: External strict 2HDM source check
+name: LFV approximation source and nonzero Zee controls
 on:
   push:
     branches:
       - research/lfv-general-constraints
+      - research/lfv-approximation-study
   pull_request:
     paths:
       - 'LFV/**'
@@ -124,3 +125,74 @@ jobs:
           assert result['native_to_author_chiral_operator_mapping']=='NOT_CERTIFIED'
           print('PUBLIC_REFERENCE_2HDM_ONLY_PASS',result['public_source_sha256'])
           PY
+
+
+      - name: Quantify complete-public-2HDM vs 2017-like photon subset over fixed 18-point grid
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from LFV.test_strict_2hdm_reference import decoupled_sample, SM
+          from LFV.test_constraints import cmat
+          import numpy as np
+          point=decoupled_sample()
+          D=np.array(point["D"]["real"])+1j*np.array(point["D"]["imag"])
+          # All three LFV channels independently nonzero; fixed, never retuned.
+          D[0,2]=6e-5+1.2e-5j
+          D[1,2]=8e-5j
+          point["D"]=cmat(D)
+          Path("/tmp/lfv_2hdm_template.json").write_text(json.dumps(point))
+          Path("/tmp/lfv_2hdm_sm.json").write_text(json.dumps(SM))
+          PY
+          python -m LFV.approximation_study \
+            --template /tmp/lfv_2hdm_template.json \
+            --sm /tmp/lfv_2hdm_sm.json \
+            --public-source /tmp/general-2hdm-pheno/thdm.py \
+            --output-dir /tmp/lfv_2hdm_materiality
+      - uses: actions/upload-artifact@v4
+        with:
+          name: strict-2hdm-lfv-materiality-18-point
+          path: /tmp/lfv_2hdm_materiality/*
+
+      - name: Execute 24 nonzero-gamma nonzero-F Zee amplitude sensitivity controls
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from LFV.test_constraints import sample
+          from LFV.test_nonzero_mixing_study import inversion
+          p=sample()
+          # Fixed physical-mass control before evaluating LFV; quartics remain modest.
+          p["scalar"]["mH1"]=650.
+          import numpy as np
+          from LFV.test_constraints import cmat
+          D=np.array(p["D"]["real"])+1j*np.array(p["D"]["imag"])
+          # Keep all 3 radiative channels nonzero; fixed before looking at results.
+          D[0,2]=6.e-5+1.2e-5j
+          D[1,2]=8.e-5j
+          p["D"]=cmat(D)
+          p["mass_yukawa_scheme"]="ILLUSTRATIVE_UNMATCHED_TEST_POINT_ONLY"
+          Path("/tmp/zee_nonzero_template.json").write_text(json.dumps(p))
+          Path("/tmp/zee_nonzero_inversion.json").write_text(json.dumps(inversion()))
+          PY
+          python -m LFV.nonzero_mixing_study \
+            --template /tmp/zee_nonzero_template.json \
+            --inversion /tmp/zee_nonzero_inversion.json \
+            --output-dir /tmp/zee_nonzero_mixing_diagnostics
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zee-nonzero-mixing-24-point-diagnostics
+          path: /tmp/zee_nonzero_mixing_diagnostics/*
+
+      - name: Evaluate 24 corresponding auxiliary pure-2HDM doublet-sector controls
+        run: |
+          python -m LFV.doublet_proxy_study \
+            --template /tmp/zee_nonzero_template.json \
+            --inversion /tmp/zee_nonzero_inversion.json \
+            --sm /tmp/lfv_2hdm_sm.json \
+            --public-source /tmp/general-2hdm-pheno/thdm.py \
+            --output-dir /tmp/zee_doublet_proxy
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zee-doublet-proxy-24-point-2hdm-reference
+          path: /tmp/zee_doublet_proxy/*

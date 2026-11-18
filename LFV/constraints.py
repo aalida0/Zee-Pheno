@@ -166,6 +166,37 @@ def amplitude_budget(norm, mi, mj, width, alpha, bound):
     return result
 
 
+
+def retained_topology_diagnostics(rows):
+    """Only compares explicitly computed diagrams, never bounds missing gauge terms."""
+    groups={
+        "one_loop":lambda k:k.startswith("1loop_"),
+        "fermion_photon":lambda k:k.startswith("2loop_") and
+                                      k.endswith("_gamma") and not k.endswith("_charged_gamma"),
+        "charged_scalar_photon":lambda k:k.endswith("_charged_gamma"),
+    }
+    sums={}
+    for group,criterion in groups.items():
+        items=[v for k,v in rows.items() if criterion(k)]
+        sums[group]=np.array([sum(complex(v[c]["real"],v[c]["imag"])
+                                  for v in items) for c in ("C_L","C_R")])
+    n={k:float(np.linalg.norm(v)) for k,v in sums.items()}
+    two=sums["fermion_photon"]+sums["charged_scalar_photon"]
+    total=sums["one_loop"]+two
+    if any(not np.isfinite(v) for v in n.values()):
+        raise ArithmeticError("Nonfinite included topology norm")
+    return dict(
+        included_group_norm_GeV_minus2=n,
+        coherent_retained_two_loop_over_one_loop=(
+            float(np.linalg.norm(two)/n["one_loop"])
+            if n["one_loop"] else None),
+        retained_total_norm_GeV_minus2=float(np.linalg.norm(total)),
+        missing_gauge_amplitude_norm_upper_GeV_minus2=None,
+        full_Zee_lfv_gate="UNKNOWN",
+        note="Topology hierarchy of calculated subsets only. No smallness bound for the omitted electroweak amplitudes.",
+    )
+
+
 def evaluate(point):
     p,F,D,ml,pole,fm,qy,widths,alpha,potential=input_parameters(point)
     neutral=vertices(D,p,ml)
@@ -213,6 +244,7 @@ def evaluate(point):
             cancellation_ratio=n/sum_abs if sum_abs else None,
             branching_ratio_included_topologies_only=float(br),
             included_components=rows,
+            retained_topology_materiality=retained_topology_diagnostics(rows),
             conditional_missing_amplitude_budget=bound,
             physical_branching_ratio=None,experimental_gate="UNKNOWN")
     higgs_lfv={}
