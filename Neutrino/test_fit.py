@@ -2,6 +2,9 @@
 import unittest
 import tempfile
 import json
+import io
+from contextlib import redirect_stdout
+from unittest.mock import patch
 from pathlib import Path
 
 import numpy as np
@@ -82,6 +85,28 @@ class FitTests(unittest.TestCase):
                     report = fit(REFERENCE,ordering,light,alpha21,alpha31)
                     self.assertLess(report["forward_residual"],1e-8)
                     self.assertTrue(report["native_revalidation_required"])
+
+    def test_native_card_hash_is_required_for_bound_pass(self):
+        from Neutrino.fit import main
+        from Model.audit_neutrino_native import sha
+        snapshot=json.loads(REFERENCE.read_text())["snapshot"]
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            card=root/"candidate.in"
+            card.write_text("fixed candidate input\\n")
+            native=root/"result.json"
+            native.write_text(json.dumps({"input_sha256":sha(card),
+                            "spectrum_snapshot_index":0,"snapshots":[snapshot]}))
+            cmd=["python","--ordering","NO","--mlight-ev",".0093",
+                 "--native-result",str(native),"--checked-card",str(card)]
+            with patch("sys.argv",cmd),redirect_stdout(io.StringIO()) as stream:
+                main()
+            result=json.loads(stream.getvalue())
+            self.assertEqual(result["status"],"NATIVE_3SIGMA_FAIL")
+            self.assertFalse(result["native_revalidation_required"])
+            card.write_text("tampered candidate input\\n")
+            with patch("sys.argv",cmd),self.assertRaises(ValueError):
+                main()
 
     def test_numerical_and_phase_input_rejection(self):
         for value in (-1e-3,float("nan"),float("inf"),.3):
