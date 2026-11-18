@@ -60,10 +60,24 @@ def evaluate_entry(entry,root):
         if proof.get("status")!="NATIVE_INPUT_GATE_PASS":
             raise ValueError("INPUT_PROBE_NOT_NATIVE_PASS")
         checks=proof.get("checks",{})
-        if (not isinstance(checks,dict) or
-            checks.get("F_probe_output_delta",0)<=0 or
-            checks.get("Ye2_probe_output_delta",0)<=0):
-            raise ValueError("Input report has no positive F and Ye2 response")
+        if (proof.get("native_executed") is not True or
+            not isinstance(proof.get("binary_sha256"),str) or
+            len(proof["binary_sha256"])!=64 or
+            not isinstance(checks,dict) or
+            not isinstance(proof.get("output_sha256"),dict) or
+            set(proof["output_sha256"])!={"baseline","f_probe","ye2_probe"}):
+            raise ValueError("Input report lacks attested binary and three native outputs")
+        try:
+            verified=(checks["baseline_F_relative"]<=5e-4 and
+                      checks["baseline_Ye2_relative"]<=5e-4 and
+                      checks["F_antisymmetric_max_abs"]<=5e-9 and
+                      checks["F_probe_output_delta"]>=.5*proof["delta_f"] and
+                      checks["Ye2_probe_output_delta"]>=.5*proof["delta_imye2"] and
+                      proof["delta_f"]>0 and proof["delta_imye2"]>0)
+        except (KeyError,TypeError) as exc:
+            raise ValueError("Missing native input-propagation metrics") from exc
+        if not verified:
+            raise ValueError("Native F/Ye2 input propagation metrics fail published thresholds")
         propagation=gate("PASS","CARD_BOUND_FZEEIN_AND_YEE2_PROBE_NATIVE_GATE",
                          report_sha256=sha(path),
                          native_binary_sha256=proof.get("binary_sha256"),
