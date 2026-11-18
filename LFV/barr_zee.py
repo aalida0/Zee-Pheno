@@ -6,9 +6,10 @@ module4/CHARGED_SCALAR_AUDIT.md there. Not complete electroweak LFV.
 """
 from functools import lru_cache
 import math
+import warnings
 
 import numpy as np
-from scipy.integrate import quad
+from scipy.integrate import quad, IntegrationWarning
 
 
 def _ratio(u, z):
@@ -28,9 +29,15 @@ def photon_kernels(z):
         u=x*(1-x)
         return .5*_ratio(u,z)*(1-2*u if k=="f" else 1)
     points=[2*z/(1+math.sqrt(1-4*z))] if z<.25 else []
-    rows=[tuple(2*t for t in quad(fn,0,.5,args=(k,),epsabs=min(1e-12,5e-10*z),
-                                  epsrel=2e-12,points=points,limit=500))
-          for k in ("f","g")]
+    try:
+        with warnings.catch_warnings():
+            warnings.simplefilter("error", IntegrationWarning)
+            rows=[tuple(2*t for t in quad(fn,0,.5,args=(k,),
+                                          epsabs=min(1e-12,5e-10*z),
+                                          epsrel=2e-12,points=points,limit=500))
+                  for k in ("f","g")]
+    except IntegrationWarning as exc:
+        raise ArithmeticError("Barr-Zee quadrature IntegrationWarning") from exc
     f,g=(x for x,_ in rows)
     ef,eg=(err for _,err in rows)
     # Exact kernel identity; avoids a separate unstable F2 integral at tiny z.
