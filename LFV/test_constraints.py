@@ -204,6 +204,31 @@ class GeneralLFVTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             evaluate(p)
 
+    def test_MEGII_budget_for_native_NO_IO_scalar_controls(self):
+        # Source: MEG II arXiv:2504.15711 (1.5e-13, 90% CL).
+        # These are *required upper bounds* on omitted amplitudes,
+        # not estimates that have been established for a Zee point.
+        alpha=0.0072973525692838015
+        mu=0.105658372
+        electron=0.00051099893
+        gamma=2.995983701908041e-19
+        K=alpha*mu**5*(1-electron**2/mu**2)**3/(4*gamma)
+        limit=1.5e-13
+        self.assertAlmostEqual(K,8.017795784561368e10,delta=2.)
+        for label,br,nref,remaining in (
+            ("NO",1.2359863349731284e-17,1.2415932400992839e-14,1.3553700049540977e-12),
+            ("IO",2.421993374968115e-17,1.7380368501672127e-14,1.3504055688534183e-12)):
+            with self.subTest(ordering=label):
+                norm=math.sqrt(br/K)
+                self.assertAlmostEqual(norm,nref,delta=5e-25)
+                budget=amplitude_budget(norm,mu,electron,gamma,alpha,
+                         {"BR_90CL":limit,
+                          "source":"MEG II 2025 arXiv:2504.15711"})
+                self.assertAlmostEqual(
+                    budget["required_max_missing_norm_for_sufficient_pass_GeV_minus2"],
+                    remaining,delta=5e-23)
+                self.assertEqual(budget["status"],"UNKNOWN_UNBOUNDED_MISSING")
+
     def test_conditional_missing_amplitude_envelope(self):
         # factor = alpha * mi^5/(4 Gamma) = 1 exactly.
         limit={"BR_90CL":.25,"source":"synthetic experimental limit"}
