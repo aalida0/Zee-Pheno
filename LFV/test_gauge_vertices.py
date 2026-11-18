@@ -4,7 +4,7 @@ import unittest
 
 import numpy as np
 
-from LFV.gauge_vertices import charged_currents
+from LFV.gauge_vertices import charged_currents, charged_lepton_vertices
 
 
 class GaugeCurrentTests(unittest.TestCase):
@@ -38,6 +38,30 @@ class GaugeCurrentTests(unittest.TestCase):
                 self.assertAlmostEqual(q["Z_over_e"][0,1],offdiag,places=14)
                 self.assertEqual(q["status"],"TREE_EW_VERTEX_IDENTITIES_ONLY")
                 self.assertAlmostEqual(np.trace(q["T3_mass_basis"]),.5)
+
+    def test_native_charged_lepton_F_D_vertices_and_completeness(self):
+        F=np.array([[0,2e-5,3e-5],[-2e-5,0,4e-5],
+                    [-3e-5,-4e-5,0]],complex)
+        D=np.array([[.002,.0001j,0],[.0002,.004,.0003j],
+                    [0,0,.01]],complex)
+        for angle in (0.,.37,-.6):
+            v=charged_lepton_vertices(F,D,angle)
+            L,R=v["L"],v["R"]
+            self.assertEqual(L.shape,(2,3,3))
+            self.assertEqual(R.shape,(2,3,3))
+            np.testing.assert_allclose(
+                np.sum(L.conj()*L,axis=0),abs(F)**2,atol=1e-22)
+            np.testing.assert_allclose(
+                np.sum(R.conj()*R,axis=0),abs(D.conj().T)**2,atol=1e-22)
+            np.testing.assert_allclose(
+                np.sum(L.conj()*R,axis=0),np.zeros((3,3)),atol=1e-22)
+            if angle==0.:
+                np.testing.assert_array_equal(L[0],np.zeros((3,3)))
+                np.testing.assert_array_equal(R[1],np.zeros((3,3)))
+                np.testing.assert_array_equal(L[1],-F)
+                np.testing.assert_array_equal(R[0],-D.conj().T)
+        with self.assertRaises(ValueError):
+            charged_lepton_vertices(F+np.eye(3),D,0.)
 
     def test_bad_weak_angle_and_nans_rejected(self):
         for gamma,sw2 in ((float("nan"),.23),(0.,0.),(0.,1.),
