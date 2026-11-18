@@ -28,7 +28,7 @@ locators are retained separately:
 | Two charged loop orientations | Independent vertex-sum residual 2.22e−15 | PASS (one card) |
 | Native Takagi matrix | Residual 2.45e−15; arbitrary tree UV independence | PASS (one card) |
 | F=0 / F doubled | Zero masses / doubled masses and matrix | PASS (one card) |
-| Reproduced NO/IO oscillation inputs | Historic baseline does not survive loop-enabled matching | **STEP 1: FAIL / not refitted** |
+| Original pre-Step-1 neutrino oscillation fit | Historic baseline does not survive loop-enabled matching | **FAIL (historical card)** |
 | LFV, full flavor, Higgs, vacuum-globality, RG, scan | Outside structural model sign-off | UNKNOWN |
 
 Original reference SHA-256:
@@ -54,6 +54,11 @@ and does not yet have a global vacuum proof. The quark–singlet possible-term
 warning from SARAH has not been promoted to a genuine interaction without
 independent Lorentz/color/Fermi-statistics confirmation.
 
-**Next:** [Neutrino Step 1](../Neutrino/README.md), explicitly freezing
-NuFIT version, matching scheme, both NO/IO and PMNS convention before using
-any point in LFV or a physical parameter-space scan.
+**Step 1 update (2026-11-18):** Two separately generated NO/IO native SPheno
+benchmarks now reproduce their NuFIT 6.1 mass splittings and PMNS targets;
+each passes all six one-dimensional 3σ screens and matrix-level self-energy
+checks. These replace the failed *historical* card for the purpose of the
+initial neutrino pilot. See [Neutrino/README.md](../Neutrino/README.md) for
+observables, original proposal hashes and remaining scope limitations.
+Neither matching-scale stability nor a joint NuFIT likelihood is certified;
+LFV/Higgs/B/vacuum/scan viability remains outside the Step 0 sign-off.
