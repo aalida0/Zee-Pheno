@@ -60,6 +60,15 @@ Eqs.(65-66) are preserved. The alternative does not remove the result.
 | tau->e gamma | **0.71090** | 0.16271 | 54.4686 | 18/18 |
 | tau->mu gamma | **0.71277** | 0.16280 | 57.1533 | 18/18 |
 
+**Dominant single omitted term:** in the same 18-point public-source
+control grid, the largest individual omitted complex-amplitude group is
+`kin` in **10/18** points and `tHp` in **8/18** points,
+**for each of the three radiative channels**. The remaining five omitted
+source groups are never the largest in this frozen grid. This refers to
+individual term norms, **not** the coherent omitted sum; do not add
+their absolute values incoherently or infer a Zee gauge-completion
+hierarchy from a source label.
+
 The separate published-HW-normalization alternative also has **18/18**
 nodes above 10% for all three channels; the maximum alternative R values
 are 14.5568, 51.6358, 54.1810 respectively. Large ratios may result
