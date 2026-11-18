@@ -182,6 +182,8 @@ def generate(config_path,template_path,snapshot_path,output_dir):
     oldbeta=math.atan2(snap["vu"],snap["vd"])
     ye0=complex_matrix(snap["Ye"])
     ye20=complex_matrix(snap["Ye2"])
+    # shortcut: reference charged-lepton basis/matching is reused only for
+    # analytic proposals; every new SPheno card requires native rerunning.
     sy=math.cos(oldbeta)*ye0+math.sin(oldbeta)*ye20
     el,er=(complex_matrix(snap[name]) for name in ("ZEL","ZER"))
     arms=[arm for arm in config["arms"] for _ in range(arm["weight"])]
@@ -212,24 +214,29 @@ def generate(config_path,template_path,snapshot_path,output_dir):
             t=complex(draw("null_t"),draw("null_t"))
             fscale=10**draw("log10_F_scale")
             hscale=10**draw("log10_homogeneous_scale")
+            f_phase=rng.uniform(-math.pi,math.pi)
             z=np.zeros(4,complex) if k<len(nu["orderings"]) else hscale*(
                 np.asarray([rng.uniform(-1,1)+1j*rng.uniform(-1,1)
                             for _ in range(4)]))
             try:
                 M,_,_=target(ordering,mlight,a21,a31)
                 F,D,res=inverse(M,mass,charged,sine,fscale,t,root=root,
-                                homogeneous=z,f_phase=rng.uniform(-math.pi,math.pi),chart=chart)
+                                homogeneous=z,f_phase=f_phase,chart=chart)
                 Fg=el.T@F@el
                 Dg=er.T@D@el
                 Ye2=math.sin(scalar["beta"])*sy+math.cos(scalar["beta"])*Dg
+                Ye=math.cos(scalar["beta"])*sy-math.sin(scalar["beta"])*Dg
                 family={"ordering":ordering,"mlight_eV":mlight,
                         "alpha21_rad":a21,"alpha31_rad":a31,
                         "root":root,"chart":chart,"t":(t.real,t.imag),
+                        "f_scale":fscale,"f_phase_rad":f_phase,
+                        "homogeneous_scale":hscale,
                         "homogeneous_coefficients":encode(z.reshape(1,4)),
                         "F_mass_basis":encode(F),"D_mass_basis":encode(D),
+                        "Ye2_gauge_proposal":encode(Ye2),
                         "analytical_closure":res,
                         "max_abs_yukawa":float(max(np.max(abs(Fg)),np.max(abs(Dg)),
-                                                     np.max(abs(Ye2))))}
+                                                     np.max(abs(Ye)),np.max(abs(Ye2))))}
                 card=prepare_card(original,scalar,lag,Fg,Ye2)
                 family["status"]="NATIVE_REVALIDATION_REQUIRED"
                 filename=f"{record['scalar_id']}_{ordering}_f{k:02d}.in"
