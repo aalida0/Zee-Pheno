@@ -57,8 +57,8 @@ jobs:
                     abs(ours-author)/max(abs(ours),abs(author),1e-30))
           overlap=result['scalar_one_loop_chirality_overlap']['mu_to_e_gamma']
           print('STRICT_2HDM_CHIRALITY_OVERLAP',overlap)
-          assert overlap['direct_chirality_relative_residual']>0.5
-          assert overlap['exchanged_chirality_relative_residual']<0.05
+          assert overlap['direct_chirality_relative_residual']<0.05
+          assert overlap['exchanged_chirality_relative_residual']>0.5
           assert result['native_to_author_chiral_operator_mapping']=='NOT_CERTIFIED'
           print('PUBLIC_REFERENCE_2HDM_ONLY_PASS',result['public_source_sha256'])
           PY
