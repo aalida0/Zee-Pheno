@@ -1,23 +1,28 @@
 # Zee-Pheno
 
-Minimal, validation-first code for the **restricted CP-conserving Zee model with Type-II quark Yukawas and general lepton Yukawas**, focusing on the charged cascade `H2+ -> H1+ Z`.
+Minimal validation-first phenomenology for the **restricted CP-conserving Zee
+model**: Type-II **quark texture**, two general complex lepton Yukawa matrices,
+an antisymmetric charged-singlet coupling, and the charged-scalar cascade
+H₂± → H₁± Z. The conventional Z₂ is **not** exact; see [Model](Model/README.md).
 
-Only promote a calculation when its inputs, conventions, and scoped tests are documented. A passing unit test is **not** a global phenomenological exclusion or complete LFV validation.
-
-| Directory | Status |
+| Module | Scope |
 | --- | --- |
-| [Model](Model/README.md) | Tree-level scalar inversion and complex antisymmetric Zee coupling; [validation record](Model/VALIDATION.md) |
-| [Neutrino](Neutrino/README.md) | Reserved; no promoted code |
-| [LFV](LFV/README.md) | Reserved; native SPheno/FZEE inputs still need independent rerun |
-| [Higgs](Higgs/README.md) | Reserved; no promoted code |
-| [Flavor](Flavor/README.md) | Reserved; no promoted code |
-| [Collider](Collider/README.md) | Reserved; no promoted code |
-| [Scan](Scan/README.md) | Reserved; no promoted code |
+| [Model](Model/README.md) | Scalar and SARAH/SPheno structural validation; [evidence](Model/VALIDATION.md) |
+| [Neutrino](Neutrino/README.md) | Step 1: NuFIT 6.1 NO/IO pilot, native oscillation revalidation outstanding |
+| [LFV](LFV/README.md) | Not yet promoted |
+| [Higgs](Higgs/README.md) | Not yet promoted |
+| [Flavor](Flavor/README.md) | Not yet promoted |
+| [Collider](Collider/README.md) | Not yet promoted |
+| [Scan](Scan/README.md) | Not yet promoted |
 
-Run the model checks (Python standard library only):
+Run regression tests from the repository root:
 
-```bash
-python3 -m unittest Model.test_model -v
-```
+~~~bash
+python3 -m unittest discover -s Model -p 'test_*.py' -v
+python3 -m unittest Neutrino.test_fit -v
+~~~
 
-No generated SPheno/SARAH, old scan artifacts, or unvalidated global acceptance claims are included.
+NumPy is needed for neutrino calculations; mpmath for the independent
+high-precision native-loop regression. The historical SARAH/SPheno build and
+large simulation products are **not** copied into this repository. The saved
+native reference is one fixed card, not evidence of global parameter viability.
