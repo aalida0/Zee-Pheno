@@ -13,6 +13,9 @@ class NeutrinoComparisonTests(unittest.TestCase):
         self.assertEqual(finite_kernel(300., 300., 0.105), 0.)
         self.assertAlmostEqual(finite_kernel(300., 700., 0.),
                                math.log((300./700.)**2), places=14)
+        # Independent numerical quadrature of the full finite muon integral.
+        self.assertAlmostEqual(finite_kernel(300., 700., .105658),
+                               -1.6945941491221044, places=12)
 
     def test_synthetic_native_agreement_and_bad_result(self):
         with tempfile.TemporaryDirectory() as td:
