@@ -209,3 +209,54 @@ mixed charged \(W/Z\), \(F\)-dependent reducible/counterterm and
 Goldstone/pinch two-loop aggregates remain
 \`ZEE_GAUGE_TWO_LOOP_UNVALIDATED\`. Do not promote \`full_lfv_gate\`
 above UNKNOWN.
+
+
+## Independent strict-2HDM amplitude matching (2026-11-18)
+
+External CI used **unmodified** `thdm.py` at public Git commit
+`6a54cebcca3bd5bc13b77c15766fc03fffda5199`, SHA-256
+`9b4af7aa4bf7bf533a7b82c8c2603d118346424e3b7b5f9f06ab8cb41bc4e193`.
+The mathematical control has F=gamma=Mu4=K1=K2=K12=0 and a **self-consistent**
+tree scalar potential reconstructed from the declared physical spectrum.
+It is not asserted to pass physical Higgs/flavor/neutrino constraints.
+
+The first source run identified a real **chirality-label bug inherited
+from the old Module3/4 subset:** with identical effective operator
+`L=e m_i/2 bar(l_j) sigma (CL PL+CR PR) l_i F+h.c.`, the direct
+same-chirality mu→eγ one-loop residual was **1.02047**, versus
+**0.00260525** with L/R exchanged. The physically correct external-mass
+flip follows the source's Eq.(48),(51),(52). The standalone
+`LFV/core.py` and `LFV/barr_zee.py` on this branch were corrected to
+use physical CL and CR consistently. **Previously saved local
+`step2_{NO,IO}_lfv_one_loop.json` chiral coefficient *labels* are
+obsolete**, while the scalar-subset BRs remain unchanged under swapping
+both chirality components.
+
+After that fix, source-level external run
+[GitHub Actions 44387509108](https://github.com/aalida0/Zee-Pheno/actions/runs/44387509108)
+reported:
+
+| Physical amplitude subset, mu→eγ | Independent comparison | Maximum relative coefficient residual |
+| --- | --- | ---: |
+| Scalar one-loop CL/CR, including different subleading daughter-mass terms | Public full one-loop vs our Lavoura approximation | 0.00260525 when normalized to dominant chiral coefficient |
+| Charged scalar/photon Barr–Zee CL/CR | Public `HA` vs our independently integrated scalar-QED + seagull | 1.44e−13 |
+| Top fermion/photon Barr–Zee CL/CR | Public `th` with Z piece algebraically set to zero vs our photon source kernel | 8.75e−15 |
+| Charm fermion/photon Barr–Zee | As above, `ch` | 1.52e−12 |
+| Bottom fermion/photon Barr–Zee | As above, `bh` | 8.79e−14 |
+| Tau fermion/photon Barr–Zee | As above, `tauh` | 1.86e−14 |
+
+The author group `th,ch,bh,tauh` includes photon+Z contributions.
+Setting the internal source object's *external Z vector-current factor*
+`vZe=0` **only inside an isolated numerical comparison object** projects
+onto its electromagnetic form factor. It is not a physical change to the
+model and not a way to compute the missing Z or gauge aggregates. The
+original author source file is unmodified.
+
+These strong comparisons establish **source consistency of the retained
+photon subsets in the strict 2HDM limit**, not their gauge completions
+in the mixed charged-singlet Zee model. All `W/Z/Goldstone/ghost/pinch`,
+`F†F`, charged mixed-current, `HW` and full 3l/conversion blocks
+remain `UNKNOWN`; no full physical LFV experimental PASS/FAIL has
+been obtained. Only one representative complex off-diagonal Yukawa
+control has been externally executed so far, not a parameter-grid
+source comparison.
