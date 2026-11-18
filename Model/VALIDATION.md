@@ -223,3 +223,27 @@ With generic `Ye` and `Ye2`, no conventional family-universal `Z2` with `H1` and
 **Scoped model decision:** retain the 2021-inspired **low-scale restricted Zee ansatz** (quark Type-II *texture*, general `Ye/Ye2`, `k12` as specified, `lambda6=lambda7=0` at the declared reference scale), not an exact/softly broken globally `Z2`-invariant theory. Do not claim `Z2` enforces the absence of wrong-Higgs quark couplings or `lambda6/7` under RG. For an experimentally allowed scan, specify the input scale, estimate radiatively generated terms or associated model-dependence, and test sensitivity of the main charged cascade predictions to those omissions. The approximate texture is **not automatically a full renormalizable high-scale theory**.
 
 **Release status:** `NATIVE_TREE_LEPTON_BASIS_PASS` (user-reported); `CONVENTIONAL_SOFT_Z2_INCOMPATIBLE_WITH_CURRENT_LAGRANGIAN` (analytic); `RGE_CLOSURE_UNKNOWN`; `NEUTRINO_1LOOP_NATIVE_UNKNOWN`.
+
+
+## 2026-11-18 Neutrino native self-energy execution gate (NOT YET PASSED)
+
+**Necessary distinction:** `CheckModel[]` found the neutrino tree-level mass matrix identically zero. The user-validated SPheno charged-lepton basis does **not** prove that the generated program evaluates the one-loop Majorana neutrino mass. In SARAH/SPheno, input switch `SPhenoInput[55]` selects loop mass corrections: `0` disables them, `1` enables them (see Florian Staub, *Exploring New Models in All Detail with SARAH*, 2015). Its treatment must be checked for this specific generated model; simply finding a `SelfEnergyFv` symbol is not enough.
+
+The minimal read-only diagnostic `Model/audit_neutrino_native.py` inspects the corrected benchmark and the already-generated Fortran; it makes **no mass prediction or PASS claim**. Its two targeted `Model.test_neutrino_native` tests passed on synthetic fixtures. No native one-loop neutrino run has been executed in this environment.
+
+```bash
+cd ~/Zee-Pheno && git pull --ff-only origin main
+python3 -m unittest Model.test_neutrino_native -v
+
+WORK="$HOME/zee-lfv64-serial-20261112-094549"
+python3 -m Model.audit_neutrino_native \
+  --model "$WORK/SPheno-4.0.5/ZeeTypeII" \
+  --card "$WORK/model-validation-native-20261118/baseline.in" \
+  --spectrum "$WORK/model-validation-native-20261118/baseline.spc"
+```
+
+Interpretation: `LOOP_MASSES_DISABLED` blocks a numerical loop-mass comparison from this original spectrum. `SOURCE_OR_OUTPUT_INSPECTION_REQUIRED` also remains **UNKNOWN**, even if `SelfEnergyFv` or nonzero PDG 12/14/16 masses appear. The decisive next step is to inspect the full generated neutrino self-energy, whether it is actually called in the SPheno mass calculation, and then compare its properly scaled complex symmetric Majorana matrix against the independently established full-finite Zee expression on a single fixed card.
+
+A native SPheno loop-mass comparison is **not** automatically mandatory if the generator omits it: the already-tested published analytic Zee formula can be the validated neutrino backend once externally benchmarked, with SPheno used for a separate scalar/lepton/LFV calculation. Do not rebuild SPheno solely to manufacture a neutrino mass if the physical calculation is already independently validated.
+
+**Release decision:** `NATIVE_MNU_1LOOP_UNKNOWN`; Step 0 remains open only for the requested native loop-mass equivalence gate. All earlier tree-level and Yukawa-input gates retain their scoped PASS statuses.
