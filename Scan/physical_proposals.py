@@ -173,6 +173,22 @@ def prepare_card(template,scalar,lag,F,Ye2):
     return fix_card(template,updates)
 
 
+def add_missing_scalar_blocks(text):
+    """Extend an attested neutrino card for *derived* scalar-scan cards only."""
+    data=blocks(text)
+    for name,n in (("ZEEPOT",5),("ZEEQUARTIC",9)):
+        indices={(i,) for i in range(1,n+1)}
+        if name in data:
+            if set(data[name])!=indices:
+                raise ValueError(f"Incomplete scalar input block {name}")
+            continue
+        if not text.endswith("\n"):
+            text+="\n"
+        text+=f"Block {name}\n"
+        text+="".join(f" {i} 0.0 # scan placeholder\n" for i in range(1,n+1))
+    return text
+
+
 def generate(config_path,template_path,snapshot_path,output_dir):
     config=validate(json.loads(config_path.read_text()))
     if sha(template_path)!=REFERENCE_CARD_SHA:
@@ -181,14 +197,14 @@ def generate(config_path,template_path,snapshot_path,output_dir):
     data=blocks(original)
     required={
         "MINPAR":{(3,)},
-        "ZEEPOT":{(i,) for i in range(1,6)},
-        "ZEEQUARTIC":{(i,) for i in range(1,10)},
         **{name:{(i,j) for i in range(1,4) for j in range(1,4)}
            for name in ("FZEEIN","IMFZEEIN","YEE2IN","IMYEE2IN")},
     }
     if any(not indices<=set(data.get(name,{}))
            for name,indices in required.items()):
-        raise ValueError("Attested template lacks required scalar/tan-beta/F/Ye2 entries")
+        raise ValueError("Attested template lacks required tan-beta/F/Ye2 entries")
+    # The original hash remains pinned; only generated cards gain scalar rows.
+    original=add_missing_scalar_blocks(original)
     snapjson=json.loads(snapshot_path.read_text())
     snap=(snapjson["snapshots"][snapjson["spectrum_snapshot_index"]]
           if "snapshots" in snapjson else snapjson["snapshot"])
