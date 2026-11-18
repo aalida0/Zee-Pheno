@@ -65,5 +65,21 @@ native Takagi rotation and charged-lepton rotation to extract mixing angles,
 **NATIVE_3SIGMA_SCREEN_PASS** is not a correlated χ² or full Zee acceptance.
 A failed first proposal requires retuning in the native matching scheme.
 
+To make the next **analytic** iteration from the actual new native running
+parameters, pass its result as the snapshot while retaining the original
+hash-pinned loop-enabled card as the template:
+
+~~~bash
+python3 -m Neutrino.fit --ordering NO --mlight-ev 0.0093 \
+  --snapshot "$WORK/step1_NO_native/result.json" \
+  --reference-card "$CARD" --write-card "$WORK/step1_NO_iteration2.in" \
+  --output "$WORK/step1_NO_iteration2.json"
+~~~
+
+This is a small fixed-point proposal, **not a certified convergent algorithm**;
+rerun native diagnostics after each change and stop on mismatched quantities,
+tachyons, tadpole failure, or nonperturbative couplings. Do not overwrite cards.
+
+
 **STOP before LFV/scans:** certify both NO and IO under native matching and
 assess stability under reasonable matching-scale variations.
