@@ -9,6 +9,7 @@ import numpy as np
 
 from LFV.test_constraints import sample
 from Model.audit_neutrino_native import sha
+from Model.model import scalar_parameters
 from Neutrino.fit import target
 from Scan.native_gates import evaluate_entry
 from Scan.native_pipeline import evaluate_manifest
@@ -115,6 +116,66 @@ class NativeGateTests(unittest.TestCase):
             self.assertEqual(result["reports"][1]["verdict"],
                              "NOT_EVALUATED_SOURCE_ERROR")
             self.assertNotIn("LFV_retained_BR",result["reports"][1])
+
+    def test_verified_F_input_response_requires_same_card_and_native_checks(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            entry=fixture(root,"NO","probed",125.)
+            native_report=root/"input_propagation.json"
+            evidence={
+                "status":"NATIVE_INPUT_GATE_PASS",
+                "input_sha256":sha(root/entry["card"]),
+                "native_executed":True,
+                "binary_sha256":"a"*64,
+                "delta_f":.000001,"delta_imye2":.000001,
+                "output_sha256":{k:"b"*64 for k in ("baseline","f_probe","ye2_probe")},
+                "checks":{"baseline_F_relative":0.,
+                          "baseline_Ye2_relative":0.,
+                          "F_antisymmetric_max_abs":0.,
+                          "F_probe_output_delta":.000001,
+                          "Ye2_probe_output_delta":.000001},
+            }
+            native_report.write_text(json.dumps(evidence))
+            entry["native_input_report"]=native_report.name
+            report=evaluate_entry(entry,root)
+            self.assertEqual(report["gates"]["native_FZEEIN_propagation"]["status"],"PASS")
+            evidence["status"]="NATIVE_INPUT_GATE_FAIL"
+            native_report.write_text(json.dumps(evidence))
+            with self.assertRaisesRegex(ValueError,"INPUT_PROBE_NOT_NATIVE_PASS"):
+                evaluate_entry(entry,root)
+            evidence["status"]="NATIVE_INPUT_GATE_PASS"
+            evidence["input_sha256"]="0"*64
+            native_report.write_text(json.dumps(evidence))
+            with self.assertRaisesRegex(ValueError,"INPUT_PROBE_REPORT_CARD_SHA_MISMATCH"):
+                evaluate_entry(entry,root)
+
+    def test_scalar_inversion_only_necessary_and_source_consistent(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            entry=fixture(root,"NO","with_potential",125.)
+            base=evaluate_entry(entry,root)
+            p=base["native_scalar_parameters"]
+            inv={"m12sq_GeV2": 250000.*np.sin(p["beta"])*np.cos(p["beta"]),
+                 "lambda_c":.25,"K1":.3,"K2":.3,"K12":.01}
+            x=scalar_parameters(**p,m12sq=inv["m12sq_GeV2"],
+                                lc=inv["lambda_c"],k1=inv["K1"],
+                                k2=inv["K2"],k12=inv["K12"])
+            potential={k:x[k] for k in ("Lambda1","Lambda2","Lambda3",
+                "Lambda4","Lambda5","K1","K2","K12","Mu4")}
+            (root/"inv.json").write_text(json.dumps(inv))
+            (root/"pot.json").write_text(json.dumps(potential))
+            entry.update(potential="pot.json",potential_source="synthetic source",
+                         scalar_inversion="inv.json")
+            result=evaluate_entry(entry,root)
+            self.assertEqual(result["gates"]["scalar_tree_inversion"]["status"],"PASS")
+            self.assertEqual(result["gates"]["potential_provenance"]["status"],"UNKNOWN")
+            self.assertEqual(result["gates"]["full_Zee_LFV"]["status"],"UNKNOWN")
+            self.assertEqual(result["charged_photon_topology"],
+                             "INCLUDED_FROM_RESTRICTED_POTENTIAL")
+            potential["Lambda1"]+=1.
+            (root/"pot.json").write_text(json.dumps(potential))
+            with self.assertRaisesRegex(ValueError,"inconsistent"):
+                evaluate_entry(entry,root)
 
     def test_no_potential_with_or_without_provenance_and_duplicate_ids(self):
         with tempfile.TemporaryDirectory() as td:
