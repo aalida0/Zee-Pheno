@@ -146,7 +146,7 @@ def amplitude_budget(norm, mi, mj, width, alpha, bound):
         "experimental_limit_BR_90CL":bound["BR_90CL"],
         "experimental_source":bound["source"],
         "required_max_missing_norm_for_sufficient_pass_GeV_minus2":
-            max(0.,allowed-norm),
+            (allowed-norm if norm<allowed else None),
         "retained_amplitude_norm_GeV_minus2":norm,
         "experimental_threshold_norm_GeV_minus2":allowed,
         "status":"UNKNOWN_UNBOUNDED_MISSING",
