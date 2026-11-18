@@ -204,6 +204,8 @@ def evaluate_grid(template,inversion,grid,sw2):
     output={
         "status":"NONZERO_MIXING_ZEE_TRUNCATION_DIAGNOSTIC_ONLY",
         "n_points":len(points),"n_channel_rows":len(results),
+        "n_simple_quartic_magnitude_below_4pi":sum(
+            axes["simple_quartic_magnitude_below_4pi"] for _,axes in points),
         "grid":grid,
         "scalar_inversion":inversion,
         "template_hash_sha256":hashlib.sha256(
@@ -248,6 +250,7 @@ def main():
     print(json.dumps({
         "status":report["status"],"n_points":report["n_points"],
         "n_channel_rows":report["n_channel_rows"],
+        "n_simple_quartic_magnitude_below_4pi":report["n_simple_quartic_magnitude_below_4pi"],
         "summaries":report["summaries"],
         "sample":report["rows"][:1],
         "full_Zee_LFV_status":"UNKNOWN",
