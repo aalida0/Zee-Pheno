@@ -17,6 +17,20 @@ No parameter point was tuned and no diagrams were invented.
 | [Erratum JHEP07(2026)184](https://doi.org/10.1007/JHEP07(2026)184) | Corrects the 2025 general-2HDM result; source-locked earlier in-house audit identified changed signs/prefactors and kinetic function | Only use erratum-aware code, then match the entire gauge-invariant set to Zee before claiming inclusion |
 | Earlier [Zee LFV_COVERAGE](https://github.com/aalida0/zee/blob/research/zee-full-constraints/research/full_constraints/LFV_COVERAGE.md) and [MATCHING_AUDIT](https://github.com/aalida0/zee/blob/research/zee-full-constraints/module4/MATCHING_AUDIT.md) | Complete operator/topology inventory, signed photon subset, W transverse candidate discrepancy, uncancelled F-dependent gauge subgraphs, generated FlavorKit conversion nuclear-index discrepancy | These are **positive source evidence for missing work**, not numerical bounds on its total |
 
+**New strict 2HDM neutral-Yukawa map regression:** The corrected public
+2HDM convention in arXiv:2410.17313v4, Eqs.(8),(11),(12), maps onto
+the restricted Zee lepton mass basis via
+`rho_e^dagger = D/sqrt(2)`,
+`q_h=(cos(beta-alpha),-sin(beta-alpha))`,
+`q_H=(sin(beta-alpha),cos(beta-alpha))`,
+and `q_A2=-i` in the chosen real-CP scalar phase convention.
+The corresponding up/down Type-II quark `rho` values are
+`(m_u/v)cot(beta)` and `-(m_d/v)tan(beta)`.
+`LFV/test_constraints.py` checks this complex 3x3 neutral Yukawa
+dictionary and the quark scalar/axial couplings for all three neutral
+states. This is **vertex-level** transfer validation, **not** the
+missing full gauge-invariant two-loop amplitude.
+
 The 2017 source's model assumptions and leading formula are sufficient for
 a **declared leading approximation** in a phenomenology paper. They do not
 supply a rigorous, general remainder estimate or an arbitrary-parameter-point
