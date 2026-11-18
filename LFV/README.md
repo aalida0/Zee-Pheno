@@ -133,8 +133,7 @@ A label by itself is not a theory-validation certificate.
 
 ### Export existing native NO/IO fixtures to generic points
 
-The adapter reads the validated native running F/Ye/Ye2 matrices and
-charged-lepton rotations, checking the native pilot's SHA-256 binding.
+The adapter reconstructs the running F/Ye/Ye2 matrices, lepton rotations and CP-even scalar mixing from the original SPheno diagnostic, card and spectrum. It verifies the card SHA-256 directly; no pre-exported pilot JSON is trusted.
 It requires two explicit files of six named masses:
 quark_loop.json for the inner propagators and quark_yukawa.json for the
 neutral scalar Yukawa couplings. Both have keys:
@@ -144,8 +143,9 @@ documented; do NOT fill with arbitrary numbers.
 ~~~bash
 WORK="$HOME/zee-lfv64-serial-20261112-094549"
 python3 -m LFV.native_point \
-  --pilot "$WORK/step2_NO_lfv_one_loop.json" \
   --native "$WORK/step1_NO_native/result.json" \
+  --card "$WORK/step1_NO_proposal.in" \
+  --spectrum "$WORK/step1_NO_native/output.spc" \
   --quarks "$WORK/quark_loop.json" \
   --quark-yukawas "$WORK/quark_yukawa.json" \
   --scheme "native SPheno Q=160 GeV lepton + documented quark schemes" \
