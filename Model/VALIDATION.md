@@ -311,3 +311,50 @@ python3 -m Model.compare_neutrino_masses \
 The script never infers the tree-level `UV` to be PMNS. `SINGULAR_VALUES_AGREE_ONLY` would validate the three masses **only**, not the complex Majorana matrix or PMNS mixing. `NATIVE_ANALYTIC_MASS_MISMATCH` keeps the gate blocked and requires inspection of normalization, charged-scalar mixing, complex conjugations and loop pole-mass routine. The diagnostic's 1% relative tolerance is a **comparison flag**, not a precision uncertainty budget.
 
 **Decision:** `NATIVE_NEUTRINO_MASSES_NONZERO` / `NATIVE_ANALYTIC_MATCH_PENDING` / `PHYSICAL_NEUTRINO_FIT_UNKNOWN`. Step 0 not yet closed.
+
+
+## 2026-11-18 Native-versus-analytic neutrino mass mismatch
+
+**Source:** user-provided output of `Model.compare_neutrino_masses`, for the same one-card input/output pair as earlier native validation.
+
+| Quantity | Analytic (eV) | SPheno one-loop pole output (eV) |
+| --- | ---: | ---: |
+| lightest singular mass | 0.00930182940449313 | 0.012785582 |
+| middle singular mass | 0.012721006947088463 | 0.0414498832 |
+| heaviest singular mass | 0.05095806074770867 | 0.0625655793 |
+| Delta m21^2 (eV^2) | 7.529998747757994e-05 | 1.5546217102149185e-03 |
+| Delta m31^2 (eV^2) | 2.510199924896874e-03 | 3.7509806060658656e-03 |
+
+**Failure:** `NATIVE_ANALYTIC_MASS_MISMATCH` with maximum eigenvalue difference / maximal analytic eigenvalue `0.5637749127688956`. No common mass normalization explains the three unequal ratios. The analytic spectrum reproduces the intended oscillation splittings while the native result does not. Do not recalibrate source (F,D) to compensate for a noncertified native loop calculator.
+
+Shared input/spectrum SHA-256 values:
+- Input `f2efe759aa3196978d466739fc788b1dd7fb01d71cbc6e883c8a87830da454bf`.
+- Pre-loop baseline `3a7a4fab80c9e1837e72ea4a4e0ab70ea222367d97606b879d9d7115bea1c4d8`.
+- Loop-enabled output `2d72ae9f6d7e87b90a7fbb9db7825a6e2cbe919a8331d3f0b064e6a722e10ff9`.
+
+The user's analytic matrix (M_\nu) is complex symmetric and correctly yields the analytic singular values. The charged mass and charged-lepton Yukawa inputs in the **tree scheme** are internally consistent: (m_{H_1^\pm}=674.274427) GeV, (m_{H_2^\pm}=1165.97482) GeV, (v=246.21965003876107) GeV, (sin 2\gamma=0.990465251816225). A more careful comparison must account for the possibility that enabling SPheno loop corrections also shifts the heavy charged-scalar and charged-lepton masses. `Model.compare_neutrino_masses` now prints their tree-to-loop relative shifts rather than silently treating the schemes as identical.
+
+**Source-level physics inspection:** the supplied `Sigma1LoopFv` routine has the expected two charged-scalar/charged-lepton diagrams with `SigSL` and `SigSR` containing (m_\ell B_0), plus W and Z self-energies. This is necessary but not proof that the mass matrix assembled from them matches the finite Zee expression; the one-loop pole-mass call site, (UV), (ZP), conjugations and matrix symmetrization must be checked.
+
+**Minimal additional discriminator:** `Model/probe_neutrino_scaling.py` runs **two** hash-pinned controls using the same loop-enabled input with `Fzee\to0` and `Fzee\to2Fzee`, leaving all Yukawa/scalar controls untouched and preserving antisymmetry. The first must give zero radiative Majorana masses if the Zee lepton-number-breaking structure is correctly implemented. The second should approximately double eigenvalue masses at one-loop if all other parameters are unchanged; violations identify possible loop-code/gauge/basis contamination. No physical PASS is assigned by this script.
+
+```bash
+cd ~/Zee-Pheno && git pull --ff-only origin main
+python3 -m unittest Model.test_compare_neutrino_masses Model.test_neutrino_scaling -v
+WORK="$HOME/zee-lfv64-serial-20261112-094549"
+
+# Reports charged scalar and lepton tree-vs-loop mass shifts.
+python3 -m Model.compare_neutrino_masses \
+  --input "$WORK/model-validation-native-20261118/baseline.in" \
+  --baseline "$WORK/model-validation-native-20261118/baseline.spc" \
+  --loop "$WORK/model-neutrino-loop-20261118/loop_enabled.spc"
+
+# Controls must create a fresh directory; do not rerun over an existing result.
+python3 -m Model.probe_neutrino_scaling \
+  --input "$WORK/model-neutrino-loop-20261118/loop_enabled.in" \
+  --exe "$WORK/SPheno-4.0.5/bin/SPhenoZeeTypeII" \
+  --baseline "$WORK/model-neutrino-loop-20261118/loop_enabled.spc" \
+  --output-dir "$WORK/model-neutrino-F-controls-20261118"
+```
+
+**Gate decision:** `NEUTRINO_NATIVE_NUMERICAL_MATCH_FAIL` (**STOP** for treating native SPheno neutrino pole masses as oscillation predictions). `ANALYTIC_MNU_CONVENTIONS_CHECKED` (separate, previously source-matched algebraic validation), but **full native matrix and oscillation fidelity remain UNKNOWN**. A provisional scan can rely on the independently validated analytic formula *after* documenting its separate evidence; it must not use the disagreeing native masses as an acceptance gate.
