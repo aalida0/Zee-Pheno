@@ -6,7 +6,7 @@ from pathlib import Path
 import mpmath as mp
 import numpy as np
 
-from Model.compare_neutrino_masses import finite_kernel
+from Neutrino.fit import finite_kernel
 from Model.diagnose_neutrino_native import analyze, instrument
 
 
