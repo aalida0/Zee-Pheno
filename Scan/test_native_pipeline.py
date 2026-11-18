@@ -13,6 +13,7 @@ from Model.model import scalar_parameters
 from Neutrino.fit import target
 from Scan.native_gates import evaluate_entry
 from Scan.native_pipeline import evaluate_manifest
+from Scan.prepare_reference_manifest import prepare
 
 ROOT=Path(__file__).resolve().parents[1]
 REFERENCE=json.loads((ROOT/"Model/reference/native_neutrino_snapshot.json").read_text())["snapshot"]
@@ -79,6 +80,27 @@ class NativeGateTests(unittest.TestCase):
             bad=dict(entry,quark_loop="quarks.json")
             with self.assertRaisesRegex(ValueError,"Quark"):
                 evaluate_entry(bad,root)
+
+    def test_no_io_reference_manifest_writer_without_quark_guessing(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            for ordering,higgs in (("NO",125.),("IO",484.2844)):
+                entry=fixture(root,ordering,ordering.lower(),higgs)
+                (root/f"step1_{ordering}_proposal.in").write_bytes(
+                    (root/entry["card"]).read_bytes())
+                dest=root/f"step1_{ordering}_native"
+                dest.mkdir()
+                (dest/"result.json").write_bytes((root/entry["native"]).read_bytes())
+                (dest/"output.spc").write_bytes((root/entry["spectrum"]).read_bytes())
+            manifest=root/"reference_manifest.json"
+            status=prepare(root,manifest)
+            self.assertEqual(status["LFV_scope"],"SCALAR_ONE_LOOP_ONLY")
+            self.assertEqual(status["n_points"],2)
+            report=evaluate_manifest(manifest)
+            self.assertEqual(report["n_native_1D_pass"],2)
+            self.assertEqual(report["n_fail_necessary"],1)
+            self.assertEqual(report["n_pending"],1)
+            self.assertIsNone(report["n_globally_allowed"])
 
     def test_native_pass_is_not_globally_allowed(self):
         with tempfile.TemporaryDirectory() as td:
