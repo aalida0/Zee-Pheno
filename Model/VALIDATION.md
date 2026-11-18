@@ -40,7 +40,7 @@ Result: **TREE_SCALAR_VALIDATED; NATIVE_SARAH_SPHENO_PENDING**.
 - Imaginary `Ye2(2,2)` probe: input perturbation `1.3071601895116883e-05`; observed `Ye2` change `1.3071602000000004e-05`; observed `F` change `0.0`.
 - Three output hashes: baseline `3a7a4fab80c9e1837e72ea4a4e0ab70ea222367d97606b879d9d7115bea1c4d8`; F probe `f8f7eb70b76955caea149d81d33c5daaa6a1541a17b4a6328f0f89bc5a803ad0`; Ye2 probe `2443ccc076740132638fb7f41400c9f9cc3f73c806fcd49dfbc34244073f1533`.
 
-**Decision:** Corrected SLHA/Yukawa native input propagation passes for this card and attested binary. Previous reported F diagonal/symmetry violations are explained by the malformed input rows, not shown to be a SARAH interaction defect. SARAH `CheckModel[]`, historical neutrino rotations, physical Yukawa basis `D`, scalar spectrum in this native run, radiative neutrino-mass normalization, and complete LFV remain **PENDING/UNKNOWN**.
+**Decision:** Corrected SLHA/Yukawa native input propagation passes for this card and attested binary. Previous reported F diagonal/symmetry violations are explained by the malformed input rows, not shown to be a SARAH interaction defect. SARAH `CheckModel[]` now completes with warnings on the rotation-bearing snapshot (see below). Physical Yukawa basis `D`, scalar spectrum in this native run, radiative neutrino-mass normalization, and complete LFV remain **PENDING/UNKNOWN**.
 
 ## 2026-11-18 SARAH/SPheno validation preparation
 
@@ -88,3 +88,21 @@ The output directory must not exist beforehand. Inspect `native-input-report.jso
 - Keep **native model validation UNKNOWN** until the SARAH model-snapshot/rotation discrepancy, `CheckModel[]` warnings, source-to-binary provenance and one-card native results are reviewed. Then check the charged vertices, charged-lepton basis `D` and radiative neutrino-mass normalization independently.
 
 **Current release decision: TREE_SCALAR_VALIDATED / NATIVE_SARAH_SPHENO_PENDING / PHYSICAL_LFV_UNKNOWN.**
+
+## 2026-11-18 user-reported SARAH 4.15.4 `CheckModel[]` outcome
+
+Evidence: terminal output provided by the user, covering an actual `Start["ZeeTypeII"]; CheckModel[];` on `/home/amine/zee-conditional-cascade-scan/validation/module14/local/models`. SARAH reports `All Done. ZeeTypeII is ready!` and `All checks finished in 4.366489...` seconds. **Initialization and structural checks completed; this is not a warning-free or loop-physics validation.**
+
+**Snapshot diff (exactly two EWSB changes):**
+- Generated model adds `{{vL},{VL,UV}},` to `DEFINITION[EWSB][MatterSector]`.
+- Generated model uses `Fv -> {VL,conj[VL]}` instead of `Fv -> {vL,conj[vL]}`.
+
+The rotation-bearing, native-generation snapshot is the **provisional canonical candidate**, because it matches the successful SARAH run and historical native SPheno workflow. Do not copy into this minimal repo or assert physical PMNS matching until the radiative neutrino-mass basis is checked. At tree level the `{{vL},{vL}}` mass matrix is identically zero; `UV` is therefore not a physically determined PMNS rotation.
+
+**CheckModel warning review:**
+- `MassMatrix::OnlyZero` for `{{vL},{vL}}`: EXPECTED (Zee radiative neutrinos).
+- `PossibleTerms::NonSUSY`: SARAH lists nonincluded gauge-compatible operators, including opposite-doublet quark Yukawas, `lambda6/lambda7`-type terms, singlet-related terms and `{d,conj[Splus],conj[u]}`. **OPEN:** classify each warning as forbidden by an explicitly stated symmetry, identically zero after gauge/statistics/Lorentz contraction, or an intentionally omitted operator. SARAH itself warns this checker is imperfect for nonsupersymmetric models.
+- EWSB rotations `vL->VL`, `phi1/phi2->hh`, `sigma1/sigma2->Ah`, three charged scalars `->Hm`, and quark/charged-lepton rotations: the reported quantum-number compatibility checks complete without an error.
+
+**Release gate:** `SARAH_CHECKMODEL_COMPLETED_WARNINGS_OPEN`; `NATIVE_INPUT_GATE_PASS` remains valid. Next verify physical charged vertices, `UV`/charged-lepton basis matching, full scalar spectrum and radiative neutrino loop normalization using the generated source and corrected benchmark. The restricted potential and Type-II quark Yukawas need a clearly justified scope/symmetry statement; no RG closure or full-model certification is claimed.
+
