@@ -1,154 +1,151 @@
-# LFV with nonzero charged-singlet mixing: reproducible approximation audit
+# Nonzero-mixing Zee LFV: approximation and materiality audit
 
-Date: 18 November 2026.
-**Verdict: `TRUNCATED_LFV_PHOTON_DIAGNOSTIC_READY`; full physical LFV `UNKNOWN`.**
+18 November 2026 | Status: TRUNCATED_LFV_PHOTON_DIAGNOSTIC_READY
+Full experimental LFV constraint: UNKNOWN.
 
-The 2017 general Zee study and Heeck–Thapa 2023 use leading one-loop
-and selected two-loop Barr–Zee terms, with assumptions and neglected
-electroweak contributions described in those works.
-The published *full* general-2HDM two-loop computation
-[Altmannshofer et al. (2025), erratum (2026)](https://arxiv.org/html/2410.17313v4)
-does not include the charged-singlet/mixed (F) Zee sector.
-The 18-point pure-2HDM source control in
-[APPROXIMATION_STUDY.md](APPROXIMATION_STUDY.md) found neglected
-source amplitudes above 10% of retained amplitudes in all 18 sampled
-points for each of three radiative LFV channels.
-Thus a **uniform 10% missing-term uncertainty is not justified**.
+This is a **methodological validation**, not a scan of allowed Zee model
+parameter space. There is no retuning of points in response to LFV limits.
 
-## Physical model scope of new code
+## Published theory basis
 
-New module [nonzero_mixing_study.py](nonzero_mixing_study.py) evaluates
-*actual* restricted Zee tree-level scalar spectra with
-(gamma
-e 0), (F
-e 0), and kinematically open
-(H_2^pm	o H_1^pm Z). At each fixed grid node:
-1. Invert prescribed (m_h,m_H,m_A,m_{H_1^pm},m_{H_2^pm},alpha,eta,gamma)
-   and independently declared (m_{12}^2,lambda_C,K_1,K_2,K_{12}) to
-   (lambda_{1..5},mu_4) using audited scalar inversion.
-   No parameter is adjusted in response to LFV.
-2. Keep the complex (D) texture fixed; vary (F) by a predeclared
-   overall multiplier. This **changes neutrino predictions**:
-   it is a *sensitivity scan only*, not a neutrino-compatible scan.
-3. Compute coherent physical-source-diagnostic
-   (C=C_{m scalar,1loop}+C_{m fermion,photon,BZ}
-     +C_{m charged,scalar,photon,BZ})
-   from existing independently source-audited code. The complete
-   potential is supplied at every point; no missing trilinear is set
-   silently to zero.
-4. Record per-channel complex retained norm, partial BR, cancellation
-   metric, per-topology hierarchy, the exact (F^2) one-loop norm,
-   and the exact off-diagonal charged-scalar (Z) coupling.
-   The (F^2) control checks scale (Fmapsto 2F) increases its
-   amplitude by exactly four.
-5. **Do not** calculate or bound the complete electroweak (W,Z),
-   Goldstone, ghost, pinch/LSZ and mixed-singlet (F)-dependent
-   contributions. Their amplitude upper bound stays null and all
-   physical LFV gates are `UNKNOWN`.
+The 2017 general Zee phenomenology study and 2023 Zee LFV analysis
+computed one-loop and selected photon Barr-Zee contributions with
+specified flavor and scalar-sector assumptions. Neither supplies a
+complete mixed-singlet two-loop electroweak amplitude for our Type-II
+quark, general charged-Higgs-mixing Zee parameter space.
 
-Source-matched known-photon terms are *not* a complete two-loop
-gauge-invariant Zee amplitude, and the retained branching ratio cannot
-be called a model-exclusion prediction.
+The corrected full general-2HDM radiative LFV calculation
+(Altmannshofer et al., arXiv:2410.17313v4 and July 2026 erratum) is a
+valuable *reference*, not an automatic Zee prediction. The earlier
+18-point unmodified-author-source comparison found neglected diagrams
+above a 10% amplitude diagnostic threshold at all sampled controls:
+[APPROXIMATION_STUDY.md](APPROXIMATION_STUDY.md).
 
-## Predeclared toy diagnostic grid (not physical Zee scan)
+## Implemented on actual Zee parameters (gamma != 0, F != 0)
 
-| Axis | Values |
+[nonzero_mixing_study.py](nonzero_mixing_study.py) accepts an arbitrary
+Zee scalar/Yukawa LFV input, an explicit set of restricted-potential
+inversion inputs, and a predeclared four-axis control grid. At each point:
+
+1. Reconstruct Lambda1..5, K1, K2, K12 and Mu4 from the physical
+   charged/neutral masses, alpha, beta, gamma, declared soft mass and
+   scalar parameters. No potential parameter is changed to satisfy LFV.
+2. Preserve all complex D entries and vary antisymmetric complex F by a
+   declared multiplier. This is a texture sensitivity study: multiplying
+   F generally changes the neutrino masses and is NOT a neutrino-fit scan.
+3. Calculate the coherent source-checked neutral/charged scalar
+   one-loop and fermion-/charged-scalar-photon Barr-Zee contributions.
+4. Record the retained complex-amplitude norm, partial branching
+   ratio, interference/cancellation metric, known F-only one-loop
+   contribution, the retained photon two-loop/one-loop ratio and exact
+   charged mixing Z(H1,H2) current.
+5. Preserve a null theoretical bound on omitted electroweak gauge
+   amplitudes and UNKNOWN physical LFV for every point. No experimental
+   PASS/FAIL is inferred from a retained partial branching ratio.
+
+The actual scalar theory checks are only diagnostic: all quartic
+magnitudes below 4*pi and the **necessary** CP-conserving 2HDM
+doublet-subpotential bounded-from-below inequalities:
+Lambda1>0, Lambda2>0,
+Lambda3 > -sqrt(Lambda1*Lambda2),
+Lambda3+Lambda4-|Lambda5| > -sqrt(Lambda1*Lambda2).
+These are NOT a full Zee BFB, global minimum, unitarity or Higgs-rate gate.
+
+## Fixed revised scalar consistency control (24 points)
+
+The *initial* trial grid used an inconsistent fixed m12sq at high
+tan(beta), producing nonperturbatively large quartics. Those initial
+numbers are SUPERSEDED and must not be used as physical evidence.
+The revised parameters are declared **before** evaluating LFV.
+
+| Control | Revised fixed input |
 | --- | --- |
-| tan beta | 2, 8 |
-| gamma (rad) | 0.15, 0.50, 0.95 |
-| mH2+ (GeV) | 900, 1200 |
-| F multiplier | 1, 100 |
-| mH1+, h, H, A (GeV) | 610, 125, 640, 720 |
-| scalar inversion | m12sq = 180000 GeV^2; K1=.2, K2=.4, K12=.01, lambdaC=.25 |
-| lepton Yukawas | fixed synthetic complex D and antisymmetric nonzero F |
-| other masses | explicit illustrative non-matched test inputs |
+| tan(beta) | 2, 8 |
+| gamma [rad] | 0.15, 0.35, 0.55 |
+| m(H2+) [GeV] | 900, 1200 |
+| F overall multiplier | 1, 100 |
+| m(H1+) [GeV] | 650 |
+| m(h), m(H), m(A) [GeV] | 125, 640, 720 |
+| CP-even alignment | alpha = beta |
+| Soft mass | Msoft = 640 GeV, m12sq = Msoft^2 sin(beta) cos(beta) |
+| Quartic controls | LambdaC=0.25, K1=0.2, K2=0.4, K12=0.01 |
+| D and base F | Fixed, illustrative complex flavor textures |
+| Other mass scheme | Explicit but NOT matched physical benchmark scheme |
 
-**24 Zee scalar points × three radiative decays = 72 retained LFV
-amplitude evaluations.** All sampled gamma and F values are nonzero,
-and the charged cascade is open at all nodes. Points are *not*
-filtered for neutrino oscillations, Higgs signal strengths, B physics,
-vacuum stability, unitarity, perturbativity or experimental LFV.
-The h=125 GeV input is a declared scalar-sector control, not
-evidence that other Higgs constraints pass.
+24 genuine mixed Zee scalar input points x 3 radiative decays = 72
+included-topology amplitude evaluations. The on-shell charged cascade
+H2+ -> H1+ Z is open at every point. The original 125 GeV h input
+and the scalar quartic diagnostics do not certify phenomenological
+viability; neutrino, B, full Higgs, vacuum and collider constraints are
+NOT evaluated.
 
-[GitHub Actions run](https://github.com/aalida0/Zee-Pheno/actions/runs/44400524298)
-completed both the actual-mixing retained-amplitude sweep and a second
-auxiliary pure-2HDM reference. Complete per-point CSV and JSON files
-are saved as workflow artifacts:
-[Zee 24-point retained LFV diagnostics](https://github.com/aalida0/Zee-Pheno/actions/runs/44400524298/artifacts/14470279911);
-[24-point pure-2HDM doublet reference](https://github.com/aalida0/Zee-Pheno/actions/runs/44400524298/artifacts/14470154934).
+## Exact doublet-sector auxiliary pure-2HDM reference (NOT Zee two-loop)
 
-## Exact doublet-sector *proxy*, not a Zee gauge approximation
+[doublet_proxy_study.py](doublet_proxy_study.py) reconstructs an auxiliary
+**different model** from each Zee input. It preserves the exact neutral
+doublet quartics and D lepton Yukawas, but removes F, charged-singlet
+mixing and singlet portals only in that auxiliary control.
+Its unmixed doublet charged mass obeys:
 
-Module [doublet_proxy_study.py](doublet_proxy_study.py) reconstructs
-for every Zee point an auxiliary pure-2HDM Lagrangian with **identical
-neutral doublet quartics** (lambda_{1ldots5}), mass spectrum and
-lepton (D) texture. The charged doublet mass *prior* to singlet
-mixing is exactly
+    m(HD+)^2 = cos(gamma)^2 * m(H1+)^2
+             + sin(gamma)^2 * m(H2+)^2.
 
-[
-m_{H_D^+}^2=cos^2gamma,m_{H_1^+}^2
-           +sin^2gamma,m_{H_2^+}^2 .
-]
+The doublet quartics are independently reconstructed to verify this
+identity. The public full 2HDM source is then evaluated using its own
+mass/Yukawa renormalization scheme. The additional 2HDM electroweak
+contributions remain **outside** the physical Zee amplitude.
+These auxiliary values are *neither numerical estimates nor bounds*
+for mixed H1/H2 and F-dependent Zee gauge graphs.
 
-Set (gamma=F=mu_4=K_1=K_2=K_{12}=0) **inside this separate
-reference only**; reconstruct and verify the original doublet quartics.
-The public author source is run using its own renormalization convention,
-with the original 2HDM result decomposed into the same retained/omitted
-source pieces as the 18-point decoupling control. Nothing from the
-auxiliary 2HDM is added to the full Zee decay amplitude.
-In particular, this cannot bound the mixed (ZH_1H_2), (F)-dependent,
-charged-current, Goldstone or counterterm corrections.
+Revised 24-point auxiliary pure-2HDM omitted/retained amplitude norms:
 
-**Auxiliary pure-2HDM omitted/retained amplitude norms**, 24 points
-for each channel (the full mixed Zee amplitude was *not* calculated):
+| Channel | median | minimum | maximum | >10% |
+| --- | ---: | ---: | ---: | ---: |
+| mu -> e gamma | 0.50909 | 0.42992 | 0.54478 | 24/24 |
+| tau -> e gamma | 0.51984 | 0.43354 | 0.56362 | 24/24 |
+| tau -> mu gamma | 0.52022 | 0.43366 | 0.56430 | 24/24 |
 
-| Process | median omitted/retained | range | points above 10% |
-| --- | ---: | ---: | ---: |
-| mu->e gamma | 2.76090 | 0.35090–8.59622 | 24/24 |
-| tau->e gamma | 2.31069 | 0.34961–5.77328 | 24/24 |
-| tau->mu gamma | 2.32478 | 0.35011–5.83899 | 24/24 |
+These are coherent complex-amplitude *norm ratios*, NOT BR errors.
+Even in the aligned auxiliary model, the omitted 2HDM amplitudes
+are not generically negligible in this control region. For the
+genuine Zee theory the mixed charged-scalar and F-dependent
+electroweak loops are still UNKNOWN.
 
-The 10% value is merely a stress-test diagnostic threshold. Ratios
-may be inflated by interference cancellations in retained amplitudes.
-They are **not** estimates of true Zee two-loop truncation errors.
-Even the *proxy* points fail any blanket assertion that the 2HDM
-non-photonic sector is numerically unimportant for this region.
+Reproduction is automated in GitHub Actions: run both the unmodified
+source and the mixed Zee photon subset. The job uploads three separate
+CSV/JSON artifacts: legacy strict-2HDM controls, revised 24-point
+nonzero-mixing Zee partial amplitudes, and revised 24-point auxiliary
+doublet-reference amplitudes. The public author source is pinned to
+Git commit 6a54cebcca3bd5bc13b77c15766fc03fffda5199 and thdm.py
+SHA256 9b4af7aa4bf7bf533a7b82c8c2603d118346424e3b7b5f9f06ab8cb41bc4e193.
 
-## Decision for the phenomenology manuscript
+## Defensible first-paper language
 
-**Defensible now:** plots explicitly titled e.g.
-"One-loop + photon Barr–Zee LFV sensitivity (incomplete two-loop
-approximation)", with the exact retained diagram classes and numerical
-phase interference stated. Use the photon amplitude hierarchy,
-the model's exact charged-mixing interactions, and both 2HDM source
-stress tests as evidence of what has and has not been approximated.
+Use: "LFV sensitivity at one loop plus selected fermion-/charged-scalar-
+photon Barr-Zee topologies (incomplete electroweak two-loop treatment)."
+Show interference and a materiality/approximation warning. Interpret
+LFV overlays as *conditional sensitivity*, never as full-model
+acceptance or exclusion contours.
 
-**Not defensible:** plots or text claiming the *full* LFV-allowed
-charged-cascade parameter space, an arbitrary 10% theory uncertainty,
-or true exclusions based on only retained LFV amplitudes.
-Potentially large omitted 2HDM terms **cannot** be dismissed on
-alignment alone, and the genuine Zee mixed/F-dependent remainder is
-unbounded. Nonzero mixing needed for the cascade rules out simply
-adopting a strict pure-2HDM amplitude for the model.
+Do not: assert a uniform 10% error, merge the auxiliary 2HDM result
+into the Zee amplitude, claim experimentally allowed charged-cascade
+parameter regions, or hide missing F-dependent gauge/pinch terms.
 
-**Required for unconditional Zee LFV exclusion:** complete the missing
-gauge-invariant Zee two-loop amplitude, or derive a rigorously
-source-qualified per-point bound in a separately justified restricted
-region of parameter space. A review-quality paper may instead state
-LFV as an intentionally approximate sensitivity overlay and **not
-claim full experimental constraint coverage**.
+A complete model-wide LFV exclusion still requires a validated Zee
+gauge-invariant two-loop calculation or a defensible per-point bound
+for all omitted material amplitudes. No paper can legitimately claim
+a full LFV constraint based only on the retained subset.
 
-For local checks, after pulling this branch:
+## Local reproduction
 
-~~~bash
-python3 -m unittest LFV.test_nonzero_mixing_study LFV.test_doublet_proxy_study -v
-python3 -m LFV.nonzero_mixing_study --help
-python3 -m LFV.doublet_proxy_study --help
-~~~
+From research/lfv-approximation-study:
 
-The input JSON format is the generic `LFV.constraints` point plus
-`scalar_inversion` controls supplied separately. The GitHub workflow
-generates standalone **diagnostic-only** example inputs using test
-fixtures; for physical points the source must be the model-wide
-neutrino/sector-constraint pipeline, which is not connected yet.
+    python3 -m unittest LFV.test_nonzero_mixing_study LFV.test_doublet_proxy_study -v
+    python3 -m LFV.nonzero_mixing_study --help
+    python3 -m LFV.doublet_proxy_study --help
+
+The GitHub Actions workflow creates explicit *synthetic* source inputs
+under /tmp for this audit. To apply the method to real fitted points,
+first export the source-verified neutrino-fit/SPheno point with the
+right lepton and quark mass schemes, then run the per-point LFV
+constraint evaluator and preserve its UNKNOWN full-gauge status.
