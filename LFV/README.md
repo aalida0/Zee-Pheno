@@ -1,5 +1,16 @@
 # Step 2 — lepton-flavor violation
 
+**Physics materiality gate (2026-11-18):**
+[REMAINDER_AUDIT.md](REMAINDER_AUDIT.md) traces the 2017 Zee,
+2023 Zee and erratum-corrected general-2HDM sources, the earlier native
+Zee gauge/subdivergence findings, and a quantitative MEG II
+amplitude-budget calculation on the original NO/IO controls.
+**No source-qualified universal small remainder bound exists for the
+arbitrary-parameter restricted Zee model.** The general evaluator can
+produce an approximation-labeled LFV overlay, not a physical
+LFV acceptance/exclusion. Missing terms remain UNKNOWN.
+
+
 **Promoted scope:** preliminary scalar one-loop photon dipoles for
 mu→e gamma, tau→e gamma, tau→mu gamma using the actual SPheno **running**
 lepton Yukawas and charged mixing of validated NO/IO neutrino reference
