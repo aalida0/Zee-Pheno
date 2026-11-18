@@ -74,3 +74,16 @@ precision two-loop calculation.
 
 **Release:** SCALAR_ONE_LOOP_SUBSET_ONLY; physical_lfv=UNKNOWN;
 global_zee_acceptance=null. Step 2 is started, not complete.
+
+
+## Experimental context (not yet a comparison)
+
+- MEG II: B(mu→e gamma) < **1.5×10⁻¹³**, 90% C.L. using the
+  2021–2022 sample ([arXiv:2504.15711](https://arxiv.org/abs/2504.15711)).
+- Belle II: B(tau→mu gamma) < **9.5×10⁻⁸**, 90% C.L. with
+  428 fb⁻¹ ([Belle II public result](https://docs.belle2.org/pub_data/publications/4644/)).
+
+These limits refer to complete physical branching fractions. A number labeled
+BR_scalar_one_loop_subset from this module is **not** a prediction of that
+quantity: omitted amplitudes and interference may be significant. This
+module records these sources only as future comparison targets.
