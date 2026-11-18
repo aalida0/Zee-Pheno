@@ -31,6 +31,32 @@ class FitTests(unittest.TestCase):
                 f = complex_matrix(report["F_gauge"])
                 np.testing.assert_allclose(f+f.T,np.zeros((3,3)),atol=1e-14)
 
+    def test_known_pmns_is_recovered_from_native_takagi(self):
+        # An independently constructed one-loop Takagi output must recover
+        # the NO and IO NuFIT input angles and Dirac phase, not just masses.
+        for ordering,mlight in (("NO",.0093),("IO",.001)):
+            with self.subTest(ordering=ordering):
+                mnu,m,u = target(ordering,mlight)
+                native_order = [0,1,2] if ordering=="NO" else [2,0,1]
+                u_sorted=u[:,native_order]
+                mock={"snapshots":[{
+                    "mat1":{"real":(mnu.real/1e9).tolist(),
+                            "imag":(mnu.imag/1e9).tolist()},
+                    "ZEL":{"real":np.eye(3).tolist(),
+                           "imag":np.zeros((3,3)).tolist()},
+                    "UV_1L":{"real":u_sorted.conj().T.real.tolist(),
+                             "imag":u_sorted.conj().T.imag.tolist()},
+                    "MFv_1L":(m[native_order]/1e9).tolist(),
+                }],"spectrum_snapshot_index":0}
+                with tempfile.TemporaryDirectory() as td:
+                    path=Path(td)/"native.json"
+                    path.write_text(json.dumps(mock))
+                    screened=inspect_native(path,ordering)
+                self.assertEqual(screened["status"],"NATIVE_3SIGMA_SCREEN_PASS")
+                for key in ("s12","s13","s23","dm21","dm3l","delta_deg"):
+                    self.assertAlmostEqual(
+                        screened["parameters"][key], NUFIT[ordering][key], places=10)
+
     def test_known_unmatched_native_snapshot_is_rejected(self):
         # A matching matrix calculation is not an oscillation acceptance.
         snapshot = json.loads(REFERENCE.read_text())["snapshot"]
