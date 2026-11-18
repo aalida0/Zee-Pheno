@@ -79,7 +79,9 @@ def neutral_dipole(C, mass, i, j, ml, external=None):
         a, b, _ = kernels((mk/mass)**2)
         left += (rho+lam*mj/mi)*a+ups*mk/mi*b
         right += (lam+rho*mj/mi)*a+zet*mk/mi*b
-    return np.array([left, right])/(16*np.pi**2*mass**2)
+    # Source Eq.(48,51-52) of 2410.17313v4 fixes PL/PR: the initial
+    # chirality flips under the external lepton mass insertion.
+    return np.array([right, left])/(16*np.pi**2*mass**2)
 
 
 def component(clcr, source):
@@ -104,9 +106,9 @@ def dipole_ledger(F, D, p, ml, i, j, external=None):
     for state, mass, d, s in [('H1', p['mH1'], math.cos(p['gamma']), math.sin(p['gamma'])),
                               ('H2', p['mH2'], -math.sin(p['gamma']), math.cos(p['gamma']))]:
         fac = -1/(192*np.pi**2*mass**2)
-        out[state+'_D'] = component(fac*d*d*rho*np.array([1, ratio]),
+        out[state+'_D'] = component(fac*d*d*rho*np.array([ratio, 1]),
                                     'Lavoura eq.41 t=0; R=-d*D*')
-        out[state+'_F'] = component(fac*s*s*lam*np.array([ratio, 1]),
+        out[state+'_F'] = component(fac*s*s*lam*np.array([1, ratio]),
                                     'Lavoura eq.41 t=0; L=-s*F; F=2*f_Chen')
     return out
 
@@ -127,3 +129,32 @@ def combine(pieces):
 def radiative_width(clcr, mi, mj, alpha_em):
     return float(alpha_em*mi**5/4*(1-(mj/mi)**2)**3*np.sum(abs(clcr)**2))
 
+
+def neutral_width(C, mass, i, j, ml):
+    """One charge orientation, with exact two-body fermion masses."""
+    a, b = ml[i], ml[j]
+    if mass <= a+b:
+        return 0.
+    lam = (mass**2-(a+b)**2)*(mass**2-(a-b)**2)
+    trace = ((abs(C[i,j])**2+abs(C[j,i])**2)*(mass**2-a*a-b*b)
+             -4*a*b*(C[i,j]*C[j,i]).real)
+    return float(math.sqrt(lam)*trace/(16*np.pi*mass**3))
+
+
+def universality(F, p, gf):
+    """Leading O(F²/M²) rate shifts, with muon-GF subtraction.
+
+    Fierz of physical F gives deltaG/G=|F_ab|²*w/(4 sqrt(2) GF).
+    Rate shift=2 deltaG/G. No f^4 or D contribution is included.
+    """
+    w = math.sin(p['gamma'])**2/p['mH1']**2+math.cos(p['gamma'])**2/p['mH2']**2
+    shift = {name: float(abs(F[a,b])**2*w/(2*np.sqrt(2)*gf))
+             for name, a, b in [('mu_e',0,1), ('tau_e',0,2), ('tau_mu',1,2)]}
+    return {'status': 'PASS', 'physical_status': 'SUBSET_DIAGNOSTIC',
+            'rate_shifts_before_GF_subtraction': shift,
+            'delta_GF_mu_over_GF': shift['mu_e']/2,
+            'g_tau_over_g_mu_squared_minus1': shift['tau_e']-shift['mu_e'],
+            'g_tau_over_g_e_squared_minus1': shift['tau_mu']-shift['mu_e'],
+            'g_mu_over_g_e_squared_minus1': shift['tau_mu']-shift['tau_e'],
+            'experimental_comparison': 'NOT_EVALUATED',
+            'provenance': 'Herrero-Garcia 1701.05345 eqs.3.26-3.33; F=2f; general f_e_mu restored'}

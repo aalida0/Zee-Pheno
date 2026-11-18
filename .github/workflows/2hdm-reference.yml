@@ -1,0 +1,126 @@
+name: External strict 2HDM source check
+on:
+  push:
+    branches:
+      - research/lfv-general-constraints
+  pull_request:
+    paths:
+      - 'LFV/**'
+      - '.github/workflows/2hdm-reference.yml'
+  workflow_dispatch:
+jobs:
+  public-reference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy scipy mpmath
+      - name: Fetch unmodified public author source
+        run: |
+          git clone --depth 1 https://gitlab.com/jbrod/general-2hdm-pheno.git /tmp/general-2hdm-pheno
+          test "$(git -C /tmp/general-2hdm-pheno rev-parse HEAD)" = "6a54cebcca3bd5bc13b77c15766fc03fffda5199"
+          echo "9b4af7aa4bf7bf533a7b82c8c2603d118346424e3b7b5f9f06ab8cb41bc4e193  /tmp/general-2hdm-pheno/thdm.py" | sha256sum --check
+          git -C /tmp/general-2hdm-pheno rev-parse HEAD
+      - name: Evaluate independently supplied author code in strict F=gamma=Mu4=0 limit
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          import math
+          from LFV.test_strict_2hdm_reference import SM,decoupled_sample
+          from LFV.strict_2hdm_reference import evaluate
+          point=decoupled_sample()
+          result=evaluate(point,SM,Path('/tmp/general-2hdm-pheno/thdm.py'))
+          assert result['status']=='STRICT_2HDM_REFERENCE_EVALUATED_NOT_ZEE'
+          assert result['neutral_vertex_max_residual']<1e-12
+          assert result['Zee_full_dipoles'] is None
+          for name,rows in result['reference_dipoles'].items():
+              print(name, 'C_L',rows['C_L_GeV_minus2'],
+                          'C_R',rows['C_R_GeV_minus2'])
+              for k in ('C_L_GeV_minus2','C_R_GeV_minus2'):
+                  assert all(math.isfinite(v) for v in rows[k].values())
+          from LFV.core import dipole_ledger
+          from LFV.constraints import matrix
+          from LFV.test_strict_2hdm_reference import decoupled_sample
+          import numpy as np
+          p=point['scalar']
+          ml=np.asarray(point['pole_lepton_masses_GeV'])
+          one=dipole_ledger(matrix(point['F'],'F'),matrix(point['D'],'D'),p,ml,1,0,
+                            external=ml)
+          for k in ('C_L','C_R'):
+              ours=sum(v[k] for v in one.values())
+              raw=result['reference_dipoles']['mu_to_e_gamma']['raw_public_source_components']['1loop'][k]
+              author=complex(raw['real'],raw['imag'])
+              print('STRICT_2HDM_ONE_LOOP_OVERLAP',k,'native_scalar',ours,
+                    'author_general_2hdm',author,'relative_delta',
+                    abs(ours-author)/max(abs(ours),abs(author),1e-30))
+          from LFV.strict_2hdm_reference import (
+              load_public,decoupled_input,fill_type_ii_quarks,source_component_ledger)
+          from LFV.barr_zee import fermion_photon,quark_coupling,QUARKS
+          from LFV.core import vertices
+          neutral=vertices(matrix(point['D'],'D'),p,ml)
+          from pathlib import Path
+          public=load_public(Path('/tmp/general-2hdm-pheno/thdm.py'))
+          initial=decoupled_input(point,SM)
+          first=public.thdm(initial)
+          names=('mumt','mc','mt','mdmt','msmt','mb')
+          matched=fill_type_ii_quarks(initial,
+                    dict({k:float(getattr(first,k)) for k in names},
+                         beta=point['scalar']['beta']))
+          source_obj=public.thdm(matched)
+          source_obj.vZe=0.
+          srcL=source_component_ledger(source_obj.__class__.cL_llpg,source_obj,2,1)
+          srcR=source_component_ledger(source_obj.__class__.cR_llpg,source_obj,2,1)
+          for species,group in (('top','th'),('charm','ch'),
+                                ('bottom','bh'),('tau','tauh')):
+              mass=float(getattr(source_obj,
+                        {'top':'mt','charm':'mc','bottom':'mb','tau':'mtau'}[species]))
+              contribution=np.zeros(2,complex)
+              for scalar,(C,ms) in neutral.items():
+                  ext=np.array([C[0,1],C[1,0].conjugate()])
+                  if species in QUARKS:
+                      g=quark_coupling(species,mass,scalar,p)
+                      nc,q=QUARKS[species]
+                  else:
+                      g=C[2,2]
+                      nc,q=1,-1
+                  amp,_=fermion_photon(ext,g,mass,ms,ml[1],SM['alphaQED'],nc,q)
+                  contribution+=amp
+              for idx,k in enumerate(('C_L','C_R')):
+                  ours=contribution[idx]
+                  reference={'C_L':srcL,'C_R':srcR}[k][group] * (
+                      -1/(8*math.pi**2*p['v']**2))
+                  residual=abs(ours-reference)/max(abs(ours),abs(reference),1e-30)
+              print('STRICT_2HDM_FERMION_PHOTON',species,k,
+                    'native',ours,'public_Zoff',reference,
+                    'relative_delta',residual)
+              assert residual<1e-9
+          overlap=result['scalar_one_loop_chirality_overlap']['mu_to_e_gamma']
+          print('STRICT_2HDM_CHIRALITY_OVERLAP',overlap)
+          from LFV.core import vertices
+          from LFV.barr_zee import physical_trilinears,charged_scalar_photon
+          D=matrix(point['D'],'D')
+          neutral=vertices(D,p,ml)
+          G=physical_trilinears(p,point['potential'])
+          scalar_photon=np.zeros(2,complex)
+          for scalar in ('h','H'):
+              C,mass=neutral[scalar]
+              pair=np.array([C[0,1],C[1,0].conjugate()])
+              term,_=charged_scalar_photon(pair,G[scalar][0],p['mH1'],mass,ml[1],
+                                            SM['alphaQED'])
+              scalar_photon+=term
+          rows=result['reference_dipoles']['mu_to_e_gamma']['raw_public_source_components']['HA']
+          for index,key in enumerate(('C_L','C_R')):
+              author=complex(rows[key]['real'],rows[key]['imag'])
+              ours=scalar_photon[index]
+              residual=abs(ours-author)/max(abs(ours),abs(author),1e-30)
+              print('STRICT_2HDM_CHARGED_SCALAR_PHOTON',key,'native',ours,
+                    'public',author,'relative_delta',residual)
+              assert residual<1e-10
+          assert overlap['direct_chirality_relative_residual']<0.05
+          assert overlap['exchanged_chirality_relative_residual']>0.5
+          assert result['native_to_author_chiral_operator_mapping']=='NOT_CERTIFIED'
+          print('PUBLIC_REFERENCE_2HDM_ONLY_PASS',result['public_source_sha256'])
+          PY

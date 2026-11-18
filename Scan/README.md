@@ -25,5 +25,11 @@ A successful neutrino-fit benchmark is **not** an accepted parameter point.
   physical point; keep theory-scheme uncertainty explicit. In particular
   the currently tested NO/IO cards have native PDG25 ≈484 GeV and PDG35
   ≈768 GeV, so they are not Higgs-viable benchmarks.
+- A **diagnostic/exploratory** scan MAY overlay the source-matched LO +
+  selected photon Barr-Zee partial LFV sensitivity, flagged
+  `LFV_APPROXIMATION_DEPENDENT`; it must not call those points
+  LFV-allowed. The [materiality decision](../LFV/REMAINDER_AUDIT.md)
+  shows why no uniform source-qualified missing-amplitude bound exists
+  for general Zee points. Physical combined LFV gates remain `UNKNOWN`.
 - Sample/scoring machinery is **not yet implemented**. There is no claim
   of a physical allowed region, exclusion, or cascade sensitivity.

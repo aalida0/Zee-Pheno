@@ -1,5 +1,16 @@
 # Step 2 — lepton-flavor violation
 
+**Physics materiality gate (2026-11-18):**
+[REMAINDER_AUDIT.md](REMAINDER_AUDIT.md) traces the 2017 Zee,
+2023 Zee and erratum-corrected general-2HDM sources, the earlier native
+Zee gauge/subdivergence findings, and a quantitative MEG II
+amplitude-budget calculation on the original NO/IO controls.
+**No source-qualified universal small remainder bound exists for the
+arbitrary-parameter restricted Zee model.** The general evaluator can
+produce an approximation-labeled LFV overlay, not a physical
+LFV acceptance/exclusion. Missing terms remain UNKNOWN.
+
+
 **Promoted scope:** preliminary scalar one-loop photon dipoles for
 mu→e gamma, tau→e gamma, tau→mu gamma using the actual SPheno **running**
 lepton Yukawas and charged mixing of validated NO/IO neutrino reference
@@ -77,6 +88,171 @@ precision two-loop calculation.
 **Release:** SCALAR_ONE_LOOP_SUBSET_ONLY; physical_lfv=UNKNOWN;
 global_zee_acceptance=null. Step 2 is started, not complete.
 
+
+
+
+## Strict 2HDM two-loop source reference and Zee charged gauge identities
+
+The standalone LFV/strict_2hdm_reference.py evaluates the **unmodified**
+public 2HDM source in the genuinely decoupled Zee limit:
+**F=gamma=Mu4=K1=K2=K12=0**. It maps physical neutral Yukawas,
+Type-II quark couplings, neutral angles, the doublet charged scalar and
+its scalar trilinears. All three radiative channels are evaluated using
+author code as a **reference**, not a Zee full-model prediction.
+
+The adapter retains 13 raw loop groups per chirality, verifies their sum,
+and records both the unmodified author result and the dimension-restored
+HW result: the public source includes an extra /MW**2 relative to
+[arXiv:2410.17313v4 Eqs.(65),(66)](https://arxiv.org/html/2410.17313v4).
+Do not silently use either as a physical Zee prediction.
+
+Reproduce the source on a fully decoupled arbitrary point and provide
+a SM scheme JSON with keys from SM_KEYS:
+
+~~~bash
+git clone https://gitlab.com/jbrod/general-2hdm-pheno.git /tmp/general-2hdm-pheno
+git -C /tmp/general-2hdm-pheno rev-parse HEAD
+sha256sum /tmp/general-2hdm-pheno/thdm.py
+python3 -m LFV.strict_2hdm_reference \
+  --input /path/to/strict_F0_gamma0_portal0.json \
+  --sm /path/to/explicit_author_SM_inputs.json \
+  --public-source /tmp/general-2hdm-pheno/thdm.py \
+  --output /path/to/strict_2hdm_reference.json
+~~~
+
+LFV/test_strict_2hdm_reference.py includes a **nonphysical algebraic
+control** and source-example SM inputs. The external source is never
+vendored or patched. A separate GitHub Actions job attempts to obtain the
+author code, records the revision/hash and executes its full numerical
+strict-2HDM reference.
+
+LFV/gauge_vertices.py verifies exact **tree** current identities at
+arbitrary charged mixing: photon charge identity, Z_12/e =
+-sin(2 gamma)/(4 sw cw), and chiral native charged-scalar Yukawa
+L_i=-s_i F, R_i=-d_i D-dagger. This does **not** complete a Zee
+electroweak two-loop amplitude: mixed H1/H2 W/Z/Goldstone/ghost/pinch
+and F-sector counterterm sums remain UNKNOWN. See
+[REMAINDER_AUDIT.md](REMAINDER_AUDIT.md).
+
+## General LFV engine — any parameter point
+
+**LFV/constraints.py** accepts one explicit restricted-Zee model point in the
+charged-lepton mass basis. It does NOT fit/tune Yukawas, sample a benchmark,
+or infer global viability.
+
+| Computed topology | Provenance | Gate |
+| --- | --- | --- |
+| h/H/A scalar one-loop, general D | Earlier Zee Module3, Lavoura (2003) | VALIDATED SUBSET |
+| H1/H2 scalar one-loop, both F and D | Earlier Zee Module3 | VALIDATED SUBSET |
+| h/H/A + nine charged-fermion photon Barr-Zee | Earlier Zee Module4 matching audit | VALIDATED PHOTON SUBSET |
+| h/H/A + physical charged-scalar photon Barr-Zee | Earlier Module4 scalar-QED + seagull audit | CONDITIONAL ON FULL POTENTIAL |
+| Neutral h/H/A tree mu→3e, tau→3l (optional) | Earlier Module3 massive crossed spinor rate | VALIDATED TREE SUBSET |
+| Remaining complete gauge, LFV three-body and conversion | Explicit missing-amplitude ledger | UNKNOWN |
+
+**Sources:** [2017 general Zee scan](https://arxiv.org/abs/1701.05345),
+[2023 Zee study](https://arxiv.org/abs/2303.13383),
+[Lavoura 2003](https://arxiv.org/abs/hep-ph/0302221),
+[Ilisie 2015](https://arxiv.org/abs/1502.04199),
+[2025/2026 general 2HDM + erratum](https://arxiv.org/abs/2410.17313);
+earlier in-house [signed fermion Barr-Zee matching](https://github.com/aalida0/zee/blob/research/zee-full-constraints/module4/MATCHING_AUDIT.md)
+and [physical scalar-QED matching](https://github.com/aalida0/zee/blob/research/zee-full-constraints/module4/CHARGED_SCALAR_AUDIT.md).
+Heeck–Thapa 2023 uses the neutral alignment limit and neglects second-doublet
+quark couplings and additional bosonic diagrams. The complete general-2HDM
+gauge terms are not automatically transferable to Zee singlet F and mixed
+H1/H2. Missing terms have NOT been shown negligible.
+
+### Explicit JSON input contract
+
+Required: point_id; scalar parameters v,beta,alpha,gamma,mh1,mh2,ma,mH1,mH2
+(GeV and radians); complex 3x3 F and D arrays with real/imag matrices;
+internal_lepton_masses_GeV and pole_lepton_masses_GeV (e,mu,tau);
+fermion_loop_masses_GeV (up,charm,top,down,strange,bottom,electron,muon,tau);
+quark_yukawa_masses_GeV (independently, six quarks);
+alpha_em, total_lepton_widths_GeV (mu,tau), mass_yukawa_scheme (explicit string).
+The complex matrices use paired real/imag numeric arrays.
+
+Optional potential: all Lambda1..Lambda5, K1, K2, K12, Mu4 from the
+restricted Zee Lagrangian, same spectrum and angle convention. With it,
+the physical charged-scalar/photon amplitude is calculated from trilinears;
+without it this piece is UNKNOWN, NOT zero. Potential-mass consistency still
+requires an independent scalar validation gate.
+
+Neutral scalar LFV partial widths are always calculated for h/H/A to
+e-mu, e-tau and mu-tau, with both charge orientations. These are
+**partial widths, not branching ratios**; Higgs total widths are separate
+required inputs in the Higgs analysis. Optional GF_GeV_minus2 adds the
+leading quadratic singlet-F lepton-universality shifts, marked SUBSET_DIAGNOSTIC;
+doublet-D/mixed operators are not included.
+
+Optional radiative_limits: a dictionary keyed by mu_to_e_gamma,
+tau_to_e_gamma or tau_to_mu_gamma. Each entry requires experimental
+BR_90CL (number 0<BR<1) and source (nonempty string). The tool reports
+the maximum omitted complex dipole-norm budget that would be sufficient
+for compatibility, but **never assumes the omitted amplitude is zero**.
+If a separately justified theoretical bound is available, provide
+missing_norm_upper_GeV_minus2 (nonnegative) and bound_source. Then the
+triangle inequality gives an interval for the full BR and a conditional
+PASS_IF_DECLARED_BOUND_VALID, FAIL_IF_DECLARED_BOUND_VALID or UNKNOWN.
+These labels are conditional mathematical implications: they are NOT a
+certification that the supplied theoretical remainder bound is correct.
+Without that bound, the comparison remains UNKNOWN_UNBOUNDED_MISSING.
+
+Optional tree_quadrature_order: integer 8–48, evaluates neutral-tree mu→3e
+and tau→3l partial rates with N and 2N nodes (can be slow); missing
+dipole/penguin/box interference is NOT assumed zero.
+
+**Quark scheme warning:** the quark masses in the inner propagators and the
+Yukawa couplings are separate required inputs. The caller must specify
+their actual mass scale, renormalization scheme, and matching procedure.
+A label by itself is not a theory-validation certificate.
+
+### Export existing native NO/IO fixtures to generic points
+
+The adapter reconstructs the running F/Ye/Ye2 matrices, lepton rotations and CP-even scalar mixing from the original SPheno diagnostic, card and spectrum. It verifies the card SHA-256 directly; no pre-exported pilot JSON is trusted.
+It requires two explicit files of six named masses:
+quark_loop.json for the inner propagators and quark_yukawa.json for the
+neutral scalar Yukawa couplings. Both have keys:
+up,charm,top,down,strange,bottom. The source/scheme of each must be
+documented; do NOT fill with arbitrary numbers.
+
+~~~bash
+WORK="$HOME/zee-lfv64-serial-20261112-094549"
+python3 -m LFV.native_point \
+  --native "$WORK/step1_NO_native/result.json" \
+  --card "$WORK/step1_NO_proposal.in" \
+  --spectrum "$WORK/step1_NO_native/output.spc" \
+  --quarks "$WORK/quark_loop.json" \
+  --quark-yukawas "$WORK/quark_yukawa.json" \
+  --scheme "native SPheno Q=160 GeV lepton + documented quark schemes" \
+  --point-id NO_diagnostic \
+  --output "$WORK/step2_NO_general_input.json"
+
+python3 -m LFV.constraints \
+  --input "$WORK/step2_NO_general_input.json" \
+  --output "$WORK/step2_NO_general_amplitudes.json"
+~~~
+
+If a source-verified restricted potential is available, add the
+--potential /path/to/potential.json option. Repeat for IO.
+These NO/IO reference cards have neither CP-even scalar near 125 GeV;
+the results are method validation only, not allowed collider benchmarks.
+
+Every LFV subprocess returns its complex chirality components,
+interference-sensitive included-subset rate and UNKNOWN experimental gate.
+The full LFV gate always remains UNKNOWN pending the unvalidated
+charged-current/gauge, Z-photon, additional bosonic and three-body/conversion
+sectors. Never use partial subset BRs as physical LFV exclusions or passes.
+
+### Tests
+
+~~~bash
+python3 -m unittest LFV.test_constraints LFV.test_pilot -v
+~~~
+
+Requires NumPy, SciPy, mpmath. Port validation checks source-kernel signs,
+finite-quadrature behavior, potential-sourced charged trilinears, zero LFV,
+native provenance and fail-closed gates. This is not independent validation
+of all higher-order physics or matching-scale variation.
 
 
 ## Native-matched pilot results (2026-11-18)
