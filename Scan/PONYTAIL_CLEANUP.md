@@ -23,8 +23,10 @@ on a batch system. No web server or shared mutable production database.
    supported MINPAR and four Yukawa matrix blocks.
    **Fix:** extend the *same* `Model.check_native.fix_card` path for
    the SARAH `ZEEPOT` and `ZEEQUARTIC` codes. Preflight verifies
-   all real/complex entries **before creating any files**; missing
-   blocks and changed source-card hashes terminate cleanly.
+   all mandatory tan-beta/Yukawa entries **before creating files**.
+   The hash-pinned neutrino source is unchanged; missing scalar blocks
+   are synthesized only for derived cards, while partial scalar blocks,
+   absent Yukawa inputs, and altered source-card hashes are refused.
 
 ## Lean changes
 
