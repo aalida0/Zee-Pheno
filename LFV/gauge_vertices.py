@@ -29,3 +29,26 @@ def charged_currents(gamma, sw2):
         "W_doublet_projector":np.outer(doublet,doublet),
         "status":"TREE_EW_VERTEX_IDENTITIES_ONLY",
     }
+
+
+def charged_lepton_vertices(F, D, gamma):
+    """H_i+ nu_b (L_i,ba PL + R_i,ba PR) ell_a; native Zee signs.
+
+    L_i = -s_i F; R_i = -d_i (D^*)^T; row i runs over H1,H2.
+    These are tree vertices, NOT dressed two-loop form factors.
+    """
+    F,D=np.asarray(F,complex),np.asarray(D,complex)
+    if (F.shape!=(3,3) or D.shape!=(3,3) or
+        not np.isfinite(F).all() or not np.isfinite(D).all() or
+        np.max(abs(F+F.T))>1e-10*max(1e-15,np.max(abs(F)))):
+        raise ValueError("Require finite antisymmetric 3x3 F and finite 3x3 D")
+    if not math.isfinite(gamma):
+        raise ValueError("Finite charged mixing required")
+    c,s=math.cos(gamma),math.sin(gamma)
+    d=np.array([c,-s])
+    singlet=np.array([s,c])
+    left=-singlet[:,None,None]*F[None,:,:]
+    right=-d[:,None,None]*D.conj().T[None,:,:]
+    return {"L":left,"R":right,
+            "doublet_fractions":d,"singlet_fractions":singlet,
+            "status":"TREE_SARAH_CHARGED_YUKAWA_VERTICES_ONLY"}
