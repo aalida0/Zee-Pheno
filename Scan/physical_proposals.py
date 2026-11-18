@@ -208,6 +208,7 @@ def generate(config_path,template_path,snapshot_path,output_dir):
             mlight=draw("lightest_eV")
             a21,a31=draw("Majorana_phase_rad"),draw("Majorana_phase_rad")
             root=(k//len(nu["orderings"]))%2
+            chart=((0,1,2),(1,2,0),(2,0,1))[k%3]
             t=complex(draw("null_t"),draw("null_t"))
             fscale=10**draw("log10_F_scale")
             hscale=10**draw("log10_homogeneous_scale")
@@ -217,13 +218,13 @@ def generate(config_path,template_path,snapshot_path,output_dir):
             try:
                 M,_,_=target(ordering,mlight,a21,a31)
                 F,D,res=inverse(M,mass,charged,sine,fscale,t,root=root,
-                                homogeneous=z,f_phase=rng.uniform(-math.pi,math.pi))
+                                homogeneous=z,f_phase=rng.uniform(-math.pi,math.pi),chart=chart)
                 Fg=el.T@F@el
                 Dg=er.T@D@el
                 Ye2=math.sin(scalar["beta"])*sy+math.cos(scalar["beta"])*Dg
                 family={"ordering":ordering,"mlight_eV":mlight,
                         "alpha21_rad":a21,"alpha31_rad":a31,
-                        "root":root,"t":(t.real,t.imag),
+                        "root":root,"chart":chart,"t":(t.real,t.imag),
                         "homogeneous_coefficients":encode(z.reshape(1,4)),
                         "F_mass_basis":encode(F),"D_mass_basis":encode(D),
                         "analytical_closure":res,
