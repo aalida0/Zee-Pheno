@@ -1,5 +1,6 @@
 """Strict 2HDM decoupling mapping and source-bound reference checks."""
 import copy
+import importlib.util
 import math
 import tempfile
 import unittest
@@ -9,7 +10,8 @@ import numpy as np
 
 from LFV.test_constraints import sample, cmat
 from LFV.strict_2hdm_reference import (SM_KEYS, cp_even_rotation,
-    decoupled_input, fill_type_ii_quarks, evaluate)
+    decoupled_input, fill_type_ii_quarks, evaluate, source_component_ledger,
+    SOURCE_BLOCKS)
 
 SM={
     "alphaQED":1/129,"alphasMZ":.1180,"sw2":.23129,
@@ -55,6 +57,26 @@ class StrictReferenceTests(unittest.TestCase):
         self.assertAlmostEqual(new["absrhou33"],160/p["v"]/math.tan(p["beta"]))
         self.assertAlmostEqual(new["absrhod33"],2.7/p["v"]*math.tan(p["beta"]))
         self.assertAlmostEqual(new["argrhod33"],math.pi)
+
+    def test_source_component_parser_reconstructs_coherent_sum(self):
+        # Test source extraction without requiring GitLab in unit CI.
+        labels=sorted(SOURCE_BLOCKS)
+        src="def cR_llpg(self,i,j):\\n"
+        for n,label in enumerate(labels,1):
+            src+=f"    cR_llpg_{label}=complex(i*{n}/1000,j/1000)\\n"
+        src+="    cR=sum(["
+        src+=",".join(f"cR_llpg_{key}" for key in labels)
+        src+="])\\n    return cR\\n"
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/"fake_components.py"
+            path.write_text(src)
+            spec=importlib.util.spec_from_file_location("fake_components",path)
+            module=importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            out=source_component_ledger(module.cR_llpg,object(),2,1)
+            self.assertEqual(set(out),SOURCE_BLOCKS)
+            self.assertAlmostEqual(abs(sum(out.values())-
+                                       module.cR_llpg(object(),2,1)),0.,places=14)
 
     def test_invalid_decoupling_and_scheme_fail_closed(self):
         base=decoupled_sample()
