@@ -21,3 +21,15 @@ python3 -m unittest Model.test_model Model.test_native -v
 ```
 
 For the exact original paths and native commands, see [VALIDATION.md](VALIDATION.md). **A unit-test pass does not certify SPheno physics**; a native model pass does not certify LFV.
+
+## Lepton basis and published one-loop formula
+
+`check_basis.py` inspects the existing corrected `baseline.spc` without rebuilding SPheno. `test_conventions.py` cross-checks the leading one-loop neutrino mass convention against 2017 and 2023 Zee formulas, including the SARAH `Fzee/2` normalization.
+
+```bash
+python3 -m unittest Model.test_conventions Model.test_basis -v
+WORK="$HOME/zee-lfv64-serial-20261112-094549"
+python3 -m Model.check_basis --spectrum "$WORK/model-validation-native-20261118/baseline.spc"
+```
+
+The tree-level neutrino `UV` is not the loop-corrected PMNS matrix. Symmetry protection for every gauge-allowed omitted coupling and the native one-loop mass are still **UNKNOWN**; see the warning register in [VALIDATION.md](VALIDATION.md).
