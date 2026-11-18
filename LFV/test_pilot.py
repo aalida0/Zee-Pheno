@@ -8,7 +8,7 @@ import numpy as np
 
 from LFV.core import (kernels, neutral_dipole, radiative_width, combine,
                       dipole_ledger)
-from LFV.pilot import evaluate
+from LFV.pilot import evaluate, neutral_alpha
 from Neutrino.fit import complex_matrix
 
 
@@ -22,6 +22,18 @@ class DipoleTests(unittest.TestCase):
         amp=neutral_dipole(c,250.,1,0,np.array([.0005,.104,1.75]))
         np.testing.assert_allclose(amp,0.,atol=1e-28)
         self.assertEqual(radiative_width(np.zeros(2,complex),.104,.0005,.0073),0.)
+
+    def test_native_mixing_matrix_fixes_alpha(self):
+        from math import atan2
+        block=("Block SCALARMIX Q= 1.60000000E+02\n"
+               " 1 1 7.25651649E-01\n"
+               " 1 2 6.88062268E-01\n"
+               " 2 1 -6.88062268E-01\n"
+               " 2 2 7.25651649E-01\n")
+        self.assertAlmostEqual(neutral_alpha(block),
+                               atan2(.688062268,.725651649),places=12)
+        with self.assertRaises(ValueError):
+            neutral_alpha(block.replace("-6.88062268E-01","6.88062268E-01"))
 
     def test_external_pole_override_recovers_old_equal_mass_scheme(self):
         ml=np.array([.0005,.104,1.75])
@@ -50,8 +62,8 @@ class DipoleTests(unittest.TestCase):
             payload=root/"native.json"
             payload.write_text(json.dumps(packed))
             spectrum=root/"spectrum.spc"
-            spectrum.write_text("BLOCK MASS\n 11 0.00051099893\n 13 0.105658372\n 15 1.77686\n 25 125.0\n 35 600.\n 36 640.\n")
-            result=evaluate(payload,card,spectrum,alpha_rad=1.398)
+            spectrum.write_text("BLOCK MASS\n 11 0.00051099893\n 13 0.105658372\n 15 1.77686\n 25 125.0\n 35 600.\n 36 640.\nBlock SCALARMIX Q= 1.60000000E+02\n 1 1 7.25651649E-01\n 1 2 6.88062268E-01\n 2 1 -6.88062268E-01\n 2 2 7.25651649E-01\n")
+            result=evaluate(payload,card,spectrum)
             self.assertEqual(result["status"],"SCALAR_ONE_LOOP_SUBSET_ONLY")
             self.assertEqual(result["physical_lfv"],"UNKNOWN")
             self.assertIsNone(result["global_zee_acceptance"])
@@ -72,7 +84,7 @@ class DipoleTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 evaluate(payload,card,spectrum,alpha_rad=1.398)
             with self.assertRaises(ValueError):
-                evaluate(payload,card,spectrum,alpha_rad=float("nan"))
+                neutral_alpha("BLOCK SCALARMIX\n 1 1 0.7\n")
 
 
 if __name__=="__main__":
