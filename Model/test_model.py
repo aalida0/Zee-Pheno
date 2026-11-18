@@ -60,10 +60,16 @@ class ModelTests(unittest.TestCase):
         mixing = p["Mu4"]*v/math.sqrt(2)
         charged = ((d*sb*sb, -d*sb*cb, mixing*sb),
                    (-d*sb*cb, d*cb*cb, -mixing*cb),
-                   (mixing*sb, -mixing*cb, p["MCS2"]))
+                   (mixing*sb, -mixing*cb, p["MCS2"] + v*v/2*(p["K1"]*cb*cb+p["K2"]*sb*sb-2*p["K12"]*sb*cb)))
         goldstone = (cb, sb, 0.)
         for row in charged:
             self.assertLess(abs(sum(a*b for a, b in zip(row, goldstone))), 1e-7)
+        self.assertAlmostEqual(
+            sum(charged[i][i] for i in range(3))/(x["mH1"]**2+x["mH2"]**2),
+            1., places=10)
+        pair = sum(charged[i][i]*charged[j][j]-charged[i][j]**2
+                   for i, j in ((0, 1), (0, 2), (1, 2)))
+        self.assertAlmostEqual(pair/(x["mH1"]**2*x["mH2"]**2),1.,places=10)
 
     def test_signed_gamma_flips_only_charged_offdiagonal(self):
         args = dict(mh1=125.,mh2=580.7,ma=633.7,mH1=300.,mH2=700.,
