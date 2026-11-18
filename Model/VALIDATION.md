@@ -1,5 +1,9 @@
 # Model validation record — 2026-11-18
 
+**Latest neutrino result:** the native/analytic discrepancy is resolved by matching
+the actual running Yukawas and masses. See [the root-cause report](NEUTRINO_ROOT_CAUSE.md).
+Earlier mismatch entries below are retained as investigation history.
+
 Scope: **restricted, CP-conserving Zee scalar potential at tree level**, Type-II quark Yukawas, general charged-lepton Yukawas and a complex antisymmetric singlet coupling `f=-f^T`. This is **not** a globally accepted Zee benchmark.
 
 ## Executed checks
@@ -358,3 +362,38 @@ python3 -m Model.probe_neutrino_scaling \
 ```
 
 **Gate decision:** `NEUTRINO_NATIVE_NUMERICAL_MATCH_FAIL` (**STOP** for treating native SPheno neutrino pole masses as oscillation predictions). `ANALYTIC_MNU_CONVENTIONS_CHECKED` (separate, previously source-matched algebraic validation), but **full native matrix and oscillation fidelity remain UNKNOWN**. A provisional scan can rely on the independently validated analytic formula *after* documenting its separate evidence; it must not use the disagreeing native masses as an acceptance gate.
+
+
+## 2026-11-18 Independently executed resolution of issue #1
+
+**PASS — native one-loop neutrino calculator, at the matched benchmark.**
+The loop-disabled baseline and loop-enabled run do not have identical `Ye,D`:
+automatic matching changes from pole input (`19=-1`) to order 2, and native
+matching reconstructs `Ye`. The small `D(3,3)` cancellation amplifies this change.
+The MASS block contains pole leptons, whereas the neutrino self-energy uses
+running leptons and tree charged scalars at the matched parameters.
+
+The analytic formula evaluated with the actual native parameters gives
+`[0.0127855819890823, 0.0414498832249567, 0.0625655793156883] eV`, matching the
+unchanged native result. Full complex-matrix residual: `1.721e-14` relative;
+native Takagi residual: `2.45e-15`. Both charged orientations and the singlet
+normalization were checked against the generated vertices and published formulas.
+`F=0`, `2F`, and a complex unitary tree-neutrino rotation control passed.
+All original hashes are unchanged; all diagnostic MASS entries equal those in
+the original loop-enabled spectrum. The 25 Model regression tests pass.
+
+**FAIL — the original oscillation fit in the native matched scheme.** Its previous
+analytic agreement applies to the loop-disabled parameter definition. Do not use
+that fit as native oscillation acceptance; no refit or physical-input change was
+made during this investigation.
+
+**UNKNOWN — PMNS angle/phase phenomenology and full Step 0 closure.** This closes
+the calculator-disagreement blocker, without certifying other previously open
+model/constraint gates or permitting an accepted physical scan. Proceed to
+neutrino phenomenology after explicitly freezing the input scheme. This decision
+supersedes earlier advice to use the old analytic fit provisionally in a scan.
+
+Evidence, source lines, tolerances, controls, full matrix, and reproduction:
+[NEUTRINO_ROOT_CAUSE.md](NEUTRINO_ROOT_CAUSE.md),
+[reference snapshot](reference/native_neutrino_snapshot.json),
+`Model/diagnose_neutrino_native.py`, and `Model/test_diagnose_neutrino_native.py`.
