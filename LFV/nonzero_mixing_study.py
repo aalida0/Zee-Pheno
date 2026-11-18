@@ -55,6 +55,17 @@ def _validate_scheme(config):
     return config
 
 
+
+def doublet_subpotential_bfb_necessary(potential):
+    """Tree-level Z2-symmetric CP-conserving doublet-only BFB; NOT full Zee."""
+    l1,l2,l3,l4,l5=(potential[key] for key in (
+        "Lambda1","Lambda2","Lambda3","Lambda4","Lambda5"))
+    if l1<=0 or l2<=0:
+        return False
+    critical=-math.sqrt(l1*l2)
+    return l3>critical and l3+l4-abs(l5)>critical
+
+
 def grid_points(point, inversion, grid):
     """Declare and exhaust all nodes before evaluating any LFV observable."""
     if not isinstance(grid,dict) or set(grid)!=set(GRID_NAMES):
@@ -121,6 +132,7 @@ def grid_points(point, inversion, grid):
                 abs(sp[k])<4*math.pi for k in (
                 "Lambda1","Lambda2","Lambda3","Lambda4","Lambda5","LambdaC",
                 "K1","K2","K12")),
+            "doublet_only_BFB_necessary":doublet_subpotential_bfb_necessary(sp),
         }
 
 
@@ -206,6 +218,8 @@ def evaluate_grid(template,inversion,grid,sw2):
         "n_points":len(points),"n_channel_rows":len(results),
         "n_simple_quartic_magnitude_below_4pi":sum(
             axes["simple_quartic_magnitude_below_4pi"] for _,axes in points),
+        "n_doublet_BFB_necessary_pass":sum(
+            axes["doublet_only_BFB_necessary"] for _,axes in points),
         "grid":grid,
         "scalar_inversion":inversion,
         "template_hash_sha256":hashlib.sha256(
@@ -251,6 +265,7 @@ def main():
         "status":report["status"],"n_points":report["n_points"],
         "n_channel_rows":report["n_channel_rows"],
         "n_simple_quartic_magnitude_below_4pi":report["n_simple_quartic_magnitude_below_4pi"],
+        "n_doublet_BFB_necessary_pass":report["n_doublet_BFB_necessary_pass"],
         "summaries":report["summaries"],
         "sample":report["rows"][:1],
         "full_Zee_LFV_status":"UNKNOWN",
