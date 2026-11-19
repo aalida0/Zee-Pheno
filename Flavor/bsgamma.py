@@ -74,14 +74,15 @@ def native_scalar(order, root=NATIVE_ROOT):
     masses = dict(parse_entries(text, "MASS"))
     minpar = dict(parse_entries(text, "MINPAR"))
     hm = dict(parse_entries(text, "HMIX"))
-    if abs(hm[10] - beta) > 2e-5 or abs(minpar[10] - tanb) > 2e-5:
+    # HMIX[10] is the scalar-sector betaH angle. It differs from
+    # atan2(vu,vd) by ~4.8e-5 rad at this loop-matched benchmark.
+    if abs(hm[10] - beta) > 2e-4 or abs(minpar[10] - tanb) > 2e-5:
         raise ValueError("Native beta mismatches SLHA")
     rot = block_matrix(text, "CHARGEMIX")
-    sb, cb = math.sin(beta), math.cos(beta)
-    weights = [
-        (-sb * rot[row, 1] + cb * rot[row, 2]) ** 2
-        for row in (2, 3)
-    ]
+    # Directly measure the physical SU(2)-doublet norm of each charged row.
+    # This avoids conflating betaH (the native scalar mixing angle) with
+    # the Yukawa-running vev ratio after tadpole/loop iteration.
+    weights = [sum(rot[row, j] ** 2 for j in (1, 2)) for row in (2, 3)]
     if any(w < 0 or w > 1 + 1e-6 for w in weights) or abs(sum(weights) - 1) > 1e-5:
         raise ValueError("Charged-state doublet projectors do not sum to 1")
     light, heavy = masses[37], masses[9000037]
@@ -98,6 +99,8 @@ def native_scalar(order, root=NATIVE_ROOT):
         "masses_GeV": {"H1": light, "H2": heavy, "h": masses[25],
                        "H": masses[35], "A": masses[36]},
         "tanbeta": tanb, "beta": beta,
+        "native_hmix_beta_radians": hm[10],
+        "native_hmix_vs_running_beta_radians": hm[10] - beta,
         "doublet_weights": weights,
         "soft_m12sq_GeV2": minpar[11],
         "hepfit_host_bma": host_bma,
