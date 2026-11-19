@@ -1,0 +1,271 @@
+{
+  "status": "EXECUTED_CENTRAL_NLO_ONLY_NO_PHYSICAL_EXCLUSION",
+  "prediction_accuracy": "Real, top-only charged-Higgs NLO QCD NP matching; HEPfit NLO rate with native HQE/EM prescription.",
+  "limits": "Missing model-specific primed, light quark, electroweak, resolved-photon and correlated uncertainty coverage.",
+  "source": {
+    "upstream_receipt_sha256": "4d82f208714a58762a3f21d9ae0c193122c9c19f835c33547431018ca0ca5650",
+    "matching_sha256": "0c2dfb32a7138b02fa4a52c163c63f942f313bb5d697545e138ef1915c200c4e",
+    "driver_binary_sha256": "a9ce45a05c77d12b8cf2259ea7757e4d56a2c91c144dbea46d67130ac00a0786",
+    "driver_source_sha256": "de6579c386fdebeed26d3857aee9b0de15b53c9644efb06e8fa3a57ac0ecd17f",
+    "HEPfit_commit": "322bd73a2dadd94ce94a6d71cb79d616e569120a",
+    "restored_backend_attestation_sha256": "43ccf03da854b92f84a39fdf512b3f023536f69b06805675768676634fb2d3c3",
+    "restored_backend": {
+      "schema_version": 1,
+      "status": "RESTORED_HEPFIT_NUMERICALLY_EQUIVALENT",
+      "HEPfit_commit": "322bd73a2dadd94ce94a6d71cb79d616e569120a",
+      "binary_sha256": "a9ce45a05c77d12b8cf2259ea7757e4d56a2c91c144dbea46d67130ac00a0786",
+      "driver_sha256": "de6579c386fdebeed26d3857aee9b0de15b53c9644efb06e8fa3a57ac0ecd17f",
+      "matching_sha256": "0c2dfb32a7138b02fa4a52c163c63f942f313bb5d697545e138ef1915c200c4e",
+      "source_lock_sha256": "0c96f187093437286ab3a731e35bc01f457a5c00e2a05f0295d28c3f2f1f86e7",
+      "historical_execution_sha256": "4d82f208714a58762a3f21d9ae0c193122c9c19f835c33547431018ca0ca5650",
+      "build_receipt": "/home/amine/zee-hepfit-build/BUILD_RECEIPT.json",
+      "build_receipt_sha256": "f1a4e0564c224b09d77e5bd9f8389caae7a8be92aae68ffb0c01487e6357ea99",
+      "execution_receipt": "/home/amine/zee-hepfit-build/historical-replay/HEPFIT_EXECUTION.json",
+      "execution_receipt_sha256": "6cb43688c97a6ebac5ec7a575861406a377a5e21c241c776ce1d502b7259edac",
+      "verified_source_files": 346,
+      "validated_runs": 37,
+      "maximum_output_absolute_residual": 0.0,
+      "per_run_maximum_residual": {
+        "F13_heavy_0001330_central": 0.0,
+        "F13_heavy_0001330_equal": 0.0,
+        "F13_heavy_0001330_exchange": 0.0,
+        "F13_heavy_0001330_gamma_half_pi": 0.0,
+        "F13_heavy_0001330_gamma_zero": 0.0,
+        "F13_heavy_0001330_native_m1": 0.0,
+        "F13_heavy_0001330_native_m2": 0.0,
+        "F13_heavy_0001330_scale_120": 0.0,
+        "F13_heavy_0001330_scale_120_SM": 0.0,
+        "F13_heavy_0001330_scale_200": 0.0,
+        "F13_heavy_0001330_scale_200_SM": 0.0,
+        "F13_heavy_0001330_shared_inputs_SM": 0.0,
+        "F13_heavy_0001330_shared_inputs_shared_NP": 0.0,
+        "F13_heavy_0001330_zero_NP": 0.0,
+        "SM_reference": 0.0,
+        "d7_NO_neutral_near_heavy_07_central": 0.0,
+        "d7_NO_neutral_near_heavy_07_equal": 0.0,
+        "d7_NO_neutral_near_heavy_07_exchange": 0.0,
+        "d7_NO_neutral_near_heavy_07_gamma_half_pi": 0.0,
+        "d7_NO_neutral_near_heavy_07_gamma_zero": 0.0,
+        "d7_NO_neutral_near_heavy_07_native_m1": 0.0,
+        "d7_NO_neutral_near_heavy_07_native_m2": 0.0,
+        "d7_NO_neutral_near_heavy_07_scale_120": 0.0,
+        "d7_NO_neutral_near_heavy_07_scale_120_SM": 0.0,
+        "d7_NO_neutral_near_heavy_07_scale_200": 0.0,
+        "d7_NO_neutral_near_heavy_07_scale_200_SM": 0.0,
+        "d7_NO_neutral_near_heavy_07_shared_inputs_SM": 0.0,
+        "d7_NO_neutral_near_heavy_07_shared_inputs_shared_NP": 0.0,
+        "d7_NO_neutral_near_heavy_07_zero_NP": 0.0,
+        "probe_C4_NLO_minus": 0.0,
+        "probe_C4_NLO_plus": 0.0,
+        "probe_C7_LO_minus": 0.0,
+        "probe_C7_LO_plus": 0.0,
+        "probe_C8_LO_minus": 0.0,
+        "probe_C8_LO_plus": 0.0,
+        "probe_heldout": 0.0,
+        "probe_joint": 0.0
+      },
+      "comparison_tolerances": {
+        "operator_absolute": 2e-14,
+        "other_absolute": 2e-13
+      },
+      "original_central_BR": {
+        "SM_reference": 0.0003491423243740102,
+        "d7_NO_neutral_near_heavy_07_central": 0.00041795538424101365,
+        "F13_heavy_0001330_central": 0.0003837114227449281
+      },
+      "physical_bsgamma": "UNKNOWN",
+      "theory_sigma": null,
+      "experimental_exclusion": null
+    }
+  },
+  "SM_reference_runs": {
+    "NO": {
+      "BR_NLO": 0.00034914241273890787,
+      "execution": {
+        "input_sha256": "85f7ed3d3123224ae1934301f18d59c9db4d59f664d6618a1964a816de19b963",
+        "log_sha256": "be22e2412db602eebb5bedc1f572641c8a3b978461e915a12dad204d9e107e97",
+        "exit_code": 0
+      }
+    },
+    "IO": {
+      "BR_NLO": 0.0003491424128134351,
+      "execution": {
+        "input_sha256": "ac0506a27b810a5f1cdf533b1ef1df761ad942699ef2b53fe07f3d8a7d0e9f60",
+        "log_sha256": "4b298840bc745ba722dc928b367071aee35a31181756b660c8173fbf60873a85",
+        "exit_code": 0
+      }
+    }
+  },
+  "matching_scale_GeV": 160.0,
+  "photon_cut_GeV": 1.6,
+  "SM_rates_same_HEPfit_scheme": {
+    "NO": 0.00034914241273890787,
+    "IO": 0.0003491424128134351
+  },
+  "points": [
+    {
+      "ordering": "NO",
+      "scalar": {
+        "ordering": "NO",
+        "card_sha256": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+        "native_sha256": "353390126689c4caabf481d03db43c625168419f9e39579b52a7aefc03b704e3",
+        "spectrum_sha256": "97c51c5cdfb615efdade57a9eab784f2fea39645ceb59236f1e3f314499416d9",
+        "masses_GeV": {
+          "H1": 666.305092,
+          "H2": 1184.55365,
+          "h": 125.25,
+          "H": 689.790923,
+          "A": 735.458874
+        },
+        "tanbeta": 4.6927909112126756,
+        "beta": 1.3608438051798386,
+        "native_hmix_beta_radians": 1.36079593,
+        "native_hmix_vs_running_beta_radians": -4.7875179838507975e-05,
+        "doublet_weights": [
+          0.9776069374014071,
+          0.02239306202065159
+        ],
+        "soft_m12sq_GeV2": 98976.1653,
+        "hepfit_host_bma": 1.5478030327370969,
+        "legacy_flavorkit_BR": 0.000363471789
+      },
+      "matching": {
+        "C7_LO": -0.0464087353537987,
+        "C8_LO": -0.051669556843575014,
+        "C4_NLO_raw": 0.001669812282783969,
+        "C7_NLO_raw": 1.0000746811312704,
+        "C8_NLO_raw": 0.5588120202020941
+      },
+      "ordinary_NP_vector": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.0464087353537987,
+          -0.051669556843575014
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.001669812282783969,
+          0.0,
+          0.0,
+          1.0000746811312704,
+          0.5588120202020941
+        ]
+      ],
+      "BR_NLO_Egamma_gt_1p6GeV": 0.00039214198285658576,
+      "BR_SM_same_scheme": 0.00034914241273890787,
+      "delta_BR_same_scheme": 4.299957011767789e-05,
+      "historical_FlavorKit_BR": 0.000363471789,
+      "executions": {
+        "zero_NP": {
+          "input_sha256": "63a97d622dfc9f8628202e449e2d255467b10acc4f12bea5699315c03531fb71",
+          "log_sha256": "d8cdc1f9018f071104cd3fac3aee98f09706df5e478817237556ff3df1ec2e9e",
+          "exit_code": 0
+        },
+        "Zee_NLO": {
+          "input_sha256": "792fbcc0b899d5e1c6724a2073b2d39379724a75304c501d60324317854fffc7",
+          "log_sha256": "21b353c4e5bf106af47d7cb720bd0fedb9789a4d658dbb387b74588706160240",
+          "exit_code": 0
+        }
+      },
+      "value_checks": {
+        "zero_np_reproduces_sm": true,
+        "high_scale_injected_coefficients": "PASS"
+      },
+      "note": "HEPfit BR_stock_NNLO is intentionally not used; NP matching NLO only.",
+      "uncertainty_sigma": null,
+      "physical_bsgamma_gate": "UNKNOWN",
+      "full_model_allowed": null
+    },
+    {
+      "ordering": "IO",
+      "scalar": {
+        "ordering": "IO",
+        "card_sha256": "5b7b88d1f7b95f46d7efa66260833a861c39631f2b9dd58fe9c2c7ee05f7dd7c",
+        "native_sha256": "dcf5bebc6b69b29a8e8fbd1f167cd16364f648234e27fde789e3cf91a407eac7",
+        "spectrum_sha256": "7299b98d208f148705bc06aa89232faa60a6e059db5d22cde2d015d457eab496",
+        "masses_GeV": {
+          "H1": 666.305622,
+          "H2": 1184.55368,
+          "h": 125.250135,
+          "H": 689.791504,
+          "A": 735.459604
+        },
+        "tanbeta": 4.6927909112126756,
+        "beta": 1.3608438051798386,
+        "native_hmix_beta_radians": 1.36079593,
+        "native_hmix_vs_running_beta_radians": -4.7875179838507975e-05,
+        "doublet_weights": [
+          0.9776069374014071,
+          0.02239306202065159
+        ],
+        "soft_m12sq_GeV2": 98976.1653,
+        "hepfit_host_bma": 1.5478030276383548,
+        "legacy_flavorkit_BR": 0.000363471789
+      },
+      "matching": {
+        "C7_LO": -0.046408688203482575,
+        "C8_LO": -0.05166951018447357,
+        "C4_NLO_raw": 0.001669810736247945,
+        "C7_NLO_raw": 1.0000740166958761,
+        "C8_NLO_raw": 0.5588117685455243
+      },
+      "ordinary_NP_vector": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.046408688203482575,
+          -0.05166951018447357
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.001669810736247945,
+          0.0,
+          0.0,
+          1.0000740166958761,
+          0.5588117685455243
+        ]
+      ],
+      "BR_NLO_Egamma_gt_1p6GeV": 0.0003921419354070257,
+      "BR_SM_same_scheme": 0.0003491424128134351,
+      "delta_BR_same_scheme": 4.299952259359058e-05,
+      "historical_FlavorKit_BR": 0.000363471789,
+      "executions": {
+        "zero_NP": {
+          "input_sha256": "ac3f91702ca12f6f35fc11476356ee1788412cf9871c9ab44cbe3c96c828fa95",
+          "log_sha256": "c55920461f72a1df184415ac8f0e04495749d8fc91ee66d740e44eab8220aa31",
+          "exit_code": 0
+        },
+        "Zee_NLO": {
+          "input_sha256": "4b04fa7de0229dbce140eb437a8729356ad43a07e3e210fc53e1cf430b5bd0cd",
+          "log_sha256": "62841bf351e0fe3796cf27620a49062040e62a27fad7540c4f92ca9210970d70",
+          "exit_code": 0
+        }
+      },
+      "value_checks": {
+        "zero_np_reproduces_sm": true,
+        "high_scale_injected_coefficients": "PASS"
+      },
+      "note": "HEPfit BR_stock_NNLO is intentionally not used; NP matching NLO only.",
+      "uncertainty_sigma": null,
+      "physical_bsgamma_gate": "UNKNOWN",
+      "full_model_allowed": null
+    }
+  ],
+  "theory_sigma": null,
+  "physical_bsgamma": "UNKNOWN",
+  "experimental_exclusion": null,
+  "globally_allowed": null
+}

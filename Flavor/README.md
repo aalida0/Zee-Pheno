@@ -20,8 +20,10 @@ arbitrary-card production scanner. It:
   directly from the two doublet columns of `CHARGEMIX`;
 - locks the existing BMU matching source SHA-256
   `0c2dfb32a7138b02fa4a52c163c63f942f313bb5d697545e138ef1915c200c4e`,
-  the previous HEPfit execution receipt, its patched driver source and exact
-  executable SHA-256. HEPfit source commit is
+  the previous HEPfit execution receipt and patched driver source. The old
+  exact executable SHA-256 remains accepted; a rebuilt executable requires
+  a source/build attestation and numerical replay of all 37 historical runs.
+  HEPfit source commit is
   `322bd73a2dadd94ce94a6d71cb79d616e569120a`;
 - executes, for each ordering, a **same-Higgs-mass HEPfit SM control** and
   **zero-NP bridge**. Both must agree. It obtains the **running top mass at
@@ -46,35 +48,37 @@ uncertainties. `theory_sigma=null`, `experimental_exclusion=null`, and
 
 ### Run on the local machine
 
-The separate historical `~/zee` checkout and compiled patched driver must
-exist; GitHub CI executes native-artifact and synthetic contracts, not HEPfit.
-Build instructions for a missing driver are in
+The backend has been restored persistently at **`~/zee-hepfit-build/driver`**.
+The [execution report](HEPFIT_RESTORATION.md) gives source/build receipts,
+D7/F13 reproduction and actual s00017 NO/IO numbers. The separate historical
+`~/zee` checkout remains read only. GitHub CI checks archived numerical
+evidence and synthetic contracts; it does not execute HEPfit.
+The local [restore script](restore_hepfit.sh) follows the original
 [`research/full_constraints/bsgamma_hepfit/REPRODUCE.md`](https://github.com/aalida0/zee/blob/research/zee-full-constraints/research/full_constraints/bsgamma_hepfit/REPRODUCE.md).
 
 ~~~bash
 cd ~/Zee-Pheno
-git fetch origin
 git switch research/spheno-hepfit-bsgamma
-python3 -m unittest Flavor.test_bsgamma -v
+python3 -m unittest Flavor.test_bsgamma Flavor.test_validate_hepfit -v
 
-# Source-bound, built HEPfit client from the previous project stage:
-test -x /tmp/zee-hepfit/driver
-sha256sum /tmp/zee-hepfit/driver
-# Expected SHA256: 2e622645491118041361607faf040120fec59103cf0dfd85dbb6925de5fee0a3
+HEPFIT_BUILD="$HOME/zee-hepfit-build"
+test -x "$HEPFIT_BUILD/driver"
+# Restored SHA256: a9ce45a05c77d12b8cf2259ea7757e4d56a2c91c144dbea46d67130ac00a0786
 
 python3 -m Flavor.bsgamma \
   --upstream ~/zee \
-  --driver /tmp/zee-hepfit/driver \
-  --hepfit-source /tmp/zee-hepfit/HEPfit-322bd73a2dadd94ce94a6d71cb79d616e569120a \
-  --compat-lib-dir /tmp/zee-hepfit/compat/usr/lib/x86_64-linux-gnu \
+  --driver "$HEPFIT_BUILD/driver" \
+  --hepfit-source "$HEPFIT_BUILD/HEPfit-322bd73a2dadd94ce94a6d71cb79d616e569120a" \
+  --compat-lib-dir "$HEPFIT_BUILD/compat/usr/lib/x86_64-linux-gnu" \
   --root-lib-dir ~/root/lib \
+  --attestation "$HEPFIT_BUILD/RESTORED_BACKEND.json" \
   --output-dir /tmp/zee-bsgamma-s00017-nlo-01
 ~~~
 
 Read `/tmp/zee-bsgamma-s00017-nlo-01/bsgamma_nlo.json`. The runner refuses
 an already existing output directory. If the earlier HEPfit scratch was
-removed, **restore the pinned build first**; a fabricated central value or
-an unrelated HEPfit executable is not an acceptable substitute.
+removed, **restore and numerically validate the pinned build first**; replacing
+only the old binary hash is refused. The restoration report gives the commands.
 
 Source for the archived FlavorKit polynomial:
 `SPheno-4.0.5/ZeeTypeII/Observables/FlavorKit_Observables_ZeeTypeII.f90:1073–1109`.

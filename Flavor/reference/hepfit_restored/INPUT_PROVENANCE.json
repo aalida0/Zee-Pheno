@@ -1,0 +1,32 @@
+{
+  "input_files_sha256": {
+    "/home/amine/zee/research/full_constraints/bsgamma_hepfit/REPRODUCE.md": "0ab85095e012892a6a9740549ff42dfb2c40e7228b325df89271af7c8d849e1d",
+    "/home/amine/zee/research/full_constraints/bsgamma_hepfit/SOURCE_LOCK.json": "0c96f187093437286ab3a731e35bc01f457a5c00e2a05f0295d28c3f2f1f86e7",
+    "/home/amine/zee/research/full_constraints/bsgamma_hepfit/BUILD_RECEIPT.json": "0ad89a0c3a483823647993438205526cb8d667519c8f465a42dc52fbb4a2524b",
+    "/home/amine/zee/research/full_constraints/bsgamma_hepfit/HEPFIT_RATE_REPORT.md": "baf97cc813dd0a3b44172f1f0e15c72ec523241441a76a1393109010a4d1fd29",
+    "/home/amine/zee/research/full_constraints/bsgamma_hepfit/driver.cpp": "de6579c386fdebeed26d3857aee9b0de15b53c9644efb06e8fa3a57ac0ecd17f",
+    "/home/amine/zee/research/full_constraints/bsgamma_hepfit/build_driver.py": "279e721f6f5554f8905e725f059de75c193cb35dbf2c081ae790336db700ec51",
+    "/home/amine/zee/research/full_constraints/bsgamma_hepfit/initialize_matching.patch": "fbf9c7daa170da46506785e6074bf2648299f110867788abd7a6b36096aa44ec",
+    "/home/amine/zee/research/full_constraints/bsgamma_hepfit/execute.py": "8eb7ce2b148f3cab0c1c911634743ebc39c95cef44dcb241fbd8d87a74c63123",
+    "/home/amine/zee/research/full_constraints/bsgamma_hepfit/provenance.py": "ba8f3938d2c3a23b9d60e9503ffe477c91801535f29c8396f65e6a14ac4ff314",
+    "/home/amine/zee/research/full_constraints/bsgamma_hepfit/execution/HEPFIT_EXECUTION.json": "4d82f208714a58762a3f21d9ae0c193122c9c19f835c33547431018ca0ca5650",
+    "/home/amine/zee/scripts/zee_module5_bmu_nlo.py": "0c2dfb32a7138b02fa4a52c163c63f942f313bb5d697545e138ef1915c200c4e"
+  },
+  "older_repository_branch": "research/zee-lfv64-closure-20261113",
+  "older_repository_HEAD": "30155ad2e6de999929551906056e462a87b16318",
+  "historical_branch_HEAD": "785c073e1c3a141fa2536c3d46b538a15806d128",
+  "relevant_files_difference_from_historical_branch": "",
+  "initial_resources": {
+    "RAM_total": "22 GiB",
+    "RAM_available": "8.7 GiB",
+    "logical_CPUs": 12,
+    "disk_available": "242 GiB",
+    "HEPfit_build_jobs": 2,
+    "SuperIso_build_jobs": 1
+  },
+  "persistent_build": "/home/amine/zee-hepfit-build",
+  "root_prefix": "/home/amine/root",
+  "build_disk_usage": "678M\t/home/amine/zee-hepfit-build",
+  "installed_globally": false,
+  "notes": "The older checkout has unrelated user edits; it was neither switched nor modified. Only the source-qualified historical inputs were read."
+}

@@ -113,7 +113,7 @@ def native_scalar(order, root=NATIVE_ROOT):
     }
 
 
-def backend(upstream, driver, hepfit_source):
+def backend(upstream, driver, hepfit_source, attestation=None):
     base = upstream / "research/full_constraints/bsgamma_hepfit"
     receipt_path = base / "execution/HEPFIT_EXECUTION.json"
     match_path = upstream / "scripts/zee_module5_bmu_nlo.py"
@@ -121,20 +121,29 @@ def backend(upstream, driver, hepfit_source):
     receipt, lock = json.loads(receipt_path.read_text()), json.loads(source_lock_path.read_text())
     if (receipt["HEPfit_commit"] != HEPFIT_COMMIT or lock["HEPfit_commit"] != HEPFIT_COMMIT
             or sha(match_path) != MATCHER_SHA
-            or sha(base / "driver.cpp") != receipt["driver_sha256"]
-            or sha(driver) != receipt["binary_sha256"]):
+            or sha(base / "driver.cpp") != receipt["driver_sha256"]):
         raise ValueError("HEPfit or BMU runtime differs from source-attested validated execution")
+    restored = None
+    if attestation is not None:
+        from Flavor.validate_hepfit import verify_attestation
+        restored = verify_attestation(attestation,upstream,driver,hepfit_source)
+    elif sha(driver) != receipt["binary_sha256"]:
+        raise ValueError("Changed HEPfit binary requires a numerically validated build attestation")
     if not (hepfit_source / "THDM/tabs/bsgammatable.dat").is_file():
         raise FileNotFoundError("Pinned HEPfit source/tables not available")
     if (receipt.get("full_rate_status") != "B_FULL_RATE_BLOCKED"
             or receipt.get("physical_bsgamma") != "UNKNOWN"):
         raise ValueError("Unexpected historical rate-certification contract")
     match = runpy.run_path(str(match_path))["matching"]
-    return receipt, match, {"upstream_receipt_sha256": sha(receipt_path),
-                            "matching_sha256": sha(match_path),
-                            "driver_binary_sha256": sha(driver),
-                            "driver_source_sha256": sha(base / "driver.cpp"),
-                            "HEPfit_commit": HEPFIT_COMMIT}
+    proof = {"upstream_receipt_sha256": sha(receipt_path),
+             "matching_sha256": sha(match_path),
+             "driver_binary_sha256": sha(driver),
+             "driver_source_sha256": sha(base / "driver.cpp"),
+             "HEPfit_commit": HEPFIT_COMMIT}
+    if restored is not None:
+        proof.update(restored_backend_attestation_sha256=sha(attestation),
+                     restored_backend=restored)
+    return receipt, match, proof
 
 
 def ordinary(scalar, mt_msbar, matching, mu=160.):
@@ -154,7 +163,7 @@ def ordinary(scalar, mt_msbar, matching, mu=160.):
     return np, combined
 
 
-def parse_driver_output(text):
+def parse_driver_output(text, matching_scale=160.):
     result = {}
     for line in text.splitlines():
         parts = line.split()
@@ -173,7 +182,7 @@ def parse_driver_output(text):
               "mu_b_GeV", "mu_c_GeV", "a_s_muw", "overall", "P_NLO", "N"}
     if not needed <= result.keys() or not result["BR_NLO"] > 0:
         raise ValueError("Incomplete executable HEPfit output")
-    if abs(result["cut_GeV"] - 1.6) > 1e-12 or abs(result["muw_GeV"] - 160.) > 1e-10:
+    if abs(result["cut_GeV"] - 1.6) > 1e-12 or abs(result["muw_GeV"] - matching_scale) > 1e-10:
         raise ValueError("Wrong HEPfit photon cut or matching scale")
     if abs(result["BR_NLO"] - result["overall"] *
            (result["P_NLO"] + result["N"])) > 2e-15:
@@ -223,9 +232,10 @@ def injected_coeff_check(values, np):
     return want
 
 
-def calculate(upstream, driver, hepfit_source, compat_lib, root_lib, output_dir):
+def calculate(upstream, driver, hepfit_source, compat_lib, root_lib, output_dir,
+              attestation=None):
     """Runs native NO, IO, an SM reference and a zero-NP reference."""
-    receipt, matcher, provenance = backend(upstream, driver, hepfit_source)
+    receipt, matcher, provenance = backend(upstream, driver, hepfit_source,attestation)
     scalars = [native_scalar(order) for order in ("NO", "IO")]
     sm_input = dict(receipt["runs"]["SM_reference"]["input"])
     # The archived baseline is a declared SM/hadronic scheme, not a
@@ -296,6 +306,7 @@ def calculate(upstream, driver, hepfit_source, compat_lib, root_lib, output_dir)
         "matching_scale_GeV": 160., "photon_cut_GeV": 1.6,
         "SM_rates_same_HEPfit_scheme": {k: v["BR_NLO"] for k, v in sm_runs.items()},
         "points": runs, "theory_sigma": None,
+        "physical_bsgamma": "UNKNOWN",
         "experimental_exclusion": None, "globally_allowed": None,
     }
     (output_dir / "bsgamma_nlo.json").write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
@@ -306,17 +317,20 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--upstream", type=Path, default=Path.home() / "zee",
                     help="Older source-locked ~/zee checkout, research/zee-full-constraints")
-    ap.add_argument("--driver", type=Path, default=Path("/tmp/zee-hepfit/driver"))
-    ap.add_argument("--hepfit-source", type=Path, default=Path(
-        "/tmp/zee-hepfit/HEPfit-" + HEPFIT_COMMIT))
-    ap.add_argument("--compat-lib-dir", type=Path, default=Path(
-        "/tmp/zee-hepfit/compat/usr/lib/x86_64-linux-gnu"))
+    ap.add_argument("--driver", type=Path, default=Path.home()/"zee-hepfit-build/driver")
+    ap.add_argument("--hepfit-source", type=Path, default=Path.home()/
+                    ("zee-hepfit-build/HEPfit-"+HEPFIT_COMMIT))
+    ap.add_argument("--compat-lib-dir", type=Path, default=Path.home()/
+                    "zee-hepfit-build/compat/usr/lib/x86_64-linux-gnu")
     ap.add_argument("--root-lib-dir", type=Path, default=Path.home() / "root/lib")
+    ap.add_argument("--attestation",type=Path,
+                    help="Fresh source/build/37-run equivalence receipt for a rebuilt binary")
     ap.add_argument("--output-dir", type=Path, required=True)
     args = ap.parse_args()
     result = calculate(args.upstream.resolve(), args.driver.resolve(),
                        args.hepfit_source.resolve(), args.compat_lib_dir.resolve(),
-                       args.root_lib_dir.resolve(), args.output_dir.resolve())
+                       args.root_lib_dir.resolve(), args.output_dir.resolve(),
+                       args.attestation.resolve() if args.attestation else None)
     print(json.dumps({
         "status": result["status"],
         "SM_rates": result["SM_rates_same_HEPfit_scheme"],
