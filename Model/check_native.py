@@ -12,7 +12,8 @@ import subprocess
 from pathlib import Path
 
 MATRICES = ("FZEEIN", "IMFZEEIN", "YEE2IN", "IMYEE2IN")
-TRACKED = set(MATRICES) | {"MINPAR", "FZEE", "IMFZEE", "YEE2", "IMYEE2", "YE", "IMYE"}
+SCALAR_BLOCKS = ("ZEEPOT", "ZEEQUARTIC")
+TRACKED = set(MATRICES) | set(SCALAR_BLOCKS) | {"MINPAR", "FZEE", "IMFZEE", "YEE2", "IMYEE2", "YE", "IMYE"}
 
 
 def blocks(text):
@@ -77,12 +78,12 @@ def fix_card(text, update=None):
             current = header[1].upper()
         elif re.match(r"\s*DECAY\b", line, re.I):
             current = None
-        if current not in (*MATRICES, "MINPAR") or header:
+        if current not in (*MATRICES, "MINPAR", *SCALAR_BLOCKS) or header:
             out.append(line)
             continue
         raw, sep, comment = line.rstrip("\r\n").partition("#")
         fields = raw.split()
-        n = 2 if current == "MINPAR" else 3
+        n = 3 if current in MATRICES else 2
         if len(fields) != n:
             out.append(line)
             continue

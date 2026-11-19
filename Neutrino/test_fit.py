@@ -9,7 +9,7 @@ from pathlib import Path
 
 import numpy as np
 
-from Neutrino.fit import fit, target, complex_matrix, NUFIT, inspect_native
+from Neutrino.fit import fit, inverse, zee_matrix, target, complex_matrix, NUFIT, inspect_native
 
 
 REFERENCE = Path(__file__).resolve().parents[1]/"Model/reference/native_neutrino_snapshot.json"
@@ -89,6 +89,39 @@ class FitTests(unittest.TestCase):
                     report = fit(REFERENCE,ordering,light,alpha21,alpha31)
                     self.assertLess(report["forward_residual"],1e-8)
                     self.assertTrue(report["native_revalidation_required"])
+
+    def test_both_null_roots_and_four_complex_yukawa_directions(self):
+        snap=json.loads(REFERENCE.read_text())["snapshot"]
+        zp=np.asarray(snap["ZP"],float)
+        beta=np.arctan2(snap["vu"],snap["vd"])
+        sine=2*zp[1,2]*(-np.sin(beta)*zp[1,0]+np.cos(beta)*zp[1,1])
+        leptons=np.asarray(snap["MFe"],float)
+        charged=np.asarray(snap["MHm"],float)[1:]
+        mnu,_,_=target("NO",.0093,.4,.9)
+        solutions=[]
+        for root in (0,1):
+            for z in (np.zeros(4,complex),
+                      np.array([1e-4+3e-5j,2e-4j,-3e-5,.0001])):
+                F,D,res=inverse(mnu,leptons,charged,sine,1e-4,t=.25+.1j,
+                                root=root,homogeneous=z,f_phase=.37)
+                self.assertLess(res,1e-8)
+                self.assertLess(np.linalg.norm(zee_matrix(F,D,leptons,charged,sine)-mnu)
+                                /np.linalg.norm(mnu),1e-8)
+                solutions.append((F,D))
+        self.assertGreater(np.linalg.norm(solutions[0][1]-solutions[1][1]),1e-5)
+        self.assertGreater(np.linalg.norm(solutions[0][0]-solutions[2][0]),1e-7)
+        for chart in ((1,2,0),(2,0,1)):
+            F,D,res=inverse(mnu,leptons,charged,sine,1e-4,t=.25+.1j,
+                            root=0,chart=chart)
+            self.assertLess(res,1e-8)
+            self.assertLess(np.linalg.norm(zee_matrix(F,D,leptons,charged,sine)-mnu)
+                            /np.linalg.norm(mnu),1e-8)
+        with self.assertRaises(ValueError):
+            inverse(mnu,leptons,charged,sine,1e-4,chart=(0,0,1))
+        with self.assertRaises(ValueError):
+            inverse(mnu,leptons,charged,sine,1e-4,root=2)
+        with self.assertRaises(ValueError):
+            inverse(mnu,leptons,charged,sine,1e-4,homogeneous=[1,2,3])
 
     def test_native_card_hash_is_required_for_bound_pass(self):
         from Neutrino.fit import main

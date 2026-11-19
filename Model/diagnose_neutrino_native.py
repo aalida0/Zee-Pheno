@@ -145,6 +145,20 @@ def analyze(s):
     }
 
 
+def require_native_snapshots(directory):
+    """SPheno sometimes exits 0 after an early spectrum/tadpole failure."""
+    path=directory/'snapshots.dat'
+    if path.is_file() and path.stat().st_size:
+        return path
+    log=directory/'run.log'
+    tail="\n".join(log.read_text(errors='replace').splitlines()[-30:]) if log.exists() else "(run.log missing)"
+    raise RuntimeError(
+        "SPheno did not reach the instrumented OneLoopFv neutrino calculation; "
+        "this is NOT a native neutrino-screen result. "
+        f"Inspect {log} and {directory/'output.spc'}.\n"
+        f"SPheno log tail:\n{tail}")
+
+
 def run(spheno, card, directory, rotate_tree=False):
     spheno, card, directory = (p.resolve() for p in (spheno, card, directory))
     if sha(spheno/'bin/SPhenoZeeTypeII') != BINARY_SHA:
@@ -170,7 +184,7 @@ def run(spheno, card, directory, rotate_tree=False):
     (directory/'input.in').write_bytes(card.read_bytes())
     command([str(directory/'SPhenoDiagnostic'), str(directory/'input.in'),
              str(directory/'output.spc')], 'run.log')
-    snapshots = read_snapshots(directory/'snapshots.dat')
+    snapshots = read_snapshots(require_native_snapshots(directory))
     masses = dict(parse_entries((directory/'output.spc').read_text(), 'MASS'))
     pole = np.sort([masses[k]*1e9 for k in (12, 14, 16)])
     selected = [i for i, s in enumerate(snapshots)
