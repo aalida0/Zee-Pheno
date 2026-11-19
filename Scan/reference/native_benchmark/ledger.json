@@ -1,0 +1,5228 @@
+{
+  "schema_version": 1,
+  "status": "BENCHMARK_NECESSARY_SCREENS_PASS",
+  "selection": "Smallest original max_abs_quartic, then scalar_id; no LFV selection",
+  "original_binary_sha256": "2c1a73c797b2f21b3266f3558dae3196a6b2514a5fd3d2e05fc83b0ce918af52",
+  "diagnostic_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+  "pilot_sha256": "9971b2e00ba5f7611d5e1926a6d7a417925bb350ea80636e020d72187a9eb251",
+  "reference_snapshot_sha256": "9f2dd136e0a78b1b4c84d2c6db965a60e42f95ab124e733c78f6162c6ac53cd3",
+  "sources_sha256": {
+    "SPhenoZeeTypeII.f90": "c733b026eb80f66ad60d133a8a9b73e778b3681daa232f2a156cf49ff91e339a",
+    "TreeLevelMasses_ZeeTypeII.f90": "b6205971fd5f55916cb07dde4a867965028863ab33d715b1906cab013052af88",
+    "LoopMasses_ZeeTypeII.f90": "1d3f253c12391fef1f8231a6c5c83bfc72f0294442d352151766523c01e9af59",
+    "Boundaries_ZeeTypeII.f90": "401fcbe9f2ac091c06accb9ade4df3110a2c8056e465fab8bb98a55b20021877",
+    "Model_Data_ZeeTypeII.f90": "e6f20b731ab0eb736d0ca33d7c6a3cab4caa0b9573301d64b0bf005bc8171689",
+    "InputOutput_ZeeTypeII.f90": "26ee5186ec80d68e615c61e7bace2c3c93f44195f205a521c9f058869578d689",
+    "TadpoleEquations_ZeeTypeII.f90": "5a9097ad60fbe4a2a3338d97f9c75f1cd5bb9c979b460eb8a78a3e35fc4663ba"
+  },
+  "libraries_sha256": {
+    "libSPhenoZeeTypeII.a": "8e7a7d062c7d45bf958deecd1eb19a656b3fa25ad2bb588a6f000ddb36487c0b",
+    "libSPheno.a": "dbaddc83e44a4356e0d826fe334fa83e96b82906faa5179817c01a1476e3518d"
+  },
+  "policy": {
+    "higgs_target_GeV": 125.25,
+    "tree_bracket_GeV": [
+      70.0,
+      125.25
+    ],
+    "higgs_numerical_accuracy_GeV": 0.02,
+    "target_matrix_accuracy": 1e-08,
+    "max_refits": 6,
+    "nufit_source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+    "nufit_targets": {
+      "NO": {
+        "s12": 0.3088,
+        "s13": 0.02248,
+        "s23": 0.47,
+        "delta_deg": 212.0,
+        "dm21": 7.537e-05,
+        "dm3l": 0.002511
+      },
+      "IO": {
+        "s12": 0.3088,
+        "s13": 0.02262,
+        "s23": 0.55,
+        "delta_deg": 274.0,
+        "dm21": 7.537e-05,
+        "dm3l": -0.002483
+      }
+    },
+    "theory_requirements": [
+      "doublet_BFB_necessary",
+      "zee_quartic_BFB_sufficient",
+      "quartic_lt_4pi_convention"
+    ],
+    "max_abs_yukawa": 1.0
+  },
+  "original_scalar_proposals": [
+    {
+      "scalar_id": "s00001",
+      "scalar": {
+        "v": 246.70928224668677,
+        "beta": 1.2846965892532325,
+        "alpha": 1.28374294659821,
+        "gamma": 0.37617907877181184,
+        "mh1": 125.25,
+        "mh2": 653.9130489281057,
+        "ma": 622.793937144708,
+        "mH1": 565.6129627761633,
+        "mH2": 826.6267367640692
+      },
+      "lagrangian": {
+        "Lambda1": 12.363726422081623,
+        "Lambda2": 0.3525289031689579,
+        "Lambda3": -0.6377698036359549,
+        "Lambda4": 0.22273206400462922,
+        "Lambda5": -0.39865608891417215,
+        "LambdaC": 0.9299689823467876,
+        "K1": 0.24152959896015003,
+        "K2": 0.318551579867901,
+        "K12": 0.017201041709745048,
+        "Mu4": 711.7508070627703,
+        "MCS2": 625043.7796851238,
+        "M12Sq": 98443.653558487,
+        "M112": 327472.42138817126,
+        "M222": 21057.43513418149
+      },
+      "gates": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 12.363726422081623,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN",
+        "status": "ANALYTIC_SCALAR_PRESELECTION"
+      }
+    },
+    {
+      "scalar_id": "s00010",
+      "scalar": {
+        "v": 246.70928224668677,
+        "beta": 1.1998004639333275,
+        "alpha": 1.2268289658506442,
+        "gamma": 0.37168190550709485,
+        "mh1": 125.25,
+        "mh2": 557.8259526770515,
+        "ma": 488.20438192063625,
+        "mH1": 438.5070713009985,
+        "mH2": 889.4821753928459
+      },
+      "lagrangian": {
+        "Lambda1": 5.491271321134195,
+        "Lambda2": 0.2635761772120812,
+        "Lambda3": -0.06674136807293685,
+        "Lambda4": -0.5788162786571509,
+        "Lambda5": 0.5035600278074557,
+        "LambdaC": 0.6848996846743323,
+        "K1": 0.10554819636686197,
+        "K2": 0.3760106081968662,
+        "K12": -0.007118928097281735,
+        "Mu4": 1161.6801190439373,
+        "MCS2": 701676.2232011469,
+        "M12Sq": 90886.98361988885,
+        "M112": 215425.2641167868,
+        "M222": 28956.83819475883
+      },
+      "gates": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 5.491271321134195,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN",
+        "status": "ANALYTIC_SCALAR_PRESELECTION"
+      }
+    },
+    {
+      "scalar_id": "s00017",
+      "scalar": {
+        "v": 246.70928224668677,
+        "beta": 1.3608438051798386,
+        "alpha": 1.3824164545034472,
+        "gamma": 0.15585437987075226,
+        "mh1": 125.25,
+        "mh2": 695.5283330613252,
+        "ma": 736.0842665845572,
+        "mH1": 671.8526897062623,
+        "mH2": 1173.9489292109333
+      },
+      "lagrangian": {
+        "Lambda1": 1.0856900373977922,
+        "Lambda2": 0.189128071329269,
+        "Lambda3": 0.6481537697559072,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 432836.26156535663,
+        "M222": 14213.953740889663
+      },
+      "gates": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN",
+        "status": "ANALYTIC_SCALAR_PRESELECTION"
+      }
+    },
+    {
+      "scalar_id": "s00020",
+      "scalar": {
+        "v": 246.70928224668677,
+        "beta": 0.9925356215535962,
+        "alpha": 0.9524477530883331,
+        "gamma": 0.2135972111051299,
+        "mh1": 125.25,
+        "mh2": 637.5483762892278,
+        "ma": 592.2494521696447,
+        "mH1": 567.4166090658223,
+        "mH2": 970.1349989749721
+      },
+      "lagrangian": {
+        "Lambda1": 1.371753811992409,
+        "Lambda2": 0.9469357060473832,
+        "Lambda3": -0.9942101854997929,
+        "Lambda4": 0.1311939568990375,
+        "Lambda5": 0.09917000515030189,
+        "LambdaC": 0.9343937270066719,
+        "K1": 0.11253063501915977,
+        "K2": 0.6913468039365812,
+        "K12": 0.021222053159398693,
+        "Mu4": 735.3016092325004,
+        "MCS2": 898152.5628120664,
+        "M12Sq": 163306.7773030647,
+        "M112": 254037.87308715956,
+        "M222": 93323.47313197485
+      },
+      "gates": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.371753811992409,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN",
+        "status": "ANALYTIC_SCALAR_PRESELECTION"
+      }
+    }
+  ],
+  "trials": [
+    {
+      "phase": "baseline",
+      "name": "s00001_NO_f00_baseline",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "effb9db4f7f2da178c4be68c22490cd70d993a5f77a92017bbad09e96999c414",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 12.363726422081623,
+        "Lambda2": 0.3525289031689579,
+        "Lambda3": -0.6377698036359549,
+        "Lambda4": 0.22273206400462922,
+        "Lambda5": -0.39865608891417215,
+        "LambdaC": 0.9299689823467876,
+        "K1": 0.24152959896015003,
+        "K2": 0.318551579867901,
+        "K12": 0.017201041709745048,
+        "Mu4": 711.7508070627703,
+        "MCS2": 625043.7796851238,
+        "M12Sq": 98443.653558487,
+        "M112": 327472.42138817126,
+        "M222": 21057.43513418149
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 12.363726422081623,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "effb9db4f7f2da178c4be68c22490cd70d993a5f77a92017bbad09e96999c414",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 146.700634,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 192.3179269999999,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "NO",
+          "parameters": {
+            "s12": 0.005775243453119808,
+            "s13": 0.03015465076131392,
+            "s23": 0.4738807694989833,
+            "dm21": 0.0003396965281361673,
+            "dm3l": 0.0046449778181666835,
+            "delta_deg": 341.7058694200457
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02064,
+              0.02418
+            ],
+            "s23": [
+              0.435,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.823e-05
+            ],
+            "dm3l": [
+              0.00245,
+              0.002576
+            ],
+            "delta_deg": [
+              125.0,
+              365.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": true,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.027837087379517525,
+            0.03338562507893272,
+            0.07361984278672142
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 0.36704086485938137,
+        "matched_calculator_relative_residual": 1.0840604069385389e-14,
+        "charged_lepton_matrix_relative_residual": 1.1427559293317626e-15,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.00966068914387692,
+        "running_v_GeV": 247.59198974169794
+      },
+      "masses_GeV": {
+        "25": 146.700634,
+        "35": 734.073939,
+        "36": 618.240729,
+        "37": 562.896999,
+        "9000037": 846.402526,
+        "23": 91.1876,
+        "24": 80.3529297,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 2.78370874e-11,
+        "14": 3.33856251e-11,
+        "16": 7.36198428e-11
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 192.3179269999999,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "effb9db4f7f2da178c4be68c22490cd70d993a5f77a92017bbad09e96999c414",
+        "output.spc": "c739b872bdb20c7c7dd994a0c8e08217f810ebc17040e7a4aa992fd70b8bbcf6",
+        "result.json": "1cdf155da4f2bf020bdbc1784fc07f788cc90a342c9e388860fe1ea8b0070616",
+        "run.log": "9dd892bcee3660e4e26fe5386cd2a6f38acda2cec1b7a5cbf8b48296922e6758",
+        "snapshots.dat": "a98c4ab517d02f1ba052c34af55d7fcd705fc06fa488e7ba0a1a52e5d6618e54",
+        "scalar_trace.dat": "d59a44cc01d38199e4ce8bb57ba7e6d9f5b74634088a50b4fea0c0306691371e"
+      }
+    },
+    {
+      "phase": "baseline",
+      "name": "s00001_IO_f01_baseline",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "5d4cb8a550e963a416b70fa3d5758db2169715b662f8061ef688abb042c92794",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 12.363726422081623,
+        "Lambda2": 0.3525289031689579,
+        "Lambda3": -0.6377698036359549,
+        "Lambda4": 0.22273206400462922,
+        "Lambda5": -0.39865608891417215,
+        "LambdaC": 0.9299689823467876,
+        "K1": 0.24152959896015003,
+        "K2": 0.318551579867901,
+        "K12": 0.017201041709745048,
+        "Mu4": 711.7508070627703,
+        "MCS2": 625043.7796851238,
+        "M12Sq": 98443.653558487,
+        "M112": 327472.42138817126,
+        "M222": 21057.43513418149
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 12.363726422081623,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "5d4cb8a550e963a416b70fa3d5758db2169715b662f8061ef688abb042c92794",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 146.700631,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 192.31796700000004,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "IO",
+          "parameters": {
+            "s12": 0.512385695896417,
+            "s13": 0.35408360330516075,
+            "s23": 0.9990187165010807,
+            "dm21": 0.07405139729441784,
+            "dm3l": -0.5722570455209248,
+            "delta_deg": 73.7643424649751
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02093,
+              0.02441
+            ],
+            "s23": [
+              0.439,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.822e-05
+            ],
+            "dm3l": [
+              -0.002547,
+              -0.002421
+            ],
+            "delta_deg": [
+              203.0,
+              335.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": false,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": false
+          },
+          "masses_eV": [
+            0.7066949914474365,
+            0.7572774975075585,
+            0.0348161271594844
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 12.458397593139638,
+        "matched_calculator_relative_residual": 6.391564063868863e-14,
+        "charged_lepton_matrix_relative_residual": 3.839962312817537e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.009621793131920832,
+        "running_v_GeV": 247.5919897750759
+      },
+      "masses_GeV": {
+        "25": 146.700631,
+        "35": 734.073908,
+        "36": 618.240716,
+        "37": 562.896991,
+        "9000037": 846.402558,
+        "23": 91.1876,
+        "24": 80.3529297,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 3.48161272e-11,
+        "14": 7.06694991e-10,
+        "16": 7.57277498e-10
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 192.31796700000004,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "5d4cb8a550e963a416b70fa3d5758db2169715b662f8061ef688abb042c92794",
+        "output.spc": "ad2e241e04ac5aff8efe9d9ad4e15f5356ba76498859f35778f00da736cb6cdd",
+        "result.json": "0f942943f76e1bb3ac8f115ba2c6184363340dd9e5af7b486dbcad253da45c36",
+        "run.log": "44698ed5af0af32fb5cd16b0894bd1edd6a1af1380a79c6cb9767bfba84b25da",
+        "snapshots.dat": "f09565612a09ab13eb9986d5283eeca327e3ee2000dfc380874e8065abca8e83",
+        "scalar_trace.dat": "551dc8f8d71bb92015fb47f0f608f7bdc9b446869b564f67a0b5f73886e71cf2"
+      }
+    },
+    {
+      "phase": "baseline",
+      "name": "s00001_NO_f02_baseline",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "f60075a4c67e4bd5dc42784cb666463edf4d4e8aa85bdb0c45b8fe6bc2a6cefb",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 12.363726422081623,
+        "Lambda2": 0.3525289031689579,
+        "Lambda3": -0.6377698036359549,
+        "Lambda4": 0.22273206400462922,
+        "Lambda5": -0.39865608891417215,
+        "LambdaC": 0.9299689823467876,
+        "K1": 0.24152959896015003,
+        "K2": 0.318551579867901,
+        "K12": 0.017201041709745048,
+        "Mu4": 711.7508070627703,
+        "MCS2": 625043.7796851238,
+        "M12Sq": 98443.653558487,
+        "M112": 327472.42138817126,
+        "M222": 21057.43513418149
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 12.363726422081623,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "f60075a4c67e4bd5dc42784cb666463edf4d4e8aa85bdb0c45b8fe6bc2a6cefb",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 146.700647,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 192.317981,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "NO",
+          "parameters": {
+            "s12": 0.006044207829291088,
+            "s13": 0.007272479327021702,
+            "s23": 0.5009586223183574,
+            "dm21": 1.88144052852466,
+            "dm3l": 1.90562616630542,
+            "delta_deg": 351.98926694889354
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02064,
+              0.02418
+            ],
+            "s23": [
+              0.435,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.823e-05
+            ],
+            "dm3l": [
+              0.00245,
+              0.002576
+            ],
+            "delta_deg": [
+              125.0,
+              365.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": true,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.0063004314655097145,
+            1.371670596011051,
+            1.3804585693681906
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 29.07535957716338,
+        "matched_calculator_relative_residual": 6.496057686156665e-15,
+        "charged_lepton_matrix_relative_residual": 2.5781045124825875e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.009697266564563304,
+        "running_v_GeV": 247.5919897113498
+      },
+      "masses_GeV": {
+        "25": 146.700647,
+        "35": 734.074243,
+        "36": 618.240853,
+        "37": 562.897083,
+        "9000037": 846.402664,
+        "23": 91.1876,
+        "24": 80.3529297,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 6.30043147e-12,
+        "14": 1.3716706e-09,
+        "16": 1.38045857e-09
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 192.317981,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "f60075a4c67e4bd5dc42784cb666463edf4d4e8aa85bdb0c45b8fe6bc2a6cefb",
+        "output.spc": "c7fa36c8cd99e02bbbec666d965ad6a5a57296904d0e138a82473f6b9748edde",
+        "result.json": "e2cb5765ee0b8c500553726e8ea30f5308c3590f58c347cf7cf45a4e70117b1c",
+        "run.log": "9ef03e3aea84edba9340bc7bcb02a74cd03f15cc9105ae6a54a28ea984182cd9",
+        "snapshots.dat": "cbaed479ef8c9930ec41bf6b70e4506530d5046b1d88636d00555d57ebaa97ec",
+        "scalar_trace.dat": "9e055f50cdff69124db111f66e182de6806fe302ccfbab87909f8a085534d649"
+      }
+    },
+    {
+      "phase": "baseline",
+      "name": "s00001_IO_f03_baseline",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "785fb1732762b504069dbb729fef0ca8573597ecd4fa5ad753a384e7b7c459e0",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 12.363726422081623,
+        "Lambda2": 0.3525289031689579,
+        "Lambda3": -0.6377698036359549,
+        "Lambda4": 0.22273206400462922,
+        "Lambda5": -0.39865608891417215,
+        "LambdaC": 0.9299689823467876,
+        "K1": 0.24152959896015003,
+        "K2": 0.318551579867901,
+        "K12": 0.017201041709745048,
+        "Mu4": 711.7508070627703,
+        "MCS2": 625043.7796851238,
+        "M12Sq": 98443.653558487,
+        "M112": 327472.42138817126,
+        "M222": 21057.43513418149
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 12.363726422081623,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "785fb1732762b504069dbb729fef0ca8573597ecd4fa5ad753a384e7b7c459e0",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 146.700632,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 192.31793100000002,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "IO",
+          "parameters": {
+            "s12": 0.5627302512336447,
+            "s13": 0.057655826553424404,
+            "s23": 0.9134741787943631,
+            "dm21": 0.004461342196634889,
+            "dm3l": -0.015815499040371387,
+            "delta_deg": 9.316912074615988
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02093,
+              0.02441
+            ],
+            "s23": [
+              0.439,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.822e-05
+            ],
+            "dm3l": [
+              -0.002547,
+              -0.002421
+            ],
+            "delta_deg": [
+              203.0,
+              335.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": false,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": false
+          },
+          "masses_eV": [
+            0.10660694413043138,
+            0.12580295200615846,
+            0.0032990442695451684
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 2.0367810043621564,
+        "matched_calculator_relative_residual": 5.703730969341218e-14,
+        "charged_lepton_matrix_relative_residual": 2.5380818133292176e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.00962483026023623,
+        "running_v_GeV": 247.59198977532446
+      },
+      "masses_GeV": {
+        "25": 146.700632,
+        "35": 734.073909,
+        "36": 618.240717,
+        "37": 562.896991,
+        "9000037": 846.402522,
+        "23": 91.1876,
+        "24": 80.3529297,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 3.29904427e-12,
+        "14": 1.06606944e-10,
+        "16": 1.25802952e-10
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 192.31793100000002,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "785fb1732762b504069dbb729fef0ca8573597ecd4fa5ad753a384e7b7c459e0",
+        "output.spc": "8f63107d019f61fb968fa1c9e62e179435ba7f8385f4d0eef5bd692710148cf4",
+        "result.json": "da63432509795e67a5a33d1e56cf8c03d956f3c2e24419ba37a7f91805f14966",
+        "run.log": "16612ee11e11e801dda7107cc64fd7ee399c5e7d8312621400a8cf3a87e63297",
+        "snapshots.dat": "d5ab658490889a42ac5064a1d99eff63bf4d382919d384b9cfa1b180faeae93d",
+        "scalar_trace.dat": "05be97debfc043248ec626097e40d111385b8501eed45e01e82d277d2355ffd2"
+      }
+    },
+    {
+      "phase": "higgs_control",
+      "name": "s00001_full_one_loop",
+      "status": "NATIVE_COMPLETE",
+      "proposed_input_sha256": "c41b9ea840944190b204947d58697a402105185b3ba2dc7f02d4dc62d64d08e1",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "input_sha256": "c41b9ea840944190b204947d58697a402105185b3ba2dc7f02d4dc62d64d08e1",
+      "spectrum_status": "PASS",
+      "masses_GeV": {
+        "25": 146.702936,
+        "35": 734.073939,
+        "36": 618.240729,
+        "37": 562.896999,
+        "9000037": 846.402526,
+        "23": 91.1876,
+        "24": 80.3529287,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 2.78370874e-11,
+        "14": 3.33856251e-11,
+        "16": 7.36198428e-11
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 192.3179269999999,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "c41b9ea840944190b204947d58697a402105185b3ba2dc7f02d4dc62d64d08e1",
+        "output.spc": "5001df329966b60080768bd636b4cd0ae97da9da77e692bfd6393b56a6ea90b1",
+        "result.json": "94f02f9d2a4bb6784033bffcc96ef98548a2f61f580602d1708c79eb3b741a68",
+        "run.log": "a8937c19463cf8a24af75e05455e31c72017e9501db8307ac09919faec9018c3",
+        "snapshots.dat": "a98c4ab517d02f1ba052c34af55d7fcd705fc06fa488e7ba0a1a52e5d6618e54",
+        "scalar_trace.dat": "546af9ee8bc314d4140919bcef4eb818efd02476965f705c512f6e7b2821765f"
+      }
+    },
+    {
+      "phase": "baseline",
+      "name": "s00010_NO_f00_baseline",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "b44f2b467690a38152ceeecbab9cd4ff480048dd550a9930ecdf730b318f56a0",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 5.491271321134195,
+        "Lambda2": 0.2635761772120812,
+        "Lambda3": -0.06674136807293685,
+        "Lambda4": -0.5788162786571509,
+        "Lambda5": 0.5035600278074557,
+        "LambdaC": 0.6848996846743323,
+        "K1": 0.10554819636686197,
+        "K2": 0.3760106081968662,
+        "K12": -0.007118928097281735,
+        "Mu4": 1161.6801190439373,
+        "MCS2": 701676.2232011469,
+        "M12Sq": 90886.98361988885,
+        "M112": 215425.2641167868,
+        "M222": 28956.83819475883
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 5.491271321134195,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "b44f2b467690a38152ceeecbab9cd4ff480048dd550a9930ecdf730b318f56a0",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 139.561224,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 381.2059740000001,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "NO",
+          "parameters": {
+            "s12": 0.31794482457927015,
+            "s13": 0.23931263101603797,
+            "s23": 0.3415958307334459,
+            "dm21": 9.074492216661165,
+            "dm3l": 9.335062160508484,
+            "delta_deg": 359.2426290281714
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02064,
+              0.02418
+            ],
+            "s23": [
+              0.435,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.823e-05
+            ],
+            "dm3l": [
+              0.00245,
+              0.002576
+            ],
+            "delta_deg": [
+              125.0,
+              365.0
+            ]
+          },
+          "checks": {
+            "s12": true,
+            "s13": false,
+            "s23": false,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.010759871105821535,
+            3.0124090013620957,
+            3.0553523422568953
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 83.44350958955457,
+        "matched_calculator_relative_residual": 5.924806845877173e-16,
+        "charged_lepton_matrix_relative_residual": 4.2260049123383045e-17,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.009347694732249756,
+        "running_v_GeV": 247.3283314014856
+      },
+      "masses_GeV": {
+        "25": 139.561224,
+        "35": 567.634867,
+        "36": 479.514172,
+        "37": 438.45133,
+        "9000037": 910.844904,
+        "23": 91.1876,
+        "24": 80.3432923,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 1.07598711e-11,
+        "14": 3.012409e-09,
+        "16": 3.05535234e-09
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 381.2059740000001,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "b44f2b467690a38152ceeecbab9cd4ff480048dd550a9930ecdf730b318f56a0",
+        "output.spc": "1da9130fc61a18b781764033e59fc05aef2a4ef300c9b8b86d4e3858bd44a0cf",
+        "result.json": "dbd7cb7f61818a6513af573c9b0bc5e76ce95353ea2be940c9dcfd6ee304c28d",
+        "run.log": "e509c94b9b6fe79103befdf359bebb34a4b5b63623571a7ed2082d535a0cbdf5",
+        "snapshots.dat": "4a296f5cd8616e0745795037f55d4da8462e7b011cc2a530ca47d257d78c970a",
+        "scalar_trace.dat": "f7b524753e7062d0c5dd1c34ba4d4fd1c2af542c158087b69f82a832ff8addf6"
+      }
+    },
+    {
+      "phase": "baseline",
+      "name": "s00010_IO_f01_baseline",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "0c6637c293ef7db9965cfb5ec91492e8d5235c5b5a6900e60bfb41168c17eb3f",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 5.491271321134195,
+        "Lambda2": 0.2635761772120812,
+        "Lambda3": -0.06674136807293685,
+        "Lambda4": -0.5788162786571509,
+        "Lambda5": 0.5035600278074557,
+        "LambdaC": 0.6848996846743323,
+        "K1": 0.10554819636686197,
+        "K2": 0.3760106081968662,
+        "K12": -0.007118928097281735,
+        "Mu4": 1161.6801190439373,
+        "MCS2": 701676.2232011469,
+        "M12Sq": 90886.98361988885,
+        "M112": 215425.2641167868,
+        "M222": 28956.83819475883
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 5.491271321134195,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "0c6637c293ef7db9965cfb5ec91492e8d5235c5b5a6900e60bfb41168c17eb3f",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 139.561208,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 381.205239,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "IO",
+          "parameters": {
+            "s12": 0.5266516124908184,
+            "s13": 0.5467134421120573,
+            "s23": 0.9988981571973796,
+            "dm21": 0.0630618831043297,
+            "dm3l": -0.5115570054732698,
+            "delta_deg": 340.54266140133103
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02093,
+              0.02441
+            ],
+            "s23": [
+              0.439,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.822e-05
+            ],
+            "dm3l": [
+              -0.002547,
+              -0.002421
+            ],
+            "delta_deg": [
+              203.0,
+              335.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": false,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": false
+          },
+          "masses_eV": [
+            0.6712639077115174,
+            0.7166987630102806,
+            0.04582697270381888
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 11.510707897076385,
+        "matched_calculator_relative_residual": 6.750318574279557e-14,
+        "charged_lepton_matrix_relative_residual": 5.306050887550194e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.009348650207311474,
+        "running_v_GeV": 247.32833140339048
+      },
+      "masses_GeV": {
+        "25": 139.561208,
+        "35": 567.634873,
+        "36": 479.514177,
+        "37": 438.451329,
+        "9000037": 910.844168,
+        "23": 91.1876,
+        "24": 80.3432923,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 4.58269727e-11,
+        "14": 6.71263908e-10,
+        "16": 7.16698763e-10
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 381.205239,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "0c6637c293ef7db9965cfb5ec91492e8d5235c5b5a6900e60bfb41168c17eb3f",
+        "output.spc": "2973b418d3a606257ceb0f142a3a28adecdbb4aebb1eb2fc8d536c329e35eae6",
+        "result.json": "4d97194e591a0c40ea329a20d77ef0f1981e5f78b2948c535ddb39f6438696f9",
+        "run.log": "392317c6241281eb6d9788f620e7da3d4bf0ff8eadf866eca45c88ff318aee09",
+        "snapshots.dat": "556d81bc4202df878205661d19535ddab10b50c417db93c3295615b8e6cb86f0",
+        "scalar_trace.dat": "a0acb7308f61ae6c2e9b3d7916fc05c95a14d20acbabd8f828ab97f82cb50fcd"
+      }
+    },
+    {
+      "phase": "baseline",
+      "name": "s00010_NO_f02_baseline",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "53233fb2ff8f34cafeebbdf82cffa313434a7cc01b3a37467466ef7edc65525f",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 5.491271321134195,
+        "Lambda2": 0.2635761772120812,
+        "Lambda3": -0.06674136807293685,
+        "Lambda4": -0.5788162786571509,
+        "Lambda5": 0.5035600278074557,
+        "LambdaC": 0.6848996846743323,
+        "K1": 0.10554819636686197,
+        "K2": 0.3760106081968662,
+        "K12": -0.007118928097281735,
+        "Mu4": 1161.6801190439373,
+        "MCS2": 701676.2232011469,
+        "M12Sq": 90886.98361988885,
+        "M112": 215425.2641167868,
+        "M222": 28956.83819475883
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 5.491271321134195,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "53233fb2ff8f34cafeebbdf82cffa313434a7cc01b3a37467466ef7edc65525f",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 139.561211,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 381.205194,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "NO",
+          "parameters": {
+            "s12": 0.15536940959142811,
+            "s13": 0.15508645015982658,
+            "s23": 0.40007971162559947,
+            "dm21": 0.022388271822263984,
+            "dm3l": 0.02988438893518496,
+            "delta_deg": 356.2082622639332
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02064,
+              0.02418
+            ],
+            "s23": [
+              0.435,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.823e-05
+            ],
+            "dm3l": [
+              0.00245,
+              0.002576
+            ],
+            "delta_deg": [
+              125.0,
+              365.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": false,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.009993391588953897,
+            0.14996046044779324,
+            0.17315962811993774
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 4.6970328844085865,
+        "matched_calculator_relative_residual": 6.877503912220915e-14,
+        "charged_lepton_matrix_relative_residual": 9.214178367074339e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.00934988432342499,
+        "running_v_GeV": 247.32833139971663
+      },
+      "masses_GeV": {
+        "25": 139.561211,
+        "35": 567.634874,
+        "36": 479.514177,
+        "37": 438.451329,
+        "9000037": 910.844123,
+        "23": 91.1876,
+        "24": 80.3432923,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 9.99339159e-12,
+        "14": 1.4996046e-10,
+        "16": 1.73159628e-10
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 381.205194,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "53233fb2ff8f34cafeebbdf82cffa313434a7cc01b3a37467466ef7edc65525f",
+        "output.spc": "d6d68d862236e4d4c859a8f4716a4370932dc5fa00a9aee7f45cf01dcb39f760",
+        "result.json": "210a9fc824b4d9dc77d0d32f099be15937dcc7886c2bcab7ed25fc2d9e692396",
+        "run.log": "926eca3fd2157dc4a23372e124032b22bb39bce864faab1f10b32837a09f49a6",
+        "snapshots.dat": "b2fbfbe7147847c0268303ceb18e2b096202584a8bb2a25547fa4c34df58a88a",
+        "scalar_trace.dat": "9e458923de504d9d0062f4bc436183192fb66e2ab7d838d5654eea85b5bde049"
+      }
+    },
+    {
+      "phase": "baseline",
+      "name": "s00010_IO_f03_baseline",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "49f9b7865b4741021b6ef359be080fa85010f3718b0a4417826bb46151cd076a",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 5.491271321134195,
+        "Lambda2": 0.2635761772120812,
+        "Lambda3": -0.06674136807293685,
+        "Lambda4": -0.5788162786571509,
+        "Lambda5": 0.5035600278074557,
+        "LambdaC": 0.6848996846743323,
+        "K1": 0.10554819636686197,
+        "K2": 0.3760106081968662,
+        "K12": -0.007118928097281735,
+        "Mu4": 1161.6801190439373,
+        "MCS2": 701676.2232011469,
+        "M12Sq": 90886.98361988885,
+        "M112": 215425.2641167868,
+        "M222": 28956.83819475883
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 5.491271321134195,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "49f9b7865b4741021b6ef359be080fa85010f3718b0a4417826bb46151cd076a",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 139.561217,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 381.20521600000006,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "IO",
+          "parameters": {
+            "s12": 0.6656266184791243,
+            "s13": 0.0497074233098958,
+            "s23": 0.5521403150618377,
+            "dm21": 0.0007568520437970837,
+            "dm3l": -0.0028322595479436884,
+            "delta_deg": 63.78460842796693
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02093,
+              0.02441
+            ],
+            "s23": [
+              0.439,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.822e-05
+            ],
+            "dm3l": [
+              -0.002547,
+              -0.002421
+            ],
+            "delta_deg": [
+              203.0,
+              335.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": true,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": false
+          },
+          "masses_eV": [
+            0.0527856189405908,
+            0.05952456308733683,
+            0.026662971754751075
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 0.15826062855268783,
+        "matched_calculator_relative_residual": 2.715485683786139e-15,
+        "charged_lepton_matrix_relative_residual": 1.647151051038716e-15,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.009381224062859414,
+        "running_v_GeV": 247.3283310783524
+      },
+      "masses_GeV": {
+        "25": 139.561217,
+        "35": 567.634927,
+        "36": 479.514179,
+        "37": 438.451331,
+        "9000037": 910.844147,
+        "23": 91.1876,
+        "24": 80.3432923,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 2.66629718e-11,
+        "14": 5.27856189e-11,
+        "16": 5.95245631e-11
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 381.20521600000006,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "49f9b7865b4741021b6ef359be080fa85010f3718b0a4417826bb46151cd076a",
+        "output.spc": "826a3e62f3b66eb1d6b7bed7a9f81df733ace6b89d72c56b11526777de4afb35",
+        "result.json": "a7b129119f8eb15cbbd3528e47ddf2a2ccc9b6e8e2b55c669aed2b60028507fe",
+        "run.log": "53cc7edc5ccdfb6d7dc7ad8bc0ab6ac7ae4f7f606d366243af3ae52894e8c65a",
+        "snapshots.dat": "9ac7549abd3fbd1f9171ff65b007c2b3d38a5f2d6cce773973d3d3e9d01d5c1f",
+        "scalar_trace.dat": "03fc039bb58860bad1aa8785e0593d76f703873d8fa4b5a9ef67f93e2efb6426"
+      }
+    },
+    {
+      "phase": "higgs_control",
+      "name": "s00010_full_one_loop",
+      "status": "NATIVE_COMPLETE",
+      "proposed_input_sha256": "65f215be29c2d568e5c71234549a227da395be89d46996529098f2e84c9c46f5",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "input_sha256": "65f215be29c2d568e5c71234549a227da395be89d46996529098f2e84c9c46f5",
+      "spectrum_status": "PASS",
+      "masses_GeV": {
+        "25": 139.561802,
+        "35": 567.634867,
+        "36": 479.514172,
+        "37": 438.45133,
+        "9000037": 910.844904,
+        "23": 91.1876,
+        "24": 80.343292,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 1.07598711e-11,
+        "14": 3.012409e-09,
+        "16": 3.05535234e-09
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 381.2059740000001,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "65f215be29c2d568e5c71234549a227da395be89d46996529098f2e84c9c46f5",
+        "output.spc": "1d0d2692bb006565b1ec70b7b0c53ab34e126da2777599c806ae64fbdfd42da3",
+        "result.json": "a5460ac51cc465d08b2ab67c1fdc08eeed7b085cb3d6e37d72f45292f99d3e14",
+        "run.log": "98521bfcca9476f64c2acf988706d7bcafcc9ffd6b1b893abaee353e07a2ec7f",
+        "snapshots.dat": "4a296f5cd8616e0745795037f55d4da8462e7b011cc2a530ca47d257d78c970a",
+        "scalar_trace.dat": "41032b6f6ac0e60b1b9372db88e7280dd813b104ce4c77fdbd8f9dc3c69ac8e2"
+      }
+    },
+    {
+      "phase": "baseline",
+      "name": "s00017_NO_f00_baseline",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "2bc75a32e18c6b094d7960a2e46e0345aabdf27a719d895681b3af03fb4448bb",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 1.0856900373977922,
+        "Lambda2": 0.189128071329269,
+        "Lambda3": 0.6481537697559072,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 432836.26156535663,
+        "M222": 14213.953740889663
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "2bc75a32e18c6b094d7960a2e46e0345aabdf27a719d895681b3af03fb4448bb",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 153.755294,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 426.49994000000004,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "NO",
+          "parameters": {
+            "s12": 0.02010814440271318,
+            "s13": 0.0059402578226632535,
+            "s23": 0.48697163391757026,
+            "dm21": 0.058276209331991305,
+            "dm3l": 0.07774855604886034,
+            "delta_deg": 295.2429023617144
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02064,
+              0.02418
+            ],
+            "s23": [
+              0.435,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.823e-05
+            ],
+            "dm3l": [
+              0.00245,
+              0.002576
+            ],
+            "delta_deg": [
+              125.0,
+              365.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": true,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.01490563440304314,
+            0.2418643985148465,
+            0.27923240138962657
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 4.520061295809289,
+        "matched_calculator_relative_residual": 1.2122578847963591e-14,
+        "charged_lepton_matrix_relative_residual": 6.124606555930058e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.009814504879925157,
+        "running_v_GeV": 247.6284335950689
+      },
+      "masses_GeV": {
+        "25": 153.755294,
+        "35": 690.233292,
+        "36": 736.401408,
+        "37": 666.86152,
+        "9000037": 1184.54906,
+        "23": 91.1876,
+        "24": 80.3455305,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 1.49056344e-11,
+        "14": 2.41864399e-10,
+        "16": 2.79232401e-10
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 426.49994000000004,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "2bc75a32e18c6b094d7960a2e46e0345aabdf27a719d895681b3af03fb4448bb",
+        "output.spc": "567d335aacdb3413baf3dfdb1b565d7725d1610f0cf1ce0052dbe2e820d4fe79",
+        "result.json": "8853a9f5807b7d914e19581ccbb4c3aeb57d2eae20001c6c61ec510fe07cbb6c",
+        "run.log": "33e730e0a5459b3a27db9921ee14ba36adb651221a0ffd3d68608aa32618238f",
+        "snapshots.dat": "ea4291d5acda257bc82ba6aa1a9e9631fcbaf934cc103366bb464caa5c8d5ad7",
+        "scalar_trace.dat": "89d6b61fead4fb4b88855795de6ff767ff0b7e82210f8631c3e3067a80819cc6"
+      }
+    },
+    {
+      "phase": "baseline",
+      "name": "s00017_IO_f01_baseline",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "32f5bdbe2aa8f3ed9754f4a8b3dabef1af82b9eac8d4a3d2146cfd624210f8f0",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 1.0856900373977922,
+        "Lambda2": 0.189128071329269,
+        "Lambda3": 0.6481537697559072,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 432836.26156535663,
+        "M222": 14213.953740889663
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "32f5bdbe2aa8f3ed9754f4a8b3dabef1af82b9eac8d4a3d2146cfd624210f8f0",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 153.755415,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 426.4994449999999,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "IO",
+          "parameters": {
+            "s12": 0.3431829309293874,
+            "s13": 0.04430885474758866,
+            "s23": 0.5270924597065199,
+            "dm21": 0.0007552902409290107,
+            "dm3l": -0.0029929161706245817,
+            "delta_deg": 295.07309871702705
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02093,
+              0.02441
+            ],
+            "s23": [
+              0.439,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.822e-05
+            ],
+            "dm3l": [
+              -0.002547,
+              -0.002421
+            ],
+            "delta_deg": [
+              203.0,
+              335.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": true,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.052326423501452037,
+            0.05910452467774631,
+            0.022370263001532657
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 0.12027166050069976,
+        "matched_calculator_relative_residual": 3.741131916364214e-15,
+        "charged_lepton_matrix_relative_residual": 6.936350415426587e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.012027987300427843,
+        "running_v_GeV": 247.6284332423255
+      },
+      "masses_GeV": {
+        "25": 153.755415,
+        "35": 690.233882,
+        "36": 736.402151,
+        "37": 666.862055,
+        "9000037": 1184.5491,
+        "23": 91.1876,
+        "24": 80.3455305,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 2.2370263e-11,
+        "14": 5.23264235e-11,
+        "16": 5.91045247e-11
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 426.4994449999999,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "32f5bdbe2aa8f3ed9754f4a8b3dabef1af82b9eac8d4a3d2146cfd624210f8f0",
+        "output.spc": "49efe194435da8d85e794f8303e7b657d54c099f4ed17ddb5dbff81582654405",
+        "result.json": "2f2fa7b53d242faec1e360f7d6bedc108cfcc80506cbdf3afab3a2f74bbeff2b",
+        "run.log": "0c89a7db00af5fb527f793168147b06abd15d8c90e06b909c712f910ab5087ad",
+        "snapshots.dat": "7fff3ddede6587f5f5940d11f20b895a34a7a2bb5c960f70a968a63697ad7d05",
+        "scalar_trace.dat": "19a08db4d7e08c6526ad7eb97672f8bae841b228abf32e5c41dc9615eb75e62c"
+      }
+    },
+    {
+      "phase": "baseline",
+      "name": "s00017_NO_f02_baseline",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "c64fcf1ac68352073d4ad1a6e121f1fa4ee50f7b0fc93a8ac4a6cd928ca1a57a",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 1.0856900373977922,
+        "Lambda2": 0.189128071329269,
+        "Lambda3": 0.6481537697559072,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 432836.26156535663,
+        "M222": 14213.953740889663
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "c64fcf1ac68352073d4ad1a6e121f1fa4ee50f7b0fc93a8ac4a6cd928ca1a57a",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 153.755295,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 426.49994000000004,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "NO",
+          "parameters": {
+            "s12": 0.171509421530629,
+            "s13": 0.11329586462679786,
+            "s23": 0.41434269812441316,
+            "dm21": 0.05737988770264902,
+            "dm3l": 0.07960571016274472,
+            "delta_deg": 22.2313102186381
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02064,
+              0.02418
+            ],
+            "s23": [
+              0.435,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.823e-05
+            ],
+            "dm3l": [
+              0.00245,
+              0.002576
+            ],
+            "delta_deg": [
+              125.0,
+              365.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": false,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": false
+          },
+          "masses_eV": [
+            0.0013467314882328345,
+            0.23954477950552464,
+            0.2821480530651348
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 5.779188667759375,
+        "matched_calculator_relative_residual": 4.4094438903720713e-14,
+        "charged_lepton_matrix_relative_residual": 2.6570531190273387e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.009810658464423512,
+        "running_v_GeV": 247.62843359576686
+      },
+      "masses_GeV": {
+        "25": 153.755295,
+        "35": 690.233293,
+        "36": 736.401408,
+        "37": 666.86152,
+        "9000037": 1184.54906,
+        "23": 91.1876,
+        "24": 80.3455305,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 1.34673149e-12,
+        "14": 2.3954478e-10,
+        "16": 2.82148053e-10
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 426.49994000000004,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "c64fcf1ac68352073d4ad1a6e121f1fa4ee50f7b0fc93a8ac4a6cd928ca1a57a",
+        "output.spc": "156ae097caa25934b76cb65c7c4cb65669d6f162e42a6e9e933e10a657c913c8",
+        "result.json": "2959bd5dbecac77afd6dbaf01d7751bdd359215ad05be3cbef12171add23ed91",
+        "run.log": "8fca43542f3a812699785230bd5da92d0b0b7eab8bc1420495de03f808e02739",
+        "snapshots.dat": "2cd5ddff4ab2c3ecef164b63d0e80f123c8784901311019f44fac2adc7c47d86",
+        "scalar_trace.dat": "fa517bea7bd8858520ce82c616f95d2db1d350e97369af71f841ee1970513767"
+      }
+    },
+    {
+      "phase": "baseline",
+      "name": "s00017_IO_f03_baseline",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "64ad4a32233ea059e3000b338ea1bbbbe8e2f5bdb8fc758bd8b9ca4e87c919a7",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 1.0856900373977922,
+        "Lambda2": 0.189128071329269,
+        "Lambda3": 0.6481537697559072,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 432836.26156535663,
+        "M222": 14213.953740889663
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "64ad4a32233ea059e3000b338ea1bbbbe8e2f5bdb8fc758bd8b9ca4e87c919a7",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 153.755295,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 426.49992900000007,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "IO",
+          "parameters": {
+            "s12": 0.611330784647158,
+            "s13": 0.3105784477083489,
+            "s23": 0.9558578789774705,
+            "dm21": 0.017979178540199287,
+            "dm3l": -0.04485162873365697,
+            "delta_deg": 10.251144199382622
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02093,
+              0.02441
+            ],
+            "s23": [
+              0.439,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.822e-05
+            ],
+            "dm3l": [
+              -0.002547,
+              -0.002421
+            ],
+            "delta_deg": [
+              203.0,
+              335.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": false,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": false
+          },
+          "masses_eV": [
+            0.16439696827198605,
+            0.21214509590659802,
+            0.012406167158421785
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 3.679553277958775,
+        "matched_calculator_relative_residual": 1.656128807845411e-14,
+        "charged_lepton_matrix_relative_residual": 1.5107032348955247e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.009810074296381217,
+        "running_v_GeV": 247.62843359352462
+      },
+      "masses_GeV": {
+        "25": 153.755295,
+        "35": 690.233294,
+        "36": 736.40141,
+        "37": 666.861521,
+        "9000037": 1184.54905,
+        "23": 91.1876,
+        "24": 80.3455305,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 1.24061672e-11,
+        "14": 1.64396968e-10,
+        "16": 2.12145096e-10
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 426.49992900000007,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "64ad4a32233ea059e3000b338ea1bbbbe8e2f5bdb8fc758bd8b9ca4e87c919a7",
+        "output.spc": "8f943355641b302de9dcde94dc29789001ee4222094844f2d4047516376cc558",
+        "result.json": "70adabdc3e7ec04f99ab89d56201d720eb8dca1b212f73280791352a1b70f59e",
+        "run.log": "f8ba74b40e6d70a6bbcfe55196d8c7f1dc6c0803eed889f8f322a078a5c1f611",
+        "snapshots.dat": "1f9b464cfd68f9cee012af53e84f82a7b293968b3da6b81850c427b16b431703",
+        "scalar_trace.dat": "6d08cff4f0748a8916e193b736e1708f14a297c292d8613312220ea6c2de45a9"
+      }
+    },
+    {
+      "phase": "higgs_control",
+      "name": "s00017_full_one_loop",
+      "status": "NATIVE_COMPLETE",
+      "proposed_input_sha256": "d33c71394ff8ea289d7a4dd0a508c3124a17787a4a906fb798e3c01610957ac3",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "input_sha256": "d33c71394ff8ea289d7a4dd0a508c3124a17787a4a906fb798e3c01610957ac3",
+      "spectrum_status": "PASS",
+      "masses_GeV": {
+        "25": 153.759019,
+        "35": 690.233292,
+        "36": 736.401408,
+        "37": 666.86152,
+        "9000037": 1184.54906,
+        "23": 91.1876,
+        "24": 80.345529,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 1.49056344e-11,
+        "14": 2.41864399e-10,
+        "16": 2.79232401e-10
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 426.49994000000004,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "d33c71394ff8ea289d7a4dd0a508c3124a17787a4a906fb798e3c01610957ac3",
+        "output.spc": "cfc45a5b8d721c457e0a245b2922d6c2c56fc3b12a2cccb08c16848eaedb0b47",
+        "result.json": "2817a94c036680f9687dcd94959040b44360acb4863969cdc6b32b7ce3cbaf47",
+        "run.log": "62b5b0a3944d12c5c1a28a18e716959f44d32930fbe87a26b03ce5d319a409e4",
+        "snapshots.dat": "ea4291d5acda257bc82ba6aa1a9e9631fcbaf934cc103366bb464caa5c8d5ad7",
+        "scalar_trace.dat": "b6d82c86512e1be990dd79610a412b69be27bb359e560023becf61ac8bfd23d3"
+      }
+    },
+    {
+      "phase": "baseline",
+      "name": "s00020_NO_f00_baseline",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "92dfb05efea45dc51eed7bb59f69cb808564a60b2bebc045d28f0ad49c2682cb",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 1.371753811992409,
+        "Lambda2": 0.9469357060473832,
+        "Lambda3": -0.9942101854997929,
+        "Lambda4": 0.1311939568990375,
+        "Lambda5": 0.09917000515030189,
+        "LambdaC": 0.9343937270066719,
+        "K1": 0.11253063501915977,
+        "K2": 0.6913468039365812,
+        "K12": 0.021222053159398693,
+        "Mu4": 735.3016092325004,
+        "MCS2": 898152.5628120664,
+        "M12Sq": 163306.7773030647,
+        "M112": 254037.87308715956,
+        "M222": 93323.47313197485
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.371753811992409,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "92dfb05efea45dc51eed7bb59f69cb808564a60b2bebc045d28f0ad49c2682cb",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 136.195028,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 344.7846860000001,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "NO",
+          "parameters": {
+            "s12": 0.3023904905488374,
+            "s13": 0.05531045904096408,
+            "s23": 0.40317435499360793,
+            "dm21": 0.0011808567255457356,
+            "dm3l": 0.0017746389302245639,
+            "delta_deg": 44.59932909375778
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02064,
+              0.02418
+            ],
+            "s23": [
+              0.435,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.823e-05
+            ],
+            "dm3l": [
+              0.00245,
+              0.002576
+            ],
+            "delta_deg": [
+              125.0,
+              365.0
+            ]
+          },
+          "checks": {
+            "s12": true,
+            "s13": false,
+            "s23": false,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": false
+          },
+          "masses_eV": [
+            0.01696811700324762,
+            0.038324583757447864,
+            0.045415371019738075
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 1.5000112329238164,
+        "matched_calculator_relative_residual": 2.2343784548528318e-13,
+        "charged_lepton_matrix_relative_residual": 1.03691993432696e-15,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.008384104251905295,
+        "running_v_GeV": 247.60673224030404
+      },
+      "masses_GeV": {
+        "25": 136.195028,
+        "35": 635.85133,
+        "36": 586.975825,
+        "37": 564.874014,
+        "9000037": 1000.8463,
+        "23": 91.1876,
+        "24": 80.3509914,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 1.6968117e-11,
+        "14": 3.83245838e-11,
+        "16": 4.5415371e-11
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 344.7846860000001,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "92dfb05efea45dc51eed7bb59f69cb808564a60b2bebc045d28f0ad49c2682cb",
+        "output.spc": "0942099766316641c863b1ae418c4e005bc6c701af92a399472763a0cb1e0319",
+        "result.json": "0480f82ae7be8a82ce3eeead4cd8efb895dd5ad07d91019e0b0fa1a9dbbefb98",
+        "run.log": "b9e3734d1d1330e382bb89103b1264aa38227cf6f597f0900118fee94181194a",
+        "snapshots.dat": "913c95b63f44a85cda37ad68c6891067b243e3153f8f2cddd732e345a9832dca",
+        "scalar_trace.dat": "b427bb798f728e1e27ef1d6e46c941633f26c5473f1b4bd5fdc6fb8e7cd0291c"
+      }
+    },
+    {
+      "phase": "baseline",
+      "name": "s00020_IO_f01_baseline",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "7b72b642ee9eff1906bcb4a14c27f56ea1720ea466d19b0b8759a6b252e60f20",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 1.371753811992409,
+        "Lambda2": 0.9469357060473832,
+        "Lambda3": -0.9942101854997929,
+        "Lambda4": 0.1311939568990375,
+        "Lambda5": 0.09917000515030189,
+        "LambdaC": 0.9343937270066719,
+        "K1": 0.11253063501915977,
+        "K2": 0.6913468039365812,
+        "K12": 0.021222053159398693,
+        "Mu4": 735.3016092325004,
+        "MCS2": 898152.5628120664,
+        "M12Sq": 163306.7773030647,
+        "M112": 254037.87308715956,
+        "M222": 93323.47313197485
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.371753811992409,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "7b72b642ee9eff1906bcb4a14c27f56ea1720ea466d19b0b8759a6b252e60f20",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 136.195063,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 344.7845060000001,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "IO",
+          "parameters": {
+            "s12": 0.3899009818443334,
+            "s13": 0.027384998157672178,
+            "s23": 0.5627908221228348,
+            "dm21": 0.00015399593423567372,
+            "dm3l": -0.002648135896765675,
+            "delta_deg": 287.19203152696593
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02093,
+              0.02441
+            ],
+            "s23": [
+              0.439,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.822e-05
+            ],
+            "dm3l": [
+              -0.002547,
+              -0.002421
+            ],
+            "delta_deg": [
+              203.0,
+              335.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": true,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.052444897804004256,
+            0.0538930722812137,
+            0.016010226205224246
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 0.03862391865644893,
+        "matched_calculator_relative_residual": 1.9325301212339077e-15,
+        "charged_lepton_matrix_relative_residual": 1.8502717013223778e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.010334981322376409,
+        "running_v_GeV": 247.6067321059619
+      },
+      "masses_GeV": {
+        "25": 136.195063,
+        "35": 635.851701,
+        "36": 586.976076,
+        "37": 564.874244,
+        "9000037": 1000.84635,
+        "23": 91.1876,
+        "24": 80.3509914,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 1.60102262e-11,
+        "14": 5.24448978e-11,
+        "16": 5.38930723e-11
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 344.7845060000001,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "7b72b642ee9eff1906bcb4a14c27f56ea1720ea466d19b0b8759a6b252e60f20",
+        "output.spc": "08f13afaf77967ee7184d96945b80c19ba4f5a318b16c7ea38acb54a1c4be54e",
+        "result.json": "82f11fcc58eb62fe0fafe56ad3c73d9a6ded1d7525876762d66e3aff033540bb",
+        "run.log": "d17d5f0e8f4166d4e5310c8d51daf7aa31e6743064ba3151b622f965172c7936",
+        "snapshots.dat": "1d7e8c370c31da3cbd2f834dc4c77226358b7393312cf9c35bf3091ba828b1f0",
+        "scalar_trace.dat": "72c3bb4b435eda4e8c6fc1f19858d610e40f2848083950bba1452c8de6109e2e"
+      }
+    },
+    {
+      "phase": "baseline",
+      "name": "s00020_NO_f02_baseline",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "a444abb4cf5236ceb329c2d78f9f7beba7ba03647cc520732cbc7a73e4390995",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 1.371753811992409,
+        "Lambda2": 0.9469357060473832,
+        "Lambda3": -0.9942101854997929,
+        "Lambda4": 0.1311939568990375,
+        "Lambda5": 0.09917000515030189,
+        "LambdaC": 0.9343937270066719,
+        "K1": 0.11253063501915977,
+        "K2": 0.6913468039365812,
+        "K12": 0.021222053159398693,
+        "Mu4": 735.3016092325004,
+        "MCS2": 898152.5628120664,
+        "M12Sq": 163306.7773030647,
+        "M112": 254037.87308715956,
+        "M222": 93323.47313197485
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.371753811992409,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "a444abb4cf5236ceb329c2d78f9f7beba7ba03647cc520732cbc7a73e4390995",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 136.195026,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 344.78470500000003,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "NO",
+          "parameters": {
+            "s12": 0.07348787098731215,
+            "s13": 0.027302582216271066,
+            "s23": 0.45960899085535745,
+            "dm21": 0.03218915125292003,
+            "dm3l": 0.040332400730523105,
+            "delta_deg": 340.52030702785873
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02064,
+              0.02418
+            ],
+            "s23": [
+              0.435,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.823e-05
+            ],
+            "dm3l": [
+              0.00245,
+              0.002576
+            ],
+            "delta_deg": [
+              125.0,
+              365.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": true,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.0027684726440664917,
+            0.1794347115072805,
+            0.20084836362615466
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 4.877211046177869,
+        "matched_calculator_relative_residual": 7.51851057761715e-14,
+        "charged_lepton_matrix_relative_residual": 7.733214518568244e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.008388778573016946,
+        "running_v_GeV": 247.6067322396677
+      },
+      "masses_GeV": {
+        "25": 136.195026,
+        "35": 635.85133,
+        "36": 586.975825,
+        "37": 564.874015,
+        "9000037": 1000.84632,
+        "23": 91.1876,
+        "24": 80.3509914,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 2.76847264e-12,
+        "14": 1.79434712e-10,
+        "16": 2.00848364e-10
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 344.78470500000003,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "a444abb4cf5236ceb329c2d78f9f7beba7ba03647cc520732cbc7a73e4390995",
+        "output.spc": "a8d7f305c648d447a17edcf99c1e92ce326e3e17db83d9b6168ed4d0dff64015",
+        "result.json": "8881ce1394c9bd775191dc08c7ee137c365c22922dafe4dc18aa637b703c7cdd",
+        "run.log": "42a5d9ab9072f9788a3de91a281582ec496a42a9e175d5121a1a26d8750c77a0",
+        "snapshots.dat": "8af7e5ac9839dcd412ee1d8b0794a24b29b467e3975a6e65195d8ff8d3b63284",
+        "scalar_trace.dat": "f43823aaa7e6021c36019cb3b9ef2cc8e67df34ab864eaab572652fdcd5598e9"
+      }
+    },
+    {
+      "phase": "baseline",
+      "name": "s00020_IO_f03_baseline",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "d80adce554ed0210728fb6ad86a631ce2a89461312ed9dbb60aa1f7ac6bdacbd",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 1.371753811992409,
+        "Lambda2": 0.9469357060473832,
+        "Lambda3": -0.9942101854997929,
+        "Lambda4": 0.1311939568990375,
+        "Lambda5": 0.09917000515030189,
+        "LambdaC": 0.9343937270066719,
+        "K1": 0.11253063501915977,
+        "K2": 0.6913468039365812,
+        "K12": 0.021222053159398693,
+        "Mu4": 735.3016092325004,
+        "MCS2": 898152.5628120664,
+        "M12Sq": 163306.7773030647,
+        "M112": 254037.87308715956,
+        "M222": 93323.47313197485
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.371753811992409,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "d80adce554ed0210728fb6ad86a631ce2a89461312ed9dbb60aa1f7ac6bdacbd",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 136.195035,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 344.785698,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "IO",
+          "parameters": {
+            "s12": 0.49742614540779195,
+            "s13": 0.06842911964361742,
+            "s23": 0.9992935155130799,
+            "dm21": 0.0447837803907416,
+            "dm3l": -1.86129333393055,
+            "delta_deg": 127.73548422777966
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02093,
+              0.02441
+            ],
+            "s23": [
+              0.439,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.822e-05
+            ],
+            "dm3l": [
+              -0.002547,
+              -0.002421
+            ],
+            "delta_deg": [
+              203.0,
+              335.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": false,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": false
+          },
+          "masses_eV": [
+            1.3478120958658781,
+            1.3643244578006775,
+            0.009375085202960255
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 24.192980183112862,
+        "matched_calculator_relative_residual": 8.23973350479431e-14,
+        "charged_lepton_matrix_relative_residual": 1.42336943894532e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.009363351337205453,
+        "running_v_GeV": 247.60673223659526
+      },
+      "masses_GeV": {
+        "25": 136.195035,
+        "35": 635.851332,
+        "36": 586.975827,
+        "37": 564.874022,
+        "9000037": 1000.84732,
+        "23": 91.1876,
+        "24": 80.3509914,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 9.3750852e-12,
+        "14": 1.3478121e-09,
+        "16": 1.36432446e-09
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 344.785698,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "d80adce554ed0210728fb6ad86a631ce2a89461312ed9dbb60aa1f7ac6bdacbd",
+        "output.spc": "7bef31f29ffa1efb552230e9dc809db76bf4303dfa211a8ff4c83e0ef48c2aa9",
+        "result.json": "dfc9508241ba5a625b35898db177e090425192632cc39f5755784350c46cbe80",
+        "run.log": "9a3396fb9538ba1bab29e1cfd46cf7df53d42485998cccff7b23ae84902b1dd8",
+        "snapshots.dat": "e62a2e5927ee6290a13d4e5807c2bd1c23572e7c70dc77957115e2ac16c1a671",
+        "scalar_trace.dat": "3e6e9f6aafbe5ba6e43e24a6250347b19e44384cc70e37f208066f7185cb19a7"
+      }
+    },
+    {
+      "phase": "higgs_control",
+      "name": "s00020_full_one_loop",
+      "status": "NATIVE_COMPLETE",
+      "proposed_input_sha256": "ee7fd296a5180d5daed39294b724c0eb5b0673113d42dfec9733af60afccb9e2",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "input_sha256": "ee7fd296a5180d5daed39294b724c0eb5b0673113d42dfec9733af60afccb9e2",
+      "spectrum_status": "PASS",
+      "masses_GeV": {
+        "25": 136.194759,
+        "35": 635.85133,
+        "36": 586.975825,
+        "37": 564.874014,
+        "9000037": 1000.8463,
+        "23": 91.1876,
+        "24": 80.3509915,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 1.6968117e-11,
+        "14": 3.83245838e-11,
+        "16": 4.5415371e-11
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 344.7846860000001,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "ee7fd296a5180d5daed39294b724c0eb5b0673113d42dfec9733af60afccb9e2",
+        "output.spc": "5bcbc11e0c13468fc0ae62c6931b17e1ded52b7493349eb9b12b4e3dcaeaa9f5",
+        "result.json": "caf833e7ae93f2410cd1fe08069df921951f7babad4b42000bf1d65b3db6bd01",
+        "run.log": "1499ea638fa1051dd4f24329944e6f53a3997d693802fa2cf95d69dee1d89ab1",
+        "snapshots.dat": "913c95b63f44a85cda37ad68c6891067b243e3153f8f2cddd732e345a9832dca",
+        "scalar_trace.dat": "fcbdd1c1329d1262de5ea867d0dd2f7c5e53793c3b35f8f7d4aa497a830c7fdb"
+      }
+    },
+    {
+      "phase": "higgs_calibration",
+      "name": "higgs_01",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "bcd14115dc972e1329c28199166b63c66a9ed5df7b2c8211d1108b59ea313543",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 0.94259438471591,
+        "Lambda2": 0.010341634880683067,
+        "Lambda3": 0.4882051473352137,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 437681.65797168895,
+        "M222": 19630.012620036756
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "bcd14115dc972e1329c28199166b63c66a9ed5df7b2c8211d1108b59ea313543",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 107.630933,
+        "h125_mass_screen": "FAIL",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 427.36395400000004,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "NO",
+          "parameters": {
+            "s12": 0.016431509478535125,
+            "s13": 0.005662755173986892,
+            "s23": 0.48845331213121396,
+            "dm21": 0.08325008636969018,
+            "dm3l": 0.10639866416479155,
+            "delta_deg": 301.3758223162657
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02064,
+              0.02418
+            ],
+            "s23": [
+              0.435,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.823e-05
+            ],
+            "dm3l": [
+              0.00245,
+              0.002576
+            ],
+            "delta_deg": [
+              125.0,
+              365.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": true,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.014491942578643465,
+            0.2888946222576545,
+            0.3265098475765995
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 5.466312490128945,
+        "matched_calculator_relative_residual": 3.3535058645297465e-15,
+        "charged_lepton_matrix_relative_residual": 5.513641458733505e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.009814504879925157,
+        "running_v_GeV": 247.82045416269577
+      },
+      "masses_GeV": {
+        "25": 107.630933,
+        "35": 689.692614,
+        "36": 735.003093,
+        "37": 666.005186,
+        "9000037": 1184.55674,
+        "23": 91.1876,
+        "24": 80.3672141,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 1.44919426e-11,
+        "14": 2.88894622e-10,
+        "16": 3.26509848e-10
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 427.36395400000004,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "bcd14115dc972e1329c28199166b63c66a9ed5df7b2c8211d1108b59ea313543",
+        "output.spc": "f000cc07eeaeafeac2ce4f43f67e5063d623f0949e275281e29bd0e070bded6a",
+        "result.json": "7c0703262759826b0d25e65ecb6e6e4adcc5467af52099f8225116b8b0b35e58",
+        "run.log": "8ef925a6a9d9b803cbc3de5b81b0e5a5c111652437c0cc90b91b8aab942eb043",
+        "snapshots.dat": "7ad464fd3bf07fd968aa978c291691f21db3cca60fc49384b6e9d41a6f51e307",
+        "scalar_trace.dat": "3a329226524812d068acb636f4d71dbfb8d9cf49c8eee951d9754e818fce6dd1"
+      }
+    },
+    {
+      "phase": "higgs_calibration",
+      "name": "higgs_02",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "a7f1fd1dc820c7a94a0159eaa3e7a701f39ef009dba602fcb750812c7959c209",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 0.991294525512027,
+        "Lambda2": 0.07118851921502274,
+        "Lambda3": 0.5426409061164321,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 436032.61075901124,
+        "M222": 17786.750263486538
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "a7f1fd1dc820c7a94a0159eaa3e7a701f39ef009dba602fcb750812c7959c209",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 125.215854,
+        "h125_mass_screen": "PASS",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 427.0615700000001,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "NO",
+          "parameters": {
+            "s12": 0.017672940866704852,
+            "s13": 0.005759297607069726,
+            "s23": 0.487924065640896,
+            "dm21": 0.07292372894747828,
+            "dm3l": 0.09463072149944406,
+            "delta_deg": 299.1154913983064
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02064,
+              0.02418
+            ],
+            "s23": [
+              0.435,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.823e-05
+            ],
+            "dm3l": [
+              0.00245,
+              0.002576
+            ],
+            "delta_deg": [
+              125.0,
+              365.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": true,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.014638467411295113,
+            0.2704404068840857,
+            0.30796916441032796
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 5.095356675666916,
+        "matched_calculator_relative_residual": 1.6830352349978705e-14,
+        "charged_lepton_matrix_relative_residual": 2.7902803190134478e-15,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.009814504879925157,
+        "running_v_GeV": 247.7451617192554
+      },
+      "masses_GeV": {
+        "25": 125.215854,
+        "35": 689.790555,
+        "36": 735.457885,
+        "37": 666.30448,
+        "9000037": 1184.55365,
+        "23": 91.1876,
+        "24": 80.3582975,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 1.46384674e-11,
+        "14": 2.70440407e-10,
+        "16": 3.07969164e-10
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 427.0615700000001,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "a7f1fd1dc820c7a94a0159eaa3e7a701f39ef009dba602fcb750812c7959c209",
+        "output.spc": "5fe073745fe3c334ddd96ef5324500bc139c0c2a1c707a0880e54deb17afc3cc",
+        "result.json": "51fdbdc8a3d2d67daff82278547e8fa96330c4ab817f43e9e9fbdc5ac747fdf8",
+        "run.log": "3bc59b946f1fb2f50ba5a3ffa3371624f94bd76c50846b2be241158c278fd572",
+        "snapshots.dat": "e4796cd43d77c64b72ca620d269ab5e3a0640e6666810baafba75d7f66882d8b",
+        "scalar_trace.dat": "be1bfdaac0daeeac068037df4fd9c622b8562922208b47d7a55ea987e07385b0"
+      }
+    },
+    {
+      "phase": "higgs_calibration",
+      "name": "higgs_03",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "5b4656279561398aa7ffbc62d2af8a2aa0f215694fdfd0b5f97de64035a756c7",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 0.9913961366090698,
+        "Lambda2": 0.07131547405679571,
+        "Lambda3": 0.5427544843746859,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 436029.1700811482,
+        "M222": 17782.90436269175
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "5b4656279561398aa7ffbc62d2af8a2aa0f215694fdfd0b5f97de64035a756c7",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 125.25,
+        "h125_mass_screen": "PASS",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 427.06095700000003,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "NO",
+          "parameters": {
+            "s12": 0.01767550767718145,
+            "s13": 0.0057594939521776215,
+            "s23": 0.48792300483458684,
+            "dm21": 0.07290481300872835,
+            "dm3l": 0.09460907364956479,
+            "delta_deg": 299.1110420491481
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02064,
+              0.02418
+            ],
+            "s23": [
+              0.435,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.823e-05
+            ],
+            "dm3l": [
+              0.00245,
+              0.002576
+            ],
+            "delta_deg": [
+              125.0,
+              365.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": true,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.01463876237192428,
+            0.27040544811913464,
+            0.30793403029439026
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 5.094653576045198,
+        "matched_calculator_relative_residual": 2.6578054642113565e-14,
+        "charged_lepton_matrix_relative_residual": 2.1987631962913054e-15,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.009814504879925157,
+        "running_v_GeV": 247.74501903438758
+      },
+      "masses_GeV": {
+        "25": 125.25,
+        "35": 689.790922,
+        "36": 735.458873,
+        "37": 666.305093,
+        "9000037": 1184.55365,
+        "23": 91.1876,
+        "24": 80.3582811,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 1.46387624e-11,
+        "14": 2.70405448e-10,
+        "16": 3.0793403e-10
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 427.06095700000003,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "5b4656279561398aa7ffbc62d2af8a2aa0f215694fdfd0b5f97de64035a756c7",
+        "output.spc": "c38445fd4c7987a45b7aaa27c08d85ed2ac48ebc11cba546e2a17a2f75b54929",
+        "result.json": "5fc258cb406da80c66989e97516d4cd532daca6d7bd470f0261f99812da47e38",
+        "run.log": "76c8d5c3086a20d367a018774a3fa1a8ca5c7f7fa2733fb2085aaef569766ad8",
+        "snapshots.dat": "064c346783d55bf85bd3da32bc6e6b75a390e03930ccd6a5ca65271cd599530d",
+        "scalar_trace.dat": "8f439220b022b66c7d7b19e386457f22836284add6bd89594b0d26970f277c52"
+      }
+    },
+    {
+      "phase": "neutrino_refit",
+      "name": "s00017_NO_refit_00",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "c9686b8c393e7430fbd4c12199cd7b5e27c9ea2e698778ee9d71bba82ab1c3e9",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "inverse_update": {
+        "forward_residual": 1.6303913416798282e-15,
+        "max_abs_yukawa": 0.009773463950529079,
+        "f_scale": 0.0007457264919245151,
+        "F_gauge": {
+          "real": [
+            [
+              1.262177448353619e-29,
+              0.0002025460902346256,
+              -6.906997348092479e-06
+            ],
+            [
+              -0.0002025460902346256,
+              -2.524354896707238e-29,
+              -0.0006677935329802243
+            ],
+            [
+              6.9069973480924784e-06,
+              0.0006677935329802243,
+              0.0
+            ]
+          ],
+          "imag": [
+            [
+              0.0,
+              -0.0007176928864317839,
+              6.600257764035313e-05
+            ],
+            [
+              0.0007176928864317839,
+              0.0,
+              0.00013081951735678828
+            ],
+            [
+              -6.600257764035313e-05,
+              -0.00013081951735678828,
+              0.0
+            ]
+          ]
+        },
+        "Ye2_gauge": {
+          "real": [
+            [
+              2.815311038800042e-06,
+              -8.173470169960932e-10,
+              4.019418240096863e-09
+            ],
+            [
+              -3.170765517984407e-06,
+              0.0005793428671662449,
+              -3.37315888190118e-05
+            ],
+            [
+              -3.5135837801545417e-06,
+              1.1756887256086524e-06,
+              0.009773463834172165
+            ]
+          ],
+          "imag": [
+            [
+              -4.579086425992197e-09,
+              -4.6270448667611054e-11,
+              -1.6203772959131704e-08
+            ],
+            [
+              -1.5063318957297624e-05,
+              8.571272656988828e-07,
+              -1.8663179457408932e-05
+            ],
+            [
+              -5.428460699911078e-07,
+              1.3733125976632197e-06,
+              1.5081180998792851e-06
+            ]
+          ]
+        }
+      },
+      "potential": {
+        "Lambda1": 0.9913961366090698,
+        "Lambda2": 0.07131547405679571,
+        "Lambda3": 0.5427544843746859,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 436029.1700811482,
+        "M222": 17782.90436269175
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "c9686b8c393e7430fbd4c12199cd7b5e27c9ea2e698778ee9d71bba82ab1c3e9",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 125.25,
+        "h125_mass_screen": "PASS",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 427.06095800000014,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_PASS",
+          "ordering": "NO",
+          "parameters": {
+            "s12": 0.30879985292619505,
+            "s13": 0.0224799554552354,
+            "s23": 0.46999997434338525,
+            "dm21": 7.537376144190681e-05,
+            "dm3l": 0.0025110079134393337,
+            "delta_deg": 212.0002867160346
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02064,
+              0.02418
+            ],
+            "s23": [
+              0.435,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.823e-05
+            ],
+            "dm3l": [
+              0.00245,
+              0.002576
+            ],
+            "delta_deg": [
+              125.0,
+              365.0
+            ]
+          },
+          "checks": {
+            "s12": true,
+            "s13": true,
+            "s23": true,
+            "dm21": true,
+            "dm3l": true,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.028548681868107238,
+            0.02983958776270714,
+            0.05767178816237389
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 1.3248172585101867e-06,
+        "matched_calculator_relative_residual": 2.003448508599726e-14,
+        "charged_lepton_matrix_relative_residual": 1.269041618706623e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.009773463950529079,
+        "running_v_GeV": 247.7450190343774
+      },
+      "masses_GeV": {
+        "25": 125.25,
+        "35": 689.790923,
+        "36": 735.458874,
+        "37": 666.305092,
+        "9000037": 1184.55365,
+        "23": 91.1876,
+        "24": 80.3582811,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 2.85486819e-11,
+        "14": 2.98395878e-11,
+        "16": 5.76717882e-11
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 427.06095800000014,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "c9686b8c393e7430fbd4c12199cd7b5e27c9ea2e698778ee9d71bba82ab1c3e9",
+        "output.spc": "e920bcf5f8245d90f0fd95070bdfe7b7c641bdb1d6a3c36684160b9e65d582aa",
+        "result.json": "a69997cea853b82ae5086b256ca311b9e15bb0888aa928fa0ca1940e50c44dcf",
+        "run.log": "9bff56a3e999964f809cb8c4e848e01f0e7370656d45499ae54307f1f95a98e5",
+        "snapshots.dat": "d3f239184be1258792d8a6995162eb5f1669338fa6da17c5d56f74f4fb3beb12",
+        "scalar_trace.dat": "db2d34b130db5472f4f5cd4fa5d8f1bec1be5715f86c79c6e070379a0c79b1fa"
+      }
+    },
+    {
+      "phase": "neutrino_refit",
+      "name": "s00017_NO_refit_01",
+      "status": "TARGET_PASS",
+      "proposed_input_sha256": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "inverse_update": {
+        "forward_residual": 1.8274232647232406e-15,
+        "max_abs_yukawa": 0.009773463939885372,
+        "f_scale": 0.0007457264919245151,
+        "F_gauge": {
+          "real": [
+            [
+              1.34106353887572e-29,
+              0.00020254609022736186,
+              -6.906997345030123e-06
+            ],
+            [
+              -0.00020254609022736186,
+              2.524354896707238e-29,
+              -0.0006677935329810984
+            ],
+            [
+              6.906997345030123e-06,
+              0.0006677935329810984,
+              2.524354896707238e-29
+            ]
+          ],
+          "imag": [
+            [
+              -6.310887241768095e-30,
+              -0.0007176928864336516,
+              6.600257761827227e-05
+            ],
+            [
+              0.0007176928864336516,
+              0.0,
+              0.00013081951736463638
+            ],
+            [
+              -6.600257761827227e-05,
+              -0.00013081951736463638,
+              -6.310887241768095e-30
+            ]
+          ]
+        },
+        "Ye2_gauge": {
+          "real": [
+            [
+              2.8153110387999074e-06,
+              -8.173470239273915e-10,
+              4.019418404200244e-09
+            ],
+            [
+              -3.1707655171807187e-06,
+              0.0005793428671642316,
+              -3.373159110097279e-05
+            ],
+            [
+              -3.5135838941378313e-06,
+              1.1756885481705287e-06,
+              0.009773463823528457
+            ]
+          ],
+          "imag": [
+            [
+              -4.579086428300529e-09,
+              -4.627045685611169e-11,
+              -1.6203771864526868e-08
+            ],
+            [
+              -1.5063318959424107e-05,
+              8.571272665911547e-07,
+              -1.8663178195075785e-05
+            ],
+            [
+              -5.4284609302365e-07,
+              1.3733126149167788e-06,
+              1.5081181047878413e-06
+            ]
+          ]
+        }
+      },
+      "potential": {
+        "Lambda1": 0.9913961366090698,
+        "Lambda2": 0.07131547405679571,
+        "Lambda3": 0.5427544843746859,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 436029.1700811482,
+        "M222": 17782.90436269175
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 125.25,
+        "h125_mass_screen": "PASS",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 427.06095800000014,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_PASS",
+          "ordering": "NO",
+          "parameters": {
+            "s12": 0.30880000000000873,
+            "s13": 0.022480000000000968,
+            "s23": 0.47000000000001424,
+            "dm21": 7.536999999983775e-05,
+            "dm3l": 0.0025109999999996984,
+            "delta_deg": 211.99999999998258
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02064,
+              0.02418
+            ],
+            "s23": [
+              0.435,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.823e-05
+            ],
+            "dm3l": [
+              0.00245,
+              0.002576
+            ],
+            "delta_deg": [
+              125.0,
+              365.0
+            ]
+          },
+          "checks": {
+            "s12": true,
+            "s13": true,
+            "s23": true,
+            "dm21": true,
+            "dm3l": true,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.028548701180873846,
+            0.02983954321223208,
+            0.057671729115005094
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 5.752370783130283e-14,
+        "matched_calculator_relative_residual": 2.015987297067596e-14,
+        "charged_lepton_matrix_relative_residual": 2.0207999502757227e-15,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.009773463939885372,
+        "running_v_GeV": 247.7450190343774
+      },
+      "masses_GeV": {
+        "25": 125.25,
+        "35": 689.790923,
+        "36": 735.458874,
+        "37": 666.305092,
+        "9000037": 1184.55365,
+        "23": 91.1876,
+        "24": 80.3582811,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 2.85487012e-11,
+        "14": 2.98395432e-11,
+        "16": 5.76717291e-11
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 427.06095800000014,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+        "output.spc": "97c51c5cdfb615efdade57a9eab784f2fea39645ceb59236f1e3f314499416d9",
+        "result.json": "5e9ca40acb1313872adc51a341dcafd586c16fe9aba60e3b0d3576cd955b60e4",
+        "run.log": "9bff56a3e999964f809cb8c4e848e01f0e7370656d45499ae54307f1f95a98e5",
+        "snapshots.dat": "70ec84da8b5ef24e834347f9c41b458c539eca53b59fea58fac9fab4634b8211",
+        "scalar_trace.dat": "9b5be22727d25b02556003ef1af6d154fc0ac26f1dadbd0ac68aa404a637065e"
+      }
+    },
+    {
+      "phase": "production_control",
+      "name": "NO_production",
+      "status": "NATIVE_COMPLETE",
+      "proposed_input_sha256": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+      "executed_binary_sha256": "2c1a73c797b2f21b3266f3558dae3196a6b2514a5fd3d2e05fc83b0ce918af52",
+      "potential": {
+        "Lambda1": 0.9913961366090698,
+        "Lambda2": 0.07131547405679571,
+        "Lambda3": 0.5427544843746859,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 436029.1700811482,
+        "M222": 17782.90436269175
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+      "spectrum_status": "PASS",
+      "masses_GeV": {
+        "25": 125.25,
+        "35": 689.790923,
+        "36": 735.458874,
+        "37": 666.305092,
+        "9000037": 1184.55365,
+        "23": 91.1876,
+        "24": 80.3582811,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 2.85487012e-11,
+        "14": 2.98395432e-11,
+        "16": 5.76717291e-11
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 427.06095800000014,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+        "output.spc": "97c51c5cdfb615efdade57a9eab784f2fea39645ceb59236f1e3f314499416d9",
+        "result.json": "c211b4197d48c4dac3b222087b1cf59dec2cdfb4c0abfe877b7f32efb0d6e59f",
+        "run.log": "ec669f1a40d81be6dbfbaabf4a6f8ce5fe3fe7a9d6aebb07ad220a3fb44bee7c"
+      }
+    },
+    {
+      "phase": "neutrino_start",
+      "name": "IO_start",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "79bb8a7cf7e6efc817ae20fd0c4d1408f314a0a43d9b236ff967d11a7618d465",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "potential": {
+        "Lambda1": 0.9913961366090698,
+        "Lambda2": 0.07131547405679571,
+        "Lambda3": 0.5427544843746859,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 436029.1700811482,
+        "M222": 17782.90436269175
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "79bb8a7cf7e6efc817ae20fd0c4d1408f314a0a43d9b236ff967d11a7618d465",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 125.250136,
+        "h125_mass_screen": "PASS",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 427.06045400000005,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_FAIL",
+          "ordering": "IO",
+          "parameters": {
+            "s12": 0.34486723032782723,
+            "s13": 0.04874358577109243,
+            "s23": 0.523651154733068,
+            "dm21": 0.0008395002010302926,
+            "dm3l": -0.0030634398478669336,
+            "delta_deg": 296.845689889275
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02093,
+              0.02441
+            ],
+            "s23": [
+              0.439,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.822e-05
+            ],
+            "dm3l": [
+              -0.002547,
+              -0.002421
+            ],
+            "delta_deg": [
+              203.0,
+              335.0
+            ]
+          },
+          "checks": {
+            "s12": false,
+            "s13": false,
+            "s23": true,
+            "dm21": false,
+            "dm3l": false,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.05216321616876676,
+            0.059669936501556484,
+            0.02229487551507855
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 0.13555814506876768,
+        "matched_calculator_relative_residual": 2.5518318544014044e-15,
+        "charged_lepton_matrix_relative_residual": 4.962153752903229e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.012027987391133938,
+        "running_v_GeV": 247.74501867576805
+      },
+      "masses_GeV": {
+        "25": 125.250136,
+        "35": 689.791507,
+        "36": 735.459609,
+        "37": 666.305626,
+        "9000037": 1184.55368,
+        "23": 91.1876,
+        "24": 80.3582811,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 2.22948755e-11,
+        "14": 5.21632162e-11,
+        "16": 5.96699365e-11
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 427.06045400000005,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "79bb8a7cf7e6efc817ae20fd0c4d1408f314a0a43d9b236ff967d11a7618d465",
+        "output.spc": "783ffa06ab673ccf06de33e10d0f316d210c7360208ae84a69e9d1ed95d04d55",
+        "result.json": "21de807e9a70a3a3a5d4150db99bfb275c603b47346bdb9db88d670c40684a68",
+        "run.log": "4ab43dc7bc52ab96fb706d322a36d78a327108f306717301270c2920c9d14af1",
+        "snapshots.dat": "745792f400fb8cdb48a415ba6ee2cdf8e88ee97d8c4b771c60f57e8426a36bb3",
+        "scalar_trace.dat": "c567e8884267f3591195c237b05009ccbc69724cea05374b1714fb4300f3f937"
+      }
+    },
+    {
+      "phase": "neutrino_refit",
+      "name": "s00017_IO_refit_00",
+      "status": "TARGET_FAIL",
+      "proposed_input_sha256": "2fe1e83ee12355c455dd429af5eca072e917068a40bfc744970e3a8c0cdf7f60",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "inverse_update": {
+        "forward_residual": 2.0024115022874472e-15,
+        "max_abs_yukawa": 0.011976383626581969,
+        "f_scale": 1.4634240197972558e-05,
+        "F_gauge": {
+          "real": [
+            [
+              8.077935669463161e-28,
+              2.033214104507902e-06,
+              1.3008674555729623e-05
+            ],
+            [
+              -2.0332141045079015e-06,
+              0.0,
+              1.2530129194930554e-06
+            ],
+            [
+              -1.3008674555729625e-05,
+              -1.2530129194930554e-06,
+              4.0389678347315804e-28
+            ]
+          ],
+          "imag": [
+            [
+              8.077935669463161e-28,
+              -8.908380633534328e-06,
+              6.703392243692523e-06
+            ],
+            [
+              8.908380633534327e-06,
+              -4.0389678347315804e-28,
+              -1.4358189909083753e-05
+            ],
+            [
+              -6.703392243692523e-06,
+              1.4358189909083753e-05,
+              1.6155871338926322e-27
+            ]
+          ]
+        },
+        "Ye2_gauge": {
+          "real": [
+            [
+              1.1433934203832955e-05,
+              2.0292959329783157e-06,
+              7.352373414194346e-06
+            ],
+            [
+              -0.0009256784678301658,
+              -0.0012018314465065362,
+              0.0013450925876858583
+            ],
+            [
+              -0.0002001635160855525,
+              -5.844839107163291e-05,
+              0.009758684239211552
+            ]
+          ],
+          "imag": [
+            [
+              1.3698982268208248e-06,
+              8.65136677576728e-06,
+              -1.0159649191077237e-05
+            ],
+            [
+              0.0015113659092678099,
+              -0.0002865365981130056,
+              0.0021688334888657975
+            ],
+            [
+              0.00010180783188145554,
+              -0.00010223153459106966,
+              5.530581836120634e-05
+            ]
+          ]
+        }
+      },
+      "potential": {
+        "Lambda1": 0.9913961366090698,
+        "Lambda2": 0.07131547405679571,
+        "Lambda3": 0.5427544843746859,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 436029.1700811482,
+        "M222": 17782.90436269175
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "2fe1e83ee12355c455dd429af5eca072e917068a40bfc744970e3a8c0cdf7f60",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 125.250135,
+        "h125_mass_screen": "PASS",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 427.06045800000004,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_PASS",
+          "ordering": "IO",
+          "parameters": {
+            "s12": 0.30879174082768623,
+            "s13": 0.022619975079882358,
+            "s23": 0.5499998738453283,
+            "dm21": 7.536794912572095e-05,
+            "dm3l": -0.0024829990886828307,
+            "delta_deg": 274.00043172907857
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02093,
+              0.02441
+            ],
+            "s23": [
+              0.439,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.822e-05
+            ],
+            "dm3l": [
+              -0.002547,
+              -0.002421
+            ],
+            "delta_deg": [
+              203.0,
+              335.0
+            ]
+          },
+          "checks": {
+            "s12": true,
+            "s13": true,
+            "s23": true,
+            "dm21": true,
+            "dm3l": true,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.054165388625173,
+            0.05485669762245757,
+            0.02294031790012752
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 3.3823668714018797e-07,
+        "matched_calculator_relative_residual": 3.608099468122089e-15,
+        "charged_lepton_matrix_relative_residual": 6.803752317157205e-17,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.011976383961590191,
+        "running_v_GeV": 247.745018677768
+      },
+      "masses_GeV": {
+        "25": 125.250135,
+        "35": 689.791504,
+        "36": 735.459604,
+        "37": 666.305622,
+        "9000037": 1184.55368,
+        "23": 91.1876,
+        "24": 80.3582811,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 2.29403179e-11,
+        "14": 5.41653886e-11,
+        "16": 5.48566976e-11
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 427.06045800000004,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "2fe1e83ee12355c455dd429af5eca072e917068a40bfc744970e3a8c0cdf7f60",
+        "output.spc": "7e63e7853fd5f48bf407b1258db7c92364d41f1aed564bc27e34c62689496f5a",
+        "result.json": "e8b643c156584df88f83263ce48446779ae649516815c9ce99e987b2d3bbd6f1",
+        "run.log": "a15571556c68036ba60db399a0430fb203361e3fdfecb7123c99a35ee030afd0",
+        "snapshots.dat": "bc2c5b778822c399db6fe1e99efcac072796d313200e6f68cf7e01884089fbdf",
+        "scalar_trace.dat": "26e9a8bd3385ff7f4f526821aba3ff397ffd03d606ada4d44bb431a93cc04259"
+      }
+    },
+    {
+      "phase": "neutrino_refit",
+      "name": "s00017_IO_refit_01",
+      "status": "TARGET_PASS",
+      "proposed_input_sha256": "5b7b88d1f7b95f46d7efa66260833a861c39631f2b9dd58fe9c2c7ee05f7dd7c",
+      "executed_binary_sha256": "078609efc9dda12d5bb9b0121ba87b391f6dbab9b10234a0fb998fcff2a84126",
+      "inverse_update": {
+        "forward_residual": 2.661899998051193e-15,
+        "max_abs_yukawa": 0.011976383349426158,
+        "f_scale": 1.4634240197972558e-05,
+        "F_gauge": {
+          "real": [
+            [
+              0.0,
+              2.033214017164689e-06,
+              1.3008674550885575e-05
+            ],
+            [
+              -2.0332140171646892e-06,
+              0.0,
+              1.2530128870723097e-06
+            ],
+            [
+              -1.3008674550885577e-05,
+              -1.2530128870723095e-06,
+              0.0
+            ]
+          ],
+          "imag": [
+            [
+              0.0,
+              -8.908380583844184e-06,
+              6.703392229836083e-06
+            ],
+            [
+              8.908380583844184e-06,
+              4.0389678347315804e-28,
+              -1.435818996596897e-05
+            ],
+            [
+              -6.703392229836084e-06,
+              1.435818996596897e-05,
+              0.0
+            ]
+          ]
+        },
+        "Ye2_gauge": {
+          "real": [
+            [
+              1.143393380357855e-05,
+              2.0292959484622376e-06,
+              7.352373269575349e-06
+            ],
+            [
+              -0.0009256784596975485,
+              -0.0012018314062764682,
+              0.0013450926545707739
+            ],
+            [
+              -0.000200163475328967,
+              -5.844839290429016e-05,
+              0.009758684294952335
+            ]
+          ],
+          "imag": [
+            [
+              1.3698980530208754e-06,
+              8.651366330863993e-06,
+              -1.0159647972392552e-05
+            ],
+            [
+              0.0015113658921637558,
+              -0.0002865365891800226,
+              0.0021688332938856196
+            ],
+            [
+              0.00010180786506910521,
+              -0.00010223147811100301,
+              5.530577600886409e-05
+            ]
+          ]
+        }
+      },
+      "potential": {
+        "Lambda1": 0.9913961366090698,
+        "Lambda2": 0.07131547405679571,
+        "Lambda3": 0.5427544843746859,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 436029.1700811482,
+        "M222": 17782.90436269175
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "5b7b88d1f7b95f46d7efa66260833a861c39631f2b9dd58fe9c2c7ee05f7dd7c",
+      "spectrum_status": "PASS",
+      "observables": {
+        "Higgs_mass_GeV": 125.250135,
+        "h125_mass_screen": "PASS",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 427.06045800000004,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_PASS",
+          "ordering": "IO",
+          "parameters": {
+            "s12": 0.3088000000089331,
+            "s13": 0.02261999999972831,
+            "s23": 0.5499999999994051,
+            "dm21": 7.536999998732389e-05,
+            "dm3l": -0.0024829999999938473,
+            "delta_deg": 273.99999999925797
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02093,
+              0.02441
+            ],
+            "s23": [
+              0.439,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.822e-05
+            ],
+            "dm3l": [
+              -0.002547,
+              -0.002421
+            ],
+            "delta_deg": [
+              203.0,
+              335.0
+            ]
+          },
+          "checks": {
+            "s12": true,
+            "s13": true,
+            "s23": true,
+            "dm21": true,
+            "dm3l": true,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.05416537598485634,
+            0.054856703834337106,
+            0.02294031289181401
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 2.0976696426959965e-12,
+        "matched_calculator_relative_residual": 4.978618253054152e-15,
+        "charged_lepton_matrix_relative_residual": 4.356756105318893e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.011976383349423206,
+        "running_v_GeV": 247.74501867776803
+      },
+      "masses_GeV": {
+        "25": 125.250135,
+        "35": 689.791504,
+        "36": 735.459604,
+        "37": 666.305622,
+        "9000037": 1184.55368,
+        "23": 91.1876,
+        "24": 80.3582811,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 2.29403129e-11,
+        "14": 5.4165376e-11,
+        "16": 5.48567038e-11
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 427.06045800000004,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "5b7b88d1f7b95f46d7efa66260833a861c39631f2b9dd58fe9c2c7ee05f7dd7c",
+        "output.spc": "7299b98d208f148705bc06aa89232faa60a6e059db5d22cde2d015d457eab496",
+        "result.json": "80b89847e8c361000627c89ca7e99480994de6049dbb2b3390698911a4a363b7",
+        "run.log": "1b23b21b9f799a3cccffe0045ef8f5b31fe9229aa9de1b34dbbbc8dc3344070b",
+        "snapshots.dat": "1cb032e13a20d1b5bb691e5119bb475f6a83f96e1a869d391e67b62974962a8d",
+        "scalar_trace.dat": "7bf3ad50c92946040bffee1cd4c0d3f3cd5fb9644084817b15031185a95598bb"
+      }
+    },
+    {
+      "phase": "production_control",
+      "name": "IO_production",
+      "status": "NATIVE_COMPLETE",
+      "proposed_input_sha256": "5b7b88d1f7b95f46d7efa66260833a861c39631f2b9dd58fe9c2c7ee05f7dd7c",
+      "executed_binary_sha256": "2c1a73c797b2f21b3266f3558dae3196a6b2514a5fd3d2e05fc83b0ce918af52",
+      "potential": {
+        "Lambda1": 0.9913961366090698,
+        "Lambda2": 0.07131547405679571,
+        "Lambda3": 0.5427544843746859,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 436029.1700811482,
+        "M222": 17782.90436269175
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "input_sha256": "5b7b88d1f7b95f46d7efa66260833a861c39631f2b9dd58fe9c2c7ee05f7dd7c",
+      "spectrum_status": "PASS",
+      "masses_GeV": {
+        "25": 125.250135,
+        "35": 689.791504,
+        "36": 735.459604,
+        "37": 666.305622,
+        "9000037": 1184.55368,
+        "23": 91.1876,
+        "24": 80.3582811,
+        "1": 0.005,
+        "3": 0.095,
+        "5": 4.18,
+        "2": 0.0025,
+        "4": 1.27,
+        "6": 172.89,
+        "11": 0.00051099893,
+        "13": 0.105658372,
+        "15": 1.77686,
+        "12": 2.29403129e-11,
+        "14": 5.4165376e-11,
+        "16": 5.48567038e-11
+      },
+      "cascade_status": "PASS",
+      "cascade_margin_GeV": 427.06045800000004,
+      "scalar_propagation": "PASS",
+      "artifacts_sha256": {
+        "input.in": "5b7b88d1f7b95f46d7efa66260833a861c39631f2b9dd58fe9c2c7ee05f7dd7c",
+        "output.spc": "7299b98d208f148705bc06aa89232faa60a6e059db5d22cde2d015d457eab496",
+        "result.json": "ee0d1a9bbc065f7a06b74277d145230e4dc46113eb1832a6f8f5f2aa8ba30582",
+        "run.log": "49e4aaa13c9af5a228af090a30c9b67f2b13935cb53793a24215a3b34202e823"
+      }
+    }
+  ],
+  "failure_causes": [
+    {
+      "scalar_id": "s00001",
+      "ordering": "NO",
+      "card": "s00001_NO_f00.in",
+      "requested_tree_higgs_GeV": 125.25,
+      "first_native_tree_higgs_GeV": 125.00142747411816,
+      "last_recorded_tree_higgs_GeV": 125.69812571184463,
+      "native_higgs_pole_GeV": 146.700634,
+      "kernel_only_target_residual": 0.0036345529028152398,
+      "fully_matched_target_residual": 0.3670408648593716,
+      "D_proposal_diagonal": {
+        "real": [
+          3.811805295349279e-06,
+          -0.0007962804702226685,
+          0.00013655120842029933
+        ],
+        "imag": [
+          8.260148680088104e-09,
+          -2.1218566934880294e-06,
+          6.960400357627182e-06
+        ]
+      },
+      "D_native_diagonal": {
+        "real": [
+          3.846762829801869e-06,
+          -0.0007890523961922571,
+          0.00025810636487721
+        ],
+        "imag": [
+          8.260194851749263e-09,
+          -2.121888530732253e-06,
+          6.960368722982036e-06
+        ]
+      },
+      "D_shift_frobenius": 0.00012176987451089666,
+      "predicted_matching_D_shift": {
+        "real": [
+          3.495773726809968e-08,
+          7.228092560885929e-06,
+          0.00012155516920793878
+        ],
+        "imag": [
+          -3.0225717573956193e-15,
+          -2.956272449897413e-12,
+          -2.2112084573098804e-11
+        ]
+      },
+      "D_matching_identity_abs_residual": 4.22838904408279e-18,
+      "F_shift_frobenius": 2.1177786217296642e-12,
+      "native_higgs_without_effective_SM_GeV": 146.702936,
+      "final_matching_tree_higgs_GeV": 125.69812571184463
+    },
+    {
+      "scalar_id": "s00001",
+      "ordering": "IO",
+      "card": "s00001_IO_f01.in",
+      "requested_tree_higgs_GeV": 125.25,
+      "first_native_tree_higgs_GeV": 125.00142747411816,
+      "last_recorded_tree_higgs_GeV": 125.6981257287897,
+      "native_higgs_pole_GeV": 146.700631,
+      "kernel_only_target_residual": 0.0036345773187011657,
+      "fully_matched_target_residual": 12.458397593138866,
+      "D_proposal_diagonal": {
+        "real": [
+          1.9619954357597526e-07,
+          -4.049209049727198e-05,
+          -1.2734983295011317e-06
+        ],
+        "imag": [
+          -6.126703362410053e-07,
+          0.00012645376922145856,
+          3.816544045118819e-06
+        ]
+      },
+      "D_native_diagonal": {
+        "real": [
+          2.3115728310198357e-07,
+          -3.326412602150325e-05,
+          0.0001202816726982556
+        ],
+        "imag": [
+          -6.126703414304348e-07,
+          0.0001264537705242854,
+          3.816522921982433e-06
+        ]
+      },
+      "D_shift_frobenius": 0.00012176988255118028,
+      "predicted_matching_D_shift": {
+        "real": [
+          3.495775424699142e-08,
+          7.22796528634505e-06,
+          0.00012155517111462457
+        ],
+        "imag": [
+          -2.0741661584085298e-15,
+          -2.9674579842218116e-14,
+          -2.188848669352613e-11
+        ]
+      },
+      "D_matching_identity_abs_residual": 7.996000305653641e-19,
+      "F_shift_frobenius": 5.214442299790334e-11,
+      "final_matching_tree_higgs_GeV": 125.6981257287897
+    },
+    {
+      "scalar_id": "s00001",
+      "ordering": "NO",
+      "card": "s00001_NO_f02.in",
+      "requested_tree_higgs_GeV": 125.25,
+      "first_native_tree_higgs_GeV": 125.00142747411816,
+      "last_recorded_tree_higgs_GeV": 125.69812569643763,
+      "native_higgs_pole_GeV": 146.700647,
+      "kernel_only_target_residual": 0.0036391449769321736,
+      "fully_matched_target_residual": 29.0753595771635,
+      "D_proposal_diagonal": {
+        "real": [
+          0.002808958638118191,
+          0.004461108754426771,
+          0.0002656528685538194
+        ],
+        "imag": [
+          -0.0023720643779704766,
+          0.0031000227875009143,
+          0.0001869295665936755
+        ]
+      },
+      "D_native_diagonal": {
+        "real": [
+          0.0028089951512288605,
+          0.0044683381277699176,
+          0.0003872147982304855
+        ],
+        "imag": [
+          -0.002372064013805777,
+          0.003100023534676275,
+          0.00018692942221118294
+        ]
+      },
+      "D_shift_frobenius": 0.00012177671348455156,
+      "predicted_matching_D_shift": {
+        "real": [
+          3.496625397465515e-08,
+          7.228887067271201e-06,
+          0.000121561861921657
+        ],
+        "imag": [
+          3.3865274686913704e-12,
+          -1.7549241724842242e-11,
+          -2.466241205544587e-11
+        ]
+      },
+      "D_matching_identity_abs_residual": 2.006303573867751e-18,
+      "F_shift_frobenius": 9.454534125432083e-10,
+      "final_matching_tree_higgs_GeV": 125.69812569643769
+    },
+    {
+      "scalar_id": "s00001",
+      "ordering": "IO",
+      "card": "s00001_IO_f03.in",
+      "requested_tree_higgs_GeV": 125.25,
+      "first_native_tree_higgs_GeV": 125.00142747411816,
+      "last_recorded_tree_higgs_GeV": 125.69812572891581,
+      "native_higgs_pole_GeV": 146.700632,
+      "kernel_only_target_residual": 0.0036345535086127075,
+      "fully_matched_target_residual": 2.036781004362028,
+      "D_proposal_diagonal": {
+        "real": [
+          -1.0466163578641295e-05,
+          0.000339441599844693,
+          9.457408801911833e-06
+        ],
+        "imag": [
+          -8.713462966381733e-06,
+          -0.00020575810043485334,
+          4.6096747615504715e-05
+        ]
+      },
+      "D_native_diagonal": {
+        "real": [
+          -1.0431206014354463e-05,
+          0.0003466695449021153,
+          0.00013101196786955595
+        ],
+        "imag": [
+          -8.713462979162326e-06,
+          -0.00020575810718461275,
+          4.609672121898529e-05
+        ]
+      },
+      "D_shift_frobenius": 0.00012176927051766413,
+      "predicted_matching_D_shift": {
+        "real": [
+          3.495758233879093e-08,
+          7.2279489071289814e-06,
+          0.00012155456209988002
+        ],
+        "imag": [
+          -2.0741554147578633e-15,
+          -5.997878744353714e-14,
+          -2.2302764294528713e-11
+        ]
+      },
+      "D_matching_identity_abs_residual": 2.50722103828315e-18,
+      "F_shift_frobenius": 6.4300107101128206e-12,
+      "final_matching_tree_higgs_GeV": 125.69812572891581
+    },
+    {
+      "scalar_id": "s00010",
+      "ordering": "NO",
+      "card": "s00010_NO_f00.in",
+      "requested_tree_higgs_GeV": 125.25,
+      "first_native_tree_higgs_GeV": 125.00452710778272,
+      "last_recorded_tree_higgs_GeV": 125.56033149119735,
+      "native_higgs_pole_GeV": 139.561224,
+      "kernel_only_target_residual": 0.0028632808158885006,
+      "fully_matched_target_residual": 83.44350958955461,
+      "D_proposal_diagonal": {
+        "real": [
+          3.828403452394532e-09,
+          -8.261561846590636e-07,
+          5.812146978059273e-07
+        ],
+        "imag": [
+          1.543680548208455e-08,
+          -3.19618435991848e-06,
+          7.30544328867611e-08
+        ]
+      },
+      "D_native_diagonal": {
+        "real": [
+          2.238923228111002e-08,
+          3.011516133084753e-06,
+          6.512252176305357e-05
+        ],
+        "imag": [
+          1.5436806176466595e-08,
+          -3.1961849101260416e-06,
+          7.303777607460584e-08
+        ]
+      },
+      "D_shift_frobenius": 6.465530459847552e-05,
+      "predicted_matching_D_shift": {
+        "real": [
+          1.8560823222579658e-08,
+          3.83767327483891e-06,
+          6.454130691508713e-05
+        ],
+        "imag": [
+          -1.5686768198251283e-15,
+          -2.4866220831093304e-14,
+          -1.6515631828173698e-11
+        ]
+      },
+      "D_matching_identity_abs_residual": 3.3610267347110303e-18,
+      "F_shift_frobenius": 3.34687835893707e-09,
+      "native_higgs_without_effective_SM_GeV": 139.561802,
+      "final_matching_tree_higgs_GeV": 125.56033149119735
+    },
+    {
+      "scalar_id": "s00010",
+      "ordering": "IO",
+      "card": "s00010_IO_f01.in",
+      "requested_tree_higgs_GeV": 125.25,
+      "first_native_tree_higgs_GeV": 125.00452710778272,
+      "last_recorded_tree_higgs_GeV": 125.56033149215237,
+      "native_higgs_pole_GeV": 139.561208,
+      "kernel_only_target_residual": 0.002863598425487787,
+      "fully_matched_target_residual": 11.510707897075594,
+      "D_proposal_diagonal": {
+        "real": [
+          -1.7318171397571646e-07,
+          3.561717184098627e-05,
+          3.21668153218506e-06
+        ],
+        "imag": [
+          -5.6921862175811575e-08,
+          1.1730388700832378e-05,
+          6.598413166495624e-07
+        ]
+      },
+      "D_native_diagonal": {
+        "real": [
+          -1.5462273805544098e-07,
+          3.9454449044750885e-05,
+          6.774976631344401e-05
+        ],
+        "imag": [
+          -5.692185829778464e-08,
+          1.1730389147509833e-05,
+          6.598249826410806e-07
+        ]
+      },
+      "D_shift_frobenius": 6.464707319348745e-05,
+      "predicted_matching_D_shift": {
+        "real": [
+          1.8558973592295937e-08,
+          3.837276700268075e-06,
+          6.453308444241661e-05
+        ],
+        "imag": [
+          -1.5684816876065147e-15,
+          -1.9091722671346095e-14,
+          -1.6439757720047364e-11
+        ]
+      },
+      "D_matching_identity_abs_residual": 2.005774020474005e-18,
+      "F_shift_frobenius": 6.25401785362973e-11,
+      "final_matching_tree_higgs_GeV": 125.56033149215234
+    },
+    {
+      "scalar_id": "s00010",
+      "ordering": "NO",
+      "card": "s00010_NO_f02.in",
+      "requested_tree_higgs_GeV": 125.25,
+      "first_native_tree_higgs_GeV": 125.00452710778272,
+      "last_recorded_tree_higgs_GeV": 125.56033149031065,
+      "native_higgs_pole_GeV": 139.561211,
+      "kernel_only_target_residual": 0.00286368438402328,
+      "fully_matched_target_residual": 4.697032884408306,
+      "D_proposal_diagonal": {
+        "real": [
+          -0.00019181480984635843,
+          0.00026678294171418257,
+          6.620680562710666e-06
+        ],
+        "imag": [
+          -0.00018152706054189082,
+          0.00011759097230278782,
+          -1.7311185197590137e-06
+        ]
+      },
+      "D_native_diagonal": {
+        "real": [
+          -0.0001917962514667964,
+          0.0002706201897241232,
+          7.115337472280635e-05
+        ],
+        "imag": [
+          -0.00018152705998240588,
+          0.00011759097265291066,
+          -1.7311347960198462e-06
+        ]
+      },
+      "D_shift_frobenius": 6.464668152781796e-05,
+      "predicted_matching_D_shift": {
+        "real": [
+          1.8558875492269447e-08,
+          3.837249075161137e-06,
+          6.453269501379331e-05
+        ],
+        "imag": [
+          -2.1450548396434584e-14,
+          -4.5228958605498636e-14,
+          -1.6748211762266485e-11
+        ]
+      },
+      "D_matching_identity_abs_residual": 2.4936650281441118e-18,
+      "F_shift_frobenius": 6.873052906354221e-12,
+      "final_matching_tree_higgs_GeV": 125.56033149031065
+    },
+    {
+      "scalar_id": "s00010",
+      "ordering": "IO",
+      "card": "s00010_IO_f03.in",
+      "requested_tree_higgs_GeV": 125.25,
+      "first_native_tree_higgs_GeV": 125.00452710778272,
+      "last_recorded_tree_higgs_GeV": 125.56033132921658,
+      "native_higgs_pole_GeV": 139.561217,
+      "kernel_only_target_residual": 0.002863397507097879,
+      "fully_matched_target_residual": 0.158260628552685,
+      "D_proposal_diagonal": {
+        "real": [
+          0.00040564939808879777,
+          0.0036146058261952723,
+          9.304428644554381e-05
+        ],
+        "imag": [
+          0.0006353369358596278,
+          -0.002663221811118777,
+          3.259265163890046e-05
+        ]
+      },
+      "D_native_diagonal": {
+        "real": [
+          0.0004056675687213369,
+          0.0036184437203779355,
+          0.0001575784853167475
+        ],
+        "imag": [
+          0.0006353371997616148,
+          -0.002663221831591963,
+          3.259259259295345e-05
+        ]
+      },
+      "D_shift_frobenius": 6.464822188012111e-05,
+      "predicted_matching_D_shift": {
+        "real": [
+          1.856390995137629e-08,
+          3.837805632725003e-06,
+          6.453430368195904e-05
+        ],
+        "imag": [
+          4.497467631418095e-12,
+          2.072666480267732e-11,
+          -1.2610528226222677e-11
+        ]
+      },
+      "D_matching_identity_abs_residual": 1.9109104739793867e-18,
+      "F_shift_frobenius": 2.5764858217644318e-11,
+      "final_matching_tree_higgs_GeV": 125.56033132921658
+    },
+    {
+      "scalar_id": "s00017",
+      "ordering": "NO",
+      "card": "s00017_NO_f00.in",
+      "requested_tree_higgs_GeV": 125.25,
+      "first_native_tree_higgs_GeV": 125.00499111623733,
+      "last_recorded_tree_higgs_GeV": 125.70987681162335,
+      "native_higgs_pole_GeV": 153.755294,
+      "kernel_only_target_residual": 0.0038271631960127154,
+      "fully_matched_target_residual": 4.5200612958093505,
+      "D_proposal_diagonal": {
+        "real": [
+          2.894217254569752e-08,
+          -7.383889704306767e-06,
+          2.3535457042742747e-05
+        ],
+        "imag": [
+          -2.206589652723579e-08,
+          4.13036084474505e-06,
+          7.267385677771007e-06
+        ]
+      },
+      "D_native_diagonal": {
+        "real": [
+          7.91854286701197e-08,
+          3.004587710999033e-06,
+          0.00019824134971180226
+        ],
+        "imag": [
+          -2.2065911437382627e-08,
+          4.13035870656193e-06,
+          7.267355618761058e-06
+        ]
+      },
+      "D_shift_frobenius": 0.00017501449060477556,
+      "predicted_matching_D_shift": {
+        "real": [
+          5.024325910064678e-08,
+          1.0388475453705442e-05,
+          0.0001747058914853177
+        ],
+        "imag": [
+          -2.8633304797572287e-15,
+          -6.70524094513443e-14,
+          -2.8510295382427252e-11
+        ]
+      },
+      "D_matching_identity_abs_residual": 4.960224946905792e-18,
+      "F_shift_frobenius": 1.7267637663255473e-11,
+      "native_higgs_without_effective_SM_GeV": 153.759019,
+      "final_matching_tree_higgs_GeV": 125.70987681162335
+    },
+    {
+      "scalar_id": "s00017",
+      "ordering": "IO",
+      "card": "s00017_IO_f01.in",
+      "requested_tree_higgs_GeV": 125.25,
+      "first_native_tree_higgs_GeV": 125.00499111623733,
+      "last_recorded_tree_higgs_GeV": 125.7098766351513,
+      "native_higgs_pole_GeV": 153.755415,
+      "kernel_only_target_residual": 0.003825949100532893,
+      "fully_matched_target_residual": 0.1202716605006963,
+      "D_proposal_diagonal": {
+        "real": [
+          4.1560486995794984e-05,
+          -0.008590553554975736,
+          -4.7657545132936074e-05
+        ],
+        "imag": [
+          6.601222503568616e-06,
+          -0.0013807713014846756,
+          0.0002665090554850163
+        ]
+      },
+      "D_native_diagonal": {
+        "real": [
+          4.1610689633270564e-05,
+          -0.008580159909301227,
+          0.0001270756541487911
+        ],
+        "imag": [
+          6.60115522004136e-06,
+          -0.00138077159844081,
+          0.0002665082090701783
+        ]
+      },
+      "D_shift_frobenius": 0.00017504205809918677,
+      "predicted_matching_D_shift": {
+        "real": [
+          5.024767663107874e-08,
+          1.039564194723984e-05,
+          0.00017473430553607155
+        ],
+        "imag": [
+          9.93905838944856e-13,
+          -8.268501225865726e-11,
+          2.3702729457968774e-11
+        ]
+      },
+      "D_matching_identity_abs_residual": 3.645319096499035e-18,
+      "F_shift_frobenius": 2.1483785718260714e-11,
+      "final_matching_tree_higgs_GeV": 125.7098766351513
+    },
+    {
+      "scalar_id": "s00017",
+      "ordering": "NO",
+      "card": "s00017_NO_f02.in",
+      "requested_tree_higgs_GeV": 125.25,
+      "first_native_tree_higgs_GeV": 125.00499111623733,
+      "last_recorded_tree_higgs_GeV": 125.70987681197252,
+      "native_higgs_pole_GeV": 153.755295,
+      "kernel_only_target_residual": 0.003827169565321022,
+      "fully_matched_target_residual": 5.779188667759112,
+      "D_proposal_diagonal": {
+        "real": [
+          1.9832437035859185e-05,
+          1.1065570199624464e-05,
+          5.0782510424545325e-06
+        ],
+        "imag": [
+          -1.046470704308823e-05,
+          4.551263760440632e-06,
+          -1.3972831760351084e-05
+        ]
+      },
+      "D_native_diagonal": {
+        "real": [
+          1.9882680382998385e-05,
+          2.1454036506497483e-05,
+          0.00017978417632799433
+        ],
+        "imag": [
+          -1.0464706888623703e-05,
+          4.551260871364391e-06,
+          -1.397286721319949e-05
+        ]
+      },
+      "D_shift_frobenius": 0.00017501452250431794,
+      "predicted_matching_D_shift": {
+        "real": [
+          5.0243223495130446e-08,
+          1.0388468403855236e-05,
+          0.00017470592703392414
+        ],
+        "imag": [
+          1.2206437311807053e-14,
+          1.9788864260811848e-14,
+          -3.334341462636303e-11
+        ]
+      },
+      "D_matching_identity_abs_residual": 1.2576745316004162e-17,
+      "F_shift_frobenius": 1.0994439881475367e-11,
+      "final_matching_tree_higgs_GeV": 125.70987681197252
+    },
+    {
+      "scalar_id": "s00017",
+      "ordering": "IO",
+      "card": "s00017_IO_f03.in",
+      "requested_tree_higgs_GeV": 125.25,
+      "first_native_tree_higgs_GeV": 125.00499111623733,
+      "last_recorded_tree_higgs_GeV": 125.70987681085074,
+      "native_higgs_pole_GeV": 153.755295,
+      "kernel_only_target_residual": 0.003827173901426062,
+      "fully_matched_target_residual": 3.6795532779587132,
+      "D_proposal_diagonal": {
+        "real": [
+          2.4079842460690216e-05,
+          3.731401150048462e-05,
+          2.2763977347936952e-06
+        ],
+        "imag": [
+          -6.229980455612118e-06,
+          0.0006244670929072101,
+          -9.667311215619479e-06
+        ]
+      },
+      "D_native_diagonal": {
+        "real": [
+          2.4130085582976667e-05,
+          4.770249791383847e-05,
+          0.00017698227455013673
+        ],
+        "imag": [
+          -6.229980455134234e-06,
+          0.0006244670946806483,
+          -9.667343142930853e-06
+        ]
+      },
+      "D_shift_frobenius": 0.00017501447531299903,
+      "predicted_matching_D_shift": {
+        "real": [
+          5.024323448695188e-08,
+          1.038848055800876e-05,
+          0.00017470587291962579
+        ],
+        "imag": [
+          -1.2552314005776823e-14,
+          4.937647336878406e-13,
+          -3.236697949955223e-11
+        ]
+      },
+      "D_matching_identity_abs_residual": 9.134403681475832e-18,
+      "F_shift_frobenius": 1.0559172705201288e-11,
+      "final_matching_tree_higgs_GeV": 125.70987681085072
+    },
+    {
+      "scalar_id": "s00020",
+      "ordering": "NO",
+      "card": "s00020_NO_f00.in",
+      "requested_tree_higgs_GeV": 125.25,
+      "first_native_tree_higgs_GeV": 125.01047878073531,
+      "last_recorded_tree_higgs_GeV": 125.68889437675195,
+      "native_higgs_pole_GeV": 136.195028,
+      "kernel_only_target_residual": 0.003756801293312207,
+      "fully_matched_target_residual": 1.5000112329236428,
+      "D_proposal_diagonal": {
+        "real": [
+          -1.6992452135411416e-07,
+          3.677099389277792e-05,
+          -2.7510989792033517e-05
+        ],
+        "imag": [
+          4.1294504994718204e-07,
+          -8.583176220775981e-05,
+          7.531198113916672e-06
+        ]
+      },
+      "D_native_diagonal": {
+        "real": [
+          -1.5390665295688646e-07,
+          4.0082896301236444e-05,
+          2.8186281396083583e-05
+        ],
+        "imag": [
+          4.129450454360494e-07,
+          -8.583175993250193e-05,
+          7.5311889045491e-06
+        ]
+      },
+      "D_shift_frobenius": 5.579565370210449e-05,
+      "predicted_matching_D_shift": {
+        "real": [
+          1.601783431157097e-08,
+          3.3119012309039277e-06,
+          5.569727018806299e-05
+        ],
+        "imag": [
+          -9.348365970331088e-16,
+          1.938095560321125e-14,
+          -1.0811239162152694e-11
+        ]
+      },
+      "D_matching_identity_abs_residual": 7.724994458493519e-19,
+      "F_shift_frobenius": 9.94853107873205e-12,
+      "native_higgs_without_effective_SM_GeV": 136.194759,
+      "final_matching_tree_higgs_GeV": 125.68889437675195
+    },
+    {
+      "scalar_id": "s00020",
+      "ordering": "IO",
+      "card": "s00020_IO_f01.in",
+      "requested_tree_higgs_GeV": 125.25,
+      "first_native_tree_higgs_GeV": 125.01047878073531,
+      "last_recorded_tree_higgs_GeV": 125.68889431106467,
+      "native_higgs_pole_GeV": 136.195063,
+      "kernel_only_target_residual": 0.0037561774583920165,
+      "fully_matched_target_residual": 0.03862391865644758,
+      "D_proposal_diagonal": {
+        "real": [
+          -4.2207215870228754e-05,
+          0.008674352999402168,
+          0.0008871527827162597
+        ],
+        "imag": [
+          -2.5974531602336376e-06,
+          0.0004959473887299263,
+          0.0006915264827578612
+        ]
+      },
+      "D_native_diagonal": {
+        "real": [
+          -4.2191150234230055e-05,
+          0.008677670290213194,
+          0.000942859505838184
+        ],
+        "imag": [
+          -2.5974481790621907e-06,
+          0.0004959481203356829,
+          0.0006915252757401332
+        ]
+      },
+      "D_shift_frobenius": 5.580540996068346e-05,
+      "predicted_matching_D_shift": {
+        "real": [
+          1.6017866270038344e-08,
+          3.313756608530716e-06,
+          5.5705849054461296e-05
+        ],
+        "imag": [
+          -4.4259819248654626e-13,
+          6.135544584191374e-11,
+          -1.0308096384603755e-10
+        ]
+      },
+      "D_matching_identity_abs_residual": 5.117988711240321e-18,
+      "F_shift_frobenius": 9.14292302094508e-12,
+      "final_matching_tree_higgs_GeV": 125.68889431106467
+    },
+    {
+      "scalar_id": "s00020",
+      "ordering": "NO",
+      "card": "s00020_NO_f02.in",
+      "requested_tree_higgs_GeV": 125.25,
+      "first_native_tree_higgs_GeV": 125.01047878073531,
+      "last_recorded_tree_higgs_GeV": 125.68889437644131,
+      "native_higgs_pole_GeV": 136.195026,
+      "kernel_only_target_residual": 0.00375684219820623,
+      "fully_matched_target_residual": 4.8772110461782425,
+      "D_proposal_diagonal": {
+        "real": [
+          0.00014782062778724624,
+          -0.0003281509221624994,
+          -1.89570684607324e-05
+        ],
+        "imag": [
+          -5.137245566678421e-05,
+          -0.00010599346178959505,
+          1.2952451566706991e-06
+        ]
+      },
+      "D_native_diagonal": {
+        "real": [
+          0.0001478366452181646,
+          -0.00032483901239201493,
+          3.674032371157074e-05
+        ],
+        "imag": [
+          -5.137245564213558e-05,
+          -0.000105993461964145,
+          1.2952352031723545e-06
+        ]
+      },
+      "D_shift_frobenius": 5.5795774909722954e-05,
+      "predicted_matching_D_shift": {
+        "real": [
+          1.6017848105345365e-08,
+          3.3119083565258434e-06,
+          5.569739140211837e-05
+        ],
+        "imag": [
+          3.02722665763027e-15,
+          6.809353447120651e-15,
+          -1.0014591887869045e-11
+        ]
+      },
+      "D_matching_identity_abs_residual": 4.140297046243333e-18,
+      "F_shift_frobenius": 1.4795894279937227e-11,
+      "final_matching_tree_higgs_GeV": 125.68889437644131
+    },
+    {
+      "scalar_id": "s00020",
+      "ordering": "IO",
+      "card": "s00020_IO_f03.in",
+      "requested_tree_higgs_GeV": 125.25,
+      "first_native_tree_higgs_GeV": 125.01047878073531,
+      "last_recorded_tree_higgs_GeV": 125.68889437493876,
+      "native_higgs_pole_GeV": 136.195035,
+      "kernel_only_target_residual": 0.0037574850506839094,
+      "fully_matched_target_residual": 24.192980183114884,
+      "D_proposal_diagonal": {
+        "real": [
+          0.0005510091018429685,
+          -5.996440021732756e-05,
+          -3.1895988310397314e-06
+        ],
+        "imag": [
+          -0.00010872208997392484,
+          4.7230670419849e-05,
+          6.851857110206467e-06
+        ]
+      },
+      "D_native_diagonal": {
+        "real": [
+          0.000551025137248763,
+          -5.665241690967097e-05,
+          5.2514659344676255e-05
+        ],
+        "imag": [
+          -0.00010872199409139719,
+          4.7230622353501735e-05,
+          6.851847845853396e-06
+        ]
+      },
+      "D_shift_frobenius": 5.580263320734117e-05,
+      "predicted_matching_D_shift": {
+        "real": [
+          1.6019707242610234e-08,
+          3.311954659389063e-06,
+          5.5704258720433546e-05
+        ],
+        "imag": [
+          6.656650513211543e-14,
+          -3.240798888014584e-14,
+          -1.0726287446901165e-11
+        ]
+      },
+      "D_matching_identity_abs_residual": 2.425902451395858e-18,
+      "F_shift_frobenius": 2.320761533503339e-09,
+      "final_matching_tree_higgs_GeV": 125.68889437493876
+    }
+  ],
+  "benchmarks": [
+    {
+      "scalar_id": "s00017",
+      "ordering": "NO",
+      "status": "PASS_NECESSARY_SCREENS_ONLY",
+      "production_control": "PASS",
+      "production_max_mass_difference_GeV": 0.0,
+      "selected_family": {
+        "ordering": "NO",
+        "mlight_eV": 0.02854870118087339,
+        "alpha21_rad": -2.713264523140893,
+        "alpha31_rad": -0.25691331322803634,
+        "root": 0,
+        "chart": [
+          0,
+          1,
+          2
+        ],
+        "t": [
+          -0.49485216407238286,
+          0.9777821092571639
+        ],
+        "f_scale": 0.0007457264919245151,
+        "f_phase_rad": 2.9481442740105024,
+        "homogeneous_scale": 6.622666117098111e-05,
+        "homogeneous_coefficients": {
+          "real": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "imag": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ]
+        },
+        "analytical_closure": 1.6339641036838724e-15,
+        "max_abs_yukawa": 0.009814504879925157,
+        "yukawa_abs_lt_1_diagnostic": true,
+        "yukawa_abs_lt_sqrt4pi_diagnostic": true,
+        "status": "NATIVE_REVALIDATION_REQUIRED",
+        "card": "s00017_NO_f00.in",
+        "card_sha256": "4ebead9591b46aa88d9aca9c9d61e736c656f304ba9f214c7f5af723044c2a5f"
+      },
+      "observables": {
+        "Higgs_mass_GeV": 125.25,
+        "h125_mass_screen": "PASS",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 427.06095800000014,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_PASS",
+          "ordering": "NO",
+          "parameters": {
+            "s12": 0.30880000000000873,
+            "s13": 0.022480000000000968,
+            "s23": 0.47000000000001424,
+            "dm21": 7.536999999983775e-05,
+            "dm3l": 0.0025109999999996984,
+            "delta_deg": 211.99999999998258
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02064,
+              0.02418
+            ],
+            "s23": [
+              0.435,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.823e-05
+            ],
+            "dm3l": [
+              0.00245,
+              0.002576
+            ],
+            "delta_deg": [
+              125.0,
+              365.0
+            ]
+          },
+          "checks": {
+            "s12": true,
+            "s13": true,
+            "s23": true,
+            "dm21": true,
+            "dm3l": true,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.028548701180873846,
+            0.02983954321223208,
+            0.057671729115005094
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 5.752370783130283e-14,
+        "matched_calculator_relative_residual": 2.015987297067596e-14,
+        "charged_lepton_matrix_relative_residual": 2.0207999502757227e-15,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.009773463939885372,
+        "running_v_GeV": 247.7450190343774
+      },
+      "potential": {
+        "Lambda1": 0.9913961366090698,
+        "Lambda2": 0.07131547405679571,
+        "Lambda3": 0.5427544843746859,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 436029.1700811482,
+        "M222": 17782.90436269175
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "partial_pipeline_verdict": "UNKNOWN_PENDING_GATES",
+      "directory": "s00017_NO_benchmark",
+      "artifacts_sha256": {
+        "input.in": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+        "spectrum.slha": "97c51c5cdfb615efdade57a9eab784f2fea39645ceb59236f1e3f314499416d9",
+        "native.json": "353390126689c4caabf481d03db43c625168419f9e39579b52a7aefc03b704e3",
+        "partial_gates.json": "84178f28c9e8f99b3004c86960f11161150cc1dfbbe63085c94c8087bca80a04"
+      },
+      "globally_allowed": null,
+      "production_spectrum_identical": true
+    },
+    {
+      "scalar_id": "s00017",
+      "ordering": "IO",
+      "status": "PASS_NECESSARY_SCREENS_ONLY",
+      "production_control": "PASS",
+      "production_max_mass_difference_GeV": 0.0,
+      "selected_family": {
+        "ordering": "IO",
+        "mlight_eV": 0.02294031289176576,
+        "alpha21_rad": 0.8111914610119548,
+        "alpha31_rad": 0.17802016811239563,
+        "root": 0,
+        "chart": [
+          1,
+          2,
+          0
+        ],
+        "t": [
+          0.3733107029042002,
+          0.9113728489406767
+        ],
+        "f_scale": 1.4634240197972558e-05,
+        "f_phase_rad": -2.6657789056398085,
+        "homogeneous_scale": 0.000142732512872955,
+        "homogeneous_coefficients": {
+          "real": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "imag": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ]
+        },
+        "analytical_closure": 2.682939143278936e-15,
+        "max_abs_yukawa": 0.012298036392601417,
+        "yukawa_abs_lt_1_diagnostic": true,
+        "yukawa_abs_lt_sqrt4pi_diagnostic": true,
+        "status": "NATIVE_REVALIDATION_REQUIRED",
+        "card": "s00017_IO_f01.in",
+        "card_sha256": "ad56da51f6a9d7a5823c3df0c6aa2ce6aee3d0c554664032d98e7fd656501f8c"
+      },
+      "observables": {
+        "Higgs_mass_GeV": 125.250135,
+        "h125_mass_screen": "PASS",
+        "cascade_status": "PASS",
+        "cascade_margin_GeV": 427.06045800000004,
+        "oscillation_screen": {
+          "status": "NATIVE_3SIGMA_SCREEN_PASS",
+          "ordering": "IO",
+          "parameters": {
+            "s12": 0.3088000000089331,
+            "s13": 0.02261999999972831,
+            "s23": 0.5499999999994051,
+            "dm21": 7.536999998732389e-05,
+            "dm3l": -0.0024829999999938473,
+            "delta_deg": 273.99999999925797
+          },
+          "three_sigma_ranges": {
+            "s12": [
+              0.2893,
+              0.3295
+            ],
+            "s13": [
+              0.02093,
+              0.02441
+            ],
+            "s23": [
+              0.439,
+              0.584
+            ],
+            "dm21": [
+              7.236e-05,
+              7.822e-05
+            ],
+            "dm3l": [
+              -0.002547,
+              -0.002421
+            ],
+            "delta_deg": [
+              203.0,
+              335.0
+            ]
+          },
+          "checks": {
+            "s12": true,
+            "s13": true,
+            "s23": true,
+            "dm21": true,
+            "dm3l": true,
+            "delta_deg": true
+          },
+          "masses_eV": [
+            0.05416537598485634,
+            0.054856703834337106,
+            0.02294031289181401
+          ],
+          "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+          "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+        },
+        "target_matrix_relative_residual": 2.0976696426959965e-12,
+        "matched_calculator_relative_residual": 4.978618253054152e-15,
+        "charged_lepton_matrix_relative_residual": 4.356756105318893e-16,
+        "scalar_propagation": "PASS",
+        "max_abs_running_yukawa": 0.011976383349423206,
+        "running_v_GeV": 247.74501867776803
+      },
+      "potential": {
+        "Lambda1": 0.9913961366090698,
+        "Lambda2": 0.07131547405679571,
+        "Lambda3": 0.5427544843746859,
+        "Lambda4": 1.313607290470687,
+        "Lambda5": -0.9242430772423869,
+        "LambdaC": 0.18029868498871982,
+        "K1": 0.0874750535214805,
+        "K2": 0.5648002187234421,
+        "K12": -0.028930108119468036,
+        "Mu4": 814.638153103011,
+        "MCS2": 1338909.6115773146,
+        "M12Sq": 98976.16533692155,
+        "M112": 436029.1700811482,
+        "M222": 17782.90436269175
+      },
+      "theory": {
+        "doublet_BFB_necessary": "PASS",
+        "zee_quartic_BFB_sufficient": "PASS",
+        "quartic_lt_4pi_convention": "PASS",
+        "max_abs_quartic": 1.313607290470687,
+        "full_tree_unitarity": "UNKNOWN",
+        "global_vacuum": "UNKNOWN",
+        "EWPO": "UNKNOWN",
+        "Higgs_rates": "UNKNOWN",
+        "flavor": "UNKNOWN"
+      },
+      "partial_pipeline_verdict": "UNKNOWN_PENDING_GATES",
+      "directory": "s00017_IO_benchmark",
+      "artifacts_sha256": {
+        "input.in": "5b7b88d1f7b95f46d7efa66260833a861c39631f2b9dd58fe9c2c7ee05f7dd7c",
+        "spectrum.slha": "7299b98d208f148705bc06aa89232faa60a6e059db5d22cde2d015d457eab496",
+        "native.json": "dcf5bebc6b69b29a8e8fbd1f167cd16364f648234e27fde789e3cf91a407eac7",
+        "partial_gates.json": "5ae61932f7d0a1d7845a7f3f35a59c8c50c1464c00712c55c29c053ef0655e61"
+      },
+      "globally_allowed": null,
+      "production_spectrum_identical": true
+    }
+  ],
+  "outstanding_gates": {
+    "full_Zee_LFV": "UNKNOWN",
+    "B_flavor": "UNKNOWN",
+    "Higgs_rates": "UNKNOWN",
+    "Higgs_direct_searches": "UNKNOWN",
+    "full_tree_unitarity": "UNKNOWN",
+    "global_vacuum": "UNKNOWN",
+    "EWPO": "UNKNOWN",
+    "cosmology": "UNKNOWN"
+  },
+  "globally_allowed": null,
+  "statistics": {
+    "baseline": {
+      "TARGET_FAIL": 16
+    },
+    "higgs_control": {
+      "NATIVE_COMPLETE": 4
+    },
+    "higgs_calibration": {
+      "TARGET_FAIL": 3
+    },
+    "neutrino_refit": {
+      "TARGET_FAIL": 2,
+      "TARGET_PASS": 2
+    },
+    "production_control": {
+      "NATIVE_COMPLETE": 2
+    },
+    "neutrino_start": {
+      "TARGET_FAIL": 1
+    }
+  },
+  "selected_scalar_id": "s00017",
+  "calibration": {
+    "tree_mass_GeV": 92.62300611394797,
+    "potential": {
+      "Lambda1": 0.9913961366090698,
+      "Lambda2": 0.07131547405679571,
+      "Lambda3": 0.5427544843746859,
+      "Lambda4": 1.313607290470687,
+      "Lambda5": -0.9242430772423869,
+      "LambdaC": 0.18029868498871982,
+      "K1": 0.0874750535214805,
+      "K2": 0.5648002187234421,
+      "K12": -0.028930108119468036,
+      "Mu4": 814.638153103011,
+      "MCS2": 1338909.6115773146,
+      "M12Sq": 98976.16533692155,
+      "M112": 436029.1700811482,
+      "M222": 17782.90436269175
+    },
+    "unchanged_coordinates": {
+      "v": 246.70928224668677,
+      "beta": 1.3608438051798386,
+      "alpha": 1.3824164545034472,
+      "gamma": 0.15585437987075226,
+      "mh2": 695.5283330613252,
+      "ma": 736.0842665845572,
+      "mH1": 671.8526897062623,
+      "mH2": 1173.9489292109333
+    },
+    "calibrated_Higgs_mass_GeV": 125.25,
+    "method": "Bracketed root in tree mh1 squared, with all other scalar coordinates fixed"
+  },
+  "raw_output_directory": "/tmp/zee-native-benchmark-release",
+  "evidence_note": "Observed SPheno outputs, not synthetic. Intermediate cards/logs/snapshots remain in raw_output_directory; every attempt and artifact hash is retained here. Final cards, spectra and matched snapshots are committed.",
+  "python_packages": {
+    "python": "3.10.12",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3"
+  },
+  "original_installation_unchanged": "PASS",
+  "original_reference_card_unchanged": "PASS"
+}

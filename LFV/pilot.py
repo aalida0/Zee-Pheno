@@ -28,7 +28,7 @@ def as_json(z):
 
 
 def neutral_alpha(spectrum):
-    """Read native ZH with rows (cos alpha,sin alpha),(-sin alpha,cos alpha)."""
+    """Read alpha, allowing the arbitrary sign of the second real eigenstate."""
     rows, active = {}, False
     for line in spectrum.splitlines():
         header = re.match(r"\s*BLOCK\s+(\w+)\b", line, re.I)
@@ -51,7 +51,9 @@ def neutral_alpha(spectrum):
     if set(rows) != {(1,1),(1,2),(2,1),(2,2)}:
         raise ValueError("Native spectrum requires complete 2x2 SCALARMIX")
     c, s = rows[1,1], rows[1,2]
-    if max(abs(c*c+s*s-1), abs(rows[2,1]+s), abs(rows[2,2]-c))>1e-5:
+    second_row = min(max(abs(rows[2,1]+s),abs(rows[2,2]-c)),
+                     max(abs(rows[2,1]-s),abs(rows[2,2]+c)))
+    if max(abs(c*c+s*s-1),second_row)>1e-5:
         raise ValueError("SCALARMIX does not match expected CP-even rotation")
     return math.atan2(s, c)
 

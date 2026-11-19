@@ -34,6 +34,9 @@ class DipoleTests(unittest.TestCase):
                                atan2(.688062268,.725651649),places=12)
         with self.assertRaises(ValueError):
             neutral_alpha(block.replace("-6.88062268E-01","6.88062268E-01"))
+        reflected=block.replace("2 1 -6.88062268E-01","2 1 6.88062268E-01").replace(
+            "2 2 7.25651649E-01","2 2 -7.25651649E-01")
+        self.assertEqual(neutral_alpha(block),neutral_alpha(reflected))
 
     def test_external_pole_override_recovers_old_equal_mass_scheme(self):
         ml=np.array([.0005,.104,1.75])

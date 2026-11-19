@@ -13,6 +13,31 @@ All 16 corrected pilot cards produce spectra, but all fail the existing
 native h125 and oscillation screens. Regenerate old cards into a fresh directory;
 their analytical scalar preselection did not test their actual native inputs.
 
+Two **fitted s00017 NO/IO benchmarks** now pass the native Higgs mass and
+oscillation screens; see [native benchmark calibration](NATIVE_BENCHMARK.md).
+These use an explicitly calibrated scalar coordinate and their own matched
+running Yukawa refits. They are not members of an untouched random proposal
+sample and are not globally allowed points. The original 16 failures remain
+in the archived statistics. Establish these controls before expanding the scan.
+
+```bash
+WORK=/home/amine/zee-lfv64-serial-20261112-094549
+python3 -m Scan.calibrate_native_benchmark \
+  --spheno "$WORK/SPheno-4.0.5" \
+  --pilot "$WORK/scalar_neutrino_pilot_01" \
+  --output-dir /tmp/zee-native-benchmark-reproduce
+python3 -m unittest Scan.test_calibrate_native_benchmark -v
+```
+
+This bounded experiment selects the smallest original maximum quartic,
+calibrates only its tree mh coordinate to the native 125.25 GeV pole mass,
+then repeatedly applies the existing complex inverse with newly measured
+native masses, rotations and matching. All other scalar coordinates and all
+SPheno flags stay fixed. Every attempt, including failed necessary screens,
+is retained in `ledger.json`. The final cards are independently rerun with
+the original executable. Final cards, spectra and spectrum-associated native
+snapshots are [committed](reference/native_benchmark/ledger.json).
+
 ## 1. Generate scalar and neutrino candidates
 
 The recommended generator is **[physical_proposals.py](physical_proposals.py)**.

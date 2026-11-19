@@ -1,0 +1,980 @@
+{
+  "scope": "All native executions performed during this continuation, including development repeats; directories without run.log are exports, not executions. Repeated runs are not independent scan points.",
+  "directories": {
+    "/tmp/zee-native-fit-experiment": {
+      "executions": 10,
+      "native_spectrum_failures": 0,
+      "h125_failures": 2,
+      "oscillation_failures_evaluated": 0,
+      "oscillation_not_evaluated": 5
+    },
+    "/tmp/zee-higgs-effective-controls": {
+      "executions": 4,
+      "native_spectrum_failures": 0,
+      "h125_failures": 4,
+      "oscillation_failures_evaluated": 0,
+      "oscillation_not_evaluated": 4
+    },
+    "/tmp/zee-native-benchmark-v1": {
+      "executions": 30,
+      "native_spectrum_failures": 0,
+      "h125_failures": 21,
+      "oscillation_failures_evaluated": 20,
+      "oscillation_not_evaluated": 6
+    },
+    "/tmp/zee-native-benchmark-final": {
+      "executions": 30,
+      "native_spectrum_failures": 0,
+      "h125_failures": 21,
+      "oscillation_failures_evaluated": 20,
+      "oscillation_not_evaluated": 6
+    },
+    "/tmp/zee-native-benchmark-release": {
+      "executions": 30,
+      "native_spectrum_failures": 0,
+      "h125_failures": 21,
+      "oscillation_failures_evaluated": 20,
+      "oscillation_not_evaluated": 6
+    }
+  },
+  "executions": [
+    {
+      "directory": "/tmp/zee-native-fit-experiment/IO_start",
+      "input_sha256": "79bb8a7cf7e6efc817ae20fd0c4d1408f314a0a43d9b236ff967d11a7618d465",
+      "log_sha256": "96a1c2c2b7a23415a61c1765adf41778db856480c68e83d64576342898b2bdd6",
+      "spectrum_sha256": "8ddb95447438d931162540380c4dd4b4e695569bb483005a9627cc677dc48ea0",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-fit-experiment/cal_00",
+      "input_sha256": "bcd14115dc972e1329c28199166b63c66a9ed5df7b2c8211d1108b59ea313543",
+      "log_sha256": "8ef925a6a9d9b803cbc3de5b81b0e5a5c111652437c0cc90b91b8aab942eb043",
+      "spectrum_sha256": "0869a682cdaa778a095ee9640c12e91ba6ab5914ee28170ace2240c58f92e20a",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-fit-experiment/cal_01",
+      "input_sha256": "2bc75a32e18c6b094d7960a2e46e0345aabdf27a719d895681b3af03fb4448bb",
+      "log_sha256": "33e730e0a5459b3a27db9921ee14ba36adb651221a0ffd3d68608aa32618238f",
+      "spectrum_sha256": "286d038f2f656fc1910a6595b610002c87cdb595baa96f12aa3973d2e58e89af",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-fit-experiment/cal_02",
+      "input_sha256": "a7f1fd1dc820c7a94a0159eaa3e7a701f39ef009dba602fcb750812c7959c209",
+      "log_sha256": "d4c2254ac9bdb5321238d365c85db822d1525bc9e135085a05ce05b1fff19486",
+      "spectrum_sha256": "dd941866b60c1311dd348824b2eecff491305008f64472a9e9073880c2973329",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-fit-experiment/cal_03",
+      "input_sha256": "5b4656279561398aa7ffbc62d2af8a2aa0f215694fdfd0b5f97de64035a756c7",
+      "log_sha256": "da13cfb48d2161247fe2e8b2d745ac1bac22dfb56805806e97240a82140814f4",
+      "spectrum_sha256": "c6bb8825746acc5f564bb0712a7c0f2419c5abf83246a838cfc4588fb11e59ed",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-fit-experiment/refit_IO_00",
+      "input_sha256": "2fe1e83ee12355c455dd429af5eca072e917068a40bfc744970e3a8c0cdf7f60",
+      "log_sha256": "a15571556c68036ba60db399a0430fb203361e3fdfecb7123c99a35ee030afd0",
+      "spectrum_sha256": "3280c746ffddb184b6679f5d738eef906dd62bd70e6e8377f28b3c0e8e8d8d9d",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-native-fit-experiment/refit_IO_01",
+      "input_sha256": "5b7b88d1f7b95f46d7efa66260833a861c39631f2b9dd58fe9c2c7ee05f7dd7c",
+      "log_sha256": "1b23b21b9f799a3cccffe0045ef8f5b31fe9229aa9de1b34dbbbc8dc3344070b",
+      "spectrum_sha256": "afd2548f8273194141b5cc21e6a5fa25d16dd5197f497059dff2db76cd49399e",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-native-fit-experiment/refit_NO_00",
+      "input_sha256": "c9686b8c393e7430fbd4c12199cd7b5e27c9ea2e698778ee9d71bba82ab1c3e9",
+      "log_sha256": "9bff56a3e999964f809cb8c4e848e01f0e7370656d45499ae54307f1f95a98e5",
+      "spectrum_sha256": "4cc55bd68fae9cd42442f680f4def0bac95a2f0f74609ed7301e095af01f189c",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-native-fit-experiment/refit_NO_01",
+      "input_sha256": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+      "log_sha256": "9bff56a3e999964f809cb8c4e848e01f0e7370656d45499ae54307f1f95a98e5",
+      "spectrum_sha256": "d8bf594bd89061ef95c56c5e9b63f24482558f203e9cc5da8db5a863ec726afb",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-native-fit-experiment/refit_NO_02",
+      "input_sha256": "84fc186cf212cb5c877c8189e441c1b230a02b9b3e01115051a80ee207321bd4",
+      "log_sha256": "9bff56a3e999964f809cb8c4e848e01f0e7370656d45499ae54307f1f95a98e5",
+      "spectrum_sha256": "3390c0f06faaeb3dd7a4129b5019b7587025a23cbe1793938071b28ff0b85f6c",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-higgs-effective-controls/s00001",
+      "input_sha256": "eff54db6e082a325c79f26769935c1139913da8c85410c08ed5c85928f5ca0d8",
+      "log_sha256": "a8937c19463cf8a24af75e05455e31c72017e9501db8307ac09919faec9018c3",
+      "spectrum_sha256": "014d137f118eac0d2bb2f1f835a0931b074d627d0067ea091f271bf29096ee1d",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-higgs-effective-controls/s00010",
+      "input_sha256": "876bede692b4de3a5b5b52284076f0eb9dde1bf18757d0a33307390b9fc5b34f",
+      "log_sha256": "a55c9a144d093e68d1ee4910768bfa0e2206e0ea0dca73b0bd8d4413a38a43f3",
+      "spectrum_sha256": "2cdc1eb9d9846ccde88db8f7cc74feba40625cd625690072d3da7e6c518bf38b",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-higgs-effective-controls/s00017",
+      "input_sha256": "eec6f9cb53032d7906e68df682bdc69d7efdaccddbd5b8b1b095c0a9d860d76b",
+      "log_sha256": "62b5b0a3944d12c5c1a28a18e716959f44d32930fbe87a26b03ce5d319a409e4",
+      "spectrum_sha256": "fd1ed70cf862104f6e2be7e16580afeac2bae1baa48f62b7c5d133579f85df27",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-higgs-effective-controls/s00020",
+      "input_sha256": "5943218b9753c1c4ab31fbe967b45b7404368e5507ca1bfbd3938aa2a2db7e69",
+      "log_sha256": "e7d45477891c0327d5d070e43da5dbb3d00c07bab57021605138a2b2b43e0bbc",
+      "spectrum_sha256": "7b084be08e679790fc55ba66c1395639e829795123d3be87ea5d7d26054acdda",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/IO_production",
+      "input_sha256": "5b7b88d1f7b95f46d7efa66260833a861c39631f2b9dd58fe9c2c7ee05f7dd7c",
+      "log_sha256": "1b23b21b9f799a3cccffe0045ef8f5b31fe9229aa9de1b34dbbbc8dc3344070b",
+      "spectrum_sha256": "a42951717ed5604119a78ae297bcaf8894e5095fc35fe266257de8ef38410616",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/IO_start",
+      "input_sha256": "79bb8a7cf7e6efc817ae20fd0c4d1408f314a0a43d9b236ff967d11a7618d465",
+      "log_sha256": "4ab43dc7bc52ab96fb706d322a36d78a327108f306717301270c2920c9d14af1",
+      "spectrum_sha256": "bd46b99e25c2e3f8c68c89893fe9a99d1ceb0b2b244162f92e059519219ae364",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/NO_production",
+      "input_sha256": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+      "log_sha256": "9bff56a3e999964f809cb8c4e848e01f0e7370656d45499ae54307f1f95a98e5",
+      "spectrum_sha256": "55a8291495014cfb68ff84170728e3b92857b20aa667cceb37893fe126c210af",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/higgs_01",
+      "input_sha256": "bcd14115dc972e1329c28199166b63c66a9ed5df7b2c8211d1108b59ea313543",
+      "log_sha256": "8ef925a6a9d9b803cbc3de5b81b0e5a5c111652437c0cc90b91b8aab942eb043",
+      "spectrum_sha256": "aa653eae3932de66350b983c7be0037d4bc635dc60d43cca8ddb9a1c939a0292",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/higgs_02",
+      "input_sha256": "a7f1fd1dc820c7a94a0159eaa3e7a701f39ef009dba602fcb750812c7959c209",
+      "log_sha256": "d4c2254ac9bdb5321238d365c85db822d1525bc9e135085a05ce05b1fff19486",
+      "spectrum_sha256": "fbcf0711108b33a359273efd63b0fc7bd41f2c4ce418ebdaad12ac2a4c9f59e6",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/higgs_03",
+      "input_sha256": "5b4656279561398aa7ffbc62d2af8a2aa0f215694fdfd0b5f97de64035a756c7",
+      "log_sha256": "76c8d5c3086a20d367a018774a3fa1a8ca5c7f7fa2733fb2085aaef569766ad8",
+      "spectrum_sha256": "127776a4fce9172d2547d91f032b2392a25e873bbdd9f4ade2290b4504b820df",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00001_IO_f01_baseline",
+      "input_sha256": "5d4cb8a550e963a416b70fa3d5758db2169715b662f8061ef688abb042c92794",
+      "log_sha256": "44698ed5af0af32fb5cd16b0894bd1edd6a1af1380a79c6cb9767bfba84b25da",
+      "spectrum_sha256": "a7f4252c539be5cd0d14c511f4557eb65097a935382b98fca26ae189bdc71491",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00001_IO_f03_baseline",
+      "input_sha256": "785fb1732762b504069dbb729fef0ca8573597ecd4fa5ad753a384e7b7c459e0",
+      "log_sha256": "1240a4471e63fa020586c8e0fc922290f91a0ae7604b8fb48e68c7a0d5ea8879",
+      "spectrum_sha256": "5b3037a24117c75f92e008faef49cc6080d17160a1736988502bb973cdc33e7c",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00001_NO_f00_baseline",
+      "input_sha256": "effb9db4f7f2da178c4be68c22490cd70d993a5f77a92017bbad09e96999c414",
+      "log_sha256": "9dd892bcee3660e4e26fe5386cd2a6f38acda2cec1b7a5cbf8b48296922e6758",
+      "spectrum_sha256": "a3ad6109ef444267c2a49dc1b8c3f85c34eb8e346655914dcaee4bc8d44add96",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00001_NO_f02_baseline",
+      "input_sha256": "f60075a4c67e4bd5dc42784cb666463edf4d4e8aa85bdb0c45b8fe6bc2a6cefb",
+      "log_sha256": "9ef03e3aea84edba9340bc7bcb02a74cd03f15cc9105ae6a54a28ea984182cd9",
+      "spectrum_sha256": "1eaaac56eba9591ee152f6b503ae37c62860857b853a8cb46bf386b7091c2c22",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00001_full_one_loop",
+      "input_sha256": "c41b9ea840944190b204947d58697a402105185b3ba2dc7f02d4dc62d64d08e1",
+      "log_sha256": "a8937c19463cf8a24af75e05455e31c72017e9501db8307ac09919faec9018c3",
+      "spectrum_sha256": "bed95466b718865387cdde46370e4f7c5e4179aa7e75e458efaf89e520d269c3",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00010_IO_f01_baseline",
+      "input_sha256": "0c6637c293ef7db9965cfb5ec91492e8d5235c5b5a6900e60bfb41168c17eb3f",
+      "log_sha256": "392317c6241281eb6d9788f620e7da3d4bf0ff8eadf866eca45c88ff318aee09",
+      "spectrum_sha256": "989fdbf40d32241840ed96ba2b5b905a4168cbb9358db3bec370f0d593dd97be",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00010_IO_f03_baseline",
+      "input_sha256": "49f9b7865b4741021b6ef359be080fa85010f3718b0a4417826bb46151cd076a",
+      "log_sha256": "684788818f7528cbf3bc26dce44111d7dcc61ee4077b6dbf3e51e21358be2beb",
+      "spectrum_sha256": "b2df5206efa2188a3e881c2734dc3ed7434c08404a721ced0047330ef59cdfa7",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00010_NO_f00_baseline",
+      "input_sha256": "b44f2b467690a38152ceeecbab9cd4ff480048dd550a9930ecdf730b318f56a0",
+      "log_sha256": "e509c94b9b6fe79103befdf359bebb34a4b5b63623571a7ed2082d535a0cbdf5",
+      "spectrum_sha256": "66912eecfb79cc536d548195612013b013e8a7aa37a5badeb0b0e46c6ba96945",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00010_NO_f02_baseline",
+      "input_sha256": "53233fb2ff8f34cafeebbdf82cffa313434a7cc01b3a37467466ef7edc65525f",
+      "log_sha256": "926eca3fd2157dc4a23372e124032b22bb39bce864faab1f10b32837a09f49a6",
+      "spectrum_sha256": "206fb84cd73eedbc0cffbec50b80027d229c499dcd4e8e17b013ee9fc1a3f425",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00010_full_one_loop",
+      "input_sha256": "65f215be29c2d568e5c71234549a227da395be89d46996529098f2e84c9c46f5",
+      "log_sha256": "a55c9a144d093e68d1ee4910768bfa0e2206e0ea0dca73b0bd8d4413a38a43f3",
+      "spectrum_sha256": "6313b763e4cc6cf68050dccd01b36d25886caaad8ea7946eec061825bb0e191d",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00017_IO_f01_baseline",
+      "input_sha256": "32f5bdbe2aa8f3ed9754f4a8b3dabef1af82b9eac8d4a3d2146cfd624210f8f0",
+      "log_sha256": "9139627717ac789784bead34ee74910bbd10792e290be9311383898cce182165",
+      "spectrum_sha256": "b3ee5e62863047d0c416fea1e4cb5b63af53bf1d1e30255c0877f97c6c7d7f2a",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00017_IO_f03_baseline",
+      "input_sha256": "64ad4a32233ea059e3000b338ea1bbbbe8e2f5bdb8fc758bd8b9ca4e87c919a7",
+      "log_sha256": "f8ba74b40e6d70a6bbcfe55196d8c7f1dc6c0803eed889f8f322a078a5c1f611",
+      "spectrum_sha256": "640b93b03bb14b111cacddceb0c3a83a293ea088f4720061f846ac16a3a17845",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00017_IO_refit_00",
+      "input_sha256": "2fe1e83ee12355c455dd429af5eca072e917068a40bfc744970e3a8c0cdf7f60",
+      "log_sha256": "a15571556c68036ba60db399a0430fb203361e3fdfecb7123c99a35ee030afd0",
+      "spectrum_sha256": "32275793d72cc912767aa61798663adb99c5b304b9ea08f05a57a2c0feccf7ef",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00017_IO_refit_01",
+      "input_sha256": "5b7b88d1f7b95f46d7efa66260833a861c39631f2b9dd58fe9c2c7ee05f7dd7c",
+      "log_sha256": "1b23b21b9f799a3cccffe0045ef8f5b31fe9229aa9de1b34dbbbc8dc3344070b",
+      "spectrum_sha256": "a42951717ed5604119a78ae297bcaf8894e5095fc35fe266257de8ef38410616",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00017_NO_f00_baseline",
+      "input_sha256": "2bc75a32e18c6b094d7960a2e46e0345aabdf27a719d895681b3af03fb4448bb",
+      "log_sha256": "33e730e0a5459b3a27db9921ee14ba36adb651221a0ffd3d68608aa32618238f",
+      "spectrum_sha256": "e196979b247f6644b8d1a582f85bf53a1f35229b0acaf0db4da8801da44ff9ed",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00017_NO_f02_baseline",
+      "input_sha256": "c64fcf1ac68352073d4ad1a6e121f1fa4ee50f7b0fc93a8ac4a6cd928ca1a57a",
+      "log_sha256": "8fca43542f3a812699785230bd5da92d0b0b7eab8bc1420495de03f808e02739",
+      "spectrum_sha256": "01b8d6b70c291c6d0052dcbcaf5040a85c961fb74031d84832e4d0ab44b4b0bd",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00017_NO_refit_00",
+      "input_sha256": "c9686b8c393e7430fbd4c12199cd7b5e27c9ea2e698778ee9d71bba82ab1c3e9",
+      "log_sha256": "9bff56a3e999964f809cb8c4e848e01f0e7370656d45499ae54307f1f95a98e5",
+      "spectrum_sha256": "566370304a5341591088101eab5c0ee7f7204c85c35bbccc5dfc82a91b3f9f05",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00017_NO_refit_01",
+      "input_sha256": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+      "log_sha256": "9bff56a3e999964f809cb8c4e848e01f0e7370656d45499ae54307f1f95a98e5",
+      "spectrum_sha256": "55a8291495014cfb68ff84170728e3b92857b20aa667cceb37893fe126c210af",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00017_full_one_loop",
+      "input_sha256": "d33c71394ff8ea289d7a4dd0a508c3124a17787a4a906fb798e3c01610957ac3",
+      "log_sha256": "225c7216e0dbbb134cfbe0ab25c01496796bd4498def2033e557119233481731",
+      "spectrum_sha256": "d54e9f57e538104f1fb11e0504fd321f7cd7c8c1927284943ddf392edcaed3c4",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00020_IO_f01_baseline",
+      "input_sha256": "7b72b642ee9eff1906bcb4a14c27f56ea1720ea466d19b0b8759a6b252e60f20",
+      "log_sha256": "bca0d7ffe0f1e3d67b7776fa2d3e10db17a6591e91b07dde7c602fa52964a388",
+      "spectrum_sha256": "2d8af1c9c99768c5ab4ef2b2cb63c581240c7e9adb3c25e444a61d15c6823c5c",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00020_IO_f03_baseline",
+      "input_sha256": "d80adce554ed0210728fb6ad86a631ce2a89461312ed9dbb60aa1f7ac6bdacbd",
+      "log_sha256": "9a3396fb9538ba1bab29e1cfd46cf7df53d42485998cccff7b23ae84902b1dd8",
+      "spectrum_sha256": "51d79bb402f67e04dc9bb1bc9d425ef75785075af639d69a7e5281c5edf06614",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00020_NO_f00_baseline",
+      "input_sha256": "92dfb05efea45dc51eed7bb59f69cb808564a60b2bebc045d28f0ad49c2682cb",
+      "log_sha256": "b9e3734d1d1330e382bb89103b1264aa38227cf6f597f0900118fee94181194a",
+      "spectrum_sha256": "caa6a72d3e74b7425abf56fa2781444918dc7c2dbea08ba316dc55656e8f4264",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00020_NO_f02_baseline",
+      "input_sha256": "a444abb4cf5236ceb329c2d78f9f7beba7ba03647cc520732cbc7a73e4390995",
+      "log_sha256": "edc10c2ef271e6e1b4860bb63f02faa255fa6dea5c45133cb0d60059c4300fcd",
+      "spectrum_sha256": "70f12665d25d87b16f4d2cc136b2e68d07d2645c38184fa8aaa8d2db6275ef89",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-v1/s00020_full_one_loop",
+      "input_sha256": "ee7fd296a5180d5daed39294b724c0eb5b0673113d42dfec9733af60afccb9e2",
+      "log_sha256": "e7d45477891c0327d5d070e43da5dbb3d00c07bab57021605138a2b2b43e0bbc",
+      "spectrum_sha256": "3bf1658b52130ff8b77df94bf6dcd80451d56a46cba2fd80ca965121d7681ba9",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/IO_production",
+      "input_sha256": "5b7b88d1f7b95f46d7efa66260833a861c39631f2b9dd58fe9c2c7ee05f7dd7c",
+      "log_sha256": "49e4aaa13c9af5a228af090a30c9b67f2b13935cb53793a24215a3b34202e823",
+      "spectrum_sha256": "636696b7913bfda143bca3476855e0e8f2a614085a95853407b15ab08cc2317a",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/IO_start",
+      "input_sha256": "79bb8a7cf7e6efc817ae20fd0c4d1408f314a0a43d9b236ff967d11a7618d465",
+      "log_sha256": "4ab43dc7bc52ab96fb706d322a36d78a327108f306717301270c2920c9d14af1",
+      "spectrum_sha256": "9a863bfb9e5ac713097219608debaf5b65692da4cac55efbb2f7021d3064e942",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/NO_production",
+      "input_sha256": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+      "log_sha256": "9bff56a3e999964f809cb8c4e848e01f0e7370656d45499ae54307f1f95a98e5",
+      "spectrum_sha256": "010abcc646aab8240241fd238c892c654463813d7870a7e7c48e020bdc1f8abd",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/higgs_01",
+      "input_sha256": "bcd14115dc972e1329c28199166b63c66a9ed5df7b2c8211d1108b59ea313543",
+      "log_sha256": "8ef925a6a9d9b803cbc3de5b81b0e5a5c111652437c0cc90b91b8aab942eb043",
+      "spectrum_sha256": "43d7319bb4696ab4060c41d3f9b4cc8aef3ed31c2160a9bb9dded32f5330890f",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/higgs_02",
+      "input_sha256": "a7f1fd1dc820c7a94a0159eaa3e7a701f39ef009dba602fcb750812c7959c209",
+      "log_sha256": "3bc59b946f1fb2f50ba5a3ffa3371624f94bd76c50846b2be241158c278fd572",
+      "spectrum_sha256": "aa08fab2e1c539df4868c2a16062ca93067d19082f50d8f5e32f1f35cda91a1b",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/higgs_03",
+      "input_sha256": "5b4656279561398aa7ffbc62d2af8a2aa0f215694fdfd0b5f97de64035a756c7",
+      "log_sha256": "76c8d5c3086a20d367a018774a3fa1a8ca5c7f7fa2733fb2085aaef569766ad8",
+      "spectrum_sha256": "ed54ced8e802ab72ea86bad9e3e8e7da7d2d8d6897d3135f370754773e2c1c96",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00001_IO_f01_baseline",
+      "input_sha256": "5d4cb8a550e963a416b70fa3d5758db2169715b662f8061ef688abb042c92794",
+      "log_sha256": "364d6921b715db201ec27b7ef4391616968181b7ba26969c99f51476fe6a7524",
+      "spectrum_sha256": "e7370f06ad3cdea6ceae8f9f0c1f85aaab28b8cf91a94ea578957f33ea6afe15",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00001_IO_f03_baseline",
+      "input_sha256": "785fb1732762b504069dbb729fef0ca8573597ecd4fa5ad753a384e7b7c459e0",
+      "log_sha256": "16612ee11e11e801dda7107cc64fd7ee399c5e7d8312621400a8cf3a87e63297",
+      "spectrum_sha256": "e26f53641b3d580f6bcf10e96340af03357d2014478e54dce6674e1738d8691b",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00001_NO_f00_baseline",
+      "input_sha256": "effb9db4f7f2da178c4be68c22490cd70d993a5f77a92017bbad09e96999c414",
+      "log_sha256": "9dd892bcee3660e4e26fe5386cd2a6f38acda2cec1b7a5cbf8b48296922e6758",
+      "spectrum_sha256": "a56bc99c2fb2ae1d05b6bdce4f0f69af88a95b530069fd63d6dfd005fa9bbd5a",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00001_NO_f02_baseline",
+      "input_sha256": "f60075a4c67e4bd5dc42784cb666463edf4d4e8aa85bdb0c45b8fe6bc2a6cefb",
+      "log_sha256": "9ef03e3aea84edba9340bc7bcb02a74cd03f15cc9105ae6a54a28ea984182cd9",
+      "spectrum_sha256": "ee286992a753eccdcec4c5c3734a6ba131d167d1c789d2534e4597f2f0517baa",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00001_full_one_loop",
+      "input_sha256": "c41b9ea840944190b204947d58697a402105185b3ba2dc7f02d4dc62d64d08e1",
+      "log_sha256": "a8937c19463cf8a24af75e05455e31c72017e9501db8307ac09919faec9018c3",
+      "spectrum_sha256": "125b30168f212e1e60888baa46e444d24146d068b1fc01eca42dfd6d0988e9c8",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00010_IO_f01_baseline",
+      "input_sha256": "0c6637c293ef7db9965cfb5ec91492e8d5235c5b5a6900e60bfb41168c17eb3f",
+      "log_sha256": "392317c6241281eb6d9788f620e7da3d4bf0ff8eadf866eca45c88ff318aee09",
+      "spectrum_sha256": "9d19821314e8cd4754620cc51260dc8c24849e34c8376cd3711e32e288f84b0a",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00010_IO_f03_baseline",
+      "input_sha256": "49f9b7865b4741021b6ef359be080fa85010f3718b0a4417826bb46151cd076a",
+      "log_sha256": "53cc7edc5ccdfb6d7dc7ad8bc0ab6ac7ae4f7f606d366243af3ae52894e8c65a",
+      "spectrum_sha256": "880bf26fbc478d2d4a79fa674afd89056c76e429e8b7433ec6c7811f05655cde",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00010_NO_f00_baseline",
+      "input_sha256": "b44f2b467690a38152ceeecbab9cd4ff480048dd550a9930ecdf730b318f56a0",
+      "log_sha256": "e509c94b9b6fe79103befdf359bebb34a4b5b63623571a7ed2082d535a0cbdf5",
+      "spectrum_sha256": "e38fb68de3c72d203dc537b4cdbc18041b3c7b9184dd7c215461a22b21d6e337",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00010_NO_f02_baseline",
+      "input_sha256": "53233fb2ff8f34cafeebbdf82cffa313434a7cc01b3a37467466ef7edc65525f",
+      "log_sha256": "926eca3fd2157dc4a23372e124032b22bb39bce864faab1f10b32837a09f49a6",
+      "spectrum_sha256": "de1bd40300fb3a9e1ac848d1aa80483d2247488c23214ff124cb131b142d7ec0",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00010_full_one_loop",
+      "input_sha256": "65f215be29c2d568e5c71234549a227da395be89d46996529098f2e84c9c46f5",
+      "log_sha256": "a55c9a144d093e68d1ee4910768bfa0e2206e0ea0dca73b0bd8d4413a38a43f3",
+      "spectrum_sha256": "d830b6a4714203afad798f9d4b8c5ea4cb395eb052c83c1ceee4a329f8fc8583",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00017_IO_f01_baseline",
+      "input_sha256": "32f5bdbe2aa8f3ed9754f4a8b3dabef1af82b9eac8d4a3d2146cfd624210f8f0",
+      "log_sha256": "0c89a7db00af5fb527f793168147b06abd15d8c90e06b909c712f910ab5087ad",
+      "spectrum_sha256": "b00827a003b262f119bffe7ecc2e640e8a6858c8a4fafcad9d9b5bdce14ffb45",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00017_IO_f03_baseline",
+      "input_sha256": "64ad4a32233ea059e3000b338ea1bbbbe8e2f5bdb8fc758bd8b9ca4e87c919a7",
+      "log_sha256": "e6f9998f6225cb1951aba46934422f1d7a78db34f213cf72c807bf3598c53a5f",
+      "spectrum_sha256": "23ea47f3279d271cf518d866d766ad81d32e8719fd414adadb174abc8a0484bc",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00017_IO_refit_00",
+      "input_sha256": "2fe1e83ee12355c455dd429af5eca072e917068a40bfc744970e3a8c0cdf7f60",
+      "log_sha256": "a15571556c68036ba60db399a0430fb203361e3fdfecb7123c99a35ee030afd0",
+      "spectrum_sha256": "3657e661a3fb9e272368c8c19268aaf54dabd9b011f885200faf8a27d7d70a5a",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00017_IO_refit_01",
+      "input_sha256": "5b7b88d1f7b95f46d7efa66260833a861c39631f2b9dd58fe9c2c7ee05f7dd7c",
+      "log_sha256": "49e4aaa13c9af5a228af090a30c9b67f2b13935cb53793a24215a3b34202e823",
+      "spectrum_sha256": "636696b7913bfda143bca3476855e0e8f2a614085a95853407b15ab08cc2317a",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00017_NO_f00_baseline",
+      "input_sha256": "2bc75a32e18c6b094d7960a2e46e0345aabdf27a719d895681b3af03fb4448bb",
+      "log_sha256": "33e730e0a5459b3a27db9921ee14ba36adb651221a0ffd3d68608aa32618238f",
+      "spectrum_sha256": "79f138088be046b88ee35fdf7a3aaeb2bfe43c19b9dfc70adbde9942cc7c4564",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00017_NO_f02_baseline",
+      "input_sha256": "c64fcf1ac68352073d4ad1a6e121f1fa4ee50f7b0fc93a8ac4a6cd928ca1a57a",
+      "log_sha256": "8fca43542f3a812699785230bd5da92d0b0b7eab8bc1420495de03f808e02739",
+      "spectrum_sha256": "cc7d0cb90ce21578421af7fc521cb3ec6a076ab6f742b7f11a9e78cf56a5250b",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00017_NO_refit_00",
+      "input_sha256": "c9686b8c393e7430fbd4c12199cd7b5e27c9ea2e698778ee9d71bba82ab1c3e9",
+      "log_sha256": "9bff56a3e999964f809cb8c4e848e01f0e7370656d45499ae54307f1f95a98e5",
+      "spectrum_sha256": "246ddbc63aa978d6a55b0523e6b5c2a85fa2b00c12482ff731aa81ecb4a788ca",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00017_NO_refit_01",
+      "input_sha256": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+      "log_sha256": "9bff56a3e999964f809cb8c4e848e01f0e7370656d45499ae54307f1f95a98e5",
+      "spectrum_sha256": "010abcc646aab8240241fd238c892c654463813d7870a7e7c48e020bdc1f8abd",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00017_full_one_loop",
+      "input_sha256": "d33c71394ff8ea289d7a4dd0a508c3124a17787a4a906fb798e3c01610957ac3",
+      "log_sha256": "62b5b0a3944d12c5c1a28a18e716959f44d32930fbe87a26b03ce5d319a409e4",
+      "spectrum_sha256": "f4845208c52c65a09c5df27c1edc78f6eac7f579c3ce8924e82b7f67b6fbd7e7",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00020_IO_f01_baseline",
+      "input_sha256": "7b72b642ee9eff1906bcb4a14c27f56ea1720ea466d19b0b8759a6b252e60f20",
+      "log_sha256": "bca0d7ffe0f1e3d67b7776fa2d3e10db17a6591e91b07dde7c602fa52964a388",
+      "spectrum_sha256": "34b01032dbfea48ddeb8f7a9f1db190a5008f4a89c498270a1988b35139e1b9c",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00020_IO_f03_baseline",
+      "input_sha256": "d80adce554ed0210728fb6ad86a631ce2a89461312ed9dbb60aa1f7ac6bdacbd",
+      "log_sha256": "bc177e90a12acfe78750f779a45bc24b6954d97745a217e56f952653cd667a5a",
+      "spectrum_sha256": "93ac293fe69273832f8ae184f74eef24b23c86d0414456c4f9544fbd1344ad90",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00020_NO_f00_baseline",
+      "input_sha256": "92dfb05efea45dc51eed7bb59f69cb808564a60b2bebc045d28f0ad49c2682cb",
+      "log_sha256": "b9e3734d1d1330e382bb89103b1264aa38227cf6f597f0900118fee94181194a",
+      "spectrum_sha256": "95e004553e2d1da7cae19ad8d952824c7298e8c03b57862ba0e0106d9ed85c33",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00020_NO_f02_baseline",
+      "input_sha256": "a444abb4cf5236ceb329c2d78f9f7beba7ba03647cc520732cbc7a73e4390995",
+      "log_sha256": "edc10c2ef271e6e1b4860bb63f02faa255fa6dea5c45133cb0d60059c4300fcd",
+      "spectrum_sha256": "808182cb6738b6145a0cc35c0ac0e38ed094499c09f2552b5d57c8a6419aec9b",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-final/s00020_full_one_loop",
+      "input_sha256": "ee7fd296a5180d5daed39294b724c0eb5b0673113d42dfec9733af60afccb9e2",
+      "log_sha256": "e7d45477891c0327d5d070e43da5dbb3d00c07bab57021605138a2b2b43e0bbc",
+      "spectrum_sha256": "638a84f12f48a3aece4d089e515f2a002e1da33230fd75f1a8eccc1950fd5ab6",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/IO_production",
+      "input_sha256": "5b7b88d1f7b95f46d7efa66260833a861c39631f2b9dd58fe9c2c7ee05f7dd7c",
+      "log_sha256": "49e4aaa13c9af5a228af090a30c9b67f2b13935cb53793a24215a3b34202e823",
+      "spectrum_sha256": "7299b98d208f148705bc06aa89232faa60a6e059db5d22cde2d015d457eab496",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/IO_start",
+      "input_sha256": "79bb8a7cf7e6efc817ae20fd0c4d1408f314a0a43d9b236ff967d11a7618d465",
+      "log_sha256": "4ab43dc7bc52ab96fb706d322a36d78a327108f306717301270c2920c9d14af1",
+      "spectrum_sha256": "783ffa06ab673ccf06de33e10d0f316d210c7360208ae84a69e9d1ed95d04d55",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/NO_production",
+      "input_sha256": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+      "log_sha256": "ec669f1a40d81be6dbfbaabf4a6f8ce5fe3fe7a9d6aebb07ad220a3fb44bee7c",
+      "spectrum_sha256": "97c51c5cdfb615efdade57a9eab784f2fea39645ceb59236f1e3f314499416d9",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/higgs_01",
+      "input_sha256": "bcd14115dc972e1329c28199166b63c66a9ed5df7b2c8211d1108b59ea313543",
+      "log_sha256": "8ef925a6a9d9b803cbc3de5b81b0e5a5c111652437c0cc90b91b8aab942eb043",
+      "spectrum_sha256": "f000cc07eeaeafeac2ce4f43f67e5063d623f0949e275281e29bd0e070bded6a",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/higgs_02",
+      "input_sha256": "a7f1fd1dc820c7a94a0159eaa3e7a701f39ef009dba602fcb750812c7959c209",
+      "log_sha256": "3bc59b946f1fb2f50ba5a3ffa3371624f94bd76c50846b2be241158c278fd572",
+      "spectrum_sha256": "5fe073745fe3c334ddd96ef5324500bc139c0c2a1c707a0880e54deb17afc3cc",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/higgs_03",
+      "input_sha256": "5b4656279561398aa7ffbc62d2af8a2aa0f215694fdfd0b5f97de64035a756c7",
+      "log_sha256": "76c8d5c3086a20d367a018774a3fa1a8ca5c7f7fa2733fb2085aaef569766ad8",
+      "spectrum_sha256": "c38445fd4c7987a45b7aaa27c08d85ed2ac48ebc11cba546e2a17a2f75b54929",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00001_IO_f01_baseline",
+      "input_sha256": "5d4cb8a550e963a416b70fa3d5758db2169715b662f8061ef688abb042c92794",
+      "log_sha256": "44698ed5af0af32fb5cd16b0894bd1edd6a1af1380a79c6cb9767bfba84b25da",
+      "spectrum_sha256": "ad2e241e04ac5aff8efe9d9ad4e15f5356ba76498859f35778f00da736cb6cdd",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00001_IO_f03_baseline",
+      "input_sha256": "785fb1732762b504069dbb729fef0ca8573597ecd4fa5ad753a384e7b7c459e0",
+      "log_sha256": "16612ee11e11e801dda7107cc64fd7ee399c5e7d8312621400a8cf3a87e63297",
+      "spectrum_sha256": "8f63107d019f61fb968fa1c9e62e179435ba7f8385f4d0eef5bd692710148cf4",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00001_NO_f00_baseline",
+      "input_sha256": "effb9db4f7f2da178c4be68c22490cd70d993a5f77a92017bbad09e96999c414",
+      "log_sha256": "9dd892bcee3660e4e26fe5386cd2a6f38acda2cec1b7a5cbf8b48296922e6758",
+      "spectrum_sha256": "c739b872bdb20c7c7dd994a0c8e08217f810ebc17040e7a4aa992fd70b8bbcf6",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00001_NO_f02_baseline",
+      "input_sha256": "f60075a4c67e4bd5dc42784cb666463edf4d4e8aa85bdb0c45b8fe6bc2a6cefb",
+      "log_sha256": "9ef03e3aea84edba9340bc7bcb02a74cd03f15cc9105ae6a54a28ea984182cd9",
+      "spectrum_sha256": "c7fa36c8cd99e02bbbec666d965ad6a5a57296904d0e138a82473f6b9748edde",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00001_full_one_loop",
+      "input_sha256": "c41b9ea840944190b204947d58697a402105185b3ba2dc7f02d4dc62d64d08e1",
+      "log_sha256": "a8937c19463cf8a24af75e05455e31c72017e9501db8307ac09919faec9018c3",
+      "spectrum_sha256": "5001df329966b60080768bd636b4cd0ae97da9da77e692bfd6393b56a6ea90b1",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00010_IO_f01_baseline",
+      "input_sha256": "0c6637c293ef7db9965cfb5ec91492e8d5235c5b5a6900e60bfb41168c17eb3f",
+      "log_sha256": "392317c6241281eb6d9788f620e7da3d4bf0ff8eadf866eca45c88ff318aee09",
+      "spectrum_sha256": "2973b418d3a606257ceb0f142a3a28adecdbb4aebb1eb2fc8d536c329e35eae6",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00010_IO_f03_baseline",
+      "input_sha256": "49f9b7865b4741021b6ef359be080fa85010f3718b0a4417826bb46151cd076a",
+      "log_sha256": "53cc7edc5ccdfb6d7dc7ad8bc0ab6ac7ae4f7f606d366243af3ae52894e8c65a",
+      "spectrum_sha256": "826a3e62f3b66eb1d6b7bed7a9f81df733ace6b89d72c56b11526777de4afb35",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00010_NO_f00_baseline",
+      "input_sha256": "b44f2b467690a38152ceeecbab9cd4ff480048dd550a9930ecdf730b318f56a0",
+      "log_sha256": "e509c94b9b6fe79103befdf359bebb34a4b5b63623571a7ed2082d535a0cbdf5",
+      "spectrum_sha256": "1da9130fc61a18b781764033e59fc05aef2a4ef300c9b8b86d4e3858bd44a0cf",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00010_NO_f02_baseline",
+      "input_sha256": "53233fb2ff8f34cafeebbdf82cffa313434a7cc01b3a37467466ef7edc65525f",
+      "log_sha256": "926eca3fd2157dc4a23372e124032b22bb39bce864faab1f10b32837a09f49a6",
+      "spectrum_sha256": "d6d68d862236e4d4c859a8f4716a4370932dc5fa00a9aee7f45cf01dcb39f760",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00010_full_one_loop",
+      "input_sha256": "65f215be29c2d568e5c71234549a227da395be89d46996529098f2e84c9c46f5",
+      "log_sha256": "98521bfcca9476f64c2acf988706d7bcafcc9ffd6b1b893abaee353e07a2ec7f",
+      "spectrum_sha256": "1d0d2692bb006565b1ec70b7b0c53ab34e126da2777599c806ae64fbdfd42da3",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00017_IO_f01_baseline",
+      "input_sha256": "32f5bdbe2aa8f3ed9754f4a8b3dabef1af82b9eac8d4a3d2146cfd624210f8f0",
+      "log_sha256": "0c89a7db00af5fb527f793168147b06abd15d8c90e06b909c712f910ab5087ad",
+      "spectrum_sha256": "49efe194435da8d85e794f8303e7b657d54c099f4ed17ddb5dbff81582654405",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00017_IO_f03_baseline",
+      "input_sha256": "64ad4a32233ea059e3000b338ea1bbbbe8e2f5bdb8fc758bd8b9ca4e87c919a7",
+      "log_sha256": "f8ba74b40e6d70a6bbcfe55196d8c7f1dc6c0803eed889f8f322a078a5c1f611",
+      "spectrum_sha256": "8f943355641b302de9dcde94dc29789001ee4222094844f2d4047516376cc558",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00017_IO_refit_00",
+      "input_sha256": "2fe1e83ee12355c455dd429af5eca072e917068a40bfc744970e3a8c0cdf7f60",
+      "log_sha256": "a15571556c68036ba60db399a0430fb203361e3fdfecb7123c99a35ee030afd0",
+      "spectrum_sha256": "7e63e7853fd5f48bf407b1258db7c92364d41f1aed564bc27e34c62689496f5a",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00017_IO_refit_01",
+      "input_sha256": "5b7b88d1f7b95f46d7efa66260833a861c39631f2b9dd58fe9c2c7ee05f7dd7c",
+      "log_sha256": "1b23b21b9f799a3cccffe0045ef8f5b31fe9229aa9de1b34dbbbc8dc3344070b",
+      "spectrum_sha256": "7299b98d208f148705bc06aa89232faa60a6e059db5d22cde2d015d457eab496",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00017_NO_f00_baseline",
+      "input_sha256": "2bc75a32e18c6b094d7960a2e46e0345aabdf27a719d895681b3af03fb4448bb",
+      "log_sha256": "33e730e0a5459b3a27db9921ee14ba36adb651221a0ffd3d68608aa32618238f",
+      "spectrum_sha256": "567d335aacdb3413baf3dfdb1b565d7725d1610f0cf1ce0052dbe2e820d4fe79",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00017_NO_f02_baseline",
+      "input_sha256": "c64fcf1ac68352073d4ad1a6e121f1fa4ee50f7b0fc93a8ac4a6cd928ca1a57a",
+      "log_sha256": "8fca43542f3a812699785230bd5da92d0b0b7eab8bc1420495de03f808e02739",
+      "spectrum_sha256": "156ae097caa25934b76cb65c7c4cb65669d6f162e42a6e9e933e10a657c913c8",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00017_NO_refit_00",
+      "input_sha256": "c9686b8c393e7430fbd4c12199cd7b5e27c9ea2e698778ee9d71bba82ab1c3e9",
+      "log_sha256": "9bff56a3e999964f809cb8c4e848e01f0e7370656d45499ae54307f1f95a98e5",
+      "spectrum_sha256": "e920bcf5f8245d90f0fd95070bdfe7b7c641bdb1d6a3c36684160b9e65d582aa",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00017_NO_refit_01",
+      "input_sha256": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+      "log_sha256": "9bff56a3e999964f809cb8c4e848e01f0e7370656d45499ae54307f1f95a98e5",
+      "spectrum_sha256": "97c51c5cdfb615efdade57a9eab784f2fea39645ceb59236f1e3f314499416d9",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "PASS",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_PASS"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00017_full_one_loop",
+      "input_sha256": "d33c71394ff8ea289d7a4dd0a508c3124a17787a4a906fb798e3c01610957ac3",
+      "log_sha256": "62b5b0a3944d12c5c1a28a18e716959f44d32930fbe87a26b03ce5d319a409e4",
+      "spectrum_sha256": "cfc45a5b8d721c457e0a245b2922d6c2c56fc3b12a2cccb08c16848eaedb0b47",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00020_IO_f01_baseline",
+      "input_sha256": "7b72b642ee9eff1906bcb4a14c27f56ea1720ea466d19b0b8759a6b252e60f20",
+      "log_sha256": "d17d5f0e8f4166d4e5310c8d51daf7aa31e6743064ba3151b622f965172c7936",
+      "spectrum_sha256": "08f13afaf77967ee7184d96945b80c19ba4f5a318b16c7ea38acb54a1c4be54e",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00020_IO_f03_baseline",
+      "input_sha256": "d80adce554ed0210728fb6ad86a631ce2a89461312ed9dbb60aa1f7ac6bdacbd",
+      "log_sha256": "9a3396fb9538ba1bab29e1cfd46cf7df53d42485998cccff7b23ae84902b1dd8",
+      "spectrum_sha256": "7bef31f29ffa1efb552230e9dc809db76bf4303dfa211a8ff4c83e0ef48c2aa9",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00020_NO_f00_baseline",
+      "input_sha256": "92dfb05efea45dc51eed7bb59f69cb808564a60b2bebc045d28f0ad49c2682cb",
+      "log_sha256": "b9e3734d1d1330e382bb89103b1264aa38227cf6f597f0900118fee94181194a",
+      "spectrum_sha256": "0942099766316641c863b1ae418c4e005bc6c701af92a399472763a0cb1e0319",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00020_NO_f02_baseline",
+      "input_sha256": "a444abb4cf5236ceb329c2d78f9f7beba7ba03647cc520732cbc7a73e4390995",
+      "log_sha256": "42a5d9ab9072f9788a3de91a281582ec496a42a9e175d5121a1a26d8750c77a0",
+      "spectrum_sha256": "a8d7f305c648d447a17edcf99c1e92ce326e3e17db83d9b6168ed4d0dff64015",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "NATIVE_3SIGMA_SCREEN_FAIL"
+    },
+    {
+      "directory": "/tmp/zee-native-benchmark-release/s00020_full_one_loop",
+      "input_sha256": "ee7fd296a5180d5daed39294b724c0eb5b0673113d42dfec9733af60afccb9e2",
+      "log_sha256": "1499ea638fa1051dd4f24329944e6f53a3997d693802fa2cf95d69dee1d89ab1",
+      "spectrum_sha256": "5bcbc11e0c13468fc0ae62c6931b17e1ded52b7493349eb9b12b4e3dcaeaa9f5",
+      "native_spectrum_status": "PASS",
+      "h125_screen": "FAIL",
+      "oscillation_screen": "UNKNOWN"
+    }
+  ],
+  "total_native_executions": 104,
+  "total_native_spectrum_failures": 0
+}

@@ -1,0 +1,190 @@
+{
+  "point_id": "s00017_NO",
+  "ordering": "NO",
+  "status": "NATIVE_SOURCE_BOUND_PARTIAL_EVALUATION",
+  "verdict": "UNKNOWN_PENDING_GATES",
+  "globally_allowed": null,
+  "failed_necessary_screens": [],
+  "gates": {
+    "card_native_binding": {
+      "status": "PASS",
+      "method": "SHA256_NATIVE_CARD",
+      "card_sha256": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9"
+    },
+    "neutrino_1D_3sigma": {
+      "status": "PASS",
+      "method": "NATIVE_TAKAGI_NUFIT_6_1_SIX_1D_INTERVALS",
+      "values": {
+        "s12": 0.30880000000000873,
+        "s13": 0.022480000000000968,
+        "s23": 0.47000000000001424,
+        "dm21": 7.536999999983775e-05,
+        "dm3l": 0.0025109999999996984,
+        "delta_deg": 211.99999999998258
+      },
+      "checks": {
+        "s12": true,
+        "s13": true,
+        "s23": true,
+        "dm21": true,
+        "dm3l": true,
+        "delta_deg": true
+      }
+    },
+    "h125_mass_screen": {
+      "status": "PASS",
+      "method": "RESTRICTED_H_IS_PDG25_WITHIN_3GEV_125_25",
+      "pole_mass_GeV": 125.25,
+      "full_Higgs_gate": "UNKNOWN"
+    },
+    "cascade_on_shell": {
+      "status": "PASS",
+      "method": "H2_GT_H1_PLUS_MZ",
+      "mass_gap_GeV": 502.4387197744818
+    },
+    "potential_provenance": {
+      "status": "UNKNOWN",
+      "method": "NATIVE_POTENTIAL_MATCH_NOT_VERIFIED",
+      "user_declared_source": null,
+      "potential_SHA256": null
+    },
+    "scalar_tree_inversion": {
+      "status": "UNKNOWN",
+      "method": "NO_SOURCE_DECLARED_POTENTIAL"
+    },
+    "doublet_BFB_necessary": {
+      "status": "UNKNOWN",
+      "method": "NO_SOURCE_DECLARED_POTENTIAL"
+    },
+    "quartic_4pi_diagnostic": {
+      "status": "UNKNOWN",
+      "method": "NO_SOURCE_DECLARED_POTENTIAL"
+    },
+    "full_Zee_LFV": {
+      "status": "UNKNOWN",
+      "method": "NOT_YET_VALIDATED"
+    },
+    "full_three_lepton_LFV": {
+      "status": "UNKNOWN",
+      "method": "NOT_YET_VALIDATED"
+    },
+    "mu_e_conversion": {
+      "status": "UNKNOWN",
+      "method": "NOT_YET_VALIDATED"
+    },
+    "B_flavor": {
+      "status": "UNKNOWN",
+      "method": "NOT_YET_VALIDATED"
+    },
+    "Higgs_rates": {
+      "status": "UNKNOWN",
+      "method": "NOT_YET_VALIDATED"
+    },
+    "EWPO": {
+      "status": "UNKNOWN",
+      "method": "NOT_YET_VALIDATED"
+    },
+    "vacuum_global": {
+      "status": "UNKNOWN",
+      "method": "NOT_YET_VALIDATED"
+    },
+    "scalar_BFB_unitarity": {
+      "status": "UNKNOWN",
+      "method": "NOT_YET_VALIDATED"
+    },
+    "direct_searches": {
+      "status": "UNKNOWN",
+      "method": "NOT_YET_VALIDATED"
+    },
+    "collider_sensitivity": {
+      "status": "UNKNOWN",
+      "method": "NOT_YET_VALIDATED"
+    },
+    "native_FZEEIN_propagation": {
+      "status": "UNKNOWN",
+      "method": "NO_SOURCE_MATCHED_FZEEIN_PROBE"
+    }
+  },
+  "native_neutrino_screen": {
+    "status": "NATIVE_3SIGMA_SCREEN_PASS",
+    "ordering": "NO",
+    "parameters": {
+      "s12": 0.30880000000000873,
+      "s13": 0.022480000000000968,
+      "s23": 0.47000000000001424,
+      "dm21": 7.536999999983775e-05,
+      "dm3l": 0.0025109999999996984,
+      "delta_deg": 211.99999999998258
+    },
+    "three_sigma_ranges": {
+      "s12": [
+        0.2893,
+        0.3295
+      ],
+      "s13": [
+        0.02064,
+        0.02418
+      ],
+      "s23": [
+        0.435,
+        0.584
+      ],
+      "dm21": [
+        7.236e-05,
+        7.823e-05
+      ],
+      "dm3l": [
+        0.00245,
+        0.002576
+      ],
+      "delta_deg": [
+        125.0,
+        365.0
+      ]
+    },
+    "checks": {
+      "s12": true,
+      "s13": true,
+      "s23": true,
+      "dm21": true,
+      "dm3l": true,
+      "delta_deg": true
+    },
+    "masses_eV": [
+      0.028548701180873846,
+      0.02983954321223208,
+      0.057671729115005094
+    ],
+    "source": "NuFIT 6.1 (2025), IC24 with SK, https://www.nu-fit.org/sites/default/files/v61.tbl-parameters.pdf",
+    "caveat": "One-dimensional projected 3-sigma ranges, not a NuFIT joint likelihood or full Zee acceptance"
+  },
+  "native_scalar_parameters": {
+    "v": 247.7450190343774,
+    "beta": 1.3608438051798386,
+    "alpha": -1.7577555543521541,
+    "gamma": -2.985165947165173,
+    "mh1": 125.25,
+    "mh2": 689.790923,
+    "ma": 735.458874,
+    "mH1": 671.6464009527267,
+    "mH2": 1174.0851207272085
+  },
+  "scalar_internal_diagnostics": null,
+  "LFV_status": "SCALAR_ONE_LOOP_ONLY_QUARK_SCHEME_NOT_SUPPLIED",
+  "LFV_retained_BR": {
+    "mu_to_e_gamma": 3.639998540158134e-19,
+    "tau_to_e_gamma": 4.1440900663200763e-19,
+    "tau_to_mu_gamma": 4.8093863023523235e-17
+  },
+  "LFV_retained_amplitudes": {},
+  "LFV_full_gate": "UNKNOWN",
+  "charged_photon_topology": "NOT_EVALUATED_NO_QUARK_SCHEME",
+  "card_sha256": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+  "lfv_point_sha256": null,
+  "source_sha256": {
+    "card": "52b814d3ff1d14fc30d1b1a660ea0a74ac55e9c2fbb227f7ab9f7f0b9d6407b9",
+    "native": "353390126689c4caabf481d03db43c625168419f9e39579b52a7aefc03b704e3",
+    "spectrum": "97c51c5cdfb615efdade57a9eab784f2fea39645ceb59236f1e3f314499416d9"
+  },
+  "source_note": "No FZEEIN input propagation proof, no full Zee LFV or global-constraint certification."
+}

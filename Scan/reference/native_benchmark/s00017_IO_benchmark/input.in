@@ -1,0 +1,125 @@
+Block MODSEL      #  
+ 5 2 # enable complex input blocks
+ 1 1               #  1/0: High/low scale input 
+ 2 1              # Boundary Condition  
+ 6 1               # Generation Mixing 
+Block SMINPUTS    # Standard Model inputs 
+ 2 1.1663787075238911e-05     # G_F,Fermi constant 
+ 3 1.187000E-01    # alpha_s(MZ) SM MSbar 
+ 4 9.1187600000000003e+01     # Z-boson pole mass 
+ 5 4.180000E+00    # m_b(mb) SM MSbar 
+ 6 1.728900E+02    # m_top(pole) 
+ 7 1.7768600000000001e+00     # m_tau(pole) 
+Block MINPAR
+  1 9.91396136609069778e-01 # generated entry
+  2 7.13154740567957107e-02 # generated entry
+  3 5.42754484374685875e-01 # generated entry
+  4 1.31360729047068703e+00 # generated entry
+  5 -9.24243077242386857e-01 # generated entry
+  6 1.80298684988719815e-01 # generated entry
+  7 8.74750535214804947e-02 # generated entry
+  8 5.64800218723442105e-01 # generated entry
+  9 -2.89301081194680357e-02 # generated entry
+  10 4.69279091121267644e+00 # generated entry
+  11 9.89761653369215492e+04 # generated entry
+  12 1.33890961157731456e+06 # generated entry
+  13 8.14638153103010950e+02 # generated entry
+Block SPhenoInput   # SPheno specific input 
+  1 -1              # error level 
+  2  0              # SPA conventions 
+ 11 0.0000000000000000e+00                # calculate branching ratios 
+ 13 1               # 3-Body decays: none (0), fermion (1), scalar (2), both (3) 
+ 14 0               # Run couplings to scale of decaying particle 
+ 12 1.000E-04       # write only branching ratios larger than this value 
+ 15 1.000E-30       # write only decay if width larger than this value 
+ 19 -2              # Matching order (-2:automatic, -1:pole, 0-2: tree, one- & two-loop) 
+ 31 -1              # fixed GUT scale (-1: dynamical GUT scale) 
+ 32 0               # Strict unification 
+ 34 1.000E-04       # Precision of mass calculation 
+ 35 40              # Maximal number of iterations
+ 36 5               # Minimal number of iterations before discarding points
+ 37 1               # Set Yukawa scheme  
+ 38 2               # 1- or 2-Loop RGEs 
+ 50 1               # Majorana phases: use only positive masses (put 0 to use file with CalcHep/Micromegas!) 
+ 51 0               # Write Output in CKM basis 
+ 52 0               # Write spectrum in case of tachyonic states 
+ 55 1               # Calculate loop corrected masses 
+ 57 1               # Calculate low energy constraints 
+ 65 1               # Solution tadpole equation 
+ 66 1               # Two-Scale Matching 
+ 67 1               # effective Higgs mass calculation 
+ 75 0               # Write WHIZARD files 
+ 76 2               # Write HiggsBounds file: 2 for HiggsBounds5, 1 for HiggsBounds4 and below   
+ 77 0               # Output for MicrOmegas (running masses for light quarks; real mixing matrices)   
+ 78 0               # Output for MadGraph (writes also vanishing blocks)   
+ 79 0               # Write WCXF files (exchange format for Wilson coefficients) 
+ 86 0.              # Maximal width to be counted as invisible in Higgs decays; -1: only LSP 
+ 510 0.              # Write tree level values for tadpole solutions 
+ 515 0               # Write parameter values at GUT scale 
+ 520 1.              # Write effective Higgs couplings (HiggsBounds blocks): put 0 to use file with MadGraph! 
+ 521 1.              # Diphoton/Digluon widths including higher order 
+ 525 0.              # Write loop contributions to diphoton decay of Higgs 
+ 530 0.              # Write Blocks for Vevacious 
+Block DECAYOPTIONS   # Options to turn on/off specific decays 
+Block FZEEIN
+  1 1 0.00000000000000000e+00 # generated entry
+  1 2 2.03321401716468882e-06 # generated entry
+  1 3 1.30086745508855753e-05 # generated entry
+  2 1 -2.03321401716468924e-06 # generated entry
+  2 2 0.00000000000000000e+00 # generated entry
+  2 3 1.25301288707230968e-06 # generated entry
+  3 1 -1.30086745508855770e-05 # generated entry
+  3 2 -1.25301288707230947e-06 # generated entry
+  3 3 0.00000000000000000e+00 # generated entry
+Block YEE2IN
+  1 1 1.14339338035785504e-05 # generated entry
+  1 2 2.02929594846223764e-06 # generated entry
+  1 3 7.35237326957534927e-06 # generated entry
+  2 1 -9.25678459697548456e-04 # generated entry
+  2 2 -1.20183140627646819e-03 # generated entry
+  2 3 1.34509265457077387e-03 # generated entry
+  3 1 -2.00163475328966997e-04 # generated entry
+  3 2 -5.84483929042901577e-05 # generated entry
+  3 3 9.75868429495233523e-03 # generated entry
+Block IMFZEEIN
+  1 1 0.00000000000000000e+00 # generated entry
+  1 2 -8.90838058384418405e-06 # generated entry
+  1 3 6.70339222983608307e-06 # generated entry
+  2 1 8.90838058384418405e-06 # generated entry
+  2 2 4.03896783473158044e-28 # generated entry
+  2 3 -1.43581899659689692e-05 # generated entry
+  3 1 -6.70339222983608391e-06 # generated entry
+  3 2 1.43581899659689692e-05 # generated entry
+  3 3 0.00000000000000000e+00 # generated entry
+Block IMYEE2IN
+  1 1 1.36989805302087537e-06 # generated entry
+  1 2 8.65136633086399343e-06 # generated entry
+  1 3 -1.01596479723925515e-05 # generated entry
+  2 1 1.51136589216375582e-03 # generated entry
+  2 2 -2.86536589180022582e-04 # generated entry
+  2 3 2.16883329388561962e-03 # generated entry
+  3 1 1.01807865069105213e-04 # generated entry
+  3 2 -1.02231478111003009e-04 # generated entry
+  3 3 5.53057760088640873e-05 # generated entry
+Block SPHENOINPUT # matrix terminator
+
+Block SPHENOINPUT
+ 11 1 # tree widths comparison
+ 16 0 # tree reference scheme
+ 55 1 # tree spectrum
+Block ZEEPOT
+  1 4.32836261565356632e+05 # scan placeholder
+  2 1.42139537408896631e+04 # scan placeholder
+  3 9.89761653369215492e+04 # scan placeholder
+  4 1.33890961157731456e+06 # scan placeholder
+  5 8.14638153103010950e+02 # scan placeholder
+Block ZEEQUARTIC
+  1 1.08569003739779224e+00 # scan placeholder
+  2 1.89128071329269010e-01 # scan placeholder
+  3 6.48153769755907216e-01 # scan placeholder
+  4 1.31360729047068703e+00 # scan placeholder
+  5 -9.24243077242386857e-01 # scan placeholder
+  6 1.80298684988719815e-01 # scan placeholder
+  7 8.74750535214804947e-02 # scan placeholder
+  8 5.64800218723442105e-01 # scan placeholder
+  9 -2.89301081194680357e-02 # scan placeholder
