@@ -7,19 +7,17 @@ from unittest.mock import patch
 
 from Model.audit_neutrino_native import sha
 from Model.check_native import blocks,mat
-from Scan.physical_proposals import generate, cheap_scalar
+from Scan.physical_proposals import generate, cheap_scalar, scalar_updates
 
 ROOT=Path(__file__).resolve().parents[1]
 
 
 def template():
-    names=[("MINPAR",3),("ZEEPOT",5),("ZEEQUARTIC",9)]
+    names=[("MINPAR",13)]
     out=[]
     for name,n in names:
         out.append(f"Block {name}\n")
         for k in range(1,n+1):
-            if name=="MINPAR" and k!=3:
-                continue
             out.append(f" {k} 0.0 # source\n")
     for name in ("FZEEIN","IMFZEEIN","YEE2IN","IMYEE2IN"):
         out.append(f"BLOCK {name}\n")
@@ -86,9 +84,12 @@ class PhysicalProposalsTests(unittest.TestCase):
                 path=root/"out"/"cards"/point["card"]
                 self.assertEqual(point["card_sha256"],sha(path))
                 data=blocks(path.read_text())
-                self.assertEqual(len(data["ZEEPOT"]),5)
-                self.assertEqual(len(data["ZEEQUARTIC"]),9)
-                self.assertAlmostEqual(data["MINPAR"][(3,)],2.)
+                self.assertNotIn("ZEEPOT",data)
+                self.assertNotIn("ZEEQUARTIC",data)
+                self.assertAlmostEqual(data["MINPAR"][(10,)],2.)
+                lag=report["outputs"][0]["lagrangian"]
+                self.assertAlmostEqual(data["MINPAR"][(3,)],lag["Lambda3"])
+                self.assertAlmostEqual(data["MINPAR"][(11,)],lag["M12Sq"])
                 f=mat(data,"FZEEIN")
                 self.assertAlmostEqual(f[1,2],-f[2,1])
             self.assertGreater(
@@ -100,12 +101,10 @@ class PhysicalProposalsTests(unittest.TestCase):
                 with self.assertRaises(FileExistsError):
                     generate(cfg,card,snap,root/"out")
 
-    def test_attested_neutrino_template_can_lack_scalar_blocks(self):
+    def test_attested_neutrino_template_needs_no_output_scalar_blocks(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td)
-            full=template()
-            bare=(full[:full.index("Block ZEEPOT\n")]
-                  +full[full.index("BLOCK FZEEIN\n"):])
+            bare=template()
             card=root/"original.in"
             card.write_text(bare)
             cfg=config()
@@ -123,22 +122,34 @@ class PhysicalProposalsTests(unittest.TestCase):
             self.assertEqual(report["template_sha256"],sha(card))
             first=report["outputs"][0]["families"][0]
             data=blocks((root/"pilot"/"cards"/first["card"]).read_text())
-            self.assertEqual(set(data["ZEEPOT"]),{(i,) for i in range(1,6)})
-            self.assertEqual(set(data["ZEEQUARTIC"]),{(i,) for i in range(1,10)})
+            self.assertNotIn("ZEEPOT",data)
+            self.assertNotIn("ZEEQUARTIC",data)
+            self.assertEqual(set(data["MINPAR"]),{(i,) for i in range(1,14)})
             self.assertEqual(first["status"],"NATIVE_REVALIDATION_REQUIRED")
 
-    def test_reject_partially_populated_scalar_block(self):
+    def test_reject_missing_native_scalar_input(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td)
             card=root/"partial.in"
-            card.write_text(template().replace(" 5 0.0 # source\n","",1))
+            card.write_text(template().replace(" 10 0.0 # source\n","",1))
             cfg=root/"config.json"
             cfg.write_text(json.dumps(config()))
             with patch("Scan.physical_proposals.REFERENCE_CARD_SHA",sha(card)):
-                with self.assertRaisesRegex(ValueError,"Incomplete scalar input block ZEEPOT"):
+                with self.assertRaisesRegex(ValueError,"MINPAR"):
                     generate(cfg,card,ROOT/"Model/reference/native_neutrino_snapshot.json",
                              root/"no_output")
             self.assertFalse((root/"no_output").exists())
+
+    def test_exact_generated_fortran_minpar_mapping(self):
+        # Read_MINPAR and BoundaryLowScaleInput: no independent M112/M222 inputs.
+        names=("Lambda1","Lambda2","Lambda3","Lambda4","Lambda5",
+               "LambdaC","K1","K2","K12","M12Sq","MCS2","Mu4")
+        lag={name:float(100+i) for i,name in enumerate(names)}
+        lag.update(M112=-999.,M222=-888.)
+        updates=scalar_updates(lag,2.5)
+        self.assertEqual(set(updates),{("MINPAR",(i,)) for i in range(1,14)})
+        expected=[lag[n] for n in names[:9]]+[2.5]+[lag[n] for n in names[9:]]
+        self.assertEqual([updates["MINPAR",(i,)] for i in range(1,14)],expected)
 
     def test_declared_three_arm_pilot_preserves_all_scalar_denominators(self):
         with tempfile.TemporaryDirectory() as td:

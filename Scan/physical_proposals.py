@@ -153,14 +153,11 @@ def scalar_point(arm,rng,v):
 
 
 def scalar_updates(p,tanbeta):
-    from Model.check_native import SCALAR_BLOCKS
-    assert SCALAR_BLOCKS==("ZEEPOT","ZEEQUARTIC")
-    names=("M112","M222","M12Sq","MCS2","Mu4")
-    quart=("Lambda1","Lambda2","Lambda3","Lambda4","Lambda5",
+    # Generated LOW boundaries overwrite ...IN blocks with these MINPAR inputs.
+    names=("Lambda1","Lambda2","Lambda3","Lambda4","Lambda5",
            "LambdaC","K1","K2","K12")
-    return {**{("ZEEPOT",(i,)):p[name] for i,name in enumerate(names,1)},
-            **{("ZEEQUARTIC",(i,)):p[name] for i,name in enumerate(quart,1)},
-            ("MINPAR",(3,)):tanbeta}
+    values=[p[name] for name in names]+[tanbeta,p["M12Sq"],p["MCS2"],p["Mu4"]]
+    return {("MINPAR",(i,)):value for i,value in enumerate(values,1)}
 
 
 def prepare_card(template,scalar,lag,F,Ye2):
@@ -173,22 +170,6 @@ def prepare_card(template,scalar,lag,F,Ye2):
     return fix_card(template,updates)
 
 
-def add_missing_scalar_blocks(text):
-    """Extend an attested neutrino card for *derived* scalar-scan cards only."""
-    data=blocks(text)
-    for name,n in (("ZEEPOT",5),("ZEEQUARTIC",9)):
-        indices={(i,) for i in range(1,n+1)}
-        if name in data:
-            if set(data[name])!=indices:
-                raise ValueError(f"Incomplete scalar input block {name}")
-            continue
-        if not text.endswith("\n"):
-            text+="\n"
-        text+=f"Block {name}\n"
-        text+="".join(f" {i} 0.0 # scan placeholder\n" for i in range(1,n+1))
-    return text
-
-
 def generate(config_path,template_path,snapshot_path,output_dir):
     config=validate(json.loads(config_path.read_text()))
     if sha(template_path)!=REFERENCE_CARD_SHA:
@@ -196,15 +177,13 @@ def generate(config_path,template_path,snapshot_path,output_dir):
     original=template_path.read_text()
     data=blocks(original)
     required={
-        "MINPAR":{(3,)},
+        "MINPAR":{(i,) for i in range(1,14)},
         **{name:{(i,j) for i in range(1,4) for j in range(1,4)}
            for name in ("FZEEIN","IMFZEEIN","YEE2IN","IMYEE2IN")},
     }
     if any(not indices<=set(data.get(name,{}))
            for name,indices in required.items()):
-        raise ValueError("Attested template lacks required tan-beta/F/Ye2 entries")
-    # The original hash remains pinned; only generated cards gain scalar rows.
-    original=add_missing_scalar_blocks(original)
+        raise ValueError("Attested template lacks required scalar MINPAR[1..13]/F/Ye2 entries")
     snapjson=json.loads(snapshot_path.read_text())
     snap=(snapjson["snapshots"][snapjson["spectrum_snapshot_index"]]
           if "snapshots" in snapjson else snapjson["snapshot"])

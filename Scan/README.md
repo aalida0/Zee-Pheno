@@ -5,6 +5,14 @@
 This repository currently **generates candidates and validates available
 evidence**. It does not establish a globally viable parameter region.
 
+The [native scalar investigation](SCALAR_SPECTRUM_ROOT_CAUSE.md) resolved the
+systematic spectrum failure: the former generator overwrote **lambda3** with
+tanbeta and wrote the remaining scalar values to ignored output blocks.
+The corrected generator writes the model-specific `MINPAR[1..13]` interface.
+All 16 corrected pilot cards produce spectra, but all fail the existing
+native h125 and oscillation screens. Regenerate old cards into a fresh directory;
+their analytical scalar preselection did not test their actual native inputs.
+
 ## 1. Generate scalar and neutrino candidates
 
 The recommended generator is **[physical_proposals.py](physical_proposals.py)**.
@@ -26,15 +34,13 @@ At every independent scalar attempt:
    mass or Higgs-rate PASS. Reject a closed cascade as a declared
    proposal-prior screen, but keep that attempt in the denominator.
 2. Reconstruct the restricted scalar potential using
-   [Model/model.py](../Model/model.py): `ZEEPOT` codes 1–5 map
-   `M112,M222,M12Sq,MCS2,Mu4`; `ZEEQUARTIC` codes 1–9
-   map `Lambda1..5,LambdaC,K1,K2,K12`, matching the
-   [original SARAH model](https://github.com/aalida0/zee/blob/research/zee-full-constraints/models/SARAH/ZeeTypeII/parameters.m).
-   The SHA-attested neutrino reference may omit the two scalar
-   blocks; the generator adds complete placeholder rows to the **derived
-   output cards only**, then replaces their values with the sampled
-   potential. Existing partial scalar blocks are rejected. `MINPAR[3]`
-   and all four complex Yukawa input matrices remain mandatory.
+   [Model/model.py](../Model/model.py). Write `MINPAR[1..9]` as
+   `Lambda1..5,LambdaC,K1,K2,K12`, entry 10 as tanbeta, and 11–13 as
+   `M12Sq,MCS2,Mu4`. SPheno solves `M112,M222` from its tadpoles at its
+   actual running vev. All 13 entries and all four complex Yukawa input
+   matrices are mandatory. `ZEEPOT` and `ZEEQUARTIC` are output blocks;
+   even the recognized `...IN` scalar blocks are overwritten by this
+   generated model's explicit low-scale `MINPAR` boundary assignments.
 3. Record necessary doublet BFB and a deliberately conservative
    **sufficient** Zee *quartic* BFB condition, plus `|quartic|<4pi`
    as a conventional analysis prior. These are **not** a proof of
@@ -48,8 +54,8 @@ At every independent scalar attempt:
    the one-loop inverse. Check the complex matrix closure each time.
 5. Rotate `F,D` into the archived charged-lepton reference gauge basis.
    Construct the proposed `Ye2` using the *reference* running charged
-   lepton mass-direction Yukawa. Update the full scalar SLHA blocks,
-   `MINPAR[3]`, `FZEEIN/IMFZEEIN`, `YEE2IN/IMYEE2IN`
+   lepton mass-direction Yukawa. Update all scalar `MINPAR[1..13]`
+   inputs, `FZEEIN/IMFZEEIN`, `YEE2IN/IMYEE2IN`
    through the existing validated card editor.
 
 The starting `MFe/ZEL/ZER/Ye/Ye2` correspond to **one archived
@@ -75,16 +81,15 @@ python3 -m Scan.physical_proposals \
   --config Scan/physical_pilot_config.json \
   --template "$TEMPLATE" \
   --snapshot Model/reference/native_neutrino_snapshot.json \
-  --output-dir "$WORK/scalar_neutrino_pilot_01"
+  --output-dir /tmp/zee-scalar-corrected-pilot
 ~~~
 
 The template SHA-256 is pinned to the original loop-enabled source
-card; that file is never rewritten. Missing `ZEEPOT`/`ZEEQUARTIC`
-blocks are synthesized **after** source attestation for derived cards.
-Missing Yukawa or tan-beta inputs, partial scalar blocks, and any altered
-source hash are refused. All output paths are exclusive: choose a new
-output directory for a rerun. Newly added scalar blocks still require
-native SPheno input-propagation validation before physics claims.
+card; that file is never rewritten. No scalar output blocks are synthesized.
+Missing Yukawa or scalar `MINPAR` entries and any altered source hash are
+refused. All output paths are exclusive: choose a new output directory for a
+rerun. The current fixed pilot has native propagation evidence in the report;
+every new point still requires its own native matching and physics gates.
 
 Read `proposals.json` **before launching SPheno**:
 `n_scalar_attempted` is the denominator for scalar sampling;
@@ -102,12 +107,12 @@ candidate card through the *original, SHA-pinned executable* first:
 ~~~bash
 WORK="$HOME/zee-lfv64-serial-20261112-094549"
 python3 -m Scan.spectrum_preflight \
-  --proposals "$WORK/scalar_neutrino_pilot_01/proposals.json" \
+  --proposals /tmp/zee-scalar-corrected-pilot/proposals.json \
   --exe "$WORK/SPheno-4.0.5/bin/SPhenoZeeTypeII" \
-  --output-dir "$WORK/scalar_spectrum_preflight_01"
+  --output-dir /tmp/zee-scalar-corrected-preflight
 ~~~
 
-Review `scalar_spectrum_preflight_01/preflight.json`. Each case has a
+Review `/tmp/zee-scalar-corrected-preflight/preflight.json`. Each case has a
 retained `run.log` and optional `spectrum.spc`. `SPECTRUM_PRESENT_UNVALIDATED`
 means only that SPheno produced a scalar MASS block with positive neutral
 and charged scalar entries. No neutrino, LFV, Higgs or vacuum PASS is implied.
@@ -122,7 +127,7 @@ runner on your machine, once the executable's source/binary attestation
 and `FZEEIN` perturbation test have been verified:
 
 ~~~bash
-CARD=$(find "$WORK/scalar_neutrino_pilot_01/cards" -name '*.in' -print -quit)
+CARD=$(find /tmp/zee-scalar-corrected-pilot/cards -name '*.in' -print -quit)
 test -n "$CARD"
 python3 -m Model.diagnose_neutrino_native \
   --spheno "$WORK/SPheno-4.0.5" \
@@ -198,6 +203,7 @@ charged-cascade benchmarks.
 
 ~~~bash
 python3 -m unittest Scan.test_physical_proposals Scan.test_native_pipeline -v
+python3 -m unittest Scan.test_diagnose_scalar_spectrum -v
 python3 -m unittest Neutrino.test_fit -v
 ~~~
 
