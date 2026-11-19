@@ -19,6 +19,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 NATIVE_ROOT = REPO_ROOT / "Scan/reference/native_benchmark"
 MATCHER_SHA = "0c2dfb32a7138b02fa4a52c163c63f942f313bb5d697545e138ef1915c200c4e"
 HEPFIT_COMMIT = "322bd73a2dadd94ce94a6d71cb79d616e569120a"
+SPHENO_SHA = "2c1a73c797b2f21b3266f3558dae3196a6b2514a5fd3d2e05fc83b0ce918af52"
 MATCHING_KEYS = ("C7_LO", "C8_LO", "C4_NLO_raw", "C7_NLO_raw", "C8_NLO_raw")
 
 
@@ -60,6 +61,10 @@ def native_scalar(order, root=NATIVE_ROOT):
     card, spectrum_path, native = (directory / x for x in
                                    ("input.in", "spectrum.slha", "native.json"))
     record = json.loads(native.read_text())
+    if (record.get("production_binary_sha256") != SPHENO_SHA or
+            record.get("spectrum_status") != "PASS" or
+            record.get("neutrino_status") != "PASS"):
+        raise ValueError("Unattested or invalid native production result")
     if sha(card) != record["input_sha256"]:
         raise ValueError("Card/native source mismatch")
     if "snapshots" not in record or "spectrum_snapshot_index" not in record:
