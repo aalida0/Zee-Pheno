@@ -1,0 +1,30 @@
+{
+  "ldd": "\tlinux-vdso.so.1 (0x00007fffedaff000)\n\tlibgsl.so.25 => /home/amine/zee-hepfit-build/compat/usr/lib/x86_64-linux-gnu/libgsl.so.25 (0x000072efc9200000)\n\tlibgslcblas.so.0 => /lib/x86_64-linux-gnu/libgslcblas.so.0 (0x000072efca0b6000)\n\tlibCore.so => /home/amine/root/lib/libCore.so (0x000072efc8c00000)\n\tlibHist.so => /home/amine/root/lib/libHist.so (0x000072efc8600000)\n\tlibMathCore.so => /home/amine/root/lib/libMathCore.so (0x000072efc8200000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x000072efc9fcd000)\n\tlibMathMore.so => /home/amine/root/lib/libMathMore.so (0x000072efc9559000)\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x000072efc7e00000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x000072efc9fad000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x000072efc7a00000)\n\tlibpcre2-8.so.0 => /lib/x86_64-linux-gnu/libpcre2-8.so.0 (0x000072efc9169000)\n\tlibz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x000072efc953d000)\n\tliblzma.so.5 => /lib/x86_64-linux-gnu/liblzma.so.5 (0x000072efc9512000)\n\tlibxxhash.so.0 => /lib/x86_64-linux-gnu/libxxhash.so.0 (0x000072efc94fd000)\n\tliblz4.so.1 => /lib/x86_64-linux-gnu/liblz4.so.1 (0x000072efc9149000)\n\tlibzstd.so.1 => /lib/x86_64-linux-gnu/libzstd.so.1 (0x000072efc8b31000)\n\t/lib64/ld-linux-x86-64.so.2 (0x000072efca113000)\n\tlibMatrix.so => /home/amine/root/lib/libMatrix.so (0x000072efc8480000)\n\tlibImt.so => /home/amine/root/lib/libImt.so (0x000072efc94e9000)\n\tlibMultiProc.so => /home/amine/root/lib/libMultiProc.so (0x000072efc913b000)\n\tlibNet.so => /home/amine/root/lib/libNet.so (0x000072efc8120000)\n\tlibRIO.so => /home/amine/root/lib/libRIO.so (0x000072efc7600000)\n\tlibThread.so => /home/amine/root/lib/libThread.so (0x000072efc90e7000)\n\tlibtbb.so.2 => /home/amine/zee-hepfit-build/compat/usr/lib/x86_64-linux-gnu/libtbb.so.2 (0x000072efc90a1000)\n\tlibssl.so.3 => /lib/x86_64-linux-gnu/libssl.so.3 (0x000072efc8a8c000)\n\tlibcrypto.so.3 => /lib/x86_64-linux-gnu/libcrypto.so.3 (0x000072efc7000000)\n",
+  "libraries_sha256": {
+    "/home/amine/zee-hepfit-build/compat/usr/lib/x86_64-linux-gnu/libgsl.so.25": "d114aef4de3fdddb0142c9b333a543587e3d9663b823044b887b9defe5344bdc",
+    "/lib/x86_64-linux-gnu/libgslcblas.so.0": "9c331674ed65a911a7c2ac8d3503a95f944ca4bca2900c68e70d51bbe477cc04",
+    "/home/amine/root/lib/libCore.so": "5b6cd49157a98a6d8579733045e86575cdd88421969f7ebd22d32d0115256299",
+    "/home/amine/root/lib/libHist.so": "42dee410a05605de11af4a5cae06db942ae4c9436954e22a7a004fd864d5609d",
+    "/home/amine/root/lib/libMathCore.so": "7205c4c2b48f7613d1cbe096b061d3bfdb96c9028aade1181371b514f2b4ebe2",
+    "/lib/x86_64-linux-gnu/libm.so.6": "045fdb0436a8fb0d651f039e3444a9cbffc011d379c82b979cebf43571053eca",
+    "/home/amine/root/lib/libMathMore.so": "e298bbef7738c53f228bd44f422a104529b4fec1520728f1250f6cef84f5ea04",
+    "/lib/x86_64-linux-gnu/libstdc++.so.6": "ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128",
+    "/lib/x86_64-linux-gnu/libgcc_s.so.1": "fc9d43b2f6c20e53b009238f767c5b949d202389e20de9e202ea684b4ba3729a",
+    "/lib/x86_64-linux-gnu/libc.so.6": "4ebb1967c395ca547dcfeaeeab7a2819724604a331aede44e8a749a7e1a4628e",
+    "/lib/x86_64-linux-gnu/libpcre2-8.so.0": "28626d3b1bfcc7305496b30e621068f67d8707d88d0193cc536983c748c8cbbc",
+    "/lib/x86_64-linux-gnu/libz.so.1": "64c206f0146cc58bbddc4f22054436f4ff278f5a554aa3ce6921ddf7e9133370",
+    "/lib/x86_64-linux-gnu/liblzma.so.5": "3147e2cb512d17a4064d34f61e69591b6473543db2ec63cd797f766cd3b09037",
+    "/lib/x86_64-linux-gnu/libxxhash.so.0": "f2ee17e5e928cd4a30d19657ecc4c30b64660371178d9bdf7d0a4ea1d680b24e",
+    "/lib/x86_64-linux-gnu/liblz4.so.1": "65f47a3dc2cec5f938379b7b625f0621657bf1254551895d22462c6a204cbad8",
+    "/lib/x86_64-linux-gnu/libzstd.so.1": "5df4f4df42d76270bb6981fabc7c1fdccd8ad28a23d84d67f73203fb3f537667",
+    "/home/amine/root/lib/libMatrix.so": "12c316e8715d499af6632506a818fbb785b79186b6171c65a3c9c3949165ad31",
+    "/home/amine/root/lib/libImt.so": "ccd166d9585a832cbc6e8e2f467f979fc173dea605ac765dc28d9cf5ed25109e",
+    "/home/amine/root/lib/libMultiProc.so": "c430d44e95b49c9627468d9b231ff0df93fa92888d034de7d16c1b12bbc1ef18",
+    "/home/amine/root/lib/libNet.so": "0ea9df11851cf3cbb3546b50145c3cc783cb82e95fc115021edd1c750e735b9b",
+    "/home/amine/root/lib/libRIO.so": "7af9ef725d742e550043095984d6f3c940e0c998eb1aae0f16d3844e1e7dd758",
+    "/home/amine/root/lib/libThread.so": "209fb2ac80e4a6b80ea97862f44f50dd070db7aa4a549c49f60a451a3e9061c0",
+    "/home/amine/zee-hepfit-build/compat/usr/lib/x86_64-linux-gnu/libtbb.so.2": "b87fa093b87cea647c2872fd436182aca1ca686ee7938396023b375d30b681e9",
+    "/lib/x86_64-linux-gnu/libssl.so.3": "51fc92556f11ddce62f3f988d3fe973fab8fb4742032e61a713688581c924262",
+    "/lib/x86_64-linux-gnu/libcrypto.so.3": "7cc817ff1841b59516d684f357bc0c3fc2cc52c3fa9b4ffb8ce8bdc215f02915"
+  }
+}
