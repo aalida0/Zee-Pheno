@@ -74,7 +74,7 @@ def native_scalar(order, root=NATIVE_ROOT):
     masses = dict(parse_entries(text, "MASS"))
     minpar = dict(parse_entries(text, "MINPAR"))
     hm = dict(parse_entries(text, "HMIX"))
-    if abs(hm[10] - tanb) > 2e-5 or abs(minpar[10] - tanb) > 2e-5:
+    if abs(hm[10] - beta) > 2e-5 or abs(minpar[10] - tanb) > 2e-5:
         raise ValueError("Native beta mismatches SLHA")
     rot = block_matrix(text, "CHARGEMIX")
     sb, cb = math.sin(beta), math.cos(beta)
