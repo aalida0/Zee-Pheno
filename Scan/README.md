@@ -101,9 +101,9 @@ candidate card through the *original, SHA-pinned executable* first:
 
 ~~~bash
 WORK="$HOME/zee-lfv64-serial-20261112-094549"
-python3 -m Scan.spectrum_preflight \\
-  --proposals "$WORK/scalar_neutrino_pilot_01/proposals.json" \\
-  --exe "$WORK/SPheno-4.0.5/bin/SPhenoZeeTypeII" \\
+python3 -m Scan.spectrum_preflight \
+  --proposals "$WORK/scalar_neutrino_pilot_01/proposals.json" \
+  --exe "$WORK/SPheno-4.0.5/bin/SPhenoZeeTypeII" \
   --output-dir "$WORK/scalar_spectrum_preflight_01"
 ~~~
 
