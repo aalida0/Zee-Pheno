@@ -93,7 +93,29 @@ proposal screens; `n_native_cards_written` counts conditional
 Yukawa families, **not distinct scalar points**. Every card is
 `NATIVE_REVALIDATION_REQUIRED`, and `n_globally_allowed=null`.
 
-## 2. Validate native outputs on the matching source card
+## 2. Preflight the native scalar spectrum before instrumenting
+
+The original SPheno executable may print a fatal `CalculateMhh` error
+and exit with code zero **without producing any spectrum**. Run every
+candidate card through the *original, SHA-pinned executable* first:
+
+~~~bash
+WORK="$HOME/zee-lfv64-serial-20261112-094549"
+python3 -m Scan.spectrum_preflight \\
+  --proposals "$WORK/scalar_neutrino_pilot_01/proposals.json" \\
+  --exe "$WORK/SPheno-4.0.5/bin/SPhenoZeeTypeII" \\
+  --output-dir "$WORK/scalar_spectrum_preflight_01"
+~~~
+
+Review `scalar_spectrum_preflight_01/preflight.json`. Each case has a
+retained `run.log` and optional `spectrum.spc`. `SPECTRUM_PRESENT_UNVALIDATED`
+means only that SPheno produced a scalar MASS block with positive neutral
+and charged scalar entries. No neutrino, LFV, Higgs or vacuum PASS is implied.
+If all four scalar candidates fail the CP-even mass calculation, investigate
+native matching/potential inputs before drawing a new scan.
+
+## 3. Validate native outputs on the matching source card
+
 
 For a *single* generated card, use the existing instrumented SPheno
 runner on your machine, once the executable's source/binary attestation
@@ -113,7 +135,7 @@ generated scalar or neutrino cards. Use one distinct native output per
 card and verify its SHA-256. The instrumented SPheno setup is local;
 GitHub CI runs *synthetic* numerical/software tests only.
 
-## 3. Report separate physics gates
+## 4. Report separate physics gates
 
 [Scan/native_pipeline.py](native_pipeline.py) takes an explicit
 `schema_version=1` manifest listing actual `card`, `native`,
