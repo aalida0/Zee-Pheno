@@ -3,6 +3,7 @@
 CI never claims to run HEPfit. A real run requires the local pinned driver.
 """
 import math
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -44,6 +45,22 @@ class NativeBridgeTests(unittest.TestCase):
                 self.assertLess(p["doublet_weights"][1], .03)
                 self.assertAlmostEqual(p["legacy_flavorkit_BR"], 3.63471789e-4,
                                        places=10)
+
+    def test_native_binary_provenance_falsifier(self):
+        from Flavor.bsgamma import NATIVE_ROOT
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            name="s00017_NO_benchmark"
+            origin=NATIVE_ROOT/name
+            dest=root/name
+            dest.mkdir()
+            for f in ("input.in", "spectrum.slha", "native.json"):
+                (dest/f).write_bytes((origin/f).read_bytes())
+            j=json.loads((dest/"native.json").read_text())
+            j["production_binary_sha256"]="invalid"
+            (dest/"native.json").write_text(json.dumps(j))
+            with self.assertRaisesRegex(ValueError,"Unattested"):
+                native_scalar("NO",root)
 
     def test_coherent_np_matching_and_raw_order(self):
         point = native_scalar("NO")
