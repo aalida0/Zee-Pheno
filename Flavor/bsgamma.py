@@ -229,8 +229,7 @@ def calculate(upstream, driver, hepfit_source, compat_lib, root_lib, output_dir)
     output_dir.mkdir(parents=True, exist_ok=False)
     env = dict(os.environ, HEPFITTABS=str(hepfit_source.resolve()),
                LD_LIBRARY_PATH=f"{compat_lib.resolve()}:{root_lib.resolve()}")
-    sm, sm_execution = run_driver("SM", "sm", sm_input, output_dir, driver, env)
-    runs = []
+    runs, sm_runs = [], {}
     for scalar in scalars:
         params = dict(prototype)
         masses = scalar["masses_GeV"]
@@ -243,6 +242,12 @@ def calculate(upstream, driver, hepfit_source, compat_lib, root_lib, output_dir)
             for i in range(8):
                 zero[f"NP{o}_{i+1}"] = 0.
         name = scalar["ordering"]
+        # Match each HEPfit SM control to the fitted point's Higgs mass.
+        # Other SM/hadronic inputs deliberately retain the validated HEPfit prescription.
+        current_sm_input = dict(sm_input, mHl=masses["h"])
+        sm, sm_execution = run_driver(name + "_SM", "sm", current_sm_input,
+                                      output_dir, driver, env)
+        sm_runs[name] = {"BR_NLO": sm["BR_NLO"], "execution": sm_execution}
         no_np, zero_execution = run_driver(name + "_zero_NP", "bridge", zero,
                                            output_dir, driver, env)
         if abs(no_np["BR_NLO"] - sm["BR_NLO"]) > 2e-12:
@@ -279,9 +284,9 @@ def calculate(upstream, driver, hepfit_source, compat_lib, root_lib, output_dir)
         "status": "EXECUTED_CENTRAL_NLO_ONLY_NO_PHYSICAL_EXCLUSION",
         "prediction_accuracy": "Real, top-only charged-Higgs NLO QCD NP matching; HEPfit NLO rate with native HQE/EM prescription.",
         "limits": "Missing model-specific primed, light quark, electroweak, resolved-photon and correlated uncertainty coverage.",
-        "source": provenance, "sm_execution": sm_execution,
+        "source": provenance, "SM_reference_runs": sm_runs,
         "matching_scale_GeV": 160., "photon_cut_GeV": 1.6,
-        "SM_rate_same_HEPfit_scheme": sm["BR_NLO"],
+        "SM_rates_same_HEPfit_scheme": {k: v["BR_NLO"] for k, v in sm_runs.items()},
         "points": runs, "theory_sigma": None,
         "experimental_exclusion": None, "globally_allowed": None,
     }
@@ -306,7 +311,7 @@ def main():
                        args.root_lib_dir.resolve(), args.output_dir.resolve())
     print(json.dumps({
         "status": result["status"],
-        "SM_rate": result["SM_rate_same_HEPfit_scheme"],
+        "SM_rates": result["SM_rates_same_HEPfit_scheme"],
         "NO_IO_rates": {x["ordering"]: x["BR_NLO_Egamma_gt_1p6GeV"] for x in result["points"]},
         "physical_bsgamma_gate": "UNKNOWN",
         "result": str(args.output_dir / "bsgamma_nlo.json"),
