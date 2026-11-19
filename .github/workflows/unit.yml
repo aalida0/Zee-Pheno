@@ -13,5 +13,5 @@ jobs:
       - run: python -m pip install numpy scipy mpmath
       - run: python -m unittest discover -s Model -p 'test_*.py' -v
       - run: python -m unittest Scan.test_diagnose_scalar_spectrum -v
-      - run: python -m unittest Scan.test_calibrate_native_benchmark -v
+      - run: python -m unittest Scan.test_calibrate_native_benchmark Scan.test_fitted_benchmark_triage -v
       - run: python -m unittest Neutrino.test_fit LFV.test_pilot LFV.test_constraints LFV.test_strict_2hdm_reference LFV.test_gauge_vertices LFV.test_approximation_study LFV.test_nonzero_mixing_study LFV.test_doublet_proxy_study Scan.test_native_pipeline Scan.test_physical_proposals Scan.test_spectrum_preflight -v
