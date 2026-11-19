@@ -14,8 +14,10 @@ arbitrary-card production scanner. It:
 - verifies each spectrum/card/native-snapshot association and reconstructs
   charged **pole** masses, native `tanβ` (`MINPAR[10]`), the input soft mass,
   and squared doublet projections of both charged physical eigenstates from
-  `CHARGEMIX`. The spectrum's `HMIX[10]` is **β in radians**, not tanβ;
-  these are independently cross-checked against the snapshot's `vd,vu`;
+  `CHARGEMIX`. The spectrum's `HMIX[10]` is **βH in radians**, not tanβ;
+  it differs from the running-vev angle `atan2(vu,vd)` by about
+  4.8×10⁻⁵ rad for s00017, so physical doublet weights are computed
+  directly from the two doublet columns of `CHARGEMIX`;
 - locks the existing BMU matching source SHA-256
   `0c2dfb32a7138b02fa4a52c163c63f942f313bb5d697545e138ef1915c200c4e`,
   the previous HEPfit execution receipt, its patched driver source and exact
