@@ -86,6 +86,22 @@ Its fixed `NNLO_SM=3.15` (×10⁻⁴), Lunghi–Matias response and Wilson
 normalization are not the HEPfit NLO calculation. The old output entry
 `FlavorKitQFV[200]` is retained only as a provenance-labeled diagnostic.
 
+## 2026 conservative exploratory B->Xs gamma screening
+
+The implemented source-bound two-method screen and its full scientific
+limitations are documented in [BSGAMMA_SCREEN_METHOD.md](BSGAMMA_SCREEN_METHOD.md).
+It reports **B_SCREEN_PASS / B_SCREEN_FAIL / B_SCREEN_BORDERLINE** for
+prioritization only, with **B_PHYSICAL_UNKNOWN for every point**. To evaluate
+the archived fitted native benchmarks, run:
+
+~~~bash
+python3 -m unittest Flavor.test_bsgamma_screen -v
+python3 -m Flavor.bsgamma_screen --output /tmp/zee-s00017-bsgamma-screen.json
+~~~
+
+This is not a formal 95% CL exclusion and must not be used to discard scan
+points or to declare them allowed.
+
 ## Other flavor constraints
 
 Full meson and B physics likelihoods, NP-dependent theoretical uncertainties,
