@@ -1,0 +1,39 @@
+name: Official HiggsTools Zee pilot
+on:
+  push:
+    branches:
+      - research/spheno-higgstools-pilot
+    paths:
+      - .github/workflows/higgstools-pilot.yml
+      - Higgs/higgstools_pilot.py
+      - Higgs/install_higgstools.sh
+  workflow_dispatch:
+jobs:
+  evaluate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned official HiggsTools v1.3 and HB/HS datasets
+        run: |
+          export CMAKE_BUILD_PARALLEL_LEVEL=2
+          export MAKEFLAGS="-j2"
+          bash Higgs/install_higgstools.sh "$RUNNER_TEMP/zee-higgstools"
+      - name: Run audited native NO/IO HiggsTools
+        run: |
+          "$RUNNER_TEMP/zee-higgstools/venv/bin/python" -m Higgs.higgstools_pilot \
+            --hbdataset "$RUNNER_TEMP/zee-higgstools/hbdataset" \
+            --hsdataset "$RUNNER_TEMP/zee-higgstools/hsdataset" \
+            --order both \
+            --output "$RUNNER_TEMP/zee-higgstools-native-pilot.json"
+          "$RUNNER_TEMP/zee-higgstools/venv/bin/python" -m json.tool "$RUNNER_TEMP/zee-higgstools-native-pilot.json"
+      - name: Upload actual official numerical results
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: s00017-higgstools-actual-numerical-pilot
+          path: ${{ runner.temp }}/zee-higgstools-native-pilot.json
+          if-no-files-found: error
