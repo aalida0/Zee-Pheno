@@ -3,6 +3,20 @@
 **Status: native NO/IO SPheno inputs audited and official HiggsTools v1.3
 executed in CI; full Zee-model Higgs acceptance is still UNKNOWN.**
 
+**Correction to the official pilot:** The HiggsTools v1.3 input API defaults
+`calcggH=True, calcHgamgam=True`, silently regenerating the loop-induced
+couplings. The Zee adapter now explicitly sets both to **False** to retain
+SPheno's physical two-charged-scalar amplitudes. Full corrected results,
+partial widths, dominant experimental measurements and the production
+sensitivity are in [H125_WIDTH_DIAGNOSTIC_RESULT.md](H125_WIDTH_DIAGNOSTIC_RESULT.md).
+The original [HIGGSTOOLS_PILOT_RESULT.md](HIGGSTOOLS_PILOT_RESULT.md)
+is retained as a pre-correction diagnostic, **not** the authoritative h125
+HiggsSignals prediction. The full corrected numerical JSON is in
+[GitHub Actions 44737211306](https://github.com/aalida0/Zee-Pheno/actions/runs/44737211306)
+and source-qualified compact numbers are in
+[reference/s00017_h125_loop_preserved_summary.json](reference/s00017_h125_loop_preserved_summary.json).
+
+
 [Executed numerical pilot report](HIGGSTOOLS_PILOT_RESULT.md) documents the
 actual HiggsBounds selected analyses, matched-mass Standard Model
 HiggsSignals reference and large h125 decay-precision sensitivity.
