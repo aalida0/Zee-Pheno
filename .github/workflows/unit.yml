@@ -12,7 +12,7 @@ jobs:
           python-version: '3.11'
       - run: python -m pip install numpy scipy mpmath
       - run: python -m unittest discover -s Model -p 'test_*.py' -v
-      - run: python -m unittest ZeeHiggs.test_spheno_audit -v
+      - run: python -m unittest ZeeHiggs.test_spheno_audit ZeeHiggs.test_executed_higgstools_result -v
       - run: python -m unittest Scan.test_diagnose_scalar_spectrum -v
       - run: python -m unittest Scan.test_calibrate_native_benchmark Flavor.test_bsgamma Flavor.test_validate_hepfit Flavor.test_bsgamma_screen -v
       - run: python -m unittest Neutrino.test_fit LFV.test_pilot LFV.test_constraints LFV.test_strict_2hdm_reference LFV.test_gauge_vertices LFV.test_approximation_study LFV.test_nonzero_mixing_study LFV.test_doublet_proxy_study Scan.test_native_pipeline Scan.test_physical_proposals Scan.test_spectrum_preflight -v
