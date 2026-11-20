@@ -40,6 +40,10 @@ class BsgammaScreenTests(unittest.TestCase):
                                        .076549,delta=.000002)
                 self.assertAlmostEqual(row["fraction_of_NP_shift_needed_to_enter_band"],
                                        .04051,delta=.00001)
+                self.assertAlmostEqual(
+                    row["hypothetical_independent_NP_1sigma_to_reach_gaussian_edge_in_1e-4"],
+                    .06537535, delta=.00001)
+                self.assertFalse(row["hypothetical_NP_sigma_is_assigned_uncertainty"])
                 interval=row["illustrative_gaussian_95_interval_in_1e-4"]
                 self.assertAlmostEqual(interval[0],3.0274233901287273)
                 self.assertAlmostEqual(interval[1],3.952576609871273)
