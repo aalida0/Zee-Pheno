@@ -48,6 +48,11 @@ def make_inputs(report, hinput):
         key = f"cxn_{ids[pdg]}_ggH_LHC13"
         production_overrides[key] = report["neutral_ggF_LHC13_pb"][str(pdg)]
         data[key] = production_overrides[key]
+    for pdg in NEUTRAL:
+        for mode in ("gg","gamgam"):
+            key=f"effc_{ids[pdg]}_{mode}"
+            if key not in data or not isinstance(data[key],(float,int)) or not math.isfinite(data[key]):
+                raise ValueError("Missing SPheno native loop input "+key)
     return data, ids, removed, production_overrides
 
 
@@ -59,7 +64,8 @@ def predictions_for(data, ids, hinput, *, explicit):
     else:
         option = {pid: (pid != ids[25]) for pid in neutral + charged}
     return hinput.predictionsFromDict(
-        data, neutral, charged, [], useExplicitBr=option)
+        data, neutral, charged, [], useExplicitBr=option,
+        calcggH=False, calcHgamgam=False)
 
 
 def particle_report(predictions, identifier):
@@ -233,6 +239,7 @@ def diagnose(order, signals):
             "warning":("Per-measurement totals can differ from global Signals chi2 "
                        "because the global dataset may include cross-measurement correlations.")
         },
+        "loop_coupling_policy":{"calcggH":False,"calcHgamgam":False},
         "SPheno_raw":sp_native,
         "HiggsTools_explicit":exp_p,
         "HiggsTools_effective":eff_p,
