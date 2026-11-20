@@ -1,7 +1,7 @@
 """Pure-contract tests for official HiggsSignals per-measurement BR diagnosis."""
 import unittest
 from ZeeHiggs.diagnose_h125 import (
-    compare_measurements, particle_report, number
+    compare_measurements, particle_report, number, predictions_for
 )
 
 
@@ -39,6 +39,18 @@ class AuditTests(unittest.TestCase):
         self.assertAlmostEqual(result["partial_widths_GeV"]["bb"],.0015)
         self.assertAlmostEqual(result["branching_ratios"]["WW"],.2)
         self.assertAlmostEqual(result["listed_channel_sum"],.7)
+
+    def test_width_diagnostic_preserves_native_loop_inputs(self):
+        class FakeInput:
+            def predictionsFromDict(self, data, neutral, charged, doubly, *,
+                                    useExplicitBr, calcggH=True, calcHgamgam=True):
+                return {"flags": (calcggH, calcHgamgam),
+                        "preserves_loops": "effc_25_gamgam" in data}
+        r=predictions_for({"effc_25_gamgam":1.039},
+                          {25:"25",35:"35",36:"36",37:"37",9000037:"9000037"},
+                          FakeInput(),explicit=False)
+        self.assertEqual(r["flags"], (False,False))
+        self.assertTrue(r["preserves_loops"])
 
     def test_reject_bad_physical_inputs(self):
         with self.assertRaisesRegex(ValueError,"Nonfinite"):
