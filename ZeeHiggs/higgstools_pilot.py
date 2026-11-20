@@ -94,6 +94,24 @@ def result_limits(hb_result):
     return out
 
 
+
+def sm_higgs_reference(signals, mass):
+    """Official SM-like prediction at the *same mass and dataset*.
+
+    HiggsSignals' absolute chi2 includes numerous measurements; the corresponding
+    SM chi2 is needed before judging the model's excess. This does NOT supply
+    a validated goodness-of-fit/p-value or a model-selection test.
+    """
+    import Higgs.predictions as HP
+    sm = HP.Predictions()
+    h = sm.addParticle(HP.BsmParticle("SM_h", charge="neutral", cp="even"))
+    h.setMass(mass)
+    HP.effectiveCouplingInput(h, HP.smLikeEffCouplings)
+    result = float(signals(sm))
+    if not math.isfinite(result):
+        raise ValueError("Nonfinite SM reference HiggsSignals chi2")
+    return result
+
 def run_one(order, bounds, signals):
     report=audit(order)
     try:
@@ -140,6 +158,7 @@ def run_one(order, bounds, signals):
     hs_recommended=float(signals(recommended))
     if not math.isfinite(hs_explicit) or not math.isfinite(hs_recommended):
         raise ValueError("Nonfinite HiggsSignals chi2")
+    chi2_sm_same_mass=sm_higgs_reference(signals, report["masses_GeV"]["25"])
     return {
         "point_id":report["point_id"],
         "status":"OFFICIAL_HIGGSTOOLS_DIAGNOSTIC_ONLY",
@@ -148,14 +167,17 @@ def run_one(order, bounds, signals):
         "higgstools_imported_input_keys":sorted(str(k) for k in data),
         "uncalculated_Zgamma_keys_removed":missing,
         "ggH_SPheno_13TeV_pb_override":overrides,
+        "higgsSignals_SM_chi2_same_h125_mass":chi2_sm_same_mass,
         "branches":{
             "all_SPheno_explicit_BR":{
                 "chi2_HiggsSignals":hs_explicit,
+                "delta_chi2_vs_same_mass_SM":hs_explicit-chi2_sm_same_mass,
                 "HiggsBounds_allowed_with_incomplete_inputs":bool(bounds_all.allowed),
                 "selectedLimits":result_limits(bounds_all),
             },
             "effective_coupling_h125_BR":{
                 "chi2_HiggsSignals":hs_recommended,
+                "delta_chi2_vs_same_mass_SM":hs_recommended-chi2_sm_same_mass,
                 "HiggsBounds_allowed_with_incomplete_inputs":bool(bounds_recommended.allowed),
                 "selectedLimits":result_limits(bounds_recommended),
             }
@@ -213,6 +235,8 @@ def main():
     for row in result["points"]:
         print(row["point_id"],"HS chi2 (effective-h125) =",
               row["branches"]["effective_coupling_h125_BR"]["chi2_HiggsSignals"],
+              "SM chi2 same mass =", row["higgsSignals_SM_chi2_same_h125_mass"],
+              "delta chi2 =", row["branches"]["effective_coupling_h125_BR"]["delta_chi2_vs_same_mass_SM"],
               "HB diagnostic allowed =",
               row["branches"]["effective_coupling_h125_BR"]["HiggsBounds_allowed_with_incomplete_inputs"],
               "physical=UNKNOWN")
