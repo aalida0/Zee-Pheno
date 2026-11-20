@@ -3,7 +3,7 @@
 **Status: native NO/IO SPheno inputs audited; external HiggsTools computation
 prepared, but not yet executed/physics-certified.**
 
-No 2HDMC or ScannerS is used. Native SARAH 4.15.4 / SPheno 4.0.5 is the
+No 2HDMC or ScannerS is used. Our Python modules live in the **ZeeHiggs** namespace to avoid shadowing the upstream HiggsTools package, whose own import name is **Higgs**. Native SARAH 4.15.4 / SPheno 4.0.5 is the
 source of the full Zee mass spectrum, all physical charged mixing matrices,
 tree/loop decays and effective neutral-Higgs couplings. Official
 **HiggsTools v1.3** supplies experimental HiggsBounds 6.1 / HiggsSignals 3.1.
@@ -20,11 +20,11 @@ Upstream references:
 
 ## Implementation
 
-- [spheno_audit.py](spheno_audit.py) verifies original SPheno binary, exact
+- [ZeeHiggs/spheno_audit.py](../ZeeHiggs/spheno_audit.py) verifies original SPheno binary, exact
   native card association, spectrum mass/total width/decay BR closure,
   HiggsCouplingsFermions, HiggsCouplingsBosons, and SPheno HiggsLHC13 block.
   Only the two frozen fitted s00017 NO/IO cards are initially supported.
-- [higgstools_pilot.py](higgstools_pilot.py) calls the official
+- [ZeeHiggs/higgstools_pilot.py](../ZeeHiggs/higgstools_pilot.py) calls the official
   Higgs.tools.Input.readHB5SLHA with neutralPDGs [25,35,36] and
   chargedPDGs [37,9000037], detects the imported particle IDs by their
   audited masses, and calls predictionsFromDict, HiggsBounds and
@@ -82,7 +82,7 @@ user-owned source directories; it does not install 2HDMC/ScannerS.
     cd ~/Zee-Pheno
     git fetch origin
     git switch research/spheno-higgstools-pilot
-    python3 -m unittest Higgs.test_spheno_audit -v
+    python3 -m unittest ZeeHiggs.test_spheno_audit -v
     bash Higgs/install_higgstools.sh
 
 The reproducible tags in the install script are HiggsTools v1.3
@@ -93,7 +93,7 @@ update histories, so record the tag/commit for the publication.
 Run the **actual official HiggsTools evaluation**:
 
     cd ~/Zee-Pheno
-    ~/zee-higgstools/venv/bin/python -m Higgs.higgstools_pilot \
+    ~/zee-higgstools/venv/bin/python -m ZeeHiggs.higgstools_pilot \
       --hbdataset ~/zee-higgstools/hbdataset \
       --hsdataset ~/zee-higgstools/hsdataset \
       --order both \
@@ -101,7 +101,7 @@ Run the **actual official HiggsTools evaluation**:
 
 And separately generate the source-bound SLHA audit:
 
-    python3 -m Higgs.spheno_audit \
+    python3 -m ZeeHiggs.spheno_audit \
       --output /tmp/zee-higgs-s00017-input-audit.json
 
 The outputs refuse overwrite. The backend evaluation intentionally fails
