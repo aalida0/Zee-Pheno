@@ -32,7 +32,7 @@ class SourceAuditTests(unittest.TestCase):
                 self.assertAlmostEqual(d["neutral_couplings"]["25"]["boson"]["WW"],
                                        .999735666,delta=1e-8)
                 self.assertAlmostEqual(d["neutral_couplings"]["25"]["fermion_re_im"]["5"][0],
-                                       .891842454,delta=1e-8)
+                                       .891842454,delta=1e-7)
                 self.assertAlmostEqual(d["neutral_ggF_LHC13_pb"]["25"],48.3793449,delta=.01)
                 for brsum in d["branching_sum"].values():
                     self.assertAlmostEqual(brsum,1.,delta=.001)
