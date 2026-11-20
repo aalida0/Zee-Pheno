@@ -95,6 +95,13 @@ def screen_prediction(np_shift, c7, c8, *, label=None):
     else:
         correction = None
         relation = "hybrid_inside_nominal_interval"
+    # A *hypothetical* extra independent Gaussian NP sigma that would make
+    # |z_hybrid| exactly 1.96. This is NOT an assigned uncertainty.
+    hypothetical_np_sigma4 = (
+        math.sqrt(max(0., ((abs(hybrid - ref["exp_central"]) / N_SIGMA)**2
+                            - sigma*sigma)))
+        if abs(z_hybrid) > N_SIGMA else 0.
+    )
     return {
         "point_id": label,
         "screen_status": decision,
@@ -115,6 +122,9 @@ def screen_prediction(np_shift, c7, c8, *, label=None):
         "illustrative_z_linear": z_lo,
         "method_spread_in_1e-4": method_spread,
         "method_spread_is_theory_uncertainty": False,
+        "hypothetical_independent_NP_1sigma_to_reach_gaussian_edge_in_1e-4":
+            hypothetical_np_sigma4,
+        "hypothetical_NP_sigma_is_assigned_uncertainty": False,
         "guard_definition": "method_range +/- 1*|hybrid - linear_LO|, triage-only",
         "method_range_in_1e-4": method_range,
         "guarded_range_in_1e-4": guard,
