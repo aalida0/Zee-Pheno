@@ -6,6 +6,7 @@ on:
     paths:
       - .github/workflows/higgstools-pilot.yml
       - ZeeHiggs/higgstools_pilot.py
+      - ZeeHiggs/diagnose_h125.py
       - Higgs/install_higgstools.sh
   workflow_dispatch:
 jobs:
@@ -30,10 +31,33 @@ jobs:
             --order both \
             --output "$RUNNER_TEMP/zee-higgstools-native-pilot.json"
           "$RUNNER_TEMP/zee-higgstools/venv/bin/python" -m json.tool "$RUNNER_TEMP/zee-higgstools-native-pilot.json"
+      - name: Diagnose h125 width and correlated HiggsSignals measurements
+        run: |
+          "$RUNNER_TEMP/zee-higgstools/venv/bin/python" -m ZeeHiggs.diagnose_h125 \
+            --hsdataset "$RUNNER_TEMP/zee-higgstools/hsdataset" \
+            --output "$RUNNER_TEMP/zee-h125-widths-chi2-diagnostic.json"
+          "$RUNNER_TEMP/zee-higgstools/venv/bin/python" - <<'PY'
+          import json, os
+          from pathlib import Path
+          r=json.loads((Path(os.environ["RUNNER_TEMP"])/"zee-h125-widths-chi2-diagnostic.json").read_text())
+          for p in r["points"]:
+              print("PILOT",p["point_id"],"Gamma_exp",p["HiggsTools_explicit"]["width_GeV"],
+                    "Gamma_eff",p["HiggsTools_effective"]["width_GeV"],
+                    "DeltaChi2_exp_eff",p["higgsSignals_delta"]["explicit_vs_effective"])
+              print("TOP CHI2 SOURCES")
+              for m in p["per_measurement_correlated_chi2"][:8]:
+                  print(m["id"],m["reference"],m["delta_explicit_vs_effective"],m["delta_effective_vs_SM"])
+              print("SINGLE CHANNEL SENSITIVITIES")
+              for m in p["partial_width_one_at_a_time_diagnostics"][:6]:
+                  print(m["replaced_partial_width_channel"],m["ratio_SPheno_to_effective_Gamma"],
+                        m["delta_chi2_vs_effective"])
+          PY
       - name: Upload actual official numerical results
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: s00017-higgstools-actual-numerical-pilot
-          path: ${{ runner.temp }}/zee-higgstools-native-pilot.json
+          path: |
+            ${{ runner.temp }}/zee-higgstools-native-pilot.json
+            ${{ runner.temp }}/zee-h125-widths-chi2-diagnostic.json
           if-no-files-found: error
