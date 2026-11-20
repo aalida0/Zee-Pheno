@@ -8,6 +8,7 @@ passed through the unmodified upstream HiggsTools v1.3 (HiggsBounds 6.1 /
 HiggsSignals 3.1). No 2HDMC or ScannerS was used.
 
 Evidence:
+- [Permanently archived exact structured numerical result](reference/s00017_higgstools_v1_3_executed.json), with upstream dataset and run provenance.
 - Official executed GitHub Actions workflow:
   https://github.com/aalida0/Zee-Pheno/actions/runs/44732975159
 - Full machine-readable result artifact:
