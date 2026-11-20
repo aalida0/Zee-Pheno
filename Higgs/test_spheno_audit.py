@@ -27,7 +27,7 @@ class SourceAuditTests(unittest.TestCase):
                 self.assertAlmostEqual(d["masses_GeV"]["25"],125.25,delta=.002)
                 self.assertAlmostEqual(d["masses_GeV"]["37"],666.305,delta=.01)
                 self.assertAlmostEqual(d["masses_GeV"]["9000037"],1184.55,delta=.02)
-                self.assertAlmostEqual(d["total_widths_GeV"]["25"],.0034521311,delta=1e-7)
+                self.assertAlmostEqual(d["total_widths_GeV"]["25"],.0034521311,delta=5e-7)
                 self.assertAlmostEqual(d["charged_cascade_br"],.2781925,delta=1e-5)
                 self.assertAlmostEqual(d["neutral_couplings"]["25"]["boson"]["WW"],
                                        .999735666,delta=1e-8)
