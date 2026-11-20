@@ -116,7 +116,8 @@ class SourceAuditTests(unittest.TestCase):
             selectedLimits={}
         bounds=lambda pred:HB()
         def signals(pred): return 123.4 if pred["explicit"] is True else 120.3
-        with patch.dict(sys.modules,{"Higgs":m1,"Higgs.tools":m2,"Higgs.tools.Input":m3}):
+        with patch.dict(sys.modules,{"Higgs":m1,"Higgs.tools":m2,"Higgs.tools.Input":m3}), \
+             patch("ZeeHiggs.higgstools_pilot.sm_higgs_reference",return_value=100.0):
             result=run_one("NO",bounds,signals)
         self.assertEqual(result["status"],"OFFICIAL_HIGGSTOOLS_DIAGNOSTIC_ONLY")
         self.assertEqual(result["physical_higgs"],"UNKNOWN")
@@ -131,6 +132,9 @@ class SourceAuditTests(unittest.TestCase):
         self.assertNotIn("effc_h1_Zgam",calls[0]["dict"])
         self.assertAlmostEqual(
             result["branches"]["effective_coupling_h125_BR"]["chi2_HiggsSignals"],120.3)
+        self.assertEqual(result["higgsSignals_SM_chi2_same_h125_mass"],100.0)
+        self.assertAlmostEqual(
+            result["branches"]["effective_coupling_h125_BR"]["delta_chi2_vs_same_mass_SM"],20.3)
 
 
 if __name__=="__main__":
