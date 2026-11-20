@@ -55,7 +55,8 @@ class CorrectedLoopInputs(unittest.TestCase):
                                    p["delta_exp_eff"],places=10)
             self.assertGreater(p["corrected_effective_chi2"],p["old_default_eff_chi2"])
             self.assertGreater(p["ggf_13TeV_auto_pb"],p["ggf_13TeV_override_pb"])
-            self.assertGreater(p["partial_gamma_difference" ] if "partial_gamma_difference" in p else 0.,-1.)
+            self.assertGreater(p["gamma_partial_SPheno_GeV"],p["gamma_partial_eff_GeV"])
+            self.assertTrue(11.0 < p["delta_exp_eff"] < 12.5)
 
 
 if __name__=="__main__":
