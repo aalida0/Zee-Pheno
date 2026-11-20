@@ -1,7 +1,14 @@
 # Higgs constraints in Zee-Pheno: SPheno -> official HiggsTools
 
-**Status: native NO/IO SPheno inputs audited; external HiggsTools computation
-prepared, but not yet executed/physics-certified.**
+**Status: native NO/IO SPheno inputs audited and official HiggsTools v1.3
+executed in CI; full Zee-model Higgs acceptance is still UNKNOWN.**
+
+[Executed numerical pilot report](HIGGSTOOLS_PILOT_RESULT.md) documents the
+actual HiggsBounds selected analyses, matched-mass Standard Model
+HiggsSignals reference and large h125 decay-precision sensitivity.
+
+The successful official numerical run and complete JSON evidence are available
+in [GitHub Actions run 44732975159](https://github.com/aalida0/Zee-Pheno/actions/runs/44732975159).
 
 No 2HDMC or ScannerS is used. Our Python modules live in the **ZeeHiggs** namespace to avoid shadowing the upstream HiggsTools package, whose own import name is **Higgs**. Native SARAH 4.15.4 / SPheno 4.0.5 is the
 source of the full Zee mass spectrum, all physical charged mixing matrices,
@@ -68,9 +75,12 @@ The adapter therefore always writes:
 - higgsbounds_full_model_constraint = UNKNOWN
 - globally_allowed = null
 
-No missing values are converted into a physical PASS or FAIL. We have NOT
-reproduced external HiggsTools numerics in this repository's GitHub CI:
-its tests use official API mocks and real SPheno source/decay audits only.
+No missing values are converted into a physical PASS or FAIL. The routine
+repository unit tests exercise source-bound SPheno inputs and mocked APIs,
+while the separate official HiggsTools workflow has **completed a real
+HiggsBounds/HiggsSignals calculation** on the two native benchmarks.
+The experimental constraint is not physics-certified merely because the
+external program executes.
 
 ## Installation on the user's local machine (persistent and isolated)
 
@@ -128,5 +138,8 @@ source/documentation and tests.
    cannot establish that a point is globally viable.
 
 No LO-independent new Higgs likelihood or detector recast is attempted.
-The next physics deliverable is a genuinely executed HiggsTools NO/IO
-constraint diagnostic, *not* premature allowed/excluded claims.
+The first genuinely executed HiggsTools NO/IO diagnostic is complete.
+The next task is understanding the ~15-point HiggsSignals chi2 spread
+between width treatments and supplying source-validated charged-Higgs
+production. Numerical results and validation limits are archived in
+[HIGGSTOOLS_PILOT_RESULT.md](HIGGSTOOLS_PILOT_RESULT.md).
