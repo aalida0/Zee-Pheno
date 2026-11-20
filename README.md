@@ -10,7 +10,7 @@ H₂± → H₁± Z. The conventional Z₂ is **not** exact; see [Model](Model/R
 | [Model](Model/README.md) | Scalar and SARAH/SPheno structural validation; [evidence](Model/VALIDATION.md) |
 | [Neutrino](Neutrino/README.md) | Step 1: native NO/IO 1D NuFIT 3σ matched controls; not global neutrino scan |
 | [LFV](LFV/README.md) | Step 2: general per-point scalar one-loop, source-matched photon Barr–Zee and tree LFV subsets; full rates UNKNOWN |
-| [Higgs](Higgs/README.md) | Not yet promoted |
+| [Higgs](Higgs/README.md) | SPheno-native NO/IO Higgs input audit and official HiggsTools pilot; physical exclusions UNKNOWN |
 | [Flavor](Flavor/README.md) | Not yet promoted |
 | [Collider](Collider/README.md) | Not yet promoted |
 | [Scan](Scan/README.md) | Scalar-first proposals, multi-family neutrino inverse and native-card LFV gates; full allowed-region scan NOT implemented |
