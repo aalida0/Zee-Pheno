@@ -139,6 +139,16 @@ def run_one(order, bounds, signals):
                 raise ValueError("Unexpected pre-existing ggH cross section")
         overrides[k]=report["neutral_ggF_LHC13_pb"][str(pdg)]
         data[k]=overrides[k]
+    # CRITICAL: HiggsTools v1.3 predictionsFromDict defaults to
+    # calcggH=True/calcHgamgam=True, recomputing loop-induced amplitudes
+    # from SM-like matter and thereby potentially dropping the two Zee
+    # charged-scalar loops in SPheno's supplied effc_h_gamgam. Use False
+    # in BOTH explicit and effective prescriptions and check source keys.
+    for pdg in NEUTRAL:
+        for mode in ("gg","gamgam"):
+            key=f"effc_{ids[pdg]}_{mode}"
+            if key not in data or not isinstance(data[key],(float,int)) or not math.isfinite(data[key]):
+                raise ValueError("Missing native loop effective coupling: "+key)
     # Do not call it a full-production prediction: associated charged
     # tH+ and two-charged cascade process rates are NOT supplied.
     neutral_ids=[ids[p] for p in NEUTRAL]
@@ -147,11 +157,13 @@ def run_one(order, bounds, signals):
     # SM-like h effective-coupling BRs avoid SPheno width precision bias;
     # the explicit-all mode preserves native BRs as a diagnostic.
     all_explicit=hinput.predictionsFromDict(
-        data, neutral_ids, charged_ids, [], useExplicitBr=True)
+        data, neutral_ids, charged_ids, [], useExplicitBr=True,
+        calcggH=False, calcHgamgam=False)
     effective_h125={x:True for x in neutral_ids+charged_ids}
     effective_h125[ids[25]]=False
     recommended=hinput.predictionsFromDict(
-        data, neutral_ids, charged_ids, [], useExplicitBr=effective_h125)
+        data, neutral_ids, charged_ids, [], useExplicitBr=effective_h125,
+        calcggH=False, calcHgamgam=False)
     bounds_all=bounds(all_explicit)
     bounds_recommended=bounds(recommended)
     hs_explicit=float(signals(all_explicit))
@@ -167,6 +179,8 @@ def run_one(order, bounds, signals):
         "higgstools_imported_input_keys":sorted(str(k) for k in data),
         "uncalculated_Zgamma_keys_removed":missing,
         "ggH_SPheno_13TeV_pb_override":overrides,
+        "loop_coupling_policy": {"calcggH": False, "calcHgamgam": False,
+            "source": "Native SPheno full Zee effective loop couplings, not HiggsTools SM-particle recalc"},
         "higgsSignals_SM_chi2_same_h125_mass":chi2_sm_same_mass,
         "branches":{
             "all_SPheno_explicit_BR":{
