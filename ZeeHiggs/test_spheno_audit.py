@@ -91,6 +91,9 @@ class SourceAuditTests(unittest.TestCase):
         for pid,i in [(25,"h1"),(35,"h2"),(36,"h3"),(37,"Hp1"),(9000037,"Hp2")]:
             data["m_"+i]=report["masses_GeV"][str(pid)]
         data["effc_h1_Zgam"]=0.
+        for pid,i in [(25,"h1"),(35,"h2"),(36,"h3")]:
+            data[f"effc_{i}_gg"]=report["neutral_couplings"][str(pid)]["boson"]["gg"]
+            data[f"effc_{i}_gamgam"]=report["neutral_couplings"][str(pid)]["boson"]["gamgam"]
         calls=[]
         class FakeInput:
             def readHB5SLHA(self,path,*,neutralPDGs,chargedPDGs):
@@ -98,8 +101,11 @@ class SourceAuditTests(unittest.TestCase):
                 if selfn != [25,35,36] or selfc != [37,9000037]:
                     raise AssertionError("wrong PDGs")
                 return dict(data)
-            def predictionsFromDict(self,d,neutrals,charged,doubly,*,useExplicitBr):
-                self_outer={"dict":d,"neutral":neutrals,"charged":charged,
+            def predictionsFromDict(self,d,neutrals,charged,doubly,*,useExplicitBr,
+                                    calcggH=True,calcHgamgam=True):
+                if calcggH or calcHgamgam:
+                    raise AssertionError("Must not overwrite SPheno charged-scalar loop inputs")
+                self_outer={"calcggH":calcggH,"calcHgamgam":calcHgamgam,"dict":d,"neutral":neutrals,"charged":charged,
                             "doubly":doubly,"explicit":useExplicitBr}
                 calls.append(self_outer)
                 return self_outer
@@ -124,6 +130,8 @@ class SourceAuditTests(unittest.TestCase):
         self.assertIsNone(result["globally_allowed"])
         self.assertEqual(len(calls),2)
         self.assertEqual(calls[0]["neutral"],["h1","h2","h3"])
+        self.assertFalse(calls[0]["calcggH"])
+        self.assertFalse(calls[0]["calcHgamgam"])
         self.assertEqual(calls[0]["charged"],["Hp1","Hp2"])
         self.assertEqual(calls[1]["explicit"]["h1"],False)
         self.assertEqual(calls[1]["explicit"]["Hp2"],True)
