@@ -1,0 +1,106 @@
+{
+  "status": "ACTUAL_OFFICIAL_HIGGSTOOLS_V1_3_LOOP_PRESERVED_DIAGNOSTIC_NO_PHYSICAL_EXCLUSION",
+  "source": {
+    "run_url": "https://github.com/aalida0/Zee-Pheno/actions/runs/44737211306",
+    "artifact_id": 14630125099,
+    "artifact_zip_sha256": "f0669702f37b5b76e9ea1ea8c007159a83e84729e7c000720a97348379404aca",
+    "actual_full_higgs_json_sha256": "262ef3a89b1476927658b6fde51476ff6e4a9d071c2e72239f3a6b4b8dbb244a",
+    "actual_full_width_diagnostic_sha256": "0917ab5b24feda3606e0c12c8ea38fa96c227327c25c8ed2e51b9eeebb30fa25",
+    "higgstools_tag": "v1.3",
+    "higgstools_commit": "8732eafee86597c696fca959df52c771bb29bcf2",
+    "hbdataset_tag": "v1.7",
+    "hsdataset_tag": "v1.1",
+    "flags": {
+      "calcggH": false,
+      "calcHgamgam": false
+    }
+  },
+  "points": [
+    {
+      "ordering": "NO",
+      "sm_chi2": 151.55556002183712,
+      "corrected_effective_chi2": 167.4504314735274,
+      "explicit_spheno_chi2": 179.41680734332604,
+      "delta_eff_sm": 15.894871451690278,
+      "delta_exp_eff": 11.96637586979864,
+      "old_default_eff_chi2": 163.01017406056917,
+      "width_spheno_GeV": 0.0034521311,
+      "width_eff_GeV": 0.0036499125134561872,
+      "sm_gamma_gamma_GeV": 0.00000935934,
+      "gamma_partial_SPheno_GeV": 0.000010409168513660093,
+      "gamma_partial_eff_GeV": 0.000010111527372875593,
+      "gamma_eff_vs_sm": 1.0803674937169983,
+      "gg_eff_vs_sm": 1.0638323941347003,
+      "bb_explicit_to_eff_partial_ratio": 0.9344870828115275,
+      "zz_explicit_to_eff_partial_ratio": 0.8508239372721544,
+      "top_measurements": [
+        {
+          "reference": "2207.00348",
+          "delta_exp_eff": 6.167644107401575,
+          "delta_eff_SM": 6.180157169838566
+        },
+        {
+          "reference": "2110.04836",
+          "delta_exp_eff": 2.819028940449466,
+          "delta_eff_SM": 3.1163601455869645
+        },
+        {
+          "reference": "2204.12957",
+          "delta_exp_eff": 1.9726786310824167,
+          "delta_eff_SM": 2.143652364221978
+        }
+      ],
+      "one_channel_chi2_shifts": {
+        "bb": 10.042453481978413,
+        "gamgam": 2.5400161706873234,
+        "ZZ": -2.3555859547716125
+      },
+      "ggf_13TeV_override_pb": 48.3793449,
+      "ggf_13TeV_auto_pb": 51.49480703809017
+    },
+    {
+      "ordering": "IO",
+      "sm_chi2": 151.55556065245997,
+      "corrected_effective_chi2": 171.21938194025958,
+      "explicit_spheno_chi2": 182.84399375009156,
+      "delta_eff_sm": 19.663821287799607,
+      "delta_exp_eff": 11.624611809831976,
+      "old_default_eff_chi2": 166.7511144599829,
+      "width_spheno_GeV": 0.00345187339,
+      "width_eff_GeV": 0.0036493636450915658,
+      "gamma_partial_SPheno_GeV": 0.00001040896290150149,
+      "gamma_partial_eff_GeV": 0.000010111329362853633,
+      "gamma_eff_vs_sm": 1.0803412592365151,
+      "gg_eff_vs_sm": 1.0638323528778,
+      "bb_explicit_to_eff_partial_ratio": 0.9344870278657027,
+      "zz_explicit_to_eff_partial_ratio": 0.8508252791831828,
+      "top_measurements": [
+        {
+          "reference": "2207.00348",
+          "delta_exp_eff": 6.164621786379982,
+          "delta_eff_SM": 6.187922351591517
+        },
+        {
+          "reference": "2110.04836",
+          "delta_exp_eff": 2.8126622897506124,
+          "delta_eff_SM": 3.1100755815131067
+        },
+        {
+          "reference": "2204.12957",
+          "delta_exp_eff": 1.96816957419027,
+          "delta_eff_SM": 2.139263873971963
+        }
+      ],
+      "one_channel_chi2_shifts": {
+        "bb": 9.879186340732417,
+        "gamgam": 2.542694948171146,
+        "ZZ": -2.3851894739711383
+      },
+      "ggf_13TeV_override_pb": 48.379247,
+      "ggf_13TeV_auto_pb": 51.49470450889256
+    }
+  ],
+  "phys_higgs": "UNKNOWN",
+  "globally_allowed": null,
+  "description": "Source-recovered summary of official workflow numerical archive; raw full JSON is in linked artifact. Previous archived default-calcggH/auto-gamgam result must not be used as final Zee-loop-preserved prediction."
+}
