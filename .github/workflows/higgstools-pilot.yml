@@ -5,7 +5,7 @@ on:
       - research/spheno-higgstools-pilot
     paths:
       - .github/workflows/higgstools-pilot.yml
-      - Higgs/higgstools_pilot.py
+      - ZeeHiggs/higgstools_pilot.py
       - Higgs/install_higgstools.sh
   workflow_dispatch:
 jobs:
@@ -24,7 +24,7 @@ jobs:
           bash Higgs/install_higgstools.sh "$RUNNER_TEMP/zee-higgstools"
       - name: Run audited native NO/IO HiggsTools
         run: |
-          "$RUNNER_TEMP/zee-higgstools/venv/bin/python" -m Higgs.higgstools_pilot \
+          "$RUNNER_TEMP/zee-higgstools/venv/bin/python" -m ZeeHiggs.higgstools_pilot \
             --hbdataset "$RUNNER_TEMP/zee-higgstools/hbdataset" \
             --hsdataset "$RUNNER_TEMP/zee-higgstools/hsdataset" \
             --order both \
