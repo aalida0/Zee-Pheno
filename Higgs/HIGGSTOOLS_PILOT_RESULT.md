@@ -1,5 +1,13 @@
 # Executed HiggsTools pilot — native s00017 NO/IO
 
+> **ARCHIVED PRE-CORRECTION DIAGNOSTIC, NOT THE FINAL NATIVE-LOOP PRESCRIPTION.**
+> This original run used HiggsTools v1.3 default `calcggH=True` and
+> `calcHgamgam=True`, which replaced the SPheno-supplied Zee effective
+> loop couplings. See the newer source-corrected
+> [h125 width and HiggsSignals report](H125_WIDTH_DIAGNOSTIC_RESULT.md)
+> before interpreting any rate or chi2 from this archived stage.
+
+
 **Date:** 20 November 2026. **Status:** OFFICIAL EXPERIMENTAL TOOL EXECUTED;
 FULL ZEE-MODEL HIGGS CONSTRAINT UNKNOWN.
 
