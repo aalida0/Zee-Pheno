@@ -15,7 +15,7 @@ jobs:
       - run: python -m unittest ZeeHiggs.test_spheno_audit ZeeHiggs.test_executed_higgstools_result ZeeHiggs.test_diagnose_h125 ZeeHiggs.test_loop_preserved_result ZeeHiggs.test_validate_reference ZeeHiggs.test_hdecay_sm_reference ZeeHiggs.test_reference_execution ZeeHiggs.test_higgs_subset_screen ZeeHiggs.test_higgsbounds_preferred -v
       - run: python -m unittest Scan.test_diagnose_scalar_spectrum -v
       - run: python -m unittest Scan.test_zee_scalar_theory -v
-      - run: python -m unittest Scan.test_zee_oblique_T_independent Scan.test_zee_oblique_STU_independent Scan.test_zee_vacuum_global_sufficient Scan.test_theory_gate_native Scan.test_prescan_completion -v
+      - run: python -m unittest Scan.test_zee_oblique_T_independent Scan.test_zee_oblique_STU_independent Scan.test_zee_vacuum_global_sufficient Scan.test_theory_gate_native Scan.test_verify_tree_tadpoles Scan.test_prescan_completion -v
       - run: python -m unittest Scan.test_declared_theory -v
       - run: python -m unittest Scan.test_calibrate_native_benchmark Flavor.test_bsgamma Flavor.test_validate_hepfit Flavor.test_bsgamma_screen -v
       - run: python -m unittest Neutrino.test_fit LFV.test_pilot LFV.test_constraints LFV.test_strict_2hdm_reference LFV.test_gauge_vertices LFV.test_approximation_study LFV.test_nonzero_mixing_study LFV.test_doublet_proxy_study Scan.test_native_pipeline Scan.test_physical_proposals Scan.test_spectrum_preflight -v
@@ -66,6 +66,44 @@ jobs:
         run: |
           python -m Scan.zee_ewpo --output "$RUNNER_TEMP/zee-theory-ewpo-s00017.json"
           python -m json.tool "$RUNNER_TEMP/zee-theory-ewpo-s00017.json" > /dev/null
+      - name: Execute source-matched NO/IO per-spectrum theory gate with explicit manifest
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path.cwd()
+          entries=[]
+          for order in ("NO","IO"):
+              p=root/"Scan/reference/native_benchmark"/f"s00017_{order}_benchmark"
+              entries.append({"point_id":f"s00017_{order}","ordering":order,
+                 "card":str(p/"input.in"),
+                 "native":str(p/"native.json"),
+                 "spectrum":str(p/"spectrum.slha")})
+          output=Path(os.environ["RUNNER_TEMP"])/"zee-theory-native-manifest.json"
+          output.write_text(json.dumps({"schema_version":1,"points":entries})+"\n")
+          PY
+          python -m Scan.theory_gate_native \
+            --manifest "$RUNNER_TEMP/zee-theory-native-manifest.json" \
+            --output "$RUNNER_TEMP/zee-theory-native-all-gates.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ["RUNNER_TEMP"])/"zee-theory-native-all-gates.json").read_text())
+          if r["n_theory_scope_pass"]!=2 or r["n_source_or_convention_invalid"]!=0:
+              raise SystemExit("Native theory pre-scan gate did not verify both controls")
+          for p in r["points"]:
+              print(p["point_id"],p["status"],
+                    "local_yukawa",p["Yukawa_perturbativity"]["local_Yukawa_perturbativity"],
+                    "native_loop_vacuum",p["global_tree_vacuum"]["original_native_running_potential_certificate"]["status"])
+          PY
+      - name: Archive reusable final source-bound pre-scan theory gate
+        uses: actions/upload-artifact@v4
+        with:
+          name: zee-verified-original-NOIO-full-theory-scoped-gate
+          path: |
+            ${{ runner.temp }}/zee-theory-native-manifest.json
+            ${{ runner.temp }}/zee-theory-native-all-gates.json
+          if-no-files-found: error
       - name: Execute deterministic scalar-prior theory-only 30 point cutflow
         run: |
           python -m Scan.zee_theory_cutflow --output "$RUNNER_TEMP/zee-theory-scalar30-dryrun.json"
