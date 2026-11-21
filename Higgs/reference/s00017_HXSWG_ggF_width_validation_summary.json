@@ -1,0 +1,105 @@
+{
+  "status": "ACTUAL_OFFICIAL_HIGGSTOOLS_XSWG_SPHENO_FOUR_CORNER_VALIDATION_NO_PHYSICAL_EXCLUSION",
+  "source": {
+    "workflow_url": "https://github.com/aalida0/Zee-Pheno/actions/runs/44895059643",
+    "artifact_id": 14703179437,
+    "artifact_zip_sha256": "3a4178865f78555522224867c52432d8667e4418829d8b780120391aa92d4b2b",
+    "original_reference_JSON_sha256": "38306e5b6ff40e21a32f72e9be349c705997cc6ea32ea7565a9659e24d5bb4ce",
+    "original_higgs_pilot_JSON_sha256": "262ef3a89b1476927658b6fde51476ff6e4a9d071c2e72239f3a6b4b8dbb244a",
+    "original_width_diagnostic_JSON_sha256": "0917ab5b24feda3606e0c12c8ea38fa96c227327c25c8ed2e51b9eeebb30fa25",
+    "higgstools_v": "1.3",
+    "higgsSignals_dataset": "v1.1",
+    "higgsBounds_dataset": "v1.7",
+    "code_branch": "research/higgs-production-decay-validation",
+    "code_commit_at_execution": "8992a183ab07861eb06b4e58277d109227cafa40"
+  },
+  "rate_unit": "pb",
+  "all_chi2_same_HS_dataset_and_spectrum": true,
+  "results": {
+    "NO": {
+      "higgsSignals_SM_chi2": 151.55556002183712,
+      "native_spheno_Zee_ggF_pb": 48.3793449,
+      "HXSWG_normalized_Zee_ggF_pb": 51.49480703809017,
+      "native_spheno_implied_SM_ggF_pb": 45.47647276651204,
+      "HXSWG_SM_ggF_pb": 48.405,
+      "kappa_g2": 1.0638323941347003,
+      "production_reference_difference_percent": 6.439653419304925,
+      "HiggsSignals_chi2": {
+        "spheno_xs_effective_BRs": 167.4504314735274,
+        "hxswg_xs_effective_BRs": 179.2408225371276,
+        "spheno_xs_explicit_BRs": 179.41680734332604,
+        "hxswg_xs_explicit_BRs": 192.1181162337647
+      },
+      "native_spheno_total_width_GeV": 0.0034521311,
+      "HXSWG_effective_total_width_GeV": 0.0036499125134561872,
+      "HXSWG_SM_total_width_GeV": 0.00412288504122885,
+      "native_div_reference_partial_ratio": {
+        "bb": 0.9344870828115275,
+        "cc": 0.8877674456853897,
+        "tautau": 1.0067279605686146,
+        "WW": 0.9607510098286512,
+        "ZZ": 0.8508239372721544,
+        "gg": 0.9710068875064157,
+        "gamgam": 1.0294358240658013,
+        "mumu": 1.005243578762722,
+        "ss": 0.9401253943141201
+      },
+      "HiggsSignals_chi2_delta_vs_SM": {
+        "spheno_xs_effective_BRs": 15.894871451690278,
+        "hxswg_xs_effective_BRs": 27.685262515290475,
+        "spheno_xs_explicit_BRs": 27.861247321488918,
+        "hxswg_xs_explicit_BRs": 40.562556211927586
+      }
+    },
+    "IO": {
+      "higgsSignals_SM_chi2": 151.55556065245997,
+      "native_spheno_Zee_ggF_pb": 48.379247,
+      "HXSWG_normalized_Zee_ggF_pb": 51.49470450889256,
+      "native_spheno_implied_SM_ggF_pb": 45.47638250437493,
+      "HXSWG_SM_ggF_pb": 48.4049055,
+      "kappa_g2": 1.0638323528778,
+      "production_reference_difference_percent": 6.439656881994393,
+      "HiggsSignals_chi2": {
+        "spheno_xs_effective_BRs": 171.21938194025958,
+        "hxswg_xs_effective_BRs": 182.72812588479493,
+        "spheno_xs_explicit_BRs": 182.84399375009156,
+        "hxswg_xs_explicit_BRs": 195.19737948544773
+      },
+      "native_spheno_total_width_GeV": 0.00345187339,
+      "HXSWG_effective_total_width_GeV": 0.0036493636450915658,
+      "HXSWG_SM_total_width_GeV": 0.0041229039547290396,
+      "native_div_reference_partial_ratio": {
+        "bb": 0.9344870278657027,
+        "cc": 0.8877674057651703,
+        "tautau": 1.006728032272882,
+        "WW": 0.9607516710298861,
+        "ZZ": 0.8508252791831833,
+        "gg": 0.9710068218532775,
+        "gamgam": 1.0294356486636944,
+        "mumu": 1.0052437162303436,
+        "ss": 0.9401254161282022
+      },
+      "HiggsSignals_chi2_delta_vs_SM": {
+        "spheno_xs_effective_BRs": 19.663821287799607,
+        "hxswg_xs_effective_BRs": 31.17256523233496,
+        "spheno_xs_explicit_BRs": 31.288433097631582,
+        "hxswg_xs_explicit_BRs": 43.64181883298775
+      }
+    }
+  },
+  "physics_accuracy": {
+    "original_spheno_HiggsLHC13": "historical SusHi 1.5.0 rescaled",
+    "modern_h125_policy": "HiggsTools HXSWG SM cross section times source-matched kappa_g^2, keeping Zee loops",
+    "h125_decay_policy": "HiggsTools effective-coupling BRs with source-matched gg and gammagamma amplitudes",
+    "large_NP_electroweak_corrections_validated": false,
+    "higher_order_model_specific_ggF_validated": false,
+    "charged_direct_search_complete": false,
+    "SM_width_reference_uses_HDECAY_and_Prophecy4f": true,
+    "independent_pin_HDECAY_SM_standalone_status": "SEPARATE_VALIDATION",
+    "spread_is_theory_sigma": false
+  },
+  "physical_higgs": "UNKNOWN",
+  "theory_sigma": null,
+  "higgsSignals_95CL_exclusion": null,
+  "globally_allowed": null
+}

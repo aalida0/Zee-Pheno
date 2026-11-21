@@ -3,10 +3,16 @@ on:
   push:
     branches:
       - research/spheno-higgstools-pilot
+      - research/higgs-production-decay-validation
     paths:
       - .github/workflows/higgstools-pilot.yml
       - ZeeHiggs/higgstools_pilot.py
       - ZeeHiggs/diagnose_h125.py
+      - ZeeHiggs/validate_reference.py
+      - ZeeHiggs/hdecay_sm_reference.py
+      - ZeeHiggs/compare_hdecay.py
+      - ZeeHiggs/spheno_audit.py
+      - Higgs/run_hdecay_SM_reference.sh
       - Higgs/install_higgstools.sh
   workflow_dispatch:
 jobs:
@@ -52,6 +58,12 @@ jobs:
                   print(m["replaced_partial_width_channel"],m["ratio_SPheno_to_effective_Gamma"],
                         m["delta_chi2_vs_effective"])
           PY
+      - name: Validate native SPheno vs HXSWG-normalized Higgs production and decay
+        run: |
+          "$RUNNER_TEMP/zee-higgstools/venv/bin/python" -m ZeeHiggs.validate_reference \
+            --hsdataset "$RUNNER_TEMP/zee-higgstools/hsdataset" \
+            --output "$RUNNER_TEMP/zee-h125-reference-comparison.json"
+          "$RUNNER_TEMP/zee-higgstools/venv/bin/python" -m json.tool "$RUNNER_TEMP/zee-h125-reference-comparison.json" | head -n 10
       - name: Upload actual official numerical results
         if: success()
         uses: actions/upload-artifact@v4
@@ -60,4 +72,5 @@ jobs:
           path: |
             ${{ runner.temp }}/zee-higgstools-native-pilot.json
             ${{ runner.temp }}/zee-h125-widths-chi2-diagnostic.json
+            ${{ runner.temp }}/zee-h125-reference-comparison.json
           if-no-files-found: error
