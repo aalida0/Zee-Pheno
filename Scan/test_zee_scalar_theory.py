@@ -44,6 +44,15 @@ class TheoryTests(unittest.TestCase):
         self.assertEqual(r["doublet_BFB_necessary"],"PASS")
         self.assertEqual(r["pure_singlet_BFB_necessary"],"PASS")
 
+    def test_flat_quartic_boundary_is_not_falsely_excluded(self):
+        # Eq.41 allows equality; BFB can be semipositive on flat rays.
+        # Source V4 alone cannot rule out a full potential with LC=0.
+        for p in (sample(LambdaC=0.), sample(Lambda1=0.)):
+            b=bfb(p)
+            self.assertEqual(b["full_Zee_quartic_BFB"],"UNKNOWN")
+            self.assertNotEqual(b["doublet_BFB_necessary"],"FAIL")
+            self.assertNotEqual(b["pure_singlet_BFB_necessary"],"FAIL")
+
     def test_random_scalar_fields_show_sufficient_quartic_nonnegative(self):
         # Test the exact Eq17 V4 on random complex doublet/singlet
         # directions to independently challenge the symbolic proof.
