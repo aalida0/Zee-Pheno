@@ -39,7 +39,7 @@ for row in NO:125.250000 IO:125.250135; do
 import os,re
 p=os.environ["HDECAY_INPUT"]
 s=open(p).read()
-for flag,value in (("2HDM","0"),("COUPVAR","0"),("SM4","0"),("HIGGS","5")):
+for flag,value in (("2HDM","0"),("COUPVAR","0"),("SM4","0"),("HIGGS","0")):
     pattern=rf"(?m)^(\s*{flag}\s*=\s*)[^\n]*"
     s,n=re.subn(pattern,lambda m:m.group(1)+value,s,count=1)
     if n!=1:
