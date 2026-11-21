@@ -71,7 +71,8 @@ def source_point(order):
     return {"source":base["source"],"U":U,"V":V,
             "masses_charged":masses_c,"masses_neutral":masses_n,
             "mZ":mass[23][0],"mW":mass[24][0],
-            "g1":g1,"g2":g2,"native_T":low[1][0],"order":order}
+            "g1":g1,"g2":g2,"native_T":low[1][0],
+            "native_S":low[2][0],"native_U":low[3][0],"order":order}
 
 
 def independent_t(p,weak_angle="running_gauge"):
