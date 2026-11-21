@@ -62,7 +62,23 @@ class HiggsBoundsPreferredInterfaceTest(unittest.TestCase):
              patch("ZeeHiggs.higgsbounds_preferred.predictions_for",side_effect=fake_prediction),\
              patch("ZeeHiggs.higgsbounds_preferred.result_limits",side_effect=fake_limits):
             r=run_one("NO",bounds)
-        self.assertEqual(len(received),2)
+            receipt={
+                "status":"CHARGED_LO_13TEV_INPUT_FORMAT_SOURCE_BOUND_NOT_PHYSICS_CERTIFIED",
+                "higgstools_cross_sections":{
+                    "cxn_37_Hpmtb_LHC13":0.012,
+                    "cxn_9000037_Hpmtb_LHC13":0.003,
+                }
+            }
+            with patch("ZeeHiggs.higgsbounds_preferred.load_charged_rates",return_value=receipt):
+                charged=run_one("NO",bounds,"/unused/receipt/path")
+        self.assertEqual(len(received),4)
+        for prediction in received[2:]:
+            self.assertEqual(prediction["cxn_37_Hpmtb_LHC13"],0.012)
+            self.assertEqual(prediction["cxn_9000037_Hpmtb_LHC13"],0.003)
+            self.assertEqual(prediction["cxn_35_ggH_LHC13"],.017)
+        self.assertTrue(charged["charged_Hpmtb_13TeV_input_present"])
+        self.assertFalse(charged["charged_production_complete"])
+        self.assertEqual(charged["physical_higgs"],"UNKNOWN")
         self.assertIn("cxn_25_ggH_LHC13",received[0])
         self.assertNotIn("cxn_25_ggH_LHC13",received[1])
         self.assertEqual(r["old_spheno_ggF_13TeV_pb"],48.3793449)
