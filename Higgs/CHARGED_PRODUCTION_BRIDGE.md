@@ -109,8 +109,11 @@ The new `ZeeHiggs/native_higgs_scan.py` accepts the **same**
 It source-locks each SPheno output, independently checks physical
 scalar masses and native branching fractions, uses its own
 `CHARGEMIX`, top mass, scalar masses and `HIGGSLHC13` neutral rates,
-then evaluates the official HiggsTools HiggsSignals chi2 and selected
-HiggsBounds analyses.
+then evaluates the official HiggsTools HiggsSignals chi2 for
+all four frozen h125 ggF × BR prescriptions (existing
+`ZeeHiggs.higgs_subset_screen` criteria) and selected HiggsBounds
+analyses. The four-corner spread is a prescription sensitivity,
+**not** a Gaussian theory error or formal fit confidence interval.
 
 ```bash
 ~/zee-higgstools/venv/bin/python -m ZeeHiggs.native_higgs_scan \
