@@ -149,6 +149,21 @@ def evaluate_entry(entry,root):
         gates["quartic_4pi_diagnostic"]=gate("UNKNOWN","NO_SOURCE_DECLARED_POTENTIAL")
     gates.update({name:gate("UNKNOWN","NOT_YET_VALIDATED")
                   for name in UNKNOWN_SECTORS})
+    # These apply ONLY to an optional, source-declared tree potential.
+    # No native 160-GeV quartic binding is provided by this legacy
+    # manifest, so they cannot alter global physical verdicts.
+    if scalar_diagnostics is not None:
+        bstatus=scalar_diagnostics["full_Zee_BFB"]
+        gates["declared_tree_Zee_BFB_quartic"]=gate(
+            "PASS" if bstatus=="CERTIFIED_SUFFICIENT_PASS" else
+            "FAIL" if bstatus=="FAIL_NECESSARY" else "UNKNOWN",
+            "2021_ZEE_PSD_SUFFICIENT_TREE_DECLARED_ONLY_NOT_NATIVE",
+            proof_status=bstatus,native_matched=False)
+        gates["declared_tree_Zee_high_energy_unitarity"]=gate(
+            scalar_diagnostics["full_Zee_unitarity"],
+            "2021_ZEE_FULL_E22_E29_EIGENVALUES_DECLARED_ONLY_NOT_NATIVE",
+            max_abs_eigenvalue=scalar_diagnostics["full_Zee_tree_unitarity_eigenvalue"],
+            native_matched=False)
     gates["native_FZEEIN_propagation"]=propagation
     if has_quark:
         point=from_native(

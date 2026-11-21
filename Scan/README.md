@@ -1,5 +1,16 @@
 # Scan — scalar-first candidates, not an allowed-region claim
 
+**Theoretical-constraint audit (21 Nov 2026):** See
+[ZEE_THEORY_EWPO_AUDIT.md](ZEE_THEORY_EWPO_AUDIT.md). Original source-locked
+NO/IO SPheno points pass a rigorous sufficient full-Zee quartic BFB
+certificate, the complete published restricted Zee high-energy tree-level
+unitarity matrices, and the correlated PDG2025 3D S,T,U experimental screen.
+For SPheno generated new cards, the scalar potential **must** be evaluated
+anew; a declared analytic BFB/unitarity screen does not certify the native
+output or the global charged-breaking vacuum. EWPO self-energy source
+conventions and global vacuum remain unresolved. A deterministic
+30-scalar-only theory cutflow retained 3 declared preselected candidates;
+these are NOT neutrino/LFV/Higgs-accepted points.
 **Physics question:** Where can the previously proposed charged cascade
 `H2± → H1± Z` survive the restricted Type-II-quark Zee model constraints?
 This repository currently **generates candidates and validates available
@@ -68,8 +79,11 @@ At every independent scalar attempt:
    generated model's explicit low-scale `MINPAR` boundary assignments.
 3. Record necessary doublet BFB and a deliberately conservative
    **sufficient** Zee *quartic* BFB condition, plus `|quartic|<4pi`
-   as a conventional analysis prior. These are **not** a proof of
-   tree global-minimum stability, unitarity, EWPO or scalar rate viability.
+   as a conventional analysis prior. The updated generator now also
+   computes the complete 2021 high-energy Zee tree-level scalar
+   scattering eigenvalue limit `max|Lambda_i|<8pi`. These checks are
+   NOT a proof of global vacuum stability, finite-energy unitarity,
+   independently crosschecked EWPO self energies or scalar rates.
 4. At preselected scalar points, build separate NO/IO targets using the
    published NuFIT 6.1 central oscillation coordinates. Sample
    lightest mass, Majorana phases, the complex Zee null-cone orientation,
@@ -213,9 +227,11 @@ renormalization scale. Avoid interpreting a tree-to-pole mismatch as
 a physical scalar exclusion without a matched scheme.
 
 **Still unknown:** full Zee electroweak LFV two-loop amplitudes,
-`mu→3e`/conversion, correlated oscillation likelihood, full Higgs
-rates/searches, B flavor, EWPO, tree-unitarity and global charged
-vacuum, and collider signal sensitivity. Approximation-labeled
+`mu→3e`/conversion, correlated oscillation likelihood, complete Higgs
+rates/searches, a formal B-flavor constraint, global charged
+vacuum and collider signal sensitivity. A complete high-energy scalar
+tree-unitarity test and PDG2025 correlated S,T,U output screen are now
+operational; independent SPheno oblique self-energy validation is pending. Approximation-labeled
 LFV overlays are permitted; **full Zee exclusion/allowed contours
 are not**.
 

@@ -14,6 +14,8 @@ jobs:
       - run: python -m unittest discover -s Model -p 'test_*.py' -v
       - run: python -m unittest ZeeHiggs.test_spheno_audit ZeeHiggs.test_executed_higgstools_result ZeeHiggs.test_diagnose_h125 ZeeHiggs.test_loop_preserved_result ZeeHiggs.test_validate_reference ZeeHiggs.test_hdecay_sm_reference ZeeHiggs.test_reference_execution ZeeHiggs.test_higgs_subset_screen ZeeHiggs.test_higgsbounds_preferred -v
       - run: python -m unittest Scan.test_diagnose_scalar_spectrum -v
+      - run: python -m unittest Scan.test_zee_scalar_theory -v
+      - run: python -m unittest Scan.test_declared_theory -v
       - run: python -m unittest Scan.test_calibrate_native_benchmark Flavor.test_bsgamma Flavor.test_validate_hepfit Flavor.test_bsgamma_screen -v
       - run: python -m unittest Neutrino.test_fit LFV.test_pilot LFV.test_constraints LFV.test_strict_2hdm_reference LFV.test_gauge_vertices LFV.test_approximation_study LFV.test_nonzero_mixing_study LFV.test_doublet_proxy_study Scan.test_native_pipeline Scan.test_physical_proposals Scan.test_spectrum_preflight -v
       - name: Execute source-authenticated conditional HiggsSignals NO/IO screen
@@ -27,3 +29,24 @@ jobs:
           path: ${{ runner.temp }}/s00017-higgs-subset-screen.json
           if-no-files-found: error
 
+
+      - name: Execute authenticated Zee theory and PDG2025 EWPO NO/IO pilot
+        run: |
+          python -m Scan.zee_ewpo --output "$RUNNER_TEMP/zee-theory-ewpo-s00017.json"
+          python -m json.tool "$RUNNER_TEMP/zee-theory-ewpo-s00017.json" > /dev/null
+      - name: Execute deterministic scalar-prior theory-only 30 point cutflow
+        run: |
+          python -m Scan.zee_theory_cutflow --output "$RUNNER_TEMP/zee-theory-scalar30-dryrun.json"
+          python -m json.tool "$RUNNER_TEMP/zee-theory-scalar30-dryrun.json" > /dev/null
+      - name: Archive analytic scalar-prior cutflow
+        uses: actions/upload-artifact@v4
+        with:
+          name: zee-30-scalar-prior-theory-dryrun-no-native
+          path: ${{ runner.temp }}/zee-theory-scalar30-dryrun.json
+          if-no-files-found: error
+      - name: Archive full source-bound Zee scalar theory/EWPO pilot
+        uses: actions/upload-artifact@v4
+        with:
+          name: zee-s00017-BFB-unitarity-PDG2025-STU
+          path: ${{ runner.temp }}/zee-theory-ewpo-s00017.json
+          if-no-files-found: error
