@@ -1,5 +1,17 @@
 # Higgs constraints in Zee-Pheno: SPheno -> official HiggsTools
 
+**New 21 November 2026 charged-production and generic scan path:**
+[CHARGED_PRODUCTION_BRIDGE.md](CHARGED_PRODUCTION_BRIDGE.md)
+documents the official HiggsTools 13 TeV 4FS/5FS-matched Type-II
+`ppHpmtb` reference, native two-charged-state `CHARGEMIX` projection,
+an optional externally validated 13 TeV MG5 receipt adapter, and the
+new [per-native-spectrum Higgs scan](../ZeeHiggs/native_higgs_scan.py).
+No generic Type-II-only mass bound or 13.6→13 TeV substitution is made.
+Both NO/IO native reference controls can be evaluated in official
+HiggsTools CI; full Zee HiggsBounds/HiggsSignals physical 95% CL and
+global allowed regions still require an explicit approximation scope
+and complete search/statistical treatment.
+
 **2026 statistical screening now operational:** [HIGGS_STATISTICAL_SCREEN_METHOD.md](HIGGS_STATISTICAL_SCREEN_METHOD.md)
 documents the published HiggsTools two-parameter SM-reference criterion.
 Both source-qualified s00017 NO and IO benchmarks are robustly

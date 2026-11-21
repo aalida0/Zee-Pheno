@@ -156,6 +156,10 @@ def evaluate(order):
     point=read_attested_theory(order)
     scalar=scalar_evaluate(point["quartics"])
     ew=correlated_pdg2025(point["STU"])
+    # Delayed import avoids a cycle: the general Grimus reader reuses
+    # this module's strictly checked native SLHA low-energy parser.
+    from Scan.zee_oblique_STU_independent import evaluate as independent_STU
+    source_comparison=independent_STU(order)
     return {
         "status":"SOURCE_ATTESTED_ZEE_TREE_AND_EWPO_2025_PILOT",
         "point_id":point["point_id"],
@@ -171,6 +175,9 @@ def evaluate(order):
         "BFB_quartic_asymptotic":scalar["BFB"]["full_Zee_quartic_BFB"],
         "tree_high_energy_Zee_unitarity":scalar["unitarity"]["tree_high_energy_full_Zee_unitarity"],
         "EWPO_correlated_3D_screen":ew["status"],
+        "EWPO_scalar_full_STU_independent_Grimus2008":source_comparison,
+        "EWPO_scalar_one_loop_pragmatically_reproduced":
+            source_comparison["independent_one_loop_scalar_STU_pragmatic_consistency"],
         "EWPO_full_theory_validated":False,
         "global_vacuum":"UNKNOWN",
         "globally_allowed":None,
