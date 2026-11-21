@@ -1,18 +1,13 @@
-"""One-time SOURCE-MATCHED SPheno 510/530 tree-tadpole audit.
+"""Source-bound SPheno tree-tadpole output diagnostic (options 510/530).
 
-The native loop-corrected SPheno spectrum has ZEEPOT m11/m22 which
-do NOT satisfy tree neutral tadpoles. SARAH/SPheno option 530=1 writes
-tree-level tadpole values INSTEAD of loop-corrected values, while
-510=1 writes both source tree values for Vevacious.
+510 requests tree-level tadpole solutions; 530 requests Vevacious
+tree/loop output blocks. Neither flag alone guarantees a particular
+block name in a custom SARAH-generated model. Only numerically matched
+tree-stationary potential parameters can support a tree certificate.
 
-This runner changes only these flags in frozen input cards, invokes
-the original SHA-pinned SPhenoZeeTypeII executable, retains raw logs,
-spectrum sha hashes and rechecks exact potential parameters. Never
-interpret a missing TREEZEEPOT or changed physics spectrum as a PASS.
-Requires the authenticated original SPheno executable on the machine.
-
-The real native loop-effective global vacuum remains UNKNOWN; this
-validates the TREE SCHEME used in the analytic sufficient certificate.
+Use the original SHA-pinned executable and archived NO/IO cards.
+Unmatched or absent source tree values remain UNKNOWN, never PASS.
+The one-loop effective-potential global vacuum is not certified here.
 """
 import argparse
 import json
@@ -67,6 +62,41 @@ def read_reference(original_order):
     return inp,root
 
 
+
+def evaluate_tree_output(blocks):
+    """Check actual source values, never infer them from an option number."""
+    native=from_native_point(source_inputs_from_blocks(blocks))
+    candidates={"ZEEPOT":native["matched_native_potential"]}
+    parse_errors={}
+    if "TREEZEEPOT" in blocks:
+        try:
+            tree_blocks={**blocks,"ZEEPOT":blocks["TREEZEEPOT"]}
+            candidates["TREEZEEPOT"]=from_native_point(
+                source_inputs_from_blocks(tree_blocks))["matched_native_potential"]
+        except (ValueError,KeyError,IndexError,TypeError) as exc:
+            parse_errors["TREEZEEPOT"]=str(exc)
+    stationarity=[name for name,result in candidates.items()
+                  if result.get("source_matching")=="MATCHED_SOURCE_TREE_TADPOLES"]
+    certified=[name for name in stationarity
+               if candidates[name].get("native_potential_certified") is True]
+    return {
+        "status":("SOURCE_MATCHED_GLOBAL_TREE_CERTIFICATE" if certified else
+                  "SOURCE_MATCHED_TREE_STATIONARITY_ONLY" if stationarity else
+                  "UNKNOWN_NO_MATCHED_NATIVE_TREE_TADPOLES"),
+        "reported_tree_blocks":sorted(k for k in blocks if k.startswith("TREE")),
+        "reported_loop_blocks":sorted(k for k in blocks if k.startswith("LOOP")),
+        "source_potential_stationarity":candidates,
+        "tree_block_parse_errors":parse_errors,
+        "matched_stationary_source_blocks":stationarity,
+        "certified_global_tree_source_blocks":certified,
+        "matched_native_tadpole_certificate":native["matched_native_potential"],
+        "tree_consistent_reference_certificate":native["defined_tree_tadpole_potential"],
+        "on_this_distinct_output_tree_vacuum_certified":bool(certified),
+        "original_loop_corrected_global_vacuum":"UNKNOWN",
+        "one_loop_effective_vacuum_global":"UNKNOWN",
+    }
+
+
 def run_one(exe,order,flag,output_dir):
     card,ref=read_reference(order)
     label=f"s00017_{order}_tree{flag}"
@@ -88,18 +118,6 @@ def run_one(exe,order,flag,output_dir):
         "TerminateProgram" in r.stdout):
         raise ValueError(f"Source-matched SPheno tree tadpole {flag} failed; inspect {d}/run.log")
     blocks,_=read_slha(out.read_text())
-    p=source_inputs_from_blocks(blocks)
-    answer=from_native_point(p)
-    # Flag 530 replaces loop tadpole parameters with tree ones;
-    # flag 510 should be treated as a separate origin test, not as a
-    # guarantee that unchanged ZEEPOT has become a tree output.
-    expected=answer["matched_native_potential"]
-    if flag==530 and not expected.get("native_potential_certified"):
-        raise ValueError(
-            "SPheno 530=1 did not produce stationarity-matched tree values; "
-            "tree global vacuum is NOT certified for this generated output")
-    if flag==510 and not any(k.startswith("TREE") for k in blocks):
-        raise ValueError("SPheno 510=1 generated no explicit TREE blocks")
     return {
        "point_id":label,
        "tadpole_option":flag,
@@ -108,12 +126,7 @@ def run_one(exe,order,flag,output_dir):
        "original_source_binary_sha256":ORIGINAL_BINARY_SHA256,
        "executed_spectrum_sha256":sha256(out),
        "raw_log_sha256":sha256(d/"run.log"),
-       "reported_tree_blocks":sorted(k for k in blocks if k.startswith("TREE")),
-       "matched_native_tadpole_certificate":expected,
-       "tree_consistent_reference_certificate":answer["defined_tree_tadpole_potential"],
-       "on_this_distinct_output_tree_vacuum_certified":bool(
-            expected.get("native_potential_certified") and flag==530),
-       "one_loop_effective_vacuum_global":"UNKNOWN",
+       **evaluate_tree_output(blocks),
     }
 
 
