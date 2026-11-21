@@ -114,7 +114,7 @@ jobs:
                   "spectrum":str(d/"spectrum.slha")
               })
           p=Path(os.environ["RUNNER_TEMP"])/"native-higgs-manifest.json"
-          p.write_text(json.dumps(manifest)+"\\n")
+          p.write_text(json.dumps(manifest)+"\n")
           PY
           "$RUNNER_TEMP/zee-higgstools/venv/bin/python" -m ZeeHiggs.native_higgs_scan \
             --manifest "$RUNNER_TEMP/native-higgs-manifest.json" \
