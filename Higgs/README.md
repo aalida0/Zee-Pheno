@@ -1,5 +1,16 @@
 # Higgs constraints in Zee-Pheno: SPheno -> official HiggsTools
 
+**2026 statistical screening now operational:** [HIGGS_STATISTICAL_SCREEN_METHOD.md](HIGGS_STATISTICAL_SCREEN_METHOD.md)
+documents the published HiggsTools two-parameter SM-reference criterion.
+Both source-qualified s00017 NO and IO benchmarks are robustly
+**HIGGS_TESTED_SUBSET_REFERENCE_SCREEN_FAIL** in all four input
+prescriptions, but the full-model physical 95% CL Higgs acceptance is
+still **UNKNOWN** (no Zee global best-fit/profiling or complete charged
+production coverage). Execute:
+
+    python3 -m ZeeHiggs.higgs_subset_screen --output /tmp/zee-higgs-sm-reference-screen.json
+
+
 **Executed production and SM decay-reference comparison:** [H125_PRODUCTION_DECAY_RESULT.md](H125_PRODUCTION_DECAY_RESULT.md).
 The successful official HiggsTools HXSWG four-corner rate validation and pinned
 independent SM-only HDECAY calculation are archived with exact data and scientific
