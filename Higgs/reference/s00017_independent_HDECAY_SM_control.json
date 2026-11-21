@@ -1,0 +1,81 @@
+{
+  "status": "SOURCE_VALIDATED_PUBLIC_HDECAY_SM_ONLY_REFERENCE_EXECUTED",
+  "source": {
+    "HDECAY_git_commit": "4884213286e1edbdf3b2bb9fe30095b29e336dff",
+    "HDECAY_source_sha256": "f83c9e2cbaa42b8590e111a227218055cb703d15c99a5fc23ff0f588642c8a8e",
+    "HDECAY_makefile_sha256": "298e9aa3d08423dcfde2f274371942671442019672d820f774e159b9cccd9d38",
+    "HDECAY_source_parameters": "HIGGS=0 COUPVAR=0 2HDM=0 SM4=0 SLHAOUT=0 NMA=1 MABEG=MAEND=mH",
+    "github_actions_run": "https://github.com/aalida0/Zee-Pheno/actions/runs/44895491646",
+    "artifact_id": 14703608040,
+    "artifact_zip_sha256": "7730ef6aefd96dbef6a3b10d43347377b8580e01558716034ac1d50db30f1282",
+    "original_JSON_sha256": "718567d56ac1d0ab171c34d41ca7c3cb8633d5cfba578d1494339db922da52e7"
+  },
+  "results": {
+    "NO": {
+      "mh_requested_GeV": 125.25,
+      "mh_printed_GeV": 125.25,
+      "SM_total_width_GeV": 0.004101,
+      "BR": {
+        "bb": 0.5756,
+        "tautau": 0.06247,
+        "mumu": 0.0002166,
+        "ss": 0.0002102,
+        "cc": 0.02845,
+        "tt": 0,
+        "gg": 0.08198,
+        "gamgam": 0.002442,
+        "Zgam": 0.001608,
+        "WW": 0.22,
+        "ZZ": 0.02697
+      },
+      "SM_partial_width_GeV": {
+        "bb": 0.0023605356,
+        "cc": 0.00011667345,
+        "tautau": 0.00025618947,
+        "WW": 0.00090222,
+        "ZZ": 0.00011060397,
+        "gg": 0.00033619998,
+        "gamgam": 0.000010014642,
+        "Zgam": 0.000006594408
+      }
+    },
+    "IO": {
+      "mh_requested_GeV": 125.250135,
+      "mh_printed_GeV": 125.25,
+      "SM_total_width_GeV": 0.004101,
+      "note": "SM reference same rounded output as NO; exact source-input hashes and full BRs are in linked original JSON"
+    }
+  },
+  "comparison": {
+    "HXSWG_SM_width_GeV_NO": 0.00412288504122885,
+    "HDECAY_SM_div_HXSWG_SM_width": 0.9946918138609251,
+    "HDECAY_SM_div_HXSWG_channel_NO": {
+      "bb": 0.989839,
+      "cc": 0.9853,
+      "tautau": 0.9971,
+      "WW": 1.0047,
+      "ZZ": 1.0011,
+      "gg": 0.9984,
+      "gamgam": 1.0700157631018763
+    },
+    "native_Zee_SPheno_div_HDECAY_SM_kappa_proxy_NO": {
+      "bb": 0.9440818953022043,
+      "cc": 0.90101,
+      "tautau": 1.00963,
+      "WW": 0.95626,
+      "ZZ": 0.8498484194913585,
+      "gg": 0.9726,
+      "gamgam": 0.96208
+    }
+  },
+  "physical_accuracy": {
+    "HDECAY_calculates_Zee": false,
+    "SM_input_parameters_fully_aligned": false,
+    "Prophecy4f_compared_to_standalone_HDECAY": true,
+    "NSM_model_specific_error_calibrated": false
+  },
+  "physical_higgs": "UNKNOWN",
+  "theory_sigma": null,
+  "full_model_allowed": null,
+  "limitation": "Independent official SM HDECAY differs from HXSWG/HiggsTools in gamma-gamma by 7%, but agrees at ~0.1% ZZ* and ~1% bb. Zee source-specific corrections/decays not calculated by HDECAY. No 95CL."
+}
