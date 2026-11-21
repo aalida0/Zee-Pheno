@@ -8,7 +8,18 @@ mkdir -p "$WORK_ROOT"
 cd "$WORK_ROOT"
 HDECAY_COMMIT=4884213286e1edbdf3b2bb9fe30095b29e336dff
 if [[ ! -d hdecay-source/.git ]]; then
-  git clone https://gitea.psi.ch/ltpth/HDECAY.git hdecay-source
+  for attempt in 1 2 3; do
+    rm -rf hdecay-source
+    if git -c http.lowSpeedTime=15 clone https://gitea.psi.ch/ltpth/HDECAY.git hdecay-source; then
+      break
+    fi
+    echo "PSI HDECAY clone attempt $attempt failed (upstream availability); retrying" >&2
+    sleep 4
+  done
+fi
+if [[ ! -d hdecay-source/.git ]]; then
+  echo "BLOCKED: official PSI HDECAY source unavailable; no HDECAY numerical validation performed" >&2
+  exit 69
 fi
 git -C hdecay-source checkout --detach "$HDECAY_COMMIT"
 test "$(git -C hdecay-source rev-parse HEAD)" = "$HDECAY_COMMIT"
