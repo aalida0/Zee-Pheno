@@ -46,9 +46,8 @@ def read_matrix(blocks,name,size):
     return a
 
 
-def source_point(order):
-    base=audit(order)
-    blocks,_=read_slha(Path(base["spectrum_path"]).read_text())
+def source_point_from_blocks(blocks, *, source=None, order="external"):
+    """Accept a new source-authenticated SLHA; do not reuse s00017 masses."""
     h=read_matrix(blocks,"SCALARMIX",2)
     a=read_matrix(blocks,"PSEUDOSCALARMIX",2)
     c=read_matrix(blocks,"CHARGEMIX",3)
@@ -68,11 +67,18 @@ def source_point(order):
     masses_n=[None,mass[25][0],mass[35][0],mass[36][0]]
     g1,g2=gauge[1][0],gauge[2][0]
     if not (0<g1<1 and 0<g2<1):raise ValueError("Bad native EW gauge couplings")
-    return {"source":base["source"],"U":U,"V":V,
+    return {"source":source,"U":U,"V":V,
             "masses_charged":masses_c,"masses_neutral":masses_n,
             "mZ":mass[23][0],"mW":mass[24][0],
             "g1":g1,"g2":g2,"native_T":low[1][0],
             "native_S":low[2][0],"native_U":low[3][0],"order":order}
+
+
+
+def source_point(order):
+    base=audit(order)
+    blocks,_=read_slha(Path(base["spectrum_path"]).read_text())
+    return source_point_from_blocks(blocks,source=base["source"],order=order)
 
 
 def independent_t(p,weak_angle="running_gauge"):
