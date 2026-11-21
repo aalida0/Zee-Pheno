@@ -19,6 +19,7 @@ from ZeeHiggs.spheno_audit import read_slha, sha256
 from ZeeHiggs.higgstools_pilot import result_limits, dataset_receipt
 from ZeeHiggs.diagnose_h125 import make_inputs,predictions_for
 from ZeeHiggs.charged_effective_production import production_reference_official
+from ZeeHiggs.higgs_subset_screen import screen_point
 
 
 def audit_manifest_source(entry,root):
@@ -95,17 +96,37 @@ def evaluate_one(entry,root,bounds,signals,hinput):
     # is used by HiggsTools while all neutral/heavy states remain the same.
     hkey=f"cxn_{ids[25]}_ggH_LHC13"
     if hkey not in data:raise ValueError("Missing original 13TeV ggF h125 override")
-    data.pop(hkey)
-    pred=predictions_for(data,ids,hinput,explicit=False)
-    hs=float(signals(pred))
+    old_ggf=data[hkey]
+    hxswg_data=dict(data)
+    hxswg_data.pop(hkey)
+    # Four predeclared cross-section/BR prescriptions: never select
+    # whichever gives a convenient HiggsSignals decision.
+    corners={
+        "hxswg_xs_effective_BRs":(hxswg_data,False),
+        "spheno_xs_effective_BRs":(data,False),
+        "hxswg_xs_explicit_BRs":(hxswg_data,True),
+        "spheno_xs_explicit_BRs":(data,True),
+    }
+    preds={name:predictions_for(vals,ids,hinput,explicit=explicit)
+           for name,(vals,explicit) in corners.items()}
+    hs_corners={name:float(signals(pred)) for name,pred in preds.items()}
+    pred=preds["hxswg_xs_effective_BRs"]
+    hs=hs_corners["hxswg_xs_effective_BRs"]
     sm=HP.Predictions()
     h=sm.addParticle(HP.BsmParticle("SM_h",charge="neutral",cp="even"))
     h.setMass(report["masses_GeV"]["25"])
     HP.effectiveCouplingInput(h,HP.smLikeEffCouplings)
     sm_chi=float(signals(sm))
-    if not all(math.isfinite(x) for x in (hs,sm_chi)):
+    if not all(math.isfinite(x) for x in [sm_chi,*hs_corners.values()]):
         raise ValueError("Nonfinite official HiggsSignals chi2")
+    reference_screen=screen_point(entry["point_id"],sm_chi,hs_corners)
     hb=bounds(pred)
+    selected=result_limits(hb)
+    observed=[float(row["obs_ratio"]) for row in selected]
+    subset_status=("CENTRAL_RATE_EVALUATED_SUBSET_EXCLUSION_CANDIDATE"
+                   if any(v>1 for v in observed)
+                   else "NOT_EXCLUDED_WITHIN_EVALUATED_SUBSET" if observed
+                   else "NO_SELECTED_LIMITS_FOR_INPUTS")
     return {
         "point_id":entry["point_id"],"ordering":entry["ordering"],
         "status":"SOURCE_BOUND_SCOPED_HIGGSTOOLS_SCREEN_NOT_FULL_ACCEPTANCE",
@@ -114,17 +135,21 @@ def evaluate_one(entry,root,bounds,signals,hinput):
         "native_theory_gate_pass":report["theory_scope_pass"],
         "charged_reference_status":charged_status,
         "charged_production_reference":charged,
-        "old_native_h125_ggF_pb":old[hkey],
+        "old_native_h125_ggF_pb":old_ggf,
         "HiggsSignals":{
             "model_chi2":hs,"SM_same_mass_chi2":sm_chi,
             "delta_chi2_vs_SM":hs-sm_chi,
+            "four_predeclared_chi2_prescriptions":hs_corners,
+            "tested_subset_reference_screen":reference_screen,
             "method":"Official HiggsSignals; HXSWG h125 ggF, Zee loop effective BR",
             "is_profiled_Zee_95CL_exclusion":False,
             "full_physical_HiggsSignals":"UNKNOWN",
         },
         "HiggsBounds":{
             "raw_allowed_with_incomplete_rates":bool(hb.allowed),
-            "selectedLimits":result_limits(hb),
+            "selectedLimits":selected,
+            "tested_subset_central_input_status":subset_status,
+            "tested_subset_is_full_Zee_exclusion":False,
             "all_analysis_topology_coverage_validated":False,
             "full_physical_HiggsBounds":"UNKNOWN",
         },
