@@ -1,0 +1,33 @@
+name: Independent HDECAY SM reference
+on:
+  push:
+    branches:
+      - research/higgs-production-decay-validation
+    paths:
+      - .github/workflows/hdecay-sm-ref.yml
+      - Higgs/run_hdecay_SM_reference.sh
+      - ZeeHiggs/hdecay_sm_reference.py
+  workflow_dispatch:
+jobs:
+  SM_reference:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build and run official HDECAY from pinned PSI source
+        run: |
+          if ! command -v gfortran >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y gfortran
+          fi
+          bash Higgs/run_hdecay_SM_reference.sh "$RUNNER_TEMP/zee-hdecay-sm"
+          python -m json.tool "$RUNNER_TEMP/zee-hdecay-sm/hdecay-sm-reference.json"
+      - name: Archive source-bound SM reference
+        uses: actions/upload-artifact@v4
+        with:
+          name: hdecay-6p62-s00017-SM-only
+          path: ${{ runner.temp }}/zee-hdecay-sm/hdecay-sm-reference.json
+          if-no-files-found: error
