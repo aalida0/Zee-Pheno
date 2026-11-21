@@ -1,6 +1,11 @@
 # Higgs constraints in Zee-Pheno: SPheno -> official HiggsTools
 
-**Next validation layer:** [H125_PRODUCTION_DECAY_VALIDATION.md](H125_PRODUCTION_DECAY_VALIDATION.md)
+**Executed production and SM decay-reference comparison:** [H125_PRODUCTION_DECAY_RESULT.md](H125_PRODUCTION_DECAY_RESULT.md).
+The successful official HiggsTools HXSWG four-corner rate validation and pinned
+independent SM-only HDECAY calculation are archived with exact data and scientific
+limitations. The full Zee Higgs confidence criterion remains UNKNOWN.
+
+**Methodology:** [H125_PRODUCTION_DECAY_VALIDATION.md](H125_PRODUCTION_DECAY_VALIDATION.md)
 compares the native SPheno 13 TeV ggF normalization and partial widths to
 the official HiggsPredictions LHCHXSWG reference, crosses both choices
 within HiggsSignals, and includes a source-pinned independent **SM-only**
