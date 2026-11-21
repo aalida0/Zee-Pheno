@@ -1,0 +1,48 @@
+name: Pinned HDECAY vs HXSWG source comparison
+on:
+  push:
+    branches: [research/higgs-production-decay-validation]
+    paths:
+      - .github/workflows/higgs-ref-compare.yml
+      - ZeeHiggs/compare_hdecay.py
+      - ZeeHiggs/test_reference_execution.py
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  compare:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download original pinned official HiggsTools source-run results
+        uses: actions/download-artifact@v4
+        with:
+          name: s00017-higgstools-actual-numerical-pilot
+          repository: aalida0/Zee-Pheno
+          run-id: 44895059643
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: refs/hxswg
+      - name: Download independent official HDECAY SM control
+        uses: actions/download-artifact@v4
+        with:
+          name: hdecay-6p62-s00017-SM-only
+          repository: aalida0/Zee-Pheno
+          run-id: 44895491646
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: refs/hdecay
+      - name: Execute independent three-way source comparison
+        run: |
+          python3 -m ZeeHiggs.compare_hdecay \
+            --hdecay refs/hdecay/hdecay-sm-reference.json \
+            --hxswg refs/hxswg/zee-h125-reference-comparison.json \
+            --output refs/h125-HDECAY-HXSWG-Zee-comparison.json
+          python3 -m json.tool refs/h125-HDECAY-HXSWG-Zee-comparison.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: h125-independent-verified-threeway-width-comparison
+          path: refs/h125-HDECAY-HXSWG-Zee-comparison.json
+          if-no-files-found: error
