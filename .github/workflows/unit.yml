@@ -12,7 +12,7 @@ jobs:
           python-version: '3.11'
       - run: python -m pip install numpy scipy mpmath
       - run: python -m unittest discover -s Model -p 'test_*.py' -v
-      - run: python -m unittest ZeeHiggs.test_spheno_audit ZeeHiggs.test_executed_higgstools_result ZeeHiggs.test_diagnose_h125 ZeeHiggs.test_loop_preserved_result ZeeHiggs.test_validate_reference ZeeHiggs.test_hdecay_sm_reference ZeeHiggs.test_reference_execution ZeeHiggs.test_higgs_subset_screen ZeeHiggs.test_higgsbounds_preferred ZeeHiggs.test_charged_production_bridge ZeeHiggs.test_charged_effective_production -v
+      - run: python -m unittest ZeeHiggs.test_spheno_audit ZeeHiggs.test_executed_higgstools_result ZeeHiggs.test_diagnose_h125 ZeeHiggs.test_loop_preserved_result ZeeHiggs.test_validate_reference ZeeHiggs.test_hdecay_sm_reference ZeeHiggs.test_reference_execution ZeeHiggs.test_higgs_subset_screen ZeeHiggs.test_higgsbounds_preferred ZeeHiggs.test_charged_production_bridge ZeeHiggs.test_charged_effective_production ZeeHiggs.test_native_higgs_scan -v
       - run: python -m unittest Scan.test_diagnose_scalar_spectrum -v
       - run: python -m unittest Scan.test_zee_scalar_theory -v
       - run: python -m unittest Scan.test_zee_oblique_T_independent Scan.test_zee_oblique_STU_independent Scan.test_zee_vacuum_global_sufficient Scan.test_theory_gate_native Scan.test_verify_tree_tadpoles Scan.test_prescan_completion -v
