@@ -1,5 +1,13 @@
 # Higgs constraints in Zee-Pheno: SPheno -> official HiggsTools
 
+**Next validation layer:** [H125_PRODUCTION_DECAY_VALIDATION.md](H125_PRODUCTION_DECAY_VALIDATION.md)
+compares the native SPheno 13 TeV ggF normalization and partial widths to
+the official HiggsPredictions LHCHXSWG reference, crosses both choices
+within HiggsSignals, and includes a source-pinned independent **SM-only**
+HDECAY reference. This is a diagnostic, not a full Zee likelihood or a
+new model-specific uncertainty calculation.
+
+
 **Status: native NO/IO SPheno inputs audited and official HiggsTools v1.3
 executed in CI; full Zee-model Higgs acceptance is still UNKNOWN.**
 
