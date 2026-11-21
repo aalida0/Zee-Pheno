@@ -39,7 +39,7 @@ class GeneralZeeObliqueSTUTests(unittest.TestCase):
                 res=evaluate(order)
                 self.assertEqual(res["status"],"FULL_ONE_LOOP_SCALAR_STU_INDEPENDENT_CROSSCHECK")
                 self.assertTrue(res["two_charged_states"])
-                self.assertTrue(res["independent_one_loop_scalar_STU_pragmatic_consistency"])
+                self.assertTrue(res["independent_one_loop_scalar_STU_pragmatic_consistency"], res["results"])
                 for scheme in ("running_gauge","on_shell"):
                     r=res["results"][scheme]
                     self.assertTrue(r["source_and_independent_agree_at_pragmatic_tolerance"])
