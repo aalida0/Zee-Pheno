@@ -187,6 +187,23 @@ source-output potential blocks.
 | s00017_NO_tree530 | none | UNKNOWN_NO_MATCHED_NATIVE_TREE_TADPOLES |
 | s00017_IO_tree530 | none | UNKNOWN_NO_MATCHED_NATIVE_TREE_TADPOLES |
 
+**Source-output comparison (21 Nov 2026; user-reported, selected blocks):**
+
+| Block (max absolute element difference vs original) | s00017 NO | s00017 IO |
+|---|---:|---:|
+| MASS [25,35,36,37,9000037] | 0 | 0 |
+| ZEEQUARTIC [1..9] | 0 | 0 |
+| HMIX [102,103] | 0 | 0 |
+| SPHENOLOWENERGY [1,2,3] | 0 | 0 |
+| ZEEPOT [1..5] | 4.72466747e4 GeV^2 (largest difference) | 4.72468091e4 GeV^2 (largest difference) |
+
+This confirms that the **checked** physical masses, quartics, vevs
+and oblique results are invariant at the printed precision, while
+the reported quadratic potential changes significantly. It does NOT
+verify every output coupling, decay or radiative correction, and
+does NOT certify the loop-effective vacuum. Values are taken from
+the user's local comparison, not independently re-executed in CI.
+
 Thus **510=1 is the demonstrated source-matched TREE-output mode** in this
 specific custom SPheno executable for both reference controls. The
 530=1 result is *not* a global-vacuum FAIL; it simply lacks matched tree
@@ -201,7 +218,7 @@ between tree and default tadpole modes must not be silently ignored.
     WORK="$HOME/zee-lfv64-serial-20261112-094549"
     python3 -m Scan.verify_tree_tadpoles \
       --exe "$WORK/SPheno-4.0.5/bin/SPhenoZeeTypeII" \
-      --output-dir "$WORK/pre_scan_tree_tadpole_2026"
+      --output-dir "$WORK/pre_scan_tree_tadpole_2026_v2"
 
 This uses ONLY original s00017 cards as independent scheme controls,
 not a parameter-space scan. An option producing a valid SPheno spectrum
