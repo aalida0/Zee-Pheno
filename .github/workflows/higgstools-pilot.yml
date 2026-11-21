@@ -129,6 +129,9 @@ jobs:
           for x in r["points"]:
               assert x["full_higgs_status"]=="UNKNOWN"
               assert x["charged_reference_status"]=="TABULATED_13TEV_TYPE_II_INPUT"
+              assert len(x["HiggsSignals"]["four_predeclared_chi2_prescriptions"])==4
+              assert x["HiggsSignals"]["tested_subset_reference_screen"]["is_formal_95CL_model_exclusion"] is False
+              assert x["HiggsBounds"]["tested_subset_is_full_Zee_exclusion"] is False
               print(x["point_id"],"higgs_delta_chi2",
                     x["HiggsSignals"]["delta_chi2_vs_SM"],
                     "charged reference",x["charged_production_reference"]["higgstools_cross_sections"])
