@@ -47,11 +47,11 @@ for flag,value in (("2HDM","0"),("COUPVAR","0"),("SM4","0"),("HIGGS","0"),("SLHA
 # HDECAY manual: MABEG/MAEND set the *SM* mass range (not MHL,
 # which is used by the hMSSM/2HDM input).
 for masskey in ("MABEG","MAEND"):
-    patt=rf"(?m)^(\\s*{masskey}\\s*=\\s*)[^\\n]*"
+    patt=rf"(?m)^(\s*{masskey}\s*=\s*)[^\n]*"
     s,n=re.subn(patt,lambda m:m.group(1)+os.environ["HDECAY_H_MASS"]+"D0",s,count=1)
     if n!=1:
         raise RuntimeError("Missing HDECAY SM mass key "+masskey)
-patt=r"(?m)^(\\s*MHL\\s*=\\s*)[^\\n]*"
+patt=r"(?m)^(\s*MHL\s*=\s*)[^\n]*"
 s,n=re.subn(patt,lambda m:m.group(1)+os.environ["HDECAY_H_MASS"]+"D0",s)
 if n<1:
     raise RuntimeError("Missing HDECAY SM mass input")
