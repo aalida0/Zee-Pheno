@@ -17,12 +17,20 @@ from ZeeHiggs.diagnose_h125 import make_inputs, predictions_for
 from ZeeHiggs.higgstools_pilot import (
     dataset_receipt, result_limits
 )
+from ZeeHiggs.charged_production_bridge import (
+    load_charged_rates, insert_charged_rates
+)
 
 
-def run_one(order, bounds):
+def run_one(order, bounds, charged_rates_dir=None):
     import Higgs.tools.Input as hinput
     source=audit(order)
     data,ids,removed,old_rates=make_inputs(source,hinput)
+    charged_receipt=None
+    if charged_rates_dir is not None:
+        charged_receipt=load_charged_rates(
+            Path(charged_rates_dir)/f"s00017_{order}.json",source)
+        data=insert_charged_rates(data,ids,charged_receipt)
     hkey=f"cxn_{ids[25]}_ggH_LHC13"
     if hkey not in data:
         raise ValueError("Expected SPheno historic ggF override")
@@ -65,6 +73,12 @@ def run_one(order, bounds):
         "old_spheno_ggF":check(old,"historic SPheno"),
         "preferred_HXSWG_ggF":check(modern,"preferred HXSWG"),
         "charged_production_complete":False,
+        "charged_Hpmtb_13TeV_receipt":charged_receipt,
+        "charged_Hpmtb_13TeV_input_present":charged_receipt is not None,
+        "charged_production_missing_or_unvalidated":(
+            ["13 TeV charged Hpmtb missing"] if charged_receipt is None else
+            ["Generator raw rates/amplitudes not independently revalidated"]
+        )+["8 TeV and other process modes not source-matched"],
         "heavy_neutral_production_source_matched":False,
         "neutral_selected_limits_physical_acceptance":"UNKNOWN",
         "charged_selected_limits_physical_acceptance":"UNKNOWN",
@@ -76,6 +90,8 @@ def run_one(order, bounds):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--hbdataset",type=Path,required=True)
+    p.add_argument("--charged-rates-dir",type=Path,
+                   help="Optional exact-point s00017_NO/IO 13 TeV 5FS MG5 receipt JSON directory")
     p.add_argument("--output",type=Path,required=True)
     a=p.parse_args()
     import Higgs.bounds as HB
@@ -84,7 +100,7 @@ def main():
         "status":"OFFICIAL_HIGGSBOUNDS_PREFERRED_HXSWG_NATIVE_TWO_CHARGED_SCALARS",
         "backend":"HiggsTools v1.3 / HiggsBounds v6.1",
         "dataset":dataset_receipt(a.hbdataset),
-        "points":[run_one(o,hb) for o in ("NO","IO")],
+        "points":[run_one(o,hb,a.charged_rates_dir) for o in ("NO","IO")],
         "physical_higgs":"UNKNOWN",
         "HiggsBounds_full_model_exclusion":None,
         "globally_allowed":None,
