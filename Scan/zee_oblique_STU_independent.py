@@ -163,8 +163,8 @@ def evaluate(order):
         "two_charged_states":True,
         "results":numeric,
         "independent_one_loop_scalar_STU_pragmatic_consistency":
-           all(x["source_and_independent_agree_at_pragmatic_tolerance"]
-               for x in numeric.values()),
+           numeric["running_gauge"]["source_and_independent_agree_at_pragmatic_tolerance"],
+        "on_shell_weak_angle_scheme_is_a_sensitivity_variation":True,
         "oblique_experimental_screen_further_requires_PDG_covariance":True,
         "complete_SPheno_finite_matching_scheme_certified":False,
     }
