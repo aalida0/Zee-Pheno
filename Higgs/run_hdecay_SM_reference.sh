@@ -50,12 +50,21 @@ if n<1:
     raise RuntimeError("Missing HDECAY SM mass input")
 open(p,"w").write(s)
 PY
-  (
+  if ! (
      cd "$RUN_DIR"
      ./run > run.stdout.log 2>&1
-  )
-  test -s "$RUN_DIR/br.sm1"
-  test -s "$RUN_DIR/br.sm2"
+  ); then
+     echo "HDECAY run returned nonzero for $ORDER" >&2
+     tail -n 45 "$RUN_DIR/run.stdout.log" >&2
+     ls -lah "$RUN_DIR" >&2
+     exit 1
+  fi
+  if [[ ! -s "$RUN_DIR/br.sm1" || ! -s "$RUN_DIR/br.sm2" ]]; then
+     echo "HDECAY SM result files missing for $ORDER" >&2
+     tail -n 45 "$RUN_DIR/run.stdout.log" >&2
+     ls -lah "$RUN_DIR" >&2
+     exit 1
+  fi
   echo "HDECAY_SM_COMPLETED $ORDER $MASS"
   head -n 6 "$RUN_DIR/br.sm2"
 done
