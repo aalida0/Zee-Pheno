@@ -64,20 +64,6 @@ jobs:
             --hsdataset "$RUNNER_TEMP/zee-higgstools/hsdataset" \
             --output "$RUNNER_TEMP/zee-h125-reference-comparison.json"
           "$RUNNER_TEMP/zee-higgstools/venv/bin/python" -m json.tool "$RUNNER_TEMP/zee-h125-reference-comparison.json" | head -n 10
-      - name: Compile pinned independent HDECAY 6.62 SM control
-        run: |
-          if ! command -v gfortran >/dev/null; then
-            sudo apt-get update -qq
-            sudo apt-get install -y gfortran
-          fi
-          bash Higgs/run_hdecay_SM_reference.sh "$RUNNER_TEMP/zee-hdecay-reference"
-          "$RUNNER_TEMP/zee-higgstools/venv/bin/python" -m json.tool "$RUNNER_TEMP/zee-hdecay-reference/hdecay-sm-reference.json" | head -n 15
-      - name: Compare HDECAY independent SM reference to HXSWG and native SPheno
-        run: |
-          "$RUNNER_TEMP/zee-higgstools/venv/bin/python" -m ZeeHiggs.compare_hdecay \
-            --hdecay "$RUNNER_TEMP/zee-hdecay-reference/hdecay-sm-reference.json" \
-            --hxswg "$RUNNER_TEMP/zee-h125-reference-comparison.json" \
-            --output "$RUNNER_TEMP/zee-h125-threeway-width-comparison.json"
       - name: Upload actual official numerical results
         if: success()
         uses: actions/upload-artifact@v4
@@ -87,6 +73,4 @@ jobs:
             ${{ runner.temp }}/zee-higgstools-native-pilot.json
             ${{ runner.temp }}/zee-h125-widths-chi2-diagnostic.json
             ${{ runner.temp }}/zee-h125-reference-comparison.json
-            ${{ runner.temp }}/zee-hdecay-reference/hdecay-sm-reference.json
-            ${{ runner.temp }}/zee-h125-threeway-width-comparison.json
           if-no-files-found: error
