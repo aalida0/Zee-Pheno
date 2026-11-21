@@ -39,12 +39,19 @@ for row in NO:125.250000 IO:125.250135; do
 import os,re
 p=os.environ["HDECAY_INPUT"]
 s=open(p).read()
-for flag,value in (("2HDM","0"),("COUPVAR","0"),("SM4","0"),("HIGGS","0")):
+for flag,value in (("2HDM","0"),("COUPVAR","0"),("SM4","0"),("HIGGS","0"),("SLHAOUT","0"),("NMA","1")):
     pattern=rf"(?m)^(\s*{flag}\s*=\s*)[^\n]*"
     s,n=re.subn(pattern,lambda m:m.group(1)+value,s,count=1)
     if n!=1:
         raise RuntimeError("Missing HDECAY input flag "+flag)
-patt=r"(?m)^(\s*MHL\s*=\s*)[^\n]*"
+# HDECAY manual: MABEG/MAEND set the *SM* mass range (not MHL,
+# which is used by the hMSSM/2HDM input).
+for masskey in ("MABEG","MAEND"):
+    patt=rf"(?m)^(\\s*{masskey}\\s*=\\s*)[^\\n]*"
+    s,n=re.subn(patt,lambda m:m.group(1)+os.environ["HDECAY_H_MASS"]+"D0",s,count=1)
+    if n!=1:
+        raise RuntimeError("Missing HDECAY SM mass key "+masskey)
+patt=r"(?m)^(\\s*MHL\\s*=\\s*)[^\\n]*"
 s,n=re.subn(patt,lambda m:m.group(1)+os.environ["HDECAY_H_MASS"]+"D0",s)
 if n<1:
     raise RuntimeError("Missing HDECAY SM mass input")
