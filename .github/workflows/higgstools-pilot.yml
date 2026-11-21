@@ -5,12 +5,15 @@ on:
       - research/spheno-higgstools-pilot
       - research/higgs-production-decay-validation
       - research/higgs-statistical-screen
+      - research/pre-scan-theory-completion
     paths:
       - .github/workflows/higgstools-pilot.yml
       - ZeeHiggs/higgstools_pilot.py
       - ZeeHiggs/diagnose_h125.py
       - ZeeHiggs/validate_reference.py
       - ZeeHiggs/higgsbounds_preferred.py
+      - ZeeHiggs/charged_effective_production.py
+      - ZeeHiggs/test_charged_effective_production.py
       - ZeeHiggs/hdecay_sm_reference.py
       - ZeeHiggs/compare_hdecay.py
       - ZeeHiggs/spheno_audit.py
@@ -72,6 +75,27 @@ jobs:
             --hbdataset "$RUNNER_TEMP/zee-higgstools/hbdataset" \
             --output "$RUNNER_TEMP/zee-higgsbounds-hxswg-s00017.json"
           "$RUNNER_TEMP/zee-higgstools/venv/bin/python" -m json.tool "$RUNNER_TEMP/zee-higgsbounds-hxswg-s00017.json" > /dev/null
+      - name: Evaluate official 13 TeV tbH charged reference with source-matched Zee mixing
+        run: |
+          "$RUNNER_TEMP/zee-higgstools/venv/bin/python" -m ZeeHiggs.higgsbounds_preferred \
+            --hbdataset "$RUNNER_TEMP/zee-higgstools/hbdataset" \
+            --charged-reference \
+            --output "$RUNNER_TEMP/zee-higgsbounds-source-matched-charged-reference.json"
+          "$RUNNER_TEMP/zee-higgstools/venv/bin/python" - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"zee-higgsbounds-source-matched-charged-reference.json"
+          r=json.loads(p.read_text())
+          for x in r["points"]:
+              assert x["charged_Hpmtb_13TeV_input_present"]
+              assert not x["charged_production_complete"]
+              assert x["physical_higgs"]=="UNKNOWN"
+              print(x["point_id"],"source_reference_13TeV_pb",
+                    {k:v["sigma_pp_Hpmtb_13TeV_pb"]
+                     for k,v in x["charged_Hpmtb_13TeV_reference"]["charged_mass_eigenstates"].items()})
+              print("HiggsBounds diagnostic selected limits",
+                    x["preferred_HXSWG_ggF"]["selectedLimits"])
+          PY
       - name: Upload actual official numerical results
         if: success()
         uses: actions/upload-artifact@v4
@@ -82,4 +106,5 @@ jobs:
             ${{ runner.temp }}/zee-h125-widths-chi2-diagnostic.json
             ${{ runner.temp }}/zee-h125-reference-comparison.json
             ${{ runner.temp }}/zee-higgsbounds-hxswg-s00017.json
+            ${{ runner.temp }}/zee-higgsbounds-source-matched-charged-reference.json
           if-no-files-found: error
