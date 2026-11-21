@@ -15,7 +15,7 @@ jobs:
       - run: python -m unittest ZeeHiggs.test_spheno_audit ZeeHiggs.test_executed_higgstools_result ZeeHiggs.test_diagnose_h125 ZeeHiggs.test_loop_preserved_result ZeeHiggs.test_validate_reference ZeeHiggs.test_hdecay_sm_reference ZeeHiggs.test_reference_execution ZeeHiggs.test_higgs_subset_screen ZeeHiggs.test_higgsbounds_preferred -v
       - run: python -m unittest Scan.test_diagnose_scalar_spectrum -v
       - run: python -m unittest Scan.test_zee_scalar_theory -v
-      - run: python -m unittest Scan.test_zee_oblique_T_independent Scan.test_zee_oblique_STU_independent Scan.test_prescan_completion -v
+      - run: python -m unittest Scan.test_zee_oblique_T_independent Scan.test_zee_oblique_STU_independent Scan.test_zee_vacuum_global_sufficient Scan.test_prescan_completion -v
       - run: python -m unittest Scan.test_declared_theory -v
       - run: python -m unittest Scan.test_calibrate_native_benchmark Flavor.test_bsgamma Flavor.test_validate_hepfit Flavor.test_bsgamma_screen -v
       - run: python -m unittest Neutrino.test_fit LFV.test_pilot LFV.test_constraints LFV.test_strict_2hdm_reference LFV.test_gauge_vertices LFV.test_approximation_study LFV.test_nonzero_mixing_study LFV.test_doublet_proxy_study Scan.test_native_pipeline Scan.test_physical_proposals Scan.test_spectrum_preflight -v
@@ -37,6 +37,17 @@ jobs:
       - name: Independent full one-loop Zee scalar S T U vs source SPheno
         run: |
           python -m Scan.zee_oblique_STU_independent --output "$RUNNER_TEMP/zee-STU-independent.json"
+      - name: Analytic sufficient Zee global tree vacuum certificate
+        run: |
+          python - <<'PY'
+          from Scan.zee_chargebreaking_vacuum import source_inputs
+          from Scan.zee_vacuum_global_sufficient import from_native_point
+          for o in ("NO","IO"):
+              x=from_native_point(source_inputs(o))
+              print(o,"native_tree",x["matched_native_potential"]["status"],
+                    "tree_tadpole_definition",x["defined_tree_tadpole_potential"]["status"])
+          PY
+
       - name: Source-matched tree vacuum witness and Yukawa perturbativity audit
         run: |
           python -m Scan.zee_chargebreaking_vacuum --output "$RUNNER_TEMP/zee-vacuum-witness.json" --nstarts 24
