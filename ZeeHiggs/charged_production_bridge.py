@@ -120,7 +120,7 @@ def insert_charged_rates(data, ids, validated):
     if validated.get("status") != "CHARGED_LO_13TEV_INPUT_FORMAT_SOURCE_BOUND_NOT_PHYSICS_CERTIFIED":
         raise ValueError("Unvalidated charged production receipt")
     merged = dict(data)
-    if set(ids) < set(CHARGED):
+    if not set(CHARGED).issubset(ids):
         raise ValueError("Missing charged HiggsTools identifiers")
     for pdg in CHARGED:
         source_key=f"cxn_{pdg}_Hpmtb_LHC13"
