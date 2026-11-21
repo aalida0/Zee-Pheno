@@ -131,3 +131,51 @@ def insert_charged_rates(data, ids, validated):
             raise ValueError("Refusing to overwrite existing charged production")
         merged[target_key]=validated["higgstools_cross_sections"][source_key]
     return merged
+
+
+def template_for_source(source):
+    """Generate an intentionally UNRUN receipt (null rates and hashes)."""
+    return {
+        "schema_version":1,
+        "point_id":source["point_id"],
+        "source":{key:source["source"][key] for key in (
+            "card_sha256","spectrum_sha256","spheno_binary_sha256")},
+        "rates":[{
+            "pdg":pdg,
+            "mass_GeV":source["masses_GeV"][str(pdg)],
+            "mode":"Hpmtb",
+            "collider":"LHC13",
+            "sqrt_s_TeV":13,
+            "flavor_scheme":"5FS",
+            "perturbative_order":"LO",
+            "charge_inclusive":True,
+            "sigma_pb":None,
+            "integration_error_pb":None,
+            "generator":None,
+            "param_card_sha256":None,
+            "run_card_sha256":None,
+            "process_card_sha256":None,
+            "generator_result_sha256":None
+        } for pdg in CHARGED]
+    }
+
+
+def main():
+    import argparse
+    from ZeeHiggs.spheno_audit import audit
+
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--order",choices=("NO","IO","both"),default="both")
+    parser.add_argument("--output-dir",type=Path,required=True)
+    args=parser.parse_args()
+    args.output_dir.mkdir(parents=True,exist_ok=False)
+    for order in (("NO","IO") if args.order=="both" else (args.order,)):
+        source=audit(order)
+        path=args.output_dir/f"{source['point_id']}.json"
+        path.write_text(json.dumps(template_for_source(source),
+                                   indent=2,allow_nan=False)+"\n")
+        print(path,"UNRUN_EXAMPLE_REPLACE_NULLS_WITH_REAL_GENERATOR_RESULTS")
+
+
+if __name__=="__main__":
+    main()
