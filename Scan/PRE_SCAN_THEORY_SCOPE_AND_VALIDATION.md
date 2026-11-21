@@ -156,13 +156,16 @@ preselection for a pheno parameter scan with the same scope.
 
 ## One-time SPheno tree-tadpole source reproduction (already scripted)
 
-The exact original source SPhenoInput options are:
-- 510=1: write tree tadpole solution blocks for Vevacious;
-- 530=1: write tree-level rather than loop-corrected tadpole
-  parameters into source output.
+The original source SPhenoInput options are:
+- 510=1: request tree-level tadpole solutions;
+- 530=1: request additional tree/loop information for Vevacious.
 
-Both options are documented in Florian Staub's SARAH/SPheno
-instructions (2015). The original cards set both to zero.
+Do NOT assume either flag guarantees a particular SLHA block name or
+overwrites ZEEPOT in this custom generated model. The original cards set
+both to zero. The verifier inspects source output, records available
+TREE/LOOP blocks and requires explicit neutral tree stationarity before
+any matching certificate. Missing source-matched tree output remains
+UNKNOWN, not an exception or an automatic PASS.
 [verify_tree_tadpoles.py](verify_tree_tadpoles.py) creates isolated
 temporary variants for both NO and IO, **changing only one option
 at a time**, verifies the original SPheno executable SHA256, runs
@@ -179,9 +182,12 @@ native execution**, not a missing calculation module.
       --output-dir "$WORK/pre_scan_tree_tadpole_2026"
 
 This uses ONLY original s00017 cards as independent scheme controls,
-not a parameter-space scan. If 510/530 source behavior differs from
-published SARAH documentation, the script fails closed and retains
-the raw logs. Use their validated scheme for *new* cards as well.
+not a parameter-space scan. An option producing a valid SPheno spectrum
+but no explicitly matched tree values is reported UNKNOWN with hashes
+and retained raw logs, not claimed as a physics PASS. Inspect
+`native-tree-audit.json` and each output `spectrum.slha` before
+using any tree-potential scheme for *new* cards. The verifier cannot
+execute the private local SPheno binary in GitHub CI.
 
 ## Other limitations do not disappear
 
