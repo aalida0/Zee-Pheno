@@ -24,7 +24,7 @@ class VacuumTests(unittest.TestCase):
         self.assertAlmostEqual(t["native_minus_tree_GeV2"][1],-47246.6747,delta=1)
         x,v=ew_normal(p)
         self.assertAlmostEqual(v,potential(x,p))
-        self.assertFalse(evaluate("NO",nstarts=8)["original_native_tree_global_EW_vacuum_fully_certified"])
+        self.assertFalse(evaluate("NO",nstarts=8)["original_native_global_EW_vacuum_fully_certified"])
         self.assertEqual(evaluate("IO",nstarts=8)["original_native_tree_global_EW_vacuum"],
                          "UNKNOWN_NEEDS_MATCHED_TREE_TADPOLES")
 
