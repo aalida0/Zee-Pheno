@@ -74,9 +74,8 @@ def production_reference(source, backend):
     result={}
     for pdg, c in couplings["mass_eigenstates"].items():
         rate=float(backend(c["mass_GeV"],c["kappa_t"],c["kappa_b"],0.))
-        base=float(backend(c["mass_GeV"],
-                           c["kappa_t"]/c["native_doublet_amplitude"],
-                           c["kappa_b"]/c["native_doublet_amplitude"],0.))
+        tanb=couplings["tan_beta_native"]
+        base=float(backend(c["mass_GeV"],1/tanb,tanb,0.))
         if (not math.isfinite(rate) or not math.isfinite(base) or
             rate<0 or base<=0):
             raise ValueError("HiggsTools tabulated Hpmtb rate nonfinite/invalid")
