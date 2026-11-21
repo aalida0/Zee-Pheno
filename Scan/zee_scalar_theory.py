@@ -51,10 +51,15 @@ def validate(p):
 def bfb(p):
     p=validate(p)
     l1,l2,l3,l4,l5,lc,k1,k2,k12=(p[k] for k in NAMES)
-    doublet=(l1>0 and l2>0 and
-             l3+math.sqrt(max(0,l1*l2))>0 and
-             l3+l4-abs(l5)+math.sqrt(max(0,l1*l2))>0)
-    pure_singlet=lc>0
+    # Eq.41 has NONSTRICT necessary inequalities. Equality can be a
+    # flat quartic direction; a strict sufficient certificate may then
+    # be unavailable, but this is NOT evidence of V4 -> -infinity.
+    root=math.sqrt(max(0,l1*l2))
+    doublet=(l1>=0 and l2>=0 and
+             l3+root>=0 and l3+l4-abs(l5)+root>=0)
+    doublet_strict=(l1>0 and l2>0 and
+                    l3+root>0 and l3+l4-abs(l5)+root>0)
+    pure_singlet=lc>=0
     portal_ray_1=(lc>=0 and l1>=0 and
                   k1+math.sqrt(max(0,2*lc*l1))>=0)
     portal_ray_2=(lc>=0 and l2>=0 and
@@ -64,7 +69,7 @@ def bfb(p):
     portal_psd=k1>=0 and k2>=0 and determinant>=0
     # Important: PSD portal + strict doublet BFB is sufficient for
     # ALL complex field configurations, not only a neutral-field ray.
-    sufficient=doublet and pure_singlet and portal_psd
+    sufficient=doublet_strict and lc>0 and portal_psd
     return {
         "doublet_BFB_necessary":"PASS" if doublet else "FAIL",
         "pure_singlet_BFB_necessary":"PASS" if pure_singlet else "FAIL",
