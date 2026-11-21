@@ -156,7 +156,7 @@ def audit(order, native_root=NATIVE):
     scalar_couplings = {}
     for pid in NEUTRAL:
         fermions = {str(f): scalar_fermion_coupling(blocks, pid, f)
-                    for f in (5, 6, 13, 15)}
+                    for f in (4, 5, 6, 13, 15)}
         gauge = {label:scalar_boson_coupling(blocks, pid, *legs)
                  for label, legs in (("WW", (24,24)),("ZZ",(23,23)),("gamgam",(22,22)),
                                      ("gg",(21,21)))}
