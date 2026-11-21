@@ -15,6 +15,7 @@ import numpy as np
 from Model.audit_neutrino_native import sha
 from Model.check_native import blocks, fix_card
 from Model.model import scalar_parameters
+from Scan.zee_scalar_theory import evaluate as evaluate_zee_tree
 from Neutrino.fit import (REFERENCE_CARD_SHA, complex_matrix, encode,
                           inverse, target)
 
@@ -92,30 +93,36 @@ def check_ranges(ranges,required):
 
 
 def cheap_scalar(p):
-    """Necessary doublet BFB, sufficient full-Zee quartic BFB, |coupling| proxy."""
-    l1,l2,l3,l4,l5=(p[k] for k in
-                    ("Lambda1","Lambda2","Lambda3","Lambda4","Lambda5"))
-    lc,k1,k2,k12=(p[k] for k in ("LambdaC","K1","K2","K12"))
-    necessary=(l1>0 and l2>0 and
-               l3+math.sqrt(l1*l2)>0 and
-               l3+l4-abs(l5)+math.sqrt(l1*l2)>0)
-    # Conservative sufficient condition via 2sqrt(xy)<=x+y and
-    # |Phi1†Phi2|<=sqrt(xy); not a global-minimum certificate.
-    sufficient=(necessary and lc>0 and
-                k1>=abs(k12) and k2>=abs(k12))
-    maxquartic=max(abs(p[k]) for k in SCALAR_KEYS if k not in
-                   ("M112","M222","M12Sq","MCS2","Mu4"))
-    return dict(
-        doublet_BFB_necessary="PASS" if necessary else "FAIL",
-        zee_quartic_BFB_sufficient="PASS" if sufficient else "UNKNOWN",
-        quartic_lt_4pi_convention="PASS" if maxquartic<4*math.pi else "FAIL",
-        max_abs_quartic=maxquartic,
-        full_tree_unitarity="UNKNOWN",
-        global_vacuum="UNKNOWN",
-        EWPO="UNKNOWN",
-        Higgs_rates="UNKNOWN",
-        flavor="UNKNOWN",
-    )
+    """Declared-tree theory screens, retaining exact sampling provenance.
+
+    The 2021 Zee E.22--E.29 matrices constrain asymptotic scalar
+    two-body unitarity. A portal-PSD theorem CERTIFIES quartic BFB
+    for a sufficient region; failure of PSD alone is NOT a BFB failure.
+    This does not certify the input's native running-scale potential,
+    global vacuum or EWPO for a new SPheno card.
+    """
+    t=evaluate_zee_tree(p)
+    b=t["BFB"]; u=t["unitarity"]
+    full_bfb=b["full_Zee_quartic_BFB"]
+    return {
+        "doublet_BFB_necessary":b["doublet_BFB_necessary"],
+        "pure_singlet_BFB_necessary":b["pure_singlet_BFB_necessary"],
+        "singlet_doublet_axis_BFB_necessary":b["singlet_doublet_axis_BFB_necessary"],
+        "zee_quartic_BFB_sufficient":
+            "PASS" if full_bfb=="CERTIFIED_SUFFICIENT_PASS" else
+            "FAIL_NECESSARY" if full_bfb=="FAIL_NECESSARY" else "UNKNOWN",
+        "BFB_exact_sufficient_certificate":full_bfb,
+        "portal_matrix_determinant":b["portal_matrix_determinant"],
+        "quartic_lt_4pi_convention":t["max_abs_quartic_lt_4pi_conventional_prior"],
+        "max_abs_quartic":t["max_abs_quartic"],
+        "full_tree_unitarity":u["tree_high_energy_full_Zee_unitarity"],
+        "max_abs_tree_scattering_eigenvalue":u["max_abs_scattering_eigenvalue"],
+        "tree_unitarity_8pi_margin":u["margin_to_8pi"],
+        "global_vacuum":"UNKNOWN",
+        "EWPO":"UNKNOWN",
+        "Higgs_rates":"UNKNOWN",
+        "flavor":"UNKNOWN",
+    }
 
 
 def scalar_point(arm,rng,v):
@@ -147,7 +154,10 @@ def scalar_point(arm,rng,v):
     # only if basic necessary and analysis-defined perturbative priors pass.
     flags["status"]=("ANALYTIC_SCALAR_PRESELECTION"
         if flags["doublet_BFB_necessary"]=="PASS" and
-           flags["quartic_lt_4pi_convention"]=="PASS"
+           flags["pure_singlet_BFB_necessary"]=="PASS" and
+           flags["singlet_doublet_axis_BFB_necessary"]=="PASS" and
+           flags["quartic_lt_4pi_convention"]=="PASS" and
+           flags["full_tree_unitarity"]=="PASS"
         else "SCREENED_AT_DECLARED_SCALAR_PRIORS")
     return scalar,lag,flags
 
