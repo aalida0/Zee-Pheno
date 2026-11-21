@@ -92,8 +92,13 @@ before scanning; it cannot be established from one native SLHA.
    loop-tadpole-potential global minimum stays UNKNOWN.
    The rigorous proof applies to the explicitly *tree-tadpole
    reconstructed* reference potential, the appropriate defined
-   tree-level screening scheme. Never turn that into a 1-loop
-   effective-potential or metastability certification.
+   tree-level screening scheme. On 21 Nov 2026, the original source
+   executable with input option 510=1 was independently run for both
+   s00017 NO and IO and reported source-matched tree-stationary ZEEPOT
+   values meeting this sufficient theorem (user-reported run summary;
+   raw artifacts retained locally). This is not a certification of the
+   DEFAULT loop-tadpole ZEEPOT values. Never turn the tree result into
+   a 1-loop effective-potential or metastability certification.
 
 ## Actual source-matched NO/IO numerical evidence
 
@@ -169,12 +174,29 @@ UNKNOWN, not an exception or an automatic PASS.
 [verify_tree_tadpoles.py](verify_tree_tadpoles.py) creates isolated
 temporary variants for both NO and IO, **changing only one option
 at a time**, verifies the original SPheno executable SHA256, runs
-the real binary, archives logs/spectrum hashes, and checks the
-tree-level certificate on actual option-530 output. It has been
-unit-tested, but cannot be EXECUTED on GitHub CI because the
-custom model's original SPheno binary is not uploaded to this
-repository. It therefore remains an outstanding **one-time
-native execution**, not a missing calculation module.
+the real binary, archives logs/spectrum hashes, and checks
+the tree-level stationarity/global certificate on the *actual*
+source-output potential blocks.
+
+**Original SPheno execution (21 Nov 2026; user-reported summary):**
+
+| Case | Source-matched stationary blocks | Result |
+|---|---|---|
+| s00017_NO_tree510 | ZEEPOT | SOURCE_MATCHED_GLOBAL_TREE_CERTIFICATE |
+| s00017_IO_tree510 | ZEEPOT | SOURCE_MATCHED_GLOBAL_TREE_CERTIFICATE |
+| s00017_NO_tree530 | none | UNKNOWN_NO_MATCHED_NATIVE_TREE_TADPOLES |
+| s00017_IO_tree530 | none | UNKNOWN_NO_MATCHED_NATIVE_TREE_TADPOLES |
+
+Thus **510=1 is the demonstrated source-matched TREE-output mode** in this
+specific custom SPheno executable for both reference controls. The
+530=1 result is *not* a global-vacuum FAIL; it simply lacks matched tree
+parameters in the inspected blocks. The outputs and logs remain on
+the user's machine in `pre_scan_tree_tadpole_2026_v2`; they have not
+been independently downloaded to this repository or rerun in CI.
+The original default (510=0,530=0) spectra remain loop-tadpole
+outputs. Future native scan points must still have their own
+tree stationarity check, and their spectrum/observable differences
+between tree and default tadpole modes must not be silently ignored.
 
     WORK="$HOME/zee-lfv64-serial-20261112-094549"
     python3 -m Scan.verify_tree_tadpoles \
