@@ -28,6 +28,7 @@ LIMIT_SCALAR=4*math.pi
 
 
 def y_matrix(blocks,name):
+    name=name.upper()
     imag="IM"+name
     if name not in blocks or imag not in blocks:
         raise ValueError("Missing complex Yukawa block "+name)
