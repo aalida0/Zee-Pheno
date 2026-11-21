@@ -12,6 +12,57 @@ full native Zee `hgg` and `hγγ` effective loop couplings preserved,
 h125 effective-width prescription. That established scoped h125 screen
 is not rewritten here.
 
+## Preferred 13 TeV central production prescription: official HiggsTools tables
+
+The official HiggsTools v1.3 reference API contains
+`Higgs.predictions.EffectiveCouplingCxns.ppHpmtb`, documented at
+https://higgsbounds.gitlab.io/higgstools/EffC_Refs.html
+and based on HXSWG 4FS/5FS matched charged-Higgs cross section
+tables. This is a *better leading central reference* than requiring
+a new LO 5FS MG integration on every scan point. It is defined for
+13 TeV and charged masses 145--2000 GeV. We restrict this adapter to
+mass > max(200 GeV, mt+mb) so on-shell top exotic decay is closed,
+and set its input BR(t->H+b)=0. Outside the declared domain the
+adapter raises rather than interpreting the backend's 0 as a physical
+cross-section bound.
+
+The restricted Zee's charged singlet does not couple to quarks. In the
+native SPheno basis `CHARGEMIX` rows are (G+,H1+,H2+); columns are
+(Hd+,Hu+,charged singlet), with Goldstone doublet (vd,vu)/v. The
+physical charged-doublet direction is (vu,-vd,0)/v, so
+
+`d_i = ZP[i,Hd]*vu/v - ZP[i,Hu]*vd/v`,
+
+`kappa_t(H_i) = d_i/tan(beta)`,
+`kappa_b(H_i) = d_i*tan(beta)`.
+
+The overall sign of each charged eigenstate cancels from this rate.
+The code checks the Goldstone direction and
+`d_1^2+d_2^2 ~= 1`, source mass consistency and the
+quadratic rescaling of the official rate versus its same-mass
+pure-doublet Type-II reference. Both states and the
+source `tan(beta)=vu/vd` are re-derived for each spectrum; no fixed
+s00017 mixing is reused.
+
+Execute the official HiggsBounds evaluation with this central
+tabulated production prescription:
+
+```bash
+~/zee-higgstools/venv/bin/python -m ZeeHiggs.higgsbounds_preferred \
+  --hbdataset ~/zee-higgstools/hbdataset \
+  --charged-reference \
+  --output /tmp/zee-hb-tabulated-typeII-charged-reference.json
+```
+
+The branch's `higgstools-pilot.yml` also executes and archives this
+numerical calculation in GitHub Actions when triggered. This is a
+**scoped parametric reference**: assumptions include the Type-II
+Yukawa structure, doublet projection factorization, table's
+higher-order/MSSM normalization, and the NWA of the experimental
+searches. It is not an independent MG5/UFO calculation, and
+not every 8/13 TeV or non-tb mode is covered. Even if HiggsBounds
+returns `allowed=True`, full Zee Higgs viability remains UNKNOWN.
+
 ## Existing verified production machinery (different benchmark set)
 
 The previous [aalida0/zee module8](https://github.com/aalida0/zee/blob/research/zee-full-constraints/module8/D6_PRODUCTION_ROBUSTNESS.md)
@@ -137,7 +188,12 @@ and report all unsupported analyses as **UNEVALUATED**.
 - `FULL_HIGGSBOUNDS_ZEE_ALLOWED_OR_EXCLUDED`: **UNKNOWN**.
 - `GLOBAL_ZEE_ALLOWED`: **UNKNOWN**.
 
-**Priority:** do not spend large generator resources on the known
+**Updated priority:** the HiggsTools tabulated Type-II Zee projection is
+the economical **central charged-production approximation** once
+official CI execution verifies the API and results. The more explicit
+MG5 receipt path described above remains valuable as a complementary
+independent test and for mass/topologies outside table validity.
+Do not spend large generator resources on the known
 HiggsSignals-disfavoured s00017 controls except as a brief interface
 validation. For new scan candidates, first require scalar theory
 and necessary h125/neutrino screens before costly production work.
