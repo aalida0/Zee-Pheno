@@ -16,3 +16,14 @@ jobs:
       - run: python -m unittest Scan.test_diagnose_scalar_spectrum -v
       - run: python -m unittest Scan.test_calibrate_native_benchmark Flavor.test_bsgamma Flavor.test_validate_hepfit Flavor.test_bsgamma_screen -v
       - run: python -m unittest Neutrino.test_fit LFV.test_pilot LFV.test_constraints LFV.test_strict_2hdm_reference LFV.test_gauge_vertices LFV.test_approximation_study LFV.test_nonzero_mixing_study LFV.test_doublet_proxy_study Scan.test_native_pipeline Scan.test_physical_proposals Scan.test_spectrum_preflight -v
+      - name: Execute source-authenticated conditional HiggsSignals NO/IO screen
+        run: |
+          python -m ZeeHiggs.higgs_subset_screen --output "$RUNNER_TEMP/s00017-higgs-subset-screen.json"
+          python -m json.tool "$RUNNER_TEMP/s00017-higgs-subset-screen.json" > /dev/null
+      - name: Archive executed HiggsSignals reference-screen result
+        uses: actions/upload-artifact@v4
+        with:
+          name: s00017-higgs-sm-reference-2d-screen
+          path: ${{ runner.temp }}/s00017-higgs-subset-screen.json
+          if-no-files-found: error
+
