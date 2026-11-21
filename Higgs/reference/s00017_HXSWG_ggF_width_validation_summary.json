@@ -28,25 +28,27 @@
         "spheno_xs_effective_BRs": 167.4504314735274,
         "hxswg_xs_effective_BRs": 179.2408225371276,
         "spheno_xs_explicit_BRs": 179.41680734332604,
-        "hxswg_xs_explicit_BRs": 192.1181162337
+        "hxswg_xs_explicit_BRs": 192.1181162337647
       },
       "native_spheno_total_width_GeV": 0.0034521311,
       "HXSWG_effective_total_width_GeV": 0.0036499125134561872,
       "HXSWG_SM_total_width_GeV": 0.00412288504122885,
       "native_div_reference_partial_ratio": {
         "bb": 0.9344870828115275,
-        "cc": 0.8877674456853896,
+        "cc": 0.8877674456853897,
         "tautau": 1.0067279605686146,
-        "WW": 0.9607510098286509,
+        "WW": 0.9607510098286512,
         "ZZ": 0.8508239372721544,
-        "gg": 0.970985,
-        "gamgam": 1.0294357
+        "gg": 0.9710068875064157,
+        "gamgam": 1.0294358240658013,
+        "mumu": 1.005243578762722,
+        "ss": 0.9401253943141201
       },
       "HiggsSignals_chi2_delta_vs_SM": {
         "spheno_xs_effective_BRs": 15.894871451690278,
         "hxswg_xs_effective_BRs": 27.685262515290475,
         "spheno_xs_explicit_BRs": 27.861247321488918,
-        "hxswg_xs_explicit_BRs": 40.56255621186287
+        "hxswg_xs_explicit_BRs": 40.562556211927586
       }
     },
     "IO": {
@@ -61,7 +63,7 @@
         "spheno_xs_effective_BRs": 171.21938194025958,
         "hxswg_xs_effective_BRs": 182.72812588479493,
         "spheno_xs_explicit_BRs": 182.84399375009156,
-        "hxswg_xs_explicit_BRs": 195.1973794847
+        "hxswg_xs_explicit_BRs": 195.19737948544773
       },
       "native_spheno_total_width_GeV": 0.00345187339,
       "HXSWG_effective_total_width_GeV": 0.0036493636450915658,
@@ -70,16 +72,18 @@
         "bb": 0.9344870278657027,
         "cc": 0.8877674057651703,
         "tautau": 1.006728032272882,
-        "WW": 0.96075,
-        "ZZ": 0.8508252791831828,
-        "gg": 0.970985,
-        "gamgam": 1.0294357
+        "WW": 0.9607516710298861,
+        "ZZ": 0.8508252791831833,
+        "gg": 0.9710068218532775,
+        "gamgam": 1.0294356486636944,
+        "mumu": 1.0052437162303436,
+        "ss": 0.9401254161282022
       },
       "HiggsSignals_chi2_delta_vs_SM": {
         "spheno_xs_effective_BRs": 19.663821287799607,
         "hxswg_xs_effective_BRs": 31.17256523233496,
         "spheno_xs_explicit_BRs": 31.288433097631582,
-        "hxswg_xs_explicit_BRs": 43.641818832240034
+        "hxswg_xs_explicit_BRs": 43.64181883298775
       }
     }
   },
