@@ -7,6 +7,7 @@ An externally declared potential is not a native SPheno attestation.
 import math
 
 from Model.model import scalar_parameters
+from Scan.zee_scalar_theory import evaluate as evaluate_zee_tree
 
 
 SCALARS=("Lambda1","Lambda2","Lambda3","Lambda4","Lambda5",
@@ -45,6 +46,10 @@ def check_potential(scalar,potential,inversion):
     doublet_bfb=(l1>0 and l2>0 and
                  l3 > -math.sqrt(l1*l2) and
                  l3+l4-abs(l5) > -math.sqrt(l1*l2))
+    # LambdaC comes from the explicitly SHA-bound inversion controls in
+    # this *historic* optional declared-potential schema, rather than
+    # the 9-entry native MINPAR/ZEEQUARTIC mapping of new points.
+    theory=evaluate_zee_tree({**potential,"LambdaC":inversion["lambda_c"]})
     quartics=[potential[k] for k in SCALARS if k!="Mu4"]
     quartics.append(inversion["lambda_c"])
     max_quartic=max(abs(v) for v in quartics)
@@ -59,8 +64,11 @@ def check_potential(scalar,potential,inversion):
         "quartic_abs_lt_4pi_convention":
             "PASS" if max_quartic<4*math.pi else "FAIL",
         "max_abs_quartic":max_quartic,
-        "full_Zee_BFB":"UNKNOWN",
-        "full_Zee_unitarity":"UNKNOWN",
+        "full_Zee_BFB":theory["BFB"]["full_Zee_quartic_BFB"],
+        "full_Zee_unitarity":theory["unitarity"]["tree_high_energy_full_Zee_unitarity"],
+        "full_Zee_tree_unitarity_eigenvalue":theory["unitarity"]["max_abs_scattering_eigenvalue"],
+        "full_Zee_quartic_BFB_PSD_proven":theory["BFB"]["portal_hermitian_PSD_sufficient"],
+        "theory_method":"2021 Eq17/E41/E45/E57/Appendix_E_AT_DECLARED_TREE_POTENTIAL_ONLY",
         "full_Zee_vacuum_globality":"UNKNOWN",
         "native_scalar_potential_provenance":"UNKNOWN",
     }
