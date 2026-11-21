@@ -13,10 +13,14 @@ Every new native card is evaluated from its OWN full SLHA and the source
 native card/binary/mass table via [theory_gate_native.py](theory_gate_native.py).
 A full loop-corrected vacuum or arbitrary 10 TeV UV completion is NOT
 silently inferred: those are outside this frozen low-scale tree+oblique
-phenomenology theory scope. The one-time native source option-530
-reproduction is scripted in [verify_tree_tadpoles.py](verify_tree_tadpoles.py)
-and must be executed with the authenticated local SPheno binary if a
-source-matched original native tree tadpole certificate is required.
+phenomenology theory scope. The one-time native source-option 510/530 comparison was executed
+locally on the NO/IO s00017 controls: option 510 produced a
+source-matched tree-stationary ZEEPOT and a sufficient global TREE
+certificate; option 530 did not. The checked MASS, ZEEQUARTIC, HMIX
+and SPHENOLOWENERGY entries were unchanged while ZEEPOT changed.
+These are user-reported local results, not CI-executed evidence;
+[verify_tree_tadpoles.py](verify_tree_tadpoles.py) preserves the
+source-bound reproduction protocol for future cards.
 **No new parameter-space scan has been run by this audit.**
 
 
