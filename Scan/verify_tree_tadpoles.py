@@ -40,6 +40,8 @@ def patch_card(text,flag):
     for i in range(start+1,stop):
         stripped=lines[i].split("#",1)[0].split()
         if len(stripped)>=2 and stripped[0].isdigit() and int(stripped[0]) in (510,530):
+            if stripped[1] not in ("0","1","0.","1."):
+                raise ValueError("Original tree option has unexpected value")
             hits.append(i)
     if len(hits)!=2:
         raise ValueError("Expected both original tree input flags")
