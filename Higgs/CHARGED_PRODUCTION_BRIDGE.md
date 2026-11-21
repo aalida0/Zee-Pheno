@@ -63,6 +63,43 @@ searches. It is not an independent MG5/UFO calculation, and
 not every 8/13 TeV or non-tb mode is covered. Even if HiggsBounds
 returns `allowed=True`, full Zee Higgs viability remains UNKNOWN.
 
+## Executed official Type-II Zee mixed-charged production and HiggsBounds
+
+**Actual official numerical run 21 Nov 2026:** GitHub Actions run
+[44901675064](https://github.com/aalida0/Zee-Pheno/actions/runs/44901675064),
+archived artifact ID **14706401577**, official HiggsTools v1.3,
+HiggsBounds data v1.7. The run compiled the backend, evaluated both
+native NO/IO s00017 spectra, and passed all output assertions.
+These are not fake unit-test production numbers.
+
+| Observable (13 TeV) | s00017 NO | s00017 IO |
+|---|---:|---:|
+| Native mH1 [GeV] | 666.305092 | ~666.305 |
+| Native mH2 [GeV] | 1184.55365 | ~1184.554 |
+| Doublet H1 amplitude | +0.9887401 | ~same |
+| Doublet H2 amplitude | +0.1496431 | ~same |
+| Official sigma(tbH1), pb | **0.0118937708214** | **0.0118937360337** |
+| Official sigma(tbH2), pb | **2.0415759190e-5** | **2.0415755972e-5** |
+| Native BR(H1->tb) | 0.973016169 | 0.970631419 |
+| Native BR(H2->H1 Z) | 0.278192521 | 0.278190181 |
+| ATLAS 2102.10076 H1->tb selected observed ratio | **0.1021373869** | **0.1018868918** |
+
+H1 and H2 production are inclusive in charge, and are **not** combined
+with 13.6 TeV rates from the former repository. The selected search
+was ATLAS 139 fb^-1, `2102.10076`,
+`LHC13 [Hpmtb>tb]`. H1->tb predicted signal at 13 TeV is
+11.57283 fb (NO) or 11.54443 fb (IO). The associated H2 cascade
+`sigma(tbH2)*BR(H2->H1Z)` is 0.0056795 fb (NO/IO),
+about **17 produced H2 cascade events before daughter BRs and
+detector acceptance at 3000 fb^-1**. No inference of signal
+sensitivity, full Higgs 95% CL, or global acceptance is made.
+H2 does not appear in the selected-limit list: **absence of selected
+limit is not an independently validated absence of relevant searches**.
+
+These s00017 points separately fail the already established
+**exploratory** h125 HiggsSignals SM-referenced screen. Therefore these
+charged results are methodology controls, *not* allowed benchmarks.
+
 ## Reusable native Higgs scan gate (not s00017-hardcoded)
 
 The new `ZeeHiggs/native_higgs_scan.py` accepts the **same**
