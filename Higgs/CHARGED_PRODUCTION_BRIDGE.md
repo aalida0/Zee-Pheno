@@ -63,6 +63,39 @@ searches. It is not an independent MG5/UFO calculation, and
 not every 8/13 TeV or non-tb mode is covered. Even if HiggsBounds
 returns `allowed=True`, full Zee Higgs viability remains UNKNOWN.
 
+## Reusable native Higgs scan gate (not s00017-hardcoded)
+
+The new `ZeeHiggs/native_higgs_scan.py` accepts the **same**
+`schema_version=1` manifest of exact `point_id`, `ordering`,
+`card`, `native` and `spectrum` used by
+`Scan.native_pipeline.py` and `Scan.theory_gate_native.py`.
+It source-locks each SPheno output, independently checks physical
+scalar masses and native branching fractions, uses its own
+`CHARGEMIX`, top mass, scalar masses and `HIGGSLHC13` neutral rates,
+then evaluates the official HiggsTools HiggsSignals chi2 and selected
+HiggsBounds analyses.
+
+```bash
+~/zee-higgstools/venv/bin/python -m ZeeHiggs.native_higgs_scan \
+  --manifest /absolute/path/to/actual_native_manifest.json \
+  --hbdataset ~/zee-higgstools/hbdataset \
+  --hsdataset ~/zee-higgstools/hsdataset \
+  --output /tmp/zee-native-higgs-screen.json
+```
+
+Every point is evaluated separately; failed source/backend checks are
+`NOT_EVALUATED_SOURCE_OR_BACKEND_ERROR`, not a physical Higgs FAIL.
+The HiggsSignals Δchi2 against the same-mass SM is **diagnostic**, not a
+profiled model likelihood or claimed 95% CL. If charged masses fall
+outside the declared tabulated domain, only the charged-production
+subset is unavailable. `globally_allowed` stays `null`. A full Zee
+HiggsBounds exclusion awaits search topology and production-coverage
+validation, nonstandard heavy width closure and uncertainty policy.
+
+The official HiggsTools CI workflow also runs a two-entry NO/IO
+manifest through this generic gate, to check that the reusable scan
+path reproduces the reference points.
+
 ## Existing verified production machinery (different benchmark set)
 
 The previous [aalida0/zee module8](https://github.com/aalida0/zee/blob/research/zee-full-constraints/module8/D6_PRODUCTION_ROBUSTNESS.md)
