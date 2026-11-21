@@ -46,9 +46,8 @@ def normal_tree_mass_squared(q,vevs,m12sq):
     )
 
 
-def source_inputs(order):
-    r=audit(order)
-    blocks,_=read_slha(Path(r["spectrum_path"]).read_text())
+def source_inputs_from_blocks(blocks,*,source=None):
+    """Full scalar tree potential from a newly source-authenticated SLHA."""
     data={n:block_1d(blocks[n],n) for n in
           ("HMIX","ZEEQUARTIC","ZEEPOT")}
     q={key:data["ZEEQUARTIC"][i][0] for i,key in enumerate(
@@ -58,8 +57,15 @@ def source_inputs(order):
     return {"quartics":q,"m1sq":pot[1][0],"m2sq":pot[2][0],
             "m12sq":pot[3][0],"mCsq":pot[4][0],"mu4":pot[5][0],
             "vevs":[hmix[102][0],hmix[103][0]],
-            "original_spectrum_sha256":r["source"]["spectrum_sha256"],
-            "original_card_sha256":r["source"]["card_sha256"]}
+            "original_spectrum_sha256":(source or {}).get("spectrum_sha256"),
+            "original_card_sha256":(source or {}).get("card_sha256")}
+
+
+
+def source_inputs(order):
+    r=audit(order)
+    blocks,_=read_slha(Path(r["spectrum_path"]).read_text())
+    return source_inputs_from_blocks(blocks,source=r["source"])
 
 
 def potential(x,p):
