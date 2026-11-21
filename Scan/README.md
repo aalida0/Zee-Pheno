@@ -1,5 +1,25 @@
 # Scan — scalar-first candidates, not an allowed-region claim
 
+**Pre-scan theory code frozen (21 November 2026):**
+[PRE_SCAN_THEORY_SCOPE_AND_VALIDATION.md](PRE_SCAN_THEORY_SCOPE_AND_VALIDATION.md)
+records the **complete declared low-scale** theory-screening engine:
+published restricted Zee quartic BFB sufficient proof, all scalar
+high-energy tree unitarity matrices, complex running Yukawa singular
+values at native Q, independent Grimus one-loop S/T/U with both charged
+scalars and correlated PDG2025 likelihood, plus the new rigorous
+SUFFICIENT GLOBAL **tree-tadpole-defined** EW vacuum proof.
+
+Every new native card is evaluated from its OWN full SLHA and the source
+native card/binary/mass table via [theory_gate_native.py](theory_gate_native.py).
+A full loop-corrected vacuum or arbitrary 10 TeV UV completion is NOT
+silently inferred: those are outside this frozen low-scale tree+oblique
+phenomenology theory scope. The one-time native source option-530
+reproduction is scripted in [verify_tree_tadpoles.py](verify_tree_tadpoles.py)
+and must be executed with the authenticated local SPheno binary if a
+source-matched original native tree tadpole certificate is required.
+**No new parameter-space scan has been run by this audit.**
+
+
 **Theoretical-constraint audit (21 Nov 2026):** See
 [ZEE_THEORY_EWPO_AUDIT.md](ZEE_THEORY_EWPO_AUDIT.md). Original source-locked
 NO/IO SPheno points pass a rigorous sufficient full-Zee quartic BFB
