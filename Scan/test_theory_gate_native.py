@@ -80,6 +80,22 @@ class PreScanTheoryGateTests(unittest.TestCase):
                              "NOT_EVALUATED_SOURCE_OR_CONVENTION_ERROR")
             self.assertEqual(output["n_global_allowed"],None)
 
+    def test_wrong_or_mixed_spectrum_rejected_by_native_mass_concordance(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            src=NATIVE/"s00017_NO_benchmark"
+            spec=(src/"spectrum.slha").read_text()
+            old="        25     1.25250000E+02"
+            self.assertIn(old,spec)
+            new=spec.replace(old,"        25     1.27250000E+02",1)
+            spectrum=root/"spectrum.slha"
+            spectrum.write_text(new)
+            entry={"point_id":"tampered-scalar-mass","ordering":"NO",
+                   "card":str(src/"input.in"),"native":str(src/"native.json"),
+                   "spectrum":str(spectrum)}
+            with self.assertRaisesRegex(ValueError,"scalar mass mismatch"):
+                screen_one(entry,root)
+
     def test_insufficient_native_data_is_not_silently_a_pass(self):
         file=NATIVE/"s00017_NO_benchmark/spectrum.slha"
         blocks,_=read_slha(file.read_text())
